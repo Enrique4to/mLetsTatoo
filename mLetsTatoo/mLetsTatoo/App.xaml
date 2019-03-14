@@ -10,7 +10,8 @@
             
             <!--Parapeters-->
             <x:String x:Key="UrlAPI">https://mletstatooapi.azurewebsites.net</x:String>
-            
+            <x:String x:Key="UrlPrefix">/api</x:String>
+            <x:String x:Key="UrlTusuariosController">/Tusuarios</x:String>
         </ResourceDictionary>
 
     </Application.Resources>

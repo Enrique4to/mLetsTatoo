@@ -1,12 +1,13 @@
 ﻿namespace mLetsTatoo.Services
 {
-    using Common.Models;
-    using Newtonsoft.Json;
-    using Plugin.Connectivity;
     using System;
     using System.Collections.Generic;
     using System.Net.Http;
     using System.Threading.Tasks;
+    using Common.Models;
+    using Helpres;
+    using Newtonsoft.Json;
+    using Plugin.Connectivity;
     
 
     public class ApiService
@@ -19,19 +20,18 @@
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = "Enciende las configuraciones de internet o dehabilita el 'Modo Avión' de tu dispositivo.",
+                    Message = Languages.ErrorConfigInternet,
                 };
             }
-            //var isReachable = await CrossConnectivity.Current.IsRemoteReachable(
             var isReachable = await CrossConnectivity.Current.IsRemoteReachable(
-                "google.com");
+                "https://mletstatooapi.azurewebsites.net");
 
             if (!isReachable)
             {
                 return new Response
                 {
                     IsSuccess = false,
-                    Message = "Verifica tu conexión a internet.",
+                    Message = Languages.ErrorInternet,
                 };
             }
             return new Response

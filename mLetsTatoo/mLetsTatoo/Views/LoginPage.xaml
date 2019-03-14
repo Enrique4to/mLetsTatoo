@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:i18n="clr-namespace:mLetsTatoo.Helpres"
     x:Class="mLetsTatoo.Views.LoginPage"
     BindingContext="{Binding Main, Source={StaticResource Locator}}"
-    Title="Inicio de Sesión">
+    Title="{i18n:Translate InicioSesion}">
     <ContentPage.Content>
         <ScrollView
             BindingContext="{Binding Login}">
@@ -33,7 +34,7 @@
                         Grid.Row="0"
                         Grid.Column="1"
                         HorizontalTextAlignment="Center"                        
-                        Placeholder="Usuario"
+                        Placeholder="{i18n:Translate Usuario}"
                         PlaceholderColor="DarkGray"
                         Text="{Binding Usuario, Mode=TwoWay}"
                         TextColor="Gray"
@@ -44,7 +45,7 @@
                         Grid.Column="1"
                         HorizontalTextAlignment="Center"
                         IsPassword="True"
-                        Placeholder="Contraseña"
+                        Placeholder="{i18n:Translate Password}"
                         PlaceholderColor="DarkGray"
                         Text="{Binding Pass, Mode=TwoWay}"
                         TextColor="Gray"
@@ -61,7 +62,7 @@
                         FontAttributes="Bold"
                         FontSize="18"
                         HorizontalOptions="StartAndExpand"
-                        Text="Recordarme en este dispositivo"
+                        Text="{i18n:Translate Recordarme}"
                         TextColor="Gray"/>
                     <Switch
                         IsToggled="{Binding IsRemember, Mode=TwoWay}"
@@ -70,7 +71,7 @@
                 </StackLayout>
                 <Label
                     HorizontalOptions="Center"
-                    Text="¿Olvidaste tu contraseña?"
+                    Text="{i18n:Translate OlvidoPassword}"
                     TextColor="Blue"
                     VerticalOptions="StartAndExpand"/>
                 <StackLayout
@@ -85,7 +86,7 @@
                         FontSize="20"
                         HeightRequest="46"
                         IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
-                        Text="Inicio"
+                        Text="{i18n:Translate Inicio}"
                         TextColor="Black"/>
                     <Button
                         BackgroundColor="Gray"
@@ -94,7 +95,7 @@
                         FontSize="20"
                         HeightRequest="46"
                         IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
-                        Text="Regístrate"
+                        Text="{i18n:Translate Registrate}"
                         TextColor="Black"/>
                 </StackLayout>
             </StackLayout>

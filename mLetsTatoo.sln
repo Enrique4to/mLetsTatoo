@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mLetsTatoo.Android", "mLets
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mLetsTatoo.iOS", "mLetsTatoo\mLetsTatoo.iOS\mLetsTatoo.iOS.csproj", "{5D7623CC-39B9-4279-958B-C23C4DF91AD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mLetsTatoo", "mLetsTatoo\mLetsTatoo\mLetsTatoo.csproj", "{282F6C27-85BE-49FB-AB3A-DD5E932B6F80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "mLetsTatoo", "mLetsTatoo\mLetsTatoo\mLetsTatoo.csproj", "{282F6C27-85BE-49FB-AB3A-DD5E932B6F80}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mLetsTatoo.Common", "mLetsTatoo.Common\mLetsTatoo.Common.csproj", "{0A0C430B-0174-4A1D-9FB4-1A6FF1A8483C}"
 EndProject
@@ -216,6 +216,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
+		RESX_NeutralResourcesLanguage = es-MX
 		SolutionGuid = {7940F395-DAA1-4FBF-A140-5F192B5CC0A4}
 	EndGlobalSection
 EndGlobal
