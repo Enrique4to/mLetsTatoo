@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="mLetsTatoo.Views.LoginPage"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}"
+    Title="Inicio de Sesión">
+    <ContentPage.Content>
+        <ScrollView
+            BindingContext="{Binding Login}">
+            <StackLayout
+                BackgroundColor="Black"
+                Padding="5,20">
+                <!--<Label
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    Text="Inicio de Sesión"
+                    TextColor="Gray"/>-->
+                <Image
+                    Source="Logo.png"
+                    WidthRequest="200"
+                    VerticalOptions="StartAndExpand"/>
+
+                <Grid
+                    VerticalOptions="EndAndExpand">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width=".2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Entry
+                        FontSize="20"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        HorizontalTextAlignment="Center"                        
+                        Placeholder="Usuario"
+                        PlaceholderColor="DarkGray"
+                        Text="{Binding Usuario, Mode=TwoWay}"
+                        TextColor="Gray"
+                        x:Name="User"/>
+                    <Entry
+                        FontSize="20"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        HorizontalTextAlignment="Center"
+                        IsPassword="True"
+                        Placeholder="Contraseña"
+                        PlaceholderColor="DarkGray"
+                        Text="{Binding Pass, Mode=TwoWay}"
+                        TextColor="Gray"
+                        x:Name="Password"/>
+                </Grid>
+                <ActivityIndicator
+                    IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                    VerticalOptions="StartAndExpand"/>
+                <StackLayout
+                    Margin="10,0,10,0"
+                    Orientation="Horizontal"
+                    VerticalOptions="StartAndExpand">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        HorizontalOptions="StartAndExpand"
+                        Text="Recordarme en este dispositivo"
+                        TextColor="Gray"/>
+                    <Switch
+                        IsToggled="{Binding IsRemember, Mode=TwoWay}"
+                        Scale=".9"
+                        HorizontalOptions="End"/>
+                </StackLayout>
+                <Label
+                    HorizontalOptions="Center"
+                    Text="¿Olvidaste tu contraseña?"
+                    TextColor="Blue"
+                    VerticalOptions="StartAndExpand"/>
+                <StackLayout
+                    Margin="40,25"
+                    VerticalOptions="EndAndExpand">
+
+                    <Button
+                        BackgroundColor="Silver"
+                        BorderRadius="23"
+                        Command="{Binding InicioCommand}"
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        HeightRequest="46"
+                        IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                        Text="Inicio"
+                        TextColor="Black"/>
+                    <Button
+                        BackgroundColor="Gray"
+                        BorderRadius="23"
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        HeightRequest="46"
+                        IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                        Text="Regístrate"
+                        TextColor="Black"/>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+
+</ContentPage>

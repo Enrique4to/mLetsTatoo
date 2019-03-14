@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="mLetsTatoo.Views.HomePage"             
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.Content>
+        <StackLayout
+            BindingContext="{Binding Home}"
+            BackgroundColor="Black"
+            Padding="5">            
+            <StackLayout
+                    Orientation="Horizontal"
+                    Padding="5"
+                    VerticalOptions="Start">
+                <Image
+                    HorizontalOptions="CenterAndExpand"
+                    Source="Home.png"
+                    WidthRequest="20"/>
+                <Image
+                    HorizontalOptions="CenterAndExpand"
+                    Source="Notificacion.png"
+                    WidthRequest="20"/>
+                <Image
+                    HorizontalOptions="CenterAndExpand"
+                    Source="Citas.png"
+                    WidthRequest="20"/>
+            </StackLayout>
+            <StackLayout
+                VerticalOptions="StartAndExpand"
+                Padding="10">
+                <ListView
+                    HasUnevenRows="True"
+                    IsPullToRefreshEnabled="True"
+                    IsRefreshing="{Binding IsRefreshing}"
+                    ItemsSource="{Binding Usuarios}"
+                    RefreshCommand="{Binding RefreshCommand}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>                                        
+                                    </Grid.ColumnDefinitions>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        Grid.Column="0"
+                                        Text="{Binding Usuario}"
+                                        TextColor="LightGray"/>
+                                    <Label
+                                        Grid.Column="1"
+                                        HorizontalTextAlignment="End"
+                                        Text="{Binding Pass}"
+                                        TextColor="LightGray"/>
+                                </Grid> 
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>                    
+                </ListView>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
