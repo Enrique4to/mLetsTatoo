@@ -2,15 +2,18 @@
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:infra="clr-namespace:mLetsTatoo.Infraestructure"
+             xmlns:conver="clr-namespace:mLetsTatoo.Converters"
              x:Class="mLetsTatoo.App">
     <Application.Resources>
         <ResourceDictionary>
             <!-- Locator -->
             <infra:InstanceLocator x:Key="Locator"/>
-            
+            <conver:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
             <!--Parapeters-->
             <x:String x:Key="UrlAPI">https://mletstatooapi.azurewebsites.net</x:String>
             <x:String x:Key="UrlPrefix">/api</x:String>
+
+            <x:String x:Key="UrlTempresasController">/Tempresas</x:String>
             <x:String x:Key="UrlTusuariosController">/Tusuarios</x:String>
         </ResourceDictionary>
 

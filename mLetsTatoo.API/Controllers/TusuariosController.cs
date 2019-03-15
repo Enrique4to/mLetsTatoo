@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Description;
-using mLetsTatoo.Domain.Modules;
-using mLetsTatoo.Models;
-
-namespace mLetsTatoo.API.Controllers
+﻿namespace mLetsTatoo.API.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Data.Entity;
+    using System.Data.Entity.Infrastructure;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading.Tasks;
+    using System.Web.Http;
+    using System.Web.Http.Description;
+    using mLetsTatoo.Models;
+    using Domain.Modules;
+
+
     public class TusuariosController : ApiController
     {
         private DataContext db = new DataContext();
@@ -21,14 +22,14 @@ namespace mLetsTatoo.API.Controllers
         // GET: api/Tusuarios
         public IQueryable<Tusuarios> GetTusuarios()
         {
-            return db.Tusuarios;
+            return this.db.Tusuarios;
         }
 
         // GET: api/Tusuarios/5
         [ResponseType(typeof(Tusuarios))]
         public async Task<IHttpActionResult> GetTusuarios(int id)
         {
-            Tusuarios tusuarios = await db.Tusuarios.FindAsync(id);
+            Tusuarios tusuarios = await this.db.Tusuarios.FindAsync(id);
             if (tusuarios == null)
             {
                 return NotFound();
@@ -51,11 +52,11 @@ namespace mLetsTatoo.API.Controllers
                 return BadRequest();
             }
 
-            db.Entry(tusuarios).State = EntityState.Modified;
+            this.db.Entry(tusuarios).State = EntityState.Modified;
 
             try
             {
-                await db.SaveChangesAsync();
+                await this.db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -81,8 +82,8 @@ namespace mLetsTatoo.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.Tusuarios.Add(tusuarios);
-            await db.SaveChangesAsync();
+            this.db.Tusuarios.Add(tusuarios);
+            await this.db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = tusuarios.Id_usuario }, tusuarios);
         }
@@ -91,14 +92,14 @@ namespace mLetsTatoo.API.Controllers
         [ResponseType(typeof(Tusuarios))]
         public async Task<IHttpActionResult> DeleteTusuarios(int id)
         {
-            Tusuarios tusuarios = await db.Tusuarios.FindAsync(id);
+            Tusuarios tusuarios = await this.db.Tusuarios.FindAsync(id);
             if (tusuarios == null)
             {
                 return NotFound();
             }
 
-            db.Tusuarios.Remove(tusuarios);
-            await db.SaveChangesAsync();
+            this.db.Tusuarios.Remove(tusuarios);
+            await this.db.SaveChangesAsync();
 
             return Ok(tusuarios);
         }
@@ -107,14 +108,14 @@ namespace mLetsTatoo.API.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                this.db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool TusuariosExists(int id)
         {
-            return db.Tusuarios.Count(e => e.Id_usuario == id) > 0;
+            return this.db.Tusuarios.Count(e => e.Id_usuario == id) > 0;
         }
     }
 }

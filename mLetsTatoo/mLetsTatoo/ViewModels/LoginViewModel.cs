@@ -3,7 +3,7 @@
     using System.ComponentModel;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
-    using Helpres;
+    using Helpers;
     using Services;
     using Views;
     using Xamarin.Forms;
@@ -123,7 +123,11 @@
             this.Pass = string.Empty;
 
             MainViewModel.GetInstance().Home = new HomeViewModel();
-            Application.Current.MainPage = new HomePage();
+            Application.Current.MainPage= new NavigationPage(new HomePage())
+            {
+                BarBackgroundColor = Color.Black,
+                //BarTextColor = Color.Black,                
+            };
         }
 
         #endregion

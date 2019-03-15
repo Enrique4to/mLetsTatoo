@@ -1,7 +1,7 @@
-﻿namespace mLetsTatoo.Helpres
+﻿namespace mLetsTatoo.Helpers
 {
     using Interfaces;
-    using Resourses;
+    using Resources;
     using Xamarin.Forms;
     public class Languages
     {
@@ -47,7 +47,7 @@
         {
             get { return Resource.Recordarme; }
         }
-        public static string Olvidopassword
+        public static string OlvidoPassword
         {
             get { return Resource.OlvidoPassword; }
         }

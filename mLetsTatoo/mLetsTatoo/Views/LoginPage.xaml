@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:i18n="clr-namespace:mLetsTatoo.Helpres"
-    x:Class="mLetsTatoo.Views.LoginPage"
-    BindingContext="{Binding Main, Source={StaticResource Locator}}"
-    Title="{i18n:Translate InicioSesion}">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
+             x:Class="mLetsTatoo.Views.LoginPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="{i18n:Translate InicioSesion}">
     <ContentPage.Content>
         <ScrollView
             BindingContext="{Binding Login}">
@@ -21,14 +21,16 @@
                     Source="Logo.png"
                     WidthRequest="200"
                     VerticalOptions="StartAndExpand"/>
-
                 <Grid
-                    VerticalOptions="EndAndExpand">
+                    VerticalOptions="StartAndExpand">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width=".2*"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width=".2*"/>
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
                     <Entry
                         FontSize="20"
                         Grid.Row="0"
@@ -73,11 +75,10 @@
                     HorizontalOptions="Center"
                     Text="{i18n:Translate OlvidoPassword}"
                     TextColor="Blue"
-                    VerticalOptions="StartAndExpand"/>
+                    VerticalOptions="EndAndExpand"/>
                 <StackLayout
                     Margin="40,25"
                     VerticalOptions="EndAndExpand">
-
                     <Button
                         BackgroundColor="Silver"
                         BorderRadius="23"
@@ -87,7 +88,8 @@
                         HeightRequest="46"
                         IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
                         Text="{i18n:Translate Inicio}"
-                        TextColor="Black"/>
+                        TextColor="Black"
+                        VerticalOptions="EndAndExpand"/>
                     <Button
                         BackgroundColor="Gray"
                         BorderRadius="23"
@@ -96,7 +98,8 @@
                         HeightRequest="46"
                         IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
                         Text="{i18n:Translate Registrate}"
-                        TextColor="Black"/>
+                        TextColor="Black"
+                        VerticalOptions="EndAndExpand"/>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

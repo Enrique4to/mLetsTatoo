@@ -3,13 +3,13 @@ namespace mLetsTatoo.Droid.Implementations
 {
     using System.Globalization;
     using System.Threading;
-    using Helpres;
+    using Helpers;
     using Interfaces;
-    public class Localize
+    public class Localize : ILocalize
     {
         public CultureInfo GetCurrentCultureInfo()
         {
-            var netLanguage = "es-MX";
+            var netLanguage = "en";
             var androidLocale = Java.Util.Locale.Default;
             netLanguage = AndroitToDotnetLanguaje(androidLocale.ToString().Replace("_","-"));
             System.Globalization.CultureInfo ci = null;
@@ -26,7 +26,7 @@ namespace mLetsTatoo.Droid.Implementations
                 }
                 catch (CultureNotFoundException e2)
                 {
-                    ci = new System.Globalization.CultureInfo("es-MX");
+                    ci = new System.Globalization.CultureInfo("en");
                 }
             }
             return ci;

@@ -120,40 +120,40 @@
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
-  <data name="IntroducirUsuario" xml:space="preserve">
-    <value>You must enter a user</value>
-  </data>
-  <data name="ErrorUsuarioyPassword" xml:space="preserve">
-    <value>Wrong username or password!</value>
-  </data>
-  <data name="IntroducirPasword" xml:space="preserve">
-    <value>You must enter your password !!</value>
-  </data>
   <data name="ErrorConfigInternet" xml:space="preserve">
-    <value>Turn on internet settings or disable Airplane Mode on your device.</value>
+    <value>Active la configuración de Internet o deshabilite el Modo avión en su dispositivo.</value>
   </data>
   <data name="ErrorInternet" xml:space="preserve">
-    <value>Check your internet connection!</value>
+    <value>Comprueba tu conexión a Internet</value>
+  </data>
+  <data name="ErrorUsuarioyPassword" xml:space="preserve">
+    <value>Usuario o contraseña incorrectos</value>
   </data>
   <data name="Inicio" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="Usuario" xml:space="preserve">
-    <value>User</value>
-  </data>
-  <data name="Password" xml:space="preserve">
-    <value>Password</value>
-  </data>
-  <data name="Recordarme" xml:space="preserve">
-    <value>Remember me on this device!</value>
-  </data>
-  <data name="OlvidoPassword" xml:space="preserve">
-    <value>Forgot your password?</value>
-  </data>
-  <data name="Registrate" xml:space="preserve">
-    <value>Sign up</value>
+    <value>¡Empezar!</value>
   </data>
   <data name="InicioSesion" xml:space="preserve">
-    <value>Log In</value>
+    <value>Inicio de sesión</value>
+  </data>
+  <data name="IntroducirPasword" xml:space="preserve">
+    <value>Debes ingresar tu contraseña</value>
+  </data>
+  <data name="IntroducirUsuario" xml:space="preserve">
+    <value>Debes ingresar tu usuario</value>
+  </data>
+  <data name="OlvidoPassword" xml:space="preserve">
+    <value>¿Olvidaste tu contraseña?</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="Recordarme" xml:space="preserve">
+    <value>Recuérdame en este dispositivo</value>
+  </data>
+  <data name="Registrate" xml:space="preserve">
+    <value>Registrarse</value>
+  </data>
+  <data name="Usuario" xml:space="preserve">
+    <value>Usuario</value>
   </data>
 </root>

@@ -4,13 +4,13 @@ namespace mLetsTatoo.iOS.Implementations
     using System.Globalization;
     using System.Threading;
     using Foundation;
-    using Helpres;
+    using Helpers;
     using Interfaces;
-    public class Localize
+    public class Localize : ILocalize
     {
         public CultureInfo GetCurrentCultureInfo()
         {
-            var netLanguage = "es-MX";
+            var netLanguage = "en";
             if (NSLocale.PreferredLanguages.Length > 0)
             {
                 var pref = NSLocale.PreferredLanguages[0];
@@ -30,7 +30,7 @@ namespace mLetsTatoo.iOS.Implementations
                 }
                 catch (CultureNotFoundException e2)
                 {
-                    ci = new System.Globalization.CultureInfo("es-MX");
+                    ci = new System.Globalization.CultureInfo("en");
                 }
             }
             return ci;

@@ -1,4 +1,4 @@
-﻿namespace mLetsTatoo.Helpres
+﻿namespace mLetsTatoo.Helpers
 {
     using System;
 

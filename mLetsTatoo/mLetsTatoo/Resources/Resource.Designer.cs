@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace mLetsTatoo.Resourses {
+namespace mLetsTatoo.Resources {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace mLetsTatoo.Resourses {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resource {
+    internal class Resource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace mLetsTatoo.Resourses {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("mLetsTatoo.Resourses.Resource", typeof(Resource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("mLetsTatoo.Resources.Resource", typeof(Resource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace mLetsTatoo.Resourses {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,115 +63,115 @@ namespace mLetsTatoo.Resourses {
         /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
-        public static string Error {
+        internal static string Error {
             get {
                 return ResourceManager.GetString("Error", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enciende las configuraciones de internet o deshabilita el Modo Avión de tu dispositivo..
+        ///   Looks up a localized string similar to Turn on internet settings or disable Airplane Mode on your device..
         /// </summary>
-        public static string ErrorConfigInternet {
+        internal static string ErrorConfigInternet {
             get {
                 return ResourceManager.GetString("ErrorConfigInternet", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Verifica tu conexión a internet..
+        ///   Looks up a localized string similar to Check your internet connection!.
         /// </summary>
-        public static string ErrorInternet {
+        internal static string ErrorInternet {
             get {
                 return ResourceManager.GetString("ErrorInternet", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ¡Usuario o contraseña incorrectos!.
+        ///   Looks up a localized string similar to Wrong User or Password.
         /// </summary>
-        public static string ErrorUsuarioyPassword {
+        internal static string ErrorUsuarioyPassword {
             get {
                 return ResourceManager.GetString("ErrorUsuarioyPassword", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Inicio.
+        ///   Looks up a localized string similar to Start.
         /// </summary>
-        public static string Inicio {
+        internal static string Inicio {
             get {
                 return ResourceManager.GetString("Inicio", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Inicio de Sesión.
+        ///   Looks up a localized string similar to Log In.
         /// </summary>
-        public static string InicioSesion {
+        internal static string InicioSesion {
             get {
                 return ResourceManager.GetString("InicioSesion", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ¡Debes introducir su contraseña!.
+        ///   Looks up a localized string similar to You must enter your password !.
         /// </summary>
-        public static string IntroducirPasword {
+        internal static string IntroducirPasword {
             get {
                 return ResourceManager.GetString("IntroducirPasword", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ¡Debe introducir su usuario!.
+        ///   Looks up a localized string similar to You must enter your user.
         /// </summary>
-        public static string IntroducirUsuario {
+        internal static string IntroducirUsuario {
             get {
                 return ResourceManager.GetString("IntroducirUsuario", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ¿Olvidaste tu contraseña?.
+        ///   Looks up a localized string similar to Forgot your password?.
         /// </summary>
-        public static string OlvidoPassword {
+        internal static string OlvidoPassword {
             get {
                 return ResourceManager.GetString("OlvidoPassword", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Contraseña.
+        ///   Looks up a localized string similar to Password.
         /// </summary>
-        public static string Password {
+        internal static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Recordarme en este dispositiv.
+        ///   Looks up a localized string similar to Remember me on this device!.
         /// </summary>
-        public static string Recordarme {
+        internal static string Recordarme {
             get {
                 return ResourceManager.GetString("Recordarme", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Regístrate.
+        ///   Looks up a localized string similar to Sign up.
         /// </summary>
-        public static string Registrate {
+        internal static string Registrate {
             get {
                 return ResourceManager.GetString("Registrate", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Usuario.
+        ///   Looks up a localized string similar to User.
         /// </summary>
-        public static string Usuario {
+        internal static string Usuario {
             get {
                 return ResourceManager.GetString("Usuario", resourceCulture);
             }

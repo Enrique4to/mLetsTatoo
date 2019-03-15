@@ -1,4 +1,4 @@
-﻿namespace mLetsTatoo.Helpres
+﻿namespace mLetsTatoo.Helpers
 {
     using System;
     using System.Globalization;
@@ -7,11 +7,13 @@
     using Interfaces;
     using Xamarin.Forms;
     using Xamarin.Forms.Xaml;
+
     [ContentProperty("Text")]
     public class TranslateExtension : IMarkupExtension
     {
         readonly CultureInfo ci;
         const string ResourceId = "mLetsTatoo.Resources.Resource";
+
         static readonly Lazy<ResourceManager> ResMgr =
             new Lazy<ResourceManager>(() => new ResourceManager(
                 ResourceId,

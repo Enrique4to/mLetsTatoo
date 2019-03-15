@@ -5,7 +5,7 @@
     using System.Net.Http;
     using System.Threading.Tasks;
     using Common.Models;
-    using Helpres;
+    using Helpers;
     using Newtonsoft.Json;
     using Plugin.Connectivity;
     
@@ -64,6 +64,7 @@
 
                 var list = JsonConvert.DeserializeObject<List<T>>(result);
                 return new Response
+
                 {
                     IsSuccess = true,
                     Result = list,

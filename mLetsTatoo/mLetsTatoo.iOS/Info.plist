@@ -36,9 +36,11 @@
     <string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>CFBundleLocalizations</key>
 	<array>
-		<string>en</string>
+		<string>es</string>
+		<string>es-MX</string>
+		<string>es-US</string>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>es-MX</string>
+	<string>en</string>
 </dict>
 </plist>

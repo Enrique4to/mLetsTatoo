@@ -1,14 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
              x:Class="mLetsTatoo.Views.HomePage"             
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="Home" Command="{Binding HomePageCommand}"/>
+        <ToolbarItem Icon="Citas"/>
+        <ToolbarItem Icon="Notificacion"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout
             BindingContext="{Binding Home}"
             BackgroundColor="Black"
             Padding="5">            
-            <StackLayout
+            <!--<StackLayout
                     Orientation="Horizontal"
                     Padding="5"
                     VerticalOptions="Start">
@@ -24,7 +30,7 @@
                     HorizontalOptions="CenterAndExpand"
                     Source="Citas.png"
                     WidthRequest="20"/>
-            </StackLayout>
+            </StackLayout>-->
             <StackLayout
                 VerticalOptions="StartAndExpand"
                 Padding="10">
@@ -32,7 +38,7 @@
                     HasUnevenRows="True"
                     IsPullToRefreshEnabled="True"
                     IsRefreshing="{Binding IsRefreshing}"
-                    ItemsSource="{Binding Usuarios}"
+                    ItemsSource="{Binding Empresas}"
                     RefreshCommand="{Binding RefreshCommand}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -40,18 +46,36 @@
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>                                        
+                                        <ColumnDefinition Width="2*"/>                                        
                                     </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        BackgroundColor="DarkGray"
+                                        FontAttributes="Bold"
+                                        FontSize="25"
+                                        Grid.Column="0"            
+                                        Grid.Row="0"
+                                        Grid.ColumnSpan="2"
+                                        IsEnabled="False"
+                                        Text="Empresas"
+                                        TextColor="Black"
+                                        HorizontalTextAlignment="Center"/>
+                                    <Image
+                                        Grid.Column="0"
+                                        Grid.Row="1"
+                                        HeightRequest="60"
+                                        WidthRequest="80"
+                                        Source="{Binding Logo, Converter={StaticResource ByteArrayToImage}}"/>
                                     <Label
                                         FontAttributes="Bold"
-                                        Grid.Column="0"
-                                        Text="{Binding Usuario}"
-                                        TextColor="LightGray"/>
-                                    <Label
+                                        FontSize="20"
                                         Grid.Column="1"
-                                        HorizontalTextAlignment="End"
-                                        Text="{Binding Pass}"
-                                        TextColor="LightGray"/>
+                                        Grid.Row="1"
+                                        Text="{Binding Nombre}"
+                                        TextColor="LightGray"
+                                        VerticalTextAlignment="Center"/>
                                 </Grid> 
                             </ViewCell>
                         </DataTemplate>
