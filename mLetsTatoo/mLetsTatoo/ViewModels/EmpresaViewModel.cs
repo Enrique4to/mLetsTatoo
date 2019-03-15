@@ -10,9 +10,9 @@
     using Services;
     using ViewModels;
     using Xamarin.Forms;
-
-    public class HomeViewModel : BaseViewModel
+    public class EmpresaViewModel : BaseViewModel
     {
+
         #region Services
         private ApiService apiService;
 
@@ -35,7 +35,7 @@
         }
         #endregion
         #region Constructors
-        public HomeViewModel()
+        public EmpresaViewModel()
         {
             this.apiService = new ApiService();
             this.IsRefreshing = false;
@@ -87,5 +87,6 @@
             }
         }
         #endregion
+
     }
 }

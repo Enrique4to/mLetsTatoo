@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
+             xmlns:controls="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             x:Class="mLetsTatoo.Views.EmpresaPage"
+             Title="{Binding Nombre}">
+    <ContentPage.Content>
+        <StackLayout
+            BindingContext="{Binding Empresa}"
+            BackgroundColor="Black"
+            Padding="5">
+            <ListView
+                HasUnevenRows="True"
+                IsPullToRefreshEnabled="True"
+                IsRefreshing="{Binding IsRefreshing}"
+                ItemsSource="{Binding Empresas}"
+                RefreshCommand="{Binding RefreshCommand}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <!--<Label
+                                    FontAttributes="Bold"
+                                    FontSize="25"
+                                    Grid.Row="0"
+                                    IsEnabled="False"
+                                    Text="{Binding Nombre}"
+                                    TextColor="Gray"
+                                    HorizontalTextAlignment="Center"/>-->
+                                <controls:CircleImage 
+                                    Aspect="AspectFill"
+                                    Grid.Row="1"
+                                    Source="{Binding Logo, Converter={StaticResource ByteArrayToImage}}">
+                                    <controls:CircleImage.WidthRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="Android, iOS">250</On>
+                                        </OnPlatform>
+                                    </controls:CircleImage.WidthRequest>
+                                    <controls:CircleImage.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="Android, iOS">250</On>
+                                        </OnPlatform>
+                                    </controls:CircleImage.HeightRequest>
+                                </controls:CircleImage>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>

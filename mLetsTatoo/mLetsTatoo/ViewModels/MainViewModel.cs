@@ -21,6 +21,12 @@
             get;
             set;
         }
+
+        public EmpresaViewModel Empresa
+        {
+            get;
+            set;
+        }
         #endregion
 
         #region Constructors
@@ -42,10 +48,12 @@
         #region Methods
         private void GoToHomePage()
         {
-            Application.Current.MainPage = new NavigationPage(new HomePage())
+
+            this.Empresa = new EmpresaViewModel();
+            Application.Current.MainPage = new NavigationPage(new EmpresaPage())
             {
                 BarBackgroundColor = Color.Black,
-                //BarTextColor = Color.Black,                
+                BarTextColor = Color.Gray,
             };
         } 
         #endregion

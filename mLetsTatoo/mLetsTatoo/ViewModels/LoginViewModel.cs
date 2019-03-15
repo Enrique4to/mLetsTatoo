@@ -126,7 +126,7 @@
             Application.Current.MainPage= new NavigationPage(new HomePage())
             {
                 BarBackgroundColor = Color.Black,
-                //BarTextColor = Color.Black,                
+                BarTextColor = Color.Gray,
             };
         }
 
