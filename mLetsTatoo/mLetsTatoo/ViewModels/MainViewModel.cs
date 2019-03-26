@@ -27,6 +27,16 @@
             get;
             set;
         }
+        public RegisterViewModel Register
+        {
+            get;
+            set;
+        }
+        public UserViewModel User
+        {
+            get;
+            set;
+        }
         #endregion
 
         #region Constructors
@@ -37,26 +47,7 @@
             //this.Home = new HomeViewModel();
         }
         #endregion
-        public ICommand HomePageCommand
-        {
-            get
-            {
-                return new RelayCommand(GoToHomePage);
-            }
-        }
 
-        #region Methods
-        private void GoToHomePage()
-        {
-
-            this.Empresa = new EmpresaViewModel();
-            Application.Current.MainPage = new NavigationPage(new EmpresaPage())
-            {
-                BarBackgroundColor = Color.Black,
-                BarTextColor = Color.Gray,
-            };
-        } 
-        #endregion
         #region Singleton
         private static MainViewModel instance;
         public static MainViewModel GetInstance()

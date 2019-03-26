@@ -2,25 +2,22 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
+             xmlns:control="clr-namespace:mLetsTatoo.Controls"
              x:Class="mLetsTatoo.Views.LoginPage"
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="{i18n:Translate InicioSesion}">
     <ContentPage.Content>
         <ScrollView
+            BackgroundColor="Black"
             BindingContext="{Binding Login}">
             <StackLayout
                 BackgroundColor="Black"
-                Padding="5,20">
-                <!--<Label
-                    FontAttributes="Bold"
-                    FontSize="20"
-                    HorizontalOptions="Center"
-                    Text="Inicio de Sesión"
-                    TextColor="Gray"/>-->
+                Padding="5,10">
                 <Image
                     Source="Logo.png"
                     WidthRequest="200"
-                    VerticalOptions="StartAndExpand"/>
+                    VerticalOptions="StartAndExpand"
+                    HorizontalOptions="CenterAndExpand"/>
                 <Grid
                     VerticalOptions="StartAndExpand">
                     <Grid.ColumnDefinitions>
@@ -31,53 +28,70 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Entry
+                    <control:CustomEntry 
+                        BorderColor="Gray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
                         FontSize="20"
                         Grid.Row="0"
                         Grid.Column="1"
-                        HorizontalTextAlignment="Center"                        
+                        HeightRequest="40"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
                         Placeholder="{i18n:Translate Usuario}"
-                        PlaceholderColor="DarkGray"
-                        Text="{Binding Usuario, Mode=TwoWay}"
-                        TextColor="Gray"
-                        x:Name="User"/>
-                    <Entry
+                        PlaceholderColor="Gray"
+                        Text="{Binding Usuario, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        WidthRequest="50"/>
+                    <control:CustomEntry
+                        BorderColor="Gray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
                         FontSize="20"
                         Grid.Row="1"
                         Grid.Column="1"
+                        HeightRequest="40"
                         HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
                         IsPassword="True"
                         Placeholder="{i18n:Translate Password}"
-                        PlaceholderColor="DarkGray"
-                        Text="{Binding Pass, Mode=TwoWay}"
-                        TextColor="Gray"
-                        x:Name="Password"/>
+                        PlaceholderColor="Gray"
+                        Text="{Binding Pass, Mode=TwoWay}"                      
+                        TextColor="LightGray"
+                        WidthRequest="50"/>
+                    <Label                        
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        HorizontalOptions="Center"
+                        Text="{i18n:Translate OlvidoPassword}"
+                        TextColor="Blue"
+                        VerticalOptions="StartAndExpand"/>
                 </Grid>
                 <ActivityIndicator
+                    HeightRequest="30"
                     IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                    Opacity="80"
+                    Color="Gray"
                     VerticalOptions="StartAndExpand"/>
                 <StackLayout
                     Margin="10,0,10,0"
                     Orientation="Horizontal"
-                    VerticalOptions="StartAndExpand">
+                    VerticalOptions="EndAndExpand">
                     <Label
                         FontAttributes="Bold"
                         FontSize="18"
                         HorizontalOptions="StartAndExpand"
                         Text="{i18n:Translate Recordarme}"
-                        TextColor="Gray"/>
+                        TextColor="Gray"
+                        VerticalOptions="Center"/>
                     <Switch
+                        HorizontalOptions="EndAndExpand"
                         IsToggled="{Binding IsRemember, Mode=TwoWay}"
-                        Scale=".9"
-                        HorizontalOptions="End"/>
+                        Scale=".9"                        
+                        VerticalOptions="Center"/>
                 </StackLayout>
-                <Label
-                    HorizontalOptions="Center"
-                    Text="{i18n:Translate OlvidoPassword}"
-                    TextColor="Blue"
-                    VerticalOptions="EndAndExpand"/>
                 <StackLayout
-                    Margin="40,25"
+                    Margin="40,0,40,5"
                     VerticalOptions="EndAndExpand">
                     <Button
                         BackgroundColor="Silver"
@@ -88,18 +102,17 @@
                         HeightRequest="46"
                         IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
                         Text="{i18n:Translate Inicio}"
-                        TextColor="Black"
-                        VerticalOptions="EndAndExpand"/>
+                        TextColor="Black"/>
                     <Button
                         BackgroundColor="Gray"
                         BorderRadius="23"
+                        Command="{Binding RegistroCommand}"
                         FontAttributes="Bold"
                         FontSize="20"
                         HeightRequest="46"
                         IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
                         Text="{i18n:Translate Registrate}"
-                        TextColor="Black"
-                        VerticalOptions="EndAndExpand"/>
+                        TextColor="Black"/>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

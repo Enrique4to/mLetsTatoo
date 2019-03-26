@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-namespace mLetsTatoo.Views
+﻿namespace mLetsTatoo.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    using Xamarin.Forms;
+    using Xamarin.Forms.Xaml;
     public partial class EmpresaPage : ContentPage
     {
         public EmpresaPage()

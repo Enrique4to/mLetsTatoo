@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"             
+             xmlns:control="clr-namespace:mLetsTatoo.Controls"
+             x:Class="mLetsTatoo.Views.RegisterPersonalPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="{i18n:Translate RegPersonal}">
+    <ContentPage.Content>
+        <ScrollView
+            BackgroundColor="Black"
+            BindingContext="{Binding Register}">
+            <StackLayout
+            BackgroundColor="Black"
+                    Padding="5,10">
+                <Label                            
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    Margin="20,5"
+                    Text="{i18n:Translate PersonalData}"
+                    TextColor="LightGray"
+                    VerticalOptions="StartAndExpand"/>
+                <StackLayout
+                    Padding="5,10,5,5"
+                    VerticalOptions="StartAndExpand">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width=".1*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width=".1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <control:CustomRegEntry
+                            BorderColor="Gray"
+                            CornerRadius="12"
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            HeightRequest="40"
+                            HorizontalTextAlignment="Start"
+                            IsCurvedCornersEnabled="True"
+                            Placeholder="{i18n:Translate Name}"
+                            PlaceholderColor="Gray"
+                            Text="{Binding Name, Mode=TwoWay}"                        
+                            TextColor="LightGray"
+                            WidthRequest="50"/>
+                        <control:CustomRegEntry 
+                            BorderColor="Gray"
+                            CornerRadius="12"
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            HeightRequest="40"
+                            HorizontalTextAlignment="Start"
+                            IsCurvedCornersEnabled="True"
+                            Placeholder="{i18n:Translate Lastname}"
+                            PlaceholderColor="Gray"
+                            Text="{Binding Lastname, Mode=TwoWay}"                        
+                            TextColor="LightGray"
+                            WidthRequest="50"/>
+                        <control:CustomRegEntry 
+                            BorderColor="Gray"
+                            CornerRadius="12"
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Grid.Column="1"
+                            Grid.Row="2"
+                            HeightRequest="40"
+                            HorizontalTextAlignment="Start"
+                            IsCurvedCornersEnabled="True"
+                            Keyboard="Numeric"
+                            Placeholder="{i18n:Translate EnterPhone}"
+                            PlaceholderColor="Gray"
+                            Text="{Binding Phone, Mode=TwoWay}"                        
+                            TextColor="LightGray"
+                            WidthRequest="50"/>
+                        <control:CustomDatePicker
+                            BackgroundColor="Black"
+                            BorderColor="Gray"
+                            CornerRadius="12"
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Grid.Column="1"
+                            Grid.Row="4"
+                            HeightRequest="40"
+                            MinimumDate="1/1/1980"
+                            Placeholder="{i18n:Translate Birthdate}"
+                            Date="{Binding Birthdate, Mode=TwoWay}"
+                            TextColor="LightGray"
+                            WidthRequest="50"/>
+                    </Grid>
+                </StackLayout>
+                <ActivityIndicator
+                    IsRunning="{Binding IsRunning}"
+                    VerticalOptions="CenterAndExpand"
+                    />
+                <StackLayout
+                    Margin="40,0,40,5"
+                    VerticalOptions="EndAndExpand">
+                    <Button
+                        BackgroundColor="Gray"
+                        BorderRadius="23"
+                        Command="{Binding ActivateCommand}"
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        HeightRequest="46"
+                        IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                        Text="{i18n:Translate Next}"
+                        TextColor="Black"/>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

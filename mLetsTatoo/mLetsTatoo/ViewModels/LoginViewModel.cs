@@ -1,9 +1,14 @@
 ﻿namespace mLetsTatoo.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.ComponentModel;
+    using System.Linq;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Helpers;
+    using mLetsTatoo.Models;
     using Services;
     using Views;
     using Xamarin.Forms;
@@ -14,31 +19,25 @@
         #region Services
         private ApiService apiService;
         #endregion
-
         #region Attributes
 
-        private string usuario;
+        private ObservableCollection<T_usuarios> usuarios;
+        private bool isRunning;
+        private bool isEnabled;
         private string pass;
-        private bool isrunning;
-        private bool isenabled;
+        private string usuario;
+        public int id_usuario;
         #endregion
-
         #region Propierties
-        public string Usuario
+        public ObservableCollection<T_usuarios> Usuarios
         {
-            get { return this.usuario; }
-            set { SetValue(ref this.usuario, value); }
+            get { return this.usuarios; }
+            set { SetValue(ref this.usuarios, value); }
         }
-        public string Pass
-        {
-            get { return this.pass; }
-            set { SetValue(ref this.pass, value); }
-        }
-
         public bool IsRunning
         {
-            get { return this.isrunning; }
-            set { SetValue(ref this.isrunning, value); }
+            get { return this.isRunning; }
+            set { SetValue(ref this.isRunning, value); }
         }
         public bool IsRemember
         {
@@ -47,22 +46,31 @@
         }
         public bool IsEnabled
         {
-            get { return this.isenabled; }
-            set { SetValue(ref this.isenabled, value); }
+            get { return this.isEnabled; }
+            set { SetValue(ref this.isEnabled, value); }
+        }
+        public string Pass
+        {
+            get { return this.pass; }
+            set { SetValue(ref this.pass, value); }
+        }
+        public string Usuario
+        {
+            get { return this.usuario; }
+            set { SetValue(ref this.usuario, value); }
         }
         #endregion
-
         #region Constructors
         public LoginViewModel()
         {
+            instance = this;
             this.apiService = new ApiService();
             this.IsRemember = true;
             this.IsEnabled = true;
-            this.Usuario = "Enrique";
-            this.Pass = "Enrique";
+            this.Usuario = string.Empty;
+            this.Pass = string.Empty;
         }
         #endregion
-
         #region Commands
         public ICommand InicioCommand
         {
@@ -72,6 +80,16 @@
             }
 
         }
+        public ICommand RegistroCommand
+        {
+            get
+            {
+                return new RelayCommand(Registro);
+            }
+
+        }
+        #endregion
+        #region Methods
         private async void Inicio()
         {
             if (string.IsNullOrEmpty(this.Usuario))
@@ -104,7 +122,35 @@
             this.IsRunning = true;
             this.IsEnabled = false;
 
-            if (this.Usuario != "Enrique" || this.Pass != "Enrique")
+            var urlApi = App.Current.Resources["UrlAPI"].ToString();
+            var prefix = App.Current.Resources["UrlPrefix"].ToString();
+            var controller = App.Current.Resources["UrlT_usuariosController"].ToString();
+
+            var response = await this.apiService.GetList<T_usuarios>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+            var list = (List<T_usuarios>)response.Result;
+
+            if (list.Any(u => u.Usuario == this.Usuario && u.Bloqueo == true))
+            {
+
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.AccountBloqued,
+                    "Ok");
+                await Application.Current.MainPage.Navigation.PopToRootAsync();
+                return;
+            }
+
+            if (!list.Any(u => u.Usuario == this.Usuario && u.Confirmado == true))
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
@@ -113,8 +159,24 @@
                     Languages.ErrorUsuarioyPassword,
                     "Ok");
                 this.Pass = string.Empty;
+                this.Usuario = string.Empty;
                 return;
             }
+            if (!list.Any(u => u.Usuario == this.Usuario && u.Pass == this.Pass))
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.ErrorUsuarioyPassword,
+                    "Ok");
+                this.Pass = string.Empty;
+                this.Usuario = string.Empty;
+                return;
+            }
+
+            var single = list.Single(u => u.Usuario == this.Usuario && u.Pass == this.Pass);
+            id_usuario = single.Id_usuario;
 
             this.IsRunning = false;
             this.IsEnabled = true;
@@ -123,14 +185,29 @@
             this.Pass = string.Empty;
 
             MainViewModel.GetInstance().Home = new HomeViewModel();
-            Application.Current.MainPage= new NavigationPage(new HomePage())
+            Application.Current.MainPage = new NavigationPage(new HomePage())
             {
                 BarBackgroundColor = Color.Black,
                 BarTextColor = Color.Gray,
             };
         }
 
+        private async void Registro()
+        {
+            MainViewModel.GetInstance().Register = new RegisterViewModel();
+            await Application.Current.MainPage.Navigation.PushAsync(new RegisterAccountPage());
+        }
         #endregion
-
+        #region Singleton
+        private static LoginViewModel instance;
+        public static LoginViewModel GetInstance()
+        {
+            if (instance == null)
+            {
+                return new LoginViewModel();
+            }
+            return instance;
+        }
+        #endregion
     }
 }

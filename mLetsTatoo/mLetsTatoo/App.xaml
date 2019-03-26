@@ -10,11 +10,13 @@
             <infra:InstanceLocator x:Key="Locator"/>
             <conver:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
             <!--Parapeters-->
-            <x:String x:Key="UrlAPI">https://mletstatooapi.azurewebsites.net</x:String>
+            <x:String x:Key="UrlAPI">https://letstattooapi.azurewebsites.net</x:String>
             <x:String x:Key="UrlPrefix">/api</x:String>
 
-            <x:String x:Key="UrlTempresasController">/Tempresas</x:String>
-            <x:String x:Key="UrlTusuariosController">/Tusuarios</x:String>
+            <x:String x:Key="UrlT_empresasController">/T_empresas</x:String>
+            <x:String x:Key="UrlT_usuariosController">/T_usuarios</x:String>
+            <x:String x:Key="UrlT_clientesController">/T_clientes</x:String>
+            <x:String x:Key="UrlT_tecnicosController">/T_tecnicos</x:String>
         </ResourceDictionary>
 
     </Application.Resources>

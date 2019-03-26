@@ -2,50 +2,34 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"             
-             xmlns:controls="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
+             xmlns:control="clr-namespace:mLetsTatoo.Controls"
              x:Class="mLetsTatoo.Views.HomePage"             
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="Estudios">
-    <ContentPage.ToolbarItems>
-        <!--<ToolbarItem Icon="Home" Command="{Binding HomePageCommand}"/>-->
-        <ToolbarItem Icon="Citas"
-                     Command="{Binding HomePageCommand}"/>
-        <ToolbarItem Icon="Notificacion"/>
+    <ContentPage.ToolbarItems>        
+        <ToolbarItem BindingContext="{Binding Home}"
+                     Icon="{Binding ImageSource}"
+                     Command="{Binding UserPageCommand}"/>
+        <!--<ToolbarItem Icon="Citas"/>
+        <ToolbarItem Icon="Notificacion"/>-->
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout
             BindingContext="{Binding Home}"
             BackgroundColor="Black"
-            Padding="5">            
-            <!--<StackLayout
-                    Orientation="Horizontal"
-                    Padding="5"
-                    VerticalOptions="Start">
-                <Image
-                    HorizontalOptions="CenterAndExpand"
-                    Source="Home.png"
-                    WidthRequest="20"/>
-                <Image
-                    HorizontalOptions="CenterAndExpand"
-                    Source="Notificacion.png"
-                    WidthRequest="20"/>
-                <Image
-                    HorizontalOptions="CenterAndExpand"
-                    Source="Citas.png"
-                    WidthRequest="20"/>
-            </StackLayout>-->
+            Padding="5">
             <StackLayout
                 VerticalOptions="StartAndExpand"
                 Padding="10">
-                <ListView
+                <ListView                    
                     HasUnevenRows="True"
                     IsPullToRefreshEnabled="True"
-                    IsRefreshing="{Binding IsRefreshing}"
+                    IsRefreshing="{Binding IsRefreshing}"                    
                     ItemsSource="{Binding Empresas}"
                     RefreshCommand="{Binding RefreshCommand}">
-                    <ListView.ItemTemplate>
+                    <ListView.ItemTemplate>                        
                         <DataTemplate>
-                            <ViewCell>
+                            <ViewCell>                                
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -54,27 +38,21 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
-                                    <controls:CircleImage
+                                    <control:CircleImage
                                         Aspect="AspectFill"
                                         Grid.Column="0"
                                         Source="{Binding Logo, Converter={StaticResource ByteArrayToImage}}">
-                                        <controls:CircleImage.WidthRequest>
+                                        <control:CircleImage.WidthRequest>
                                             <OnPlatform x:TypeArguments="x:Double">
                                                 <On Platform="Android, iOS">50</On>
                                             </OnPlatform>
-                                        </controls:CircleImage.WidthRequest>
-                                        <controls:CircleImage.HeightRequest>
+                                        </control:CircleImage.WidthRequest>
+                                        <control:CircleImage.HeightRequest>
                                             <OnPlatform x:TypeArguments="x:Double">
                                                 <On Platform="Android, iOS">50</On>
                                             </OnPlatform>
-                                        </controls:CircleImage.HeightRequest>
-                                    </controls:CircleImage>
-                                    <!--<Image
-                                        Grid.Column="0"
-                                        Grid.Row="1"
-                                        HeightRequest="60"
-                                        WidthRequest="80"
-                                        Source="{Binding Logo, Converter={StaticResource ByteArrayToImage}}"/>-->
+                                        </control:CircleImage.HeightRequest>
+                                    </control:CircleImage>
                                     <Label
                                         FontAttributes="Bold"
                                         FontSize="20"

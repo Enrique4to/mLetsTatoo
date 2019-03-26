@@ -1,7 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace mLetsTatoo
 {
     using Views;
@@ -11,7 +10,11 @@ namespace mLetsTatoo
         {
             InitializeComponent();
 
-            MainPage = new LoginPage();
+            MainPage = new NavigationPage(new LoginPage())
+            {
+                BarBackgroundColor = Color.Black,
+                BarTextColor = Color.Gray,
+            };
         }
 
         protected override void OnStart()

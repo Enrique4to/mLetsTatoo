@@ -9,12 +9,16 @@ using Xamarin.Forms.Xaml;
 
 namespace mLetsTatoo.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class HomePage : ContentPage
 	{
 		public HomePage ()
 		{
 			InitializeComponent ();
 		}
-	}
+
+        private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+
+        }
+    }
 }

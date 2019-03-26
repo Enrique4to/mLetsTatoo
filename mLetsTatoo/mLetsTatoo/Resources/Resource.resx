@@ -136,4 +136,88 @@
   <data name="Usuario" xml:space="preserve">
     <value>User</value>
   </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Birthdate" xml:space="preserve">
+    <value>Birthdate...</value>
+  </data>
+  <data name="BirthdateError" xml:space="preserve">
+    <value>You must enter your Birthdate.</value>
+  </data>
+  <data name="UserError" xml:space="preserve">
+    <value>You must enter a Username.</value>
+  </data>
+  <data name="PasswordError" xml:space="preserve">
+    <value>You must enter a Password.</value>
+  </data>
+  <data name="ConfirmPasswordError" xml:space="preserve">
+    <value>You must enter your password in Confirm Password field as in the Password field</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="Lastname" xml:space="preserve">
+    <value>Lastname</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm password</value>
+  </data>
+  <data name="EnterPhone" xml:space="preserve">
+    <value>Phone number...</value>
+  </data>
+  <data name="PersonalData" xml:space="preserve">
+    <value>Enter your personal data...</value>
+  </data>
+  <data name="UserData" xml:space="preserve">
+    <value>Enter your account data...</value>
+  </data>
+  <data name="RegPersonal" xml:space="preserve">
+    <value>Personal data</value>
+  </data>
+  <data name="RegAccount" xml:space="preserve">
+    <value>Account data</value>
+  </data>
+  <data name="MatchPasswordError" xml:space="preserve">
+    <value>The Password and the Confirm Password fields is no match, you must enter the same password on both fields.</value>
+  </data>
+  <data name="NameError" xml:space="preserve">
+    <value>You must enter your name.</value>
+  </data>
+  <data name="LastnameError" xml:space="preserve">
+    <value>You must enter your lastname.</value>
+  </data>
+  <data name="EmailError" xml:space="preserve">
+    <value>You must enter a valid Email.</value>
+  </data>
+  <data name="PhoneError" xml:space="preserve">
+    <value>You must enter your phone number.</value>
+  </data>
+  <data name="AgeError" xml:space="preserve">
+    <value>You must be at least 18 years old.</value>
+  </data>
+  <data name="UserExistError" xml:space="preserve">
+    <value>The user you entered already exists, you must enter another one.</value>
+  </data>
+  <data name="EmailExistError" xml:space="preserve">
+    <value>The email you entered has already been registered previously, please register another one.</value>
+  </data>
+  <data name="AccountBloqued" xml:space="preserve">
+    <value>This user is blocked, please contact the technical support at soporte@letstattoo.com.mx</value>
+  </data>
+  <data name="WhereTakePicture" xml:space="preserve">
+    <value>Where do you want to take the picture?</value>
+  </data>
+  <data name="FromGallery" xml:space="preserve">
+    <value>From gallery</value>
+  </data>
+  <data name="NewPicture" xml:space="preserve">
+    <value>Take a new picture</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
 </root>

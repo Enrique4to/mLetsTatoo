@@ -1,19 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
-
 using Android.Content;
 using Android.Graphics;
 using Android.Runtime;
 using Android.Views;
-
 using mLetsTatoo.Controls;
-using mLetsTatoo.Droid;
 using mLetsTatoo.Droid.Renderers;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-
-using Color = Xamarin.Forms.Color;
 
 [assembly: ExportRenderer(typeof(CircleImage), typeof(ImageCircleRenderer))]
 namespace mLetsTatoo.Droid.Renderers
@@ -33,21 +27,15 @@ namespace mLetsTatoo.Droid.Renderers
 
         }
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        /// <summary>
-        /// Used for registration with dependency service
-        /// </summary>
         public async static void Init()
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             var temp = DateTime.Now;
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="e"></param>
         protected override void OnElementChanged(ElementChangedEventArgs<Image> e)
         {
             base.OnElementChanged(e);
+
 
             if (e.OldElement == null)
             {
@@ -72,20 +60,10 @@ namespace mLetsTatoo.Droid.Renderers
                 Invalidate();
             }
         }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="canvas"></param>
-        /// <param name="child"></param>
-        /// <param name="drawingTime"></param>
-        /// <returns></returns>
         protected override bool DrawChild(Canvas canvas, Android.Views.View child, long drawingTime)
         {
             try
             {
-
                 var radius = (float)Math.Min(Width, Height) / 2f;
 
                 var borderThickness = ((CircleImage)Element).BorderThickness;
@@ -94,25 +72,21 @@ namespace mLetsTatoo.Droid.Renderers
 
                 if (borderThickness > 0)
                 {
+
                     var logicalDensity = Android.App.Application.Context.Resources.DisplayMetrics.Density;
+
                     strokeWidth = (float)Math.Ceiling(borderThickness * logicalDensity + .5f);
                 }
-
                 radius -= strokeWidth / 2f;
 
-
-
-
                 var path = new Path();
+
                 path.AddCircle(Width / 2.0f, Height / 2.0f, radius, Path.Direction.Ccw);
-
-
                 canvas.Save();
                 canvas.ClipPath(path);
 
-
-
                 var paint = new Paint
+
                 {
                     AntiAlias = true
                 };
@@ -121,15 +95,12 @@ namespace mLetsTatoo.Droid.Renderers
                 canvas.DrawPath(path, paint);
                 paint.Dispose();
 
-
                 var result = base.DrawChild(canvas, child, drawingTime);
 
                 path.Dispose();
                 canvas.Restore();
-
                 path = new Path();
                 path.AddCircle(Width / 2f, Height / 2f, radius, Path.Direction.Ccw);
-
 
                 if (strokeWidth > 0.0f)
                 {

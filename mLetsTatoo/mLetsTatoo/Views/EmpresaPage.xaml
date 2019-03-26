@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
-             xmlns:controls="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
+             xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
              x:Class="mLetsTatoo.Views.EmpresaPage"
              Title="{Binding Nombre}">
@@ -26,30 +26,28 @@
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <!--<Label
-                                    FontAttributes="Bold"
-                                    FontSize="25"
-                                    Grid.Row="0"
-                                    IsEnabled="False"
-                                    Text="{Binding Nombre}"
-                                    TextColor="Gray"
-                                    HorizontalTextAlignment="Center"/>-->
-                                <controls:CircleImage 
+                                <control:CircleImage 
                                     Aspect="AspectFill"
-                                    Grid.Row="1"
+                                    Grid.Row="0"
                                     Source="{Binding Logo, Converter={StaticResource ByteArrayToImage}}">
-                                    <controls:CircleImage.WidthRequest>
+                                    <control:CircleImage.WidthRequest>
                                         <OnPlatform x:TypeArguments="x:Double">
                                             <On Platform="Android, iOS">250</On>
                                         </OnPlatform>
-                                    </controls:CircleImage.WidthRequest>
-                                    <controls:CircleImage.HeightRequest>
+                                    </control:CircleImage.WidthRequest>
+                                    <control:CircleImage.HeightRequest>
                                         <OnPlatform x:TypeArguments="x:Double">
                                             <On Platform="Android, iOS">250</On>
                                         </OnPlatform>
-                                    </controls:CircleImage.HeightRequest>
-                                </controls:CircleImage>
+                                    </control:CircleImage.HeightRequest>
+                                </control:CircleImage>
+                                <Label
+                                    BackgroundColor="Gray"
+                                    Grid.Row="1"
+                                    Text="{Binding Nombre}"
+                                    TextColor="Black"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>

@@ -18,17 +18,16 @@
 
         #endregion
         #region Attributes
-        private ObservableCollection<Tempresas> empresas;
+        private ObservableCollection<T_empresas> empresas;
         private bool isRefreshing;
         #endregion
-
         #region Properties
         public bool IsRefreshing
         {
             get { return this.isRefreshing; }
             set { SetValue(ref this.isRefreshing, value); }
         }
-        public ObservableCollection<Tempresas> Empresas
+        public ObservableCollection<T_empresas> Empresas
         {
             get { return this.empresas; }
             set { SetValue(ref this.empresas, value); }
@@ -42,7 +41,6 @@
             this.LoadEmpresas();
         }
         #endregion
-
         #region Methods
         private async void LoadEmpresas()
         {
@@ -61,9 +59,9 @@
 
             var urlApi = App.Current.Resources["UrlAPI"].ToString();
             var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlTempresasController"].ToString();
+            var controller = App.Current.Resources["UrlT_empresasController"].ToString();
 
-            var response = await this.apiService.GetList<Tempresas>(urlApi, prefix, controller);
+            var response = await this.apiService.GetList<T_empresas>(urlApi, prefix, controller);
             if (!response.IsSuccess)
             {
                 await App.Current.MainPage.DisplayAlert(
@@ -72,9 +70,9 @@
                     "OK");
                 return;
             }
-            var list = (List<Tempresas>)response.Result;
+            var list = (List<T_empresas>)response.Result;
 
-            this.Empresas = new ObservableCollection<Tempresas>(list);
+            this.Empresas = new ObservableCollection<T_empresas>(list);
             this.IsRefreshing = false;
         }
         #endregion
