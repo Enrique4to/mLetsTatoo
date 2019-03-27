@@ -77,13 +77,13 @@
                 };
             }
         }
-        public async Task<Response> Get<T>(string urlBase, string prefix, string controller, string model)
+        public async Task<Response> Get<T>(string urlBase, string prefix, string controller, int id)
         {
             try
             {
                 var client = new HttpClient();
                 client.BaseAddress = new Uri(urlBase);
-                var url = $"{prefix}{controller}{model}";
+                var url = $"{prefix}{controller}/{id}";
                 var response = await client.GetAsync(url);
                 var result = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
@@ -112,7 +112,6 @@
                 };
             }
         }
-
         public async Task<Response> Post<T>(string urlBase, string prefix, string controller, T model)
         {
             try
@@ -150,7 +149,7 @@
                 };
             }
         }
-        public async Task<Response> Put<T>(string urlBase, string prefix, string controller, T model, string id)
+        public async Task<Response> Put<T>(string urlBase, string prefix, string controller, T model, int id)
         {
             try
             {
@@ -166,7 +165,7 @@
                     return new Response
                     {
                         IsSuccess = false,
-                        Message = result,
+                        Message = response.ToString(),
                     };
                 }
 
@@ -176,6 +175,39 @@
                 {
                     IsSuccess = true,
                     Result = obj,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
+        public async Task<Response> Delete<T>(string urlBase, string prefix, string controller, int id)
+        {
+            try
+            {
+                var client = new HttpClient();
+                client.BaseAddress = new Uri(urlBase);
+                var url = $"{prefix}{controller}/{id}";
+                var response = await client.DeleteAsync(url);
+                var result = await response.Content.ReadAsStringAsync();
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = result,
+                    };
+                }
+
+                return new Response
+
+                {
+                    IsSuccess = true,
                 };
             }
             catch (Exception ex)

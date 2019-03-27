@@ -51,6 +51,7 @@
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
         #endregion
+
         #region Constructors
         public RegisterViewModel()
         {
@@ -220,7 +221,8 @@
                 F_Nac = this.Birthdate,
                 Bloqueo = clibloq,
                 Id_Usuario = id_usuario,
-                F_Perfil = ByteImage
+                F_Perfil = ByteImage,
+                
             };
 
             this.apiService = new ApiService();

@@ -21,6 +21,11 @@
             get;
             set;
         }
+        public TecnicoHomeViewModel TecnicoHome
+        {
+            get;
+            set;
+        }
 
         public EmpresaViewModel Empresa
         {
@@ -33,6 +38,11 @@
             set;
         }
         public UserViewModel User
+        {
+            get;
+            set;
+        }
+        public EditUserViewModel EditUser
         {
             get;
             set;

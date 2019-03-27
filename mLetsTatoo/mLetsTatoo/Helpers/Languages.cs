@@ -175,5 +175,30 @@
         {
             get { return Resource.Cancel; }
         }
+        public static string EditUser
+        {
+            get { return Resource.EditUser; }
+        }
+        public static string ErrorTypeUser
+        {
+            get { return Resource.ErrorTypeUser; }
+        }
+        public static string ChangePassword
+        {
+            get { return Resource.ChangePassword; }
+        }
+        public static string NewPassword
+        {
+            get { return Resource.NewPassword; }
+        }
+        public static string CurrentPassword
+        {
+            get { return Resource.CurrentPassword; }
+        }
+        public static string Save
+        {
+            get { return Resource.Save; }
+        }
+
     }
 }

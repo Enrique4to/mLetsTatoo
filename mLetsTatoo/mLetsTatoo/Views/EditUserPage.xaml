@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"             
+             xmlns:control="clr-namespace:mLetsTatoo.Controls"
+             x:Class="mLetsTatoo.Views.EditUserPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="{i18n:Translate EditUser}">
+    <ContentPage.Content>
+        <ScrollView
+            BackgroundColor="Black"
+            BindingContext="{Binding EditUser}">
+            <StackLayout
+                BackgroundColor="Black"
+                Padding="5,10">
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Text="{Binding User.Usuario}"
+                    TextColor="LightGray"/>
+                <StackLayout
+                    Padding="10,0"
+                    Orientation="Horizontal">
+                    <Label
+                    FontAttributes="Bold"
+                    FontSize="18"
+                    Text="{i18n:Translate ChangePassword}"
+                    TextColor="LightGray"
+                    VerticalOptions="Center"/>
+                <Switch
+                    HorizontalOptions="EndAndExpand"
+                    IsToggled="{Binding IsRemember, Mode=TwoWay}"
+                    Scale=".9"                        
+                    VerticalOptions="Center"/>
+                </StackLayout>   
+                <StackLayout
+                    Padding="5,10,5,5"
+                    VerticalOptions="StartAndExpand">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width=".1*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width=".1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <control:CustomRegEntry 
+                            BorderColor="Gray"
+                            CornerRadius="12"
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            HeightRequest="40"
+                            HorizontalTextAlignment="Start"
+                            IsCurvedCornersEnabled="True"
+                            Placeholder="{i18n:Translate CurrentPassword}"
+                            PlaceholderColor="Gray"
+                            Text="{Binding CurrentPassword, Mode=TwoWay}"
+                            TextColor="LightGray"
+                            WidthRequest="50"/>
+                        <control:CustomRegEntry 
+                            BorderColor="Gray"
+                            CornerRadius="12"
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            HeightRequest="40"
+                            HorizontalTextAlignment="Start"
+                            IsCurvedCornersEnabled="True"
+                            IsPassword="True"
+                            Placeholder="{i18n:Translate NewPassword}"
+                            PlaceholderColor="Gray"  
+                            Text="{Binding NewPassword, Mode=TwoWay}"                     
+                            TextColor="LightGray"
+                            WidthRequest="50"/>
+                        <control:CustomRegEntry 
+                            BorderColor="Gray"
+                            CornerRadius="12"
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            Grid.Column="1"
+                            Grid.Row="2"
+                            HeightRequest="40"
+                            HorizontalTextAlignment="Start"
+                            IsCurvedCornersEnabled="True"
+                            IsPassword="True"
+                            Placeholder="{i18n:Translate ConfirmPassword}"
+                            PlaceholderColor="Gray"
+                            Text="{Binding ConfirmPassword, Mode=TwoWay}"
+                            TextColor="LightGray"
+                            WidthRequest="50"/>
+                        <control:CustomRegEntry 
+                            BorderColor="Gray"
+                            CornerRadius="12"
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Grid.Column="1"
+                            Grid.Row="3"
+                            HeightRequest="40"
+                            HorizontalTextAlignment="Start"
+                            IsCurvedCornersEnabled="True"
+                            Placeholder="{i18n:Translate Email}"
+                            PlaceholderColor="Gray"
+                            Text="{Binding User.Ucorreo, Mode=TwoWay}"
+                            TextColor="LightGray"
+                            WidthRequest="40"/>
+                    </Grid>
+                </StackLayout>
+                <ActivityIndicator
+                    IsRunning="{Binding IsRunning}"
+                    VerticalOptions="CenterAndExpand"/>
+                <StackLayout
+                    Margin="40,0,40,5"
+                    VerticalOptions="EndAndExpand">
+                    <Button
+                        BackgroundColor="Gray"
+                        BorderRadius="23"
+                        Command="{Binding SaveUserDataCommand}"
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        HeightRequest="46"
+                        Text="{i18n:Translate Save}"
+                        TextColor="Black"/>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

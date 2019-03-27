@@ -219,4 +219,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\NoUserPic.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Editar.png" />
+  </ItemGroup>
 </Project>

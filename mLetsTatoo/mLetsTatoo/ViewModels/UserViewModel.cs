@@ -2,13 +2,15 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.IO;
     using System.Linq;
     using System.Reflection;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Helpers;
-    using mLetsTatoo.Models;
+    using Models;
+    using Views;
     using Plugin.Media;
     using Plugin.Media.Abstractions;
     using Services;
@@ -27,8 +29,22 @@
         private MediaFile file;
         private bool isRefreshing;
         private bool isRunning;
+        private ObservableCollection<T_clientes> clientes;
+        public List<T_clientes> listClientes;
+        public T_clientes cliente;
+        private T_usuarios user;
         #endregion
         #region Properties
+        public T_clientes Cliente
+        {
+            get { return this.cliente; }
+            set { SetValue(ref this.cliente, value); }
+        }
+        public T_usuarios User
+        {
+            get { return this.user; }
+            set { SetValue(ref this.user, value); }
+        }
         public bool IsRunning
         {
             get { return this.isRunning; }
@@ -44,7 +60,11 @@
             get { return this.imageSource; }
             set { SetValue(ref this.imageSource, value); }
         }
-        public byte[] ByteImage { get; set; }
+        public byte[] ByteImage
+        {
+            get { return this.byteImage; }
+            set { SetValue(ref this.byteImage, value); }
+        }
         public string NombreCompleto
         {
             get { return this.nombrecompleto; }
@@ -52,14 +72,14 @@
         }
         #endregion
         #region Constructors
-        public UserViewModel()
+        public UserViewModel(T_usuarios user)
         {
+            this.user = user;
+            //instance = this;
             this.apiService = new ApiService();
             this.IsRefreshing = false;
             this.LoadUser();
         }
-
-
         #endregion
         #region Commands
         public ICommand ChangeImageCommand
@@ -69,8 +89,17 @@
                 return new RelayCommand(ChangeImage);
             }
         }
+        public ICommand EditUserCommand
+        {
+            get
+            {
+                return new RelayCommand(EditUser);
+            }
+        }
+
+
         #endregion
-            #region Methods
+        #region Methods
         private async void ChangeImage()
         {
             await CrossMedia.Current.Initialize();
@@ -95,14 +124,20 @@
                     {
                         Directory = "Sample",
                         Name = "test.jpg",
-                        PhotoSize = PhotoSize.Small
+                        PhotoSize = PhotoSize.Small,
+                        MaxWidthHeight = 400,
+                        
                     });
-                this.SavePic();
             }
             else
             {
-                this.file = await CrossMedia.Current.PickPhotoAsync();
-                this.SavePic();
+                this.file = await CrossMedia.Current.PickPhotoAsync(
+                    new PickMediaOptions
+                    {
+                        PhotoSize= PhotoSize.Small,
+                        MaxWidthHeight = 400,
+                    });
+                  
             }
 
             if (this.file != null)
@@ -110,62 +145,59 @@
                 this.ImageSource = ImageSource.FromStream(() =>
                 {
                     var stream = this.file.GetStream();
+                    this.SavePic();
                     return stream;
                 });
+
             }
 
 
         }
-
         private async void SavePic()
         {
-
             this.IsRunning = true;
 
-            byte[] imageArray = null;
-            if (this.file != null)
-            {
-                imageArray = FileHelper.ReadFully(this.file.GetStream());
-            }
-
-            var viewmodel = LoginViewModel.GetInstance();
-
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_clientesController"].ToString();
-            var response = await this.apiService.GetList<T_clientes>(urlApi, prefix, controller);
-            if (!response.IsSuccess)
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
             {
                 await App.Current.MainPage.DisplayAlert(
                     Languages.Error,
-                    response.Message,
+                    connection.Message,
                     "OK");
                 return;
             }
 
-            var listcte = (List<T_clientes>)response.Result;
-            var single = listcte.Single(u => u.Id_Usuario == viewmodel.id_usuario);
+            byte[] ByetImage = null;
 
-            var cliente = new T_clientes
+            if (this.file != null)
             {
-                Nombre = single.Nombre,
-                Apellido = single.Apellido,
-                Correo = single.Correo,
-                Telefono = single.Telefono,
-                F_Nac = single.F_Nac,
-                Bloqueo = single.Bloqueo,
-                Id_Usuario = single.Id_Usuario,
-                F_Perfil = imageArray,
+                ByteImage = FileHelper.ReadFully(this.file.GetStream());
+            }
+            
+            var editCliente = new T_clientes
+            {
+                Id_Cliente= cliente.Id_Cliente,
+                Nombre = cliente.Nombre,
+                Apellido = cliente.Apellido,
+                Correo = cliente.Correo,
+                Telefono = cliente.Telefono,
+                Id_Usuario = cliente.Id_Usuario,
+                F_Nac = cliente.F_Nac,
+                Bloqueo = cliente.Bloqueo,
+                F_Perfil = ByteImage,
             };
-            var id = single.Id_Cliente.ToString();
+            var id = cliente.Id_Cliente;
+            var urlApi = App.Current.Resources["UrlAPI"].ToString();
+            var prefix = App.Current.Resources["UrlPrefix"].ToString();
+            var controller = App.Current.Resources["UrlT_clientesController"].ToString();
 
             this.apiService = new ApiService();
 
-            response = await this.apiService.Put
+            var response = await this.apiService.Put
                 (urlApi,
                 prefix,
                 controller,
-                cliente,
+                editCliente,
                 id);
 
             if (!response.IsSuccess)
@@ -181,7 +213,6 @@
             this.LoadUser();
             this.IsRunning = false;
         }
-
         private async void LoadUser()
         {
             this.IsRefreshing = true;
@@ -196,7 +227,7 @@
                 return;
             }
 
-            var viewmodel = LoginViewModel.GetInstance();
+            var userViewmodel = LoginViewModel.GetInstance().user;
 
             var urlApi = App.Current.Resources["UrlAPI"].ToString();
             var prefix = App.Current.Resources["UrlPrefix"].ToString();
@@ -212,12 +243,13 @@
                 return;
             }
 
-            var listcte = (List<T_clientes>)response.Result;
-            var single = listcte.Single(u => u.Id_Usuario == viewmodel.id_usuario);
-            NombreCompleto = $"{single.Nombre} {single.Apellido}";
-            if (single.F_Perfil != null)
+            listClientes = (List<T_clientes>)response.Result;
+            cliente = listClientes.Single(u => u.Id_Usuario == userViewmodel.Id_usuario);
+
+            NombreCompleto = $"{cliente.Nombre} {cliente.Apellido}";
+            if (cliente.F_Perfil != null)
             {
-                ByteImage = single.F_Perfil;
+                ByteImage = cliente.F_Perfil;
                 this.ImageSource = ImageSource.FromStream(() => new MemoryStream(ByteImage));
             }
             else
@@ -226,8 +258,24 @@
                 this.ImageSource = ImageSource.FromStream(() => new MemoryStream(ByteImage));
             }
         }
+        private async void EditUser()
+        {
+            MainViewModel.GetInstance().EditUser = new EditUserViewModel(cliente, user);
+            await Application.Current.MainPage.Navigation.PushAsync(new EditUserPage());
+        }
         #endregion
+        //#region Singleton
+        //private static UserViewModel instance;
+        //public static UserViewModel GetInstance()
+        //{
+        //    if (instance == null)
+        //    {
+        //        return new UserViewModel();
+        //    }
+        //    return instance;
+        //}
+        //#endregion
     }
 
 
-    }
+}

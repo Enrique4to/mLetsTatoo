@@ -20,14 +20,12 @@
         [Required]
         public string Correo { get; set; }
         [Required]
-        public int Telefono { get; set; }
+        public Int64 Telefono { get; set; }
         [Required]
         public int Id_Usuario { get; set; }
         [Required]
         public DateTime F_Nac { get; set; }
         public bool Bloqueo { get; set; }
-        [NotMapped]
-        public byte[] ImageArray { get; set; }
         public byte[] F_Perfil { get; set; }
         #endregion
     }

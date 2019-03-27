@@ -25,8 +25,14 @@
         private MediaFile file;
         private bool isRefreshing;
         private ObservableCollection<T_empresas> empresas;
+        private T_usuarios user;
         #endregion
         #region Properties
+        public T_usuarios User
+        {
+            get { return this.user; }
+            set { SetValue(ref this.user, value); }
+        }
         public bool IsRefreshing
         {
             get { return this.isRefreshing; }
@@ -49,9 +55,9 @@
         }
         #endregion
         #region Constructors
-        public HomeViewModel()
+        public HomeViewModel(T_usuarios user)
         {
-
+            this.user = user;
             this.apiService = new ApiService();
             this.IsRefreshing = false;
             this.LoadEmpresas();
@@ -89,7 +95,7 @@
                 return;
             }
 
-            var viewmodel = LoginViewModel.GetInstance();
+            var userViewModel = LoginViewModel.GetInstance().user;
 
             var urlApi = App.Current.Resources["UrlAPI"].ToString();
             var prefix = App.Current.Resources["UrlPrefix"].ToString();
@@ -106,7 +112,7 @@
             }
 
             var listcte = (List<T_clientes>)response.Result;
-            var single = listcte.Single(u => u.Id_Usuario == viewmodel.id_usuario);
+            var single = listcte.Single(u => u.Id_Usuario == userViewModel.Id_usuario);
             if (single.F_Perfil != null)
             {
                 ByteImage = single.F_Perfil;
@@ -136,7 +142,7 @@
 
         private async void GoToUserPage()
         {
-            MainViewModel.GetInstance().User = new UserViewModel();
+            MainViewModel.GetInstance().User = new UserViewModel(user);
             await Application.Current.MainPage.Navigation.PushAsync(new UserPage());
         }
         #endregion

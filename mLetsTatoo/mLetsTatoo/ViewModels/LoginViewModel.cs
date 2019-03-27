@@ -20,15 +20,19 @@
         private ApiService apiService;
         #endregion
         #region Attributes
-
         private ObservableCollection<T_usuarios> usuarios;
         private bool isRunning;
         private bool isEnabled;
         private string pass;
         private string usuario;
-        public int id_usuario;
+        public T_usuarios user;
         #endregion
         #region Propierties
+        public T_usuarios User
+        {
+            get { return this.user; }
+            set { SetValue(ref this.user, value); }
+        }
         public ObservableCollection<T_usuarios> Usuarios
         {
             get { return this.usuarios; }
@@ -135,11 +139,12 @@
                     "OK");
                 return;
             }
-            var list = (List<T_usuarios>)response.Result;
+            var ListUsuarios = (List<T_usuarios>)response.Result;
+            this.user = ListUsuarios.Single(u => u.Usuario == this.Usuario && u.Pass == this.Pass);
 
-            if (list.Any(u => u.Usuario == this.Usuario && u.Bloqueo == true))
+            if (user.Bloqueo == true)
             {
-
+                 
                 this.IsRunning = false;
                 this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
@@ -150,7 +155,7 @@
                 return;
             }
 
-            if (!list.Any(u => u.Usuario == this.Usuario && u.Confirmado == true))
+            if (!user.Confirmado == true)
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
@@ -162,7 +167,7 @@
                 this.Usuario = string.Empty;
                 return;
             }
-            if (!list.Any(u => u.Usuario == this.Usuario && u.Pass == this.Pass))
+            if (user.Usuario != this.Usuario || user.Pass != this.Pass)
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
@@ -174,22 +179,49 @@
                 this.Usuario = string.Empty;
                 return;
             }
-
-            var single = list.Single(u => u.Usuario == this.Usuario && u.Pass == this.Pass);
-            id_usuario = single.Id_usuario;
-
-            this.IsRunning = false;
-            this.IsEnabled = true;
-
-            this.Usuario = string.Empty;
-            this.Pass = string.Empty;
-
-            MainViewModel.GetInstance().Home = new HomeViewModel();
-            Application.Current.MainPage = new NavigationPage(new HomePage())
+            if (user.Tipo > 2)
             {
-                BarBackgroundColor = Color.Black,
-                BarTextColor = Color.Gray,
-            };
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.ErrorTypeUser,
+                    "Ok");
+                this.Pass = string.Empty;
+                this.Usuario = string.Empty;
+                return;
+            }
+            if (user.Tipo == 1)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+
+                this.Usuario = string.Empty;
+                this.Pass = string.Empty;
+
+                MainViewModel.GetInstance().Home = new HomeViewModel(user);
+                Application.Current.MainPage = new NavigationPage(new HomePage())
+                {
+                    BarBackgroundColor = Color.Black,
+                    BarTextColor = Color.Gray,
+                };
+            }
+            if (user.Tipo == 2)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+
+                this.Usuario = string.Empty;
+                this.Pass = string.Empty;
+
+                MainViewModel.GetInstance().TecnicoHome = new TecnicoHomeViewModel();
+                Application.Current.MainPage = new NavigationPage(new TecnicoHomePage())
+                {
+                    BarBackgroundColor = Color.Black,
+                    BarTextColor = Color.Gray,
+                };
+            }
+
         }
 
         private async void Registro()

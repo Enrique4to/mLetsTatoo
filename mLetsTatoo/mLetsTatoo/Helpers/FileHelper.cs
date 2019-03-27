@@ -9,6 +9,7 @@ namespace mLetsTatoo.Helpers
             using (MemoryStream ms = new MemoryStream())
             {
                 input.CopyTo(ms);
+                input.Dispose();
                 return ms.ToArray();
             }
         }
