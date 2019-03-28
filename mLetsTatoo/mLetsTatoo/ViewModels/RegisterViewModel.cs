@@ -174,7 +174,7 @@
                 Bloqueo = bloqueo,
                 Confirmado = true,
                 Tipo = 1,
-                Ucorreo = this.Email                
+                Ucorreo = this.Email,
             };
             this.apiService = new ApiService();
 

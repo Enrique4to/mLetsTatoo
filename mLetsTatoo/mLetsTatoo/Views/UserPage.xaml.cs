@@ -15,5 +15,10 @@ namespace mLetsTatoo.Views
 		{
 			InitializeComponent ();
 		}
-	}
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            InitializeComponent();
+        }
+    }
 }

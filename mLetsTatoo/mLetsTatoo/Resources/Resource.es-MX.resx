@@ -258,4 +258,28 @@
   <data name="Save" xml:space="preserve">
     <value>Guardar</value>
   </data>
+  <data name="ChangeEmail" xml:space="preserve">
+    <value>Cambiar correo electrónico</value>
+  </data>
+  <data name="ChangePersonal" xml:space="preserve">
+    <value>Cambiar información personal</value>
+  </data>
+  <data name="NewPasswordError" xml:space="preserve">
+    <value>La nueva contraseña debe ser diferente de la contraseña actual.</value>
+  </data>
+  <data name="CurrentPasswordError" xml:space="preserve">
+    <value>¡La contraseña actual que ingresó debe ser la misma que su contraseña actual!</value>
+  </data>
+  <data name="NoCurrentPassword" xml:space="preserve">
+    <value>Debe introducir su contraseña actual.</value>
+  </data>
+  <data name="UserInfo" xml:space="preserve">
+    <value>Información de usuario</value>
+  </data>
+  <data name="Study" xml:space="preserve">
+    <value>Estudios</value>
+  </data>
+  <data name="Artist" xml:space="preserve">
+    <value>Artistas</value>
+  </data>
 </root>

@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"             
-             xmlns:control="clr-namespace:mLetsTatoo.Controls"
-             x:Class="mLetsTatoo.Views.HomePage"             
-             BindingContext="{Binding Main, Source={StaticResource Locator}}"
-             Title="Estudios">
-    <ContentPage.ToolbarItems>        
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="mLetsTatoo.Views.HomePage"
+            xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
+            xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
+            BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <TabbedPage.ToolbarItems>
         <ToolbarItem BindingContext="{Binding Home}"
-                     Icon="{Binding ImageSource}"
+                     Icon="{Binding Image}"
                      Command="{Binding UserPageCommand}"/>
         <!--<ToolbarItem Icon="Citas"/>
         <ToolbarItem Icon="Notificacion"/>-->
-    </ContentPage.ToolbarItems>
-    <ContentPage.Content>
+    </TabbedPage.ToolbarItems>
+    <ContentPage
+        Title="{i18n:Translate Study}">
         <StackLayout
             BindingContext="{Binding Home}"
             BackgroundColor="Black"
@@ -27,13 +27,13 @@
                     IsRefreshing="{Binding IsRefreshing}"                    
                     ItemsSource="{Binding Empresas}"
                     RefreshCommand="{Binding RefreshCommand}">
-                    <ListView.ItemTemplate>                        
+                    <ListView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>                                
+                            <ViewCell>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="2*"/>                                        
+                                        <ColumnDefinition Width="2*"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
@@ -60,12 +60,69 @@
                                         Text="{Binding Nombre}"
                                         TextColor="LightGray"
                                         VerticalTextAlignment="Center"/>
-                                </Grid> 
+                                </Grid>
                             </ViewCell>
                         </DataTemplate>
-                    </ListView.ItemTemplate>                    
+                    </ListView.ItemTemplate>
                 </ListView>
             </StackLayout>
         </StackLayout>
-    </ContentPage.Content>
-</ContentPage>
+    </ContentPage>
+    <ContentPage
+        Title="{i18n:Translate Artist}">
+        <StackLayout
+            BindingContext="{Binding Home}"
+            BackgroundColor="Black"
+            Padding="5">
+            <StackLayout
+                VerticalOptions="StartAndExpand"
+                Padding="10">
+                <ListView                    
+                    HasUnevenRows="True"
+                    IsPullToRefreshEnabled="True"
+                    IsRefreshing="{Binding IsRefreshing}"                    
+                    ItemsSource="{Binding Tecnicos}"
+                    RefreshCommand="{Binding RefreshCommand}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <control:CircleImage
+                                        Aspect="AspectFill"
+                                        Grid.Column="0"
+                                        Source="{Binding F_Perfil, Converter={StaticResource ByteArrayToImage}}">
+                                        <control:CircleImage.WidthRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="Android, iOS">50</On>
+                                            </OnPlatform>
+                                        </control:CircleImage.WidthRequest>
+                                        <control:CircleImage.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="Android, iOS">50</On>
+                                            </OnPlatform>
+                                        </control:CircleImage.HeightRequest>
+                                    </control:CircleImage>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="20"
+                                        Grid.Column="1"
+                                        Text="{Binding Apodo}"
+                                        TextColor="LightGray"
+                                        VerticalTextAlignment="Center"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage>
+
+</TabbedPage>

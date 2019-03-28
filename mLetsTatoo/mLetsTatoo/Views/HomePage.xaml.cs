@@ -9,16 +9,13 @@ using Xamarin.Forms.Xaml;
 
 namespace mLetsTatoo.Views
 {
-	public partial class HomePage : ContentPage
+	public partial class HomePage : TabbedPage
 	{
 		public HomePage ()
 		{
 			InitializeComponent ();
+            this.BarBackgroundColor = Color.FromRgb(20, 20, 20);
+            this.BarTextColor =Color.FromRgb(200,200,200);
 		}
-
-        private void ListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
-
-        }
-    }
+	}
 }

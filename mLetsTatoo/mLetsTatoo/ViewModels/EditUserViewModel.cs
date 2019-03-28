@@ -1,47 +1,35 @@
 ﻿
 namespace mLetsTatoo.ViewModels
 {
+    using System;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using mLetsTatoo.Helpers;
+    using mLetsTatoo.Views;
     using Models;
     using Services;
+    using Xamarin.Forms;
 
     public class EditUserViewModel : BaseViewModel
     {
-        #region Attributes
+        #region Services
         private ApiService apiService;
+        #endregion
+        #region Attributes
         private T_clientes cliente;
         private T_usuarios user;
         private bool isRefreshing;
         private bool isRunning;
         private bool isEnabled;
-        private string currentPassword;
-        private string newPassword;
-        private string confirmPassword;
-        private string email;
+        private bool isActPass;
+        private bool isActEmail;
+        private bool isActPersonal;
         #endregion
         #region Properties
-        public string Email
-        {
-            get { return this.email; }
-            set { SetValue(ref this.email, value); }
-        }
-        public string CurrentPassword
-        {
-            get { return this.currentPassword; }
-            set { SetValue(ref this.currentPassword, value); }
-        }
-        public string ConfirmPassword
-        {
-            get { return this.confirmPassword; }
-            set { SetValue(ref this.confirmPassword, value); }
-        }
-        public string NewPassword
-        {
-            get { return this.newPassword; }
-            set { SetValue(ref this.newPassword, value); }
-        }
+
+        public string CurrentPassword { get; set; }
+        public string ConfirmPassword { get; set; }
+        public string NewPassword { get; set; }
         public T_clientes Cliente
         {
             get { return this.cliente; }
@@ -67,6 +55,21 @@ namespace mLetsTatoo.ViewModels
             get { return this.isEnabled; }
             set { SetValue(ref this.isEnabled, value); }
         }
+        public bool IsActPass
+        {
+            get { return this.isActPass; }
+            set { SetValue(ref this.isActPass, value); }
+        }
+        public bool IsActEmail
+        {
+            get { return this.isActEmail; }
+            set { SetValue(ref this.isActEmail, value); }
+        }
+        public bool IsActPersonal
+        {
+            get { return this.isActPersonal; }
+            set { SetValue(ref this.isActPersonal, value); }
+        }
         #endregion
         #region Contructors
         public EditUserViewModel(T_clientes cliente, T_usuarios user)
@@ -74,6 +77,7 @@ namespace mLetsTatoo.ViewModels
             this.apiService = new ApiService();
             this.cliente = cliente;
             this.user = user;
+            this.NewPassword = user.Pass;
         }
         #endregion
         #region Commands
@@ -84,58 +88,141 @@ namespace mLetsTatoo.ViewModels
                 return new RelayCommand(SaveUserData);
             }
         }
+
         #endregion
         #region Methods
         private async void SaveUserData()
         {
+
+            //-------------- Change Password --------------//
+            if (this.IsActPass==true)
+            {
+                if (string.IsNullOrEmpty(this.CurrentPassword))
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        Languages.NoCurrentPassword,
+                        "Ok");
+                    return;
+                }
+                if (this.User.Pass == this.CurrentPassword)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        Languages.CurrentPasswordError,
+                        "Ok");
+                    return;
+                }
+                if (this.NewPassword == this.CurrentPassword)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        Languages.NewPasswordError,
+                        "Ok");
+                    return;
+                }
+                if (string.IsNullOrEmpty(this.ConfirmPassword))
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        Languages.ConfirmPasswordError,
+                        "Ok");
+                    return;
+                }
+                if (this.NewPassword!=this.ConfirmPassword)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        Languages.MatchPasswordError,
+                        "Ok");
+                    return;
+                }
+            }
+
+            //-------------- Change Email --------------//
+            if (this.IsActEmail == true)
+            {
+                if (string.IsNullOrEmpty(this.User.Ucorreo))
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        Languages.EmailError,
+                        "Ok");
+                    return;
+                }
+            }
+
+            //-------------- Change Personal --------------//
+            if (this.IsActEmail == true)
+            {
+                if (string.IsNullOrEmpty(this.Cliente.Nombre))
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        Languages.NameError,
+                        "Ok");
+                    return;
+                }
+                if (string.IsNullOrEmpty(this.Cliente.Apellido))
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        Languages.LastnameError,
+                        "Ok");
+                    return;
+                }
+                if (this.Cliente.Telefono > 0)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        Languages.PhoneError,
+                        "Ok");
+                    return;
+                }
+                DateTime now = DateTime.Today;
+                int age = now.Year - this.Cliente.F_Nac.Year;
+                if (age < 18)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.AgeError,
+                    "Ok");
+                    return;
+                }
+
+            }
             this.IsRunning = true;
+            this.IsEnabled = false;
+
 
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
                 await App.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
                     "OK");
                 return;
             }
-            if(string.IsNullOrEmpty(this.currentPassword))
-            {
-                newPassword = user.Pass;
-            }
-            if (string.IsNullOrEmpty(this.email))
-            {
-                email = user.Ucorreo;
-            }
-            var editUsiario = new T_usuarios
-            {
-                Id_usuario = user.Id_usuario,
-                Bloqueo = user.Bloqueo,
-                Confirmacion = user.Confirmacion,
-                Confirmado = user.Confirmado,
-                Id_empresa = user.Id_empresa,
-                Pass = NewPassword,
-                Tipo = user.Tipo,
-                Ucorreo = Email,
-                Usuario = user.Usuario,
-            };
 
-            var editCliente = new T_clientes
+            var editUser = new T_usuarios
             {
-                Id_Cliente = cliente.Id_Cliente,
-                Nombre = cliente.Nombre,
-                Apellido = cliente.Apellido,
-                Correo = cliente.Correo,
-                Telefono = cliente.Telefono,
-                Id_Usuario = cliente.Id_Usuario,
-                F_Nac = cliente.F_Nac,
-                Bloqueo = cliente.Bloqueo,
-                F_Perfil = cliente.F_Perfil
+                Id_usuario = this.User.Id_usuario,
+                Bloqueo = this.User.Bloqueo,
+                Confirmacion = this.User.Confirmacion,
+                Confirmado = this.User.Confirmado,
+                Id_empresa = this.User.Id_empresa,
+                Pass = this.NewPassword,
+                Tipo = this.User.Tipo,
+                Ucorreo = this.Cliente.Correo,
+                Usuario = this.User.Usuario,
             };
-            var id = cliente.Id_Cliente;
+            var id = cliente.Id_Usuario;
             var urlApi = App.Current.Resources["UrlAPI"].ToString();
             var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_clientesController"].ToString();
+            var controller = App.Current.Resources["UrlT_usuariosController"].ToString();
 
             this.apiService = new ApiService();
 
@@ -143,12 +230,13 @@ namespace mLetsTatoo.ViewModels
                 (urlApi,
                 prefix,
                 controller,
-                editCliente,
+                editUser,
                 id);
 
             if (!response.IsSuccess)
             {
                 this.IsRunning = false;
+                this.IsEnabled = true;
                 await App.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
@@ -156,7 +244,43 @@ namespace mLetsTatoo.ViewModels
                 return;
             }
             this.IsRunning = false;
+
+
+            id = cliente.Id_Cliente;
+            urlApi = App.Current.Resources["UrlAPI"].ToString();
+            prefix = App.Current.Resources["UrlPrefix"].ToString();
+            controller = App.Current.Resources["UrlT_clientesController"].ToString();
+
+            this.apiService = new ApiService();
+
+            response = await this.apiService.Put
+                (urlApi,
+                prefix,
+                controller,
+                Cliente,
+                id);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await App.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            this.IsRunning = false;
+            this.IsEnabled = true;
+            this.IsActPass = false;
+            this.IsActEmail = false;
+            this.IsActPersonal = false;
+
+            MainViewModel.GetInstance().User = new UserViewModel(user);
+            await Application.Current.MainPage.Navigation.PopAsync();
         }
+
 
         #endregion
 

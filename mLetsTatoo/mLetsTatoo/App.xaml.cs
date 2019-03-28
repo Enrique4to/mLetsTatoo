@@ -12,8 +12,8 @@ namespace mLetsTatoo
 
             MainPage = new NavigationPage(new LoginPage())
             {
-                BarBackgroundColor = Color.Black,
-                BarTextColor = Color.Gray,
+                BarBackgroundColor = Color.FromRgb(20, 20, 20),
+                BarTextColor = Color.FromRgb(200, 200, 200),
             };
         }
 

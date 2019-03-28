@@ -140,7 +140,23 @@
                 return;
             }
             var ListUsuarios = (List<T_usuarios>)response.Result;
-            this.user = ListUsuarios.Single(u => u.Usuario == this.Usuario && u.Pass == this.Pass);
+
+            if (ListUsuarios.Any(u => u.Usuario == this.Usuario && u.Pass == this.Pass))
+            {
+                user = ListUsuarios.Single(u => u.Usuario == this.Usuario && u.Pass == this.Pass);
+            }
+            else
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.ErrorUsuarioyPassword,
+                    "Ok");
+                this.Pass = string.Empty;
+                this.Usuario = string.Empty;
+                return;
+            }
 
             if (user.Bloqueo == true)
             {
@@ -156,18 +172,6 @@
             }
 
             if (!user.Confirmado == true)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.ErrorUsuarioyPassword,
-                    "Ok");
-                this.Pass = string.Empty;
-                this.Usuario = string.Empty;
-                return;
-            }
-            if (user.Usuario != this.Usuario || user.Pass != this.Pass)
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
@@ -202,11 +206,12 @@
                 MainViewModel.GetInstance().Home = new HomeViewModel(user);
                 Application.Current.MainPage = new NavigationPage(new HomePage())
                 {
-                    BarBackgroundColor = Color.Black,
-                    BarTextColor = Color.Gray,
+                    BarBackgroundColor = Color.FromRgb(20, 20, 20),
+                    BarTextColor = Color.FromRgb(200, 200, 200),
+                    Title = this.user.Usuario.ToUpper(),
                 };
             }
-            if (user.Tipo == 2)
+            if (this.user.Tipo == 2)
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
@@ -217,8 +222,8 @@
                 MainViewModel.GetInstance().TecnicoHome = new TecnicoHomeViewModel();
                 Application.Current.MainPage = new NavigationPage(new TecnicoHomePage())
                 {
-                    BarBackgroundColor = Color.Black,
-                    BarTextColor = Color.Gray,
+                    BarBackgroundColor = Color.FromRgb(20, 20, 20),
+                    BarTextColor = Color.FromRgb(200, 200, 200),
                 };
             }
 

@@ -23,7 +23,7 @@
 
         #endregion
         #region Attributes
-        private string nombrecompleto;
+        private string nombreCompleto;
         private byte[] byteImage;
         private ImageSource imageSource;
         private MediaFile file;
@@ -67,8 +67,8 @@
         }
         public string NombreCompleto
         {
-            get { return this.nombrecompleto; }
-            set { SetValue(ref this.nombrecompleto, value); }
+            get { return this.nombreCompleto; }
+            set { SetValue(ref this.nombreCompleto, value); }
         }
         #endregion
         #region Constructors
@@ -226,9 +226,7 @@
                     "OK");
                 return;
             }
-
-            var userViewmodel = LoginViewModel.GetInstance().user;
-
+            
             var urlApi = App.Current.Resources["UrlAPI"].ToString();
             var prefix = App.Current.Resources["UrlPrefix"].ToString();
             var controller = App.Current.Resources["UrlT_clientesController"].ToString();
@@ -243,19 +241,20 @@
                 return;
             }
 
-            listClientes = (List<T_clientes>)response.Result;
-            cliente = listClientes.Single(u => u.Id_Usuario == userViewmodel.Id_usuario);
+            this.listClientes = (List<T_clientes>)response.Result;
+            this.cliente = this.listClientes.Single(u => u.Id_Usuario == this.User.Id_usuario);
 
-            NombreCompleto = $"{cliente.Nombre} {cliente.Apellido}";
+            this.NombreCompleto = $"{this.cliente.Nombre} {this.cliente.Apellido}";
+
             if (cliente.F_Perfil != null)
             {
-                ByteImage = cliente.F_Perfil;
-                this.ImageSource = ImageSource.FromStream(() => new MemoryStream(ByteImage));
+                this.ByteImage = this.cliente.F_Perfil;
+                this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
             }
             else
             {
-                ByteImage = apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
-                this.ImageSource = ImageSource.FromStream(() => new MemoryStream(ByteImage));
+                this.ByteImage = apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
+                this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
             }
         }
         private async void EditUser()

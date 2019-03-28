@@ -13,119 +13,226 @@
             <StackLayout
                 BackgroundColor="Black"
                 Padding="5,10">
-                <Label
-                    FontAttributes="Bold"
-                    FontSize="18"
-                    Grid.Column="1"
-                    Grid.Row="0"
-                    Text="{Binding User.Usuario}"
-                    TextColor="LightGray"/>
+                <StackLayout>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        Text="{Binding User.Usuario}"
+                        TextColor="LightGray"/>
+                </StackLayout>
                 <StackLayout
                     Padding="10,0"
                     Orientation="Horizontal">
                     <Label
-                    FontAttributes="Bold"
-                    FontSize="18"
-                    Text="{i18n:Translate ChangePassword}"
-                    TextColor="LightGray"
-                    VerticalOptions="Center"/>
-                <Switch
-                    HorizontalOptions="EndAndExpand"
-                    IsToggled="{Binding IsRemember, Mode=TwoWay}"
-                    Scale=".9"                        
-                    VerticalOptions="Center"/>
-                </StackLayout>   
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="{i18n:Translate ChangePassword}"
+                        TextColor="LightGray"
+                        VerticalOptions="Center"/>
+                    <Switch                    
+                        HorizontalOptions="EndAndExpand"
+                        Scale=".9"
+                        IsToggled="{Binding IsActPass}"
+                        Toggled="SwPass_Toggled"
+                        VerticalOptions="Center"
+                        x:Name="SwPass"/>
+                </StackLayout>
                 <StackLayout
-                    Padding="5,10,5,5"
-                    VerticalOptions="StartAndExpand">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width=".1*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width=".1*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <control:CustomRegEntry 
-                            BorderColor="Gray"
-                            CornerRadius="12"
-                            FontAttributes="Bold"
-                            FontSize="18"
-                            Grid.Column="1"
-                            Grid.Row="0"
-                            HeightRequest="40"
-                            HorizontalTextAlignment="Start"
-                            IsCurvedCornersEnabled="True"
-                            Placeholder="{i18n:Translate CurrentPassword}"
-                            PlaceholderColor="Gray"
-                            Text="{Binding CurrentPassword, Mode=TwoWay}"
-                            TextColor="LightGray"
-                            WidthRequest="50"/>
-                        <control:CustomRegEntry 
-                            BorderColor="Gray"
-                            CornerRadius="12"
-                            FontAttributes="Bold"
-                            FontSize="18"
-                            Grid.Column="1"
-                            Grid.Row="1"
-                            HeightRequest="40"
-                            HorizontalTextAlignment="Start"
-                            IsCurvedCornersEnabled="True"
-                            IsPassword="True"
-                            Placeholder="{i18n:Translate NewPassword}"
-                            PlaceholderColor="Gray"  
-                            Text="{Binding NewPassword, Mode=TwoWay}"                     
-                            TextColor="LightGray"
-                            WidthRequest="50"/>
-                        <control:CustomRegEntry 
-                            BorderColor="Gray"
-                            CornerRadius="12"
-                            FontAttributes="Bold"
-                            FontSize="18"
-                            Grid.Column="1"
-                            Grid.Row="2"
-                            HeightRequest="40"
-                            HorizontalTextAlignment="Start"
-                            IsCurvedCornersEnabled="True"
-                            IsPassword="True"
-                            Placeholder="{i18n:Translate ConfirmPassword}"
-                            PlaceholderColor="Gray"
-                            Text="{Binding ConfirmPassword, Mode=TwoWay}"
-                            TextColor="LightGray"
-                            WidthRequest="50"/>
-                        <control:CustomRegEntry 
-                            BorderColor="Gray"
-                            CornerRadius="12"
-                            FontAttributes="Bold"
-                            FontSize="16"
-                            Grid.Column="1"
-                            Grid.Row="3"
-                            HeightRequest="40"
-                            HorizontalTextAlignment="Start"
-                            IsCurvedCornersEnabled="True"
-                            Placeholder="{i18n:Translate Email}"
-                            PlaceholderColor="Gray"
-                            Text="{Binding User.Ucorreo, Mode=TwoWay}"
-                            TextColor="LightGray"
-                            WidthRequest="40"/>
-                    </Grid>
+                    IsEnabled="false"
+                    Opacity=".5"
+                    Padding="30,0"
+                    VerticalOptions="StartAndExpand"
+                    x:Name="StackPass">
+                    <control:CustomRegEntry                         
+                        BorderColor="LightGray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        HeightRequest="40"
+                        HorizontalTextAlignment="Start"
+                        IsCurvedCornersEnabled="True"
+                        IsPassword="True"
+                        Placeholder="{i18n:Translate CurrentPassword}"
+                        PlaceholderColor="Gray"
+                        Text="{Binding CurrentPassword, Mode=TwoWay}"
+                        TextColor="LightGray"
+                        VerticalOptions="StartAndExpand"
+                        WidthRequest="50"
+                        x:Name="CurrentPassword"/>
+                    <control:CustomRegEntry 
+                        BorderColor="LightGray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        HeightRequest="40"
+                        HorizontalTextAlignment="Start"
+                        IsCurvedCornersEnabled="True"
+                        IsPassword="True"
+                        Placeholder="{i18n:Translate NewPassword}"
+                        PlaceholderColor="Gray"  
+                        Text="{Binding NewPassword, Mode=TwoWay}"                     
+                        TextColor="LightGray"
+                        WidthRequest="50"
+                        x:Name="NewPassword"/>
+                    <control:CustomRegEntry 
+                        BorderColor="LightGray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        HeightRequest="40"
+                        HorizontalTextAlignment="Start"
+                        IsCurvedCornersEnabled="True"
+                        IsPassword="True"
+                        Placeholder="{i18n:Translate ConfirmPassword}"
+                        PlaceholderColor="Gray"
+                        Text="{Binding ConfirmPassword, Mode=TwoWay}"
+                        TextColor="LightGray"
+                        WidthRequest="50"
+                        x:Name="ConfirmPassword"/>
                 </StackLayout>
                 <ActivityIndicator
                     IsRunning="{Binding IsRunning}"
+                    IsVisible="False"
                     VerticalOptions="CenterAndExpand"/>
                 <StackLayout
-                    Margin="40,0,40,5"
-                    VerticalOptions="EndAndExpand">
-                    <Button
-                        BackgroundColor="Gray"
-                        BorderRadius="23"
-                        Command="{Binding SaveUserDataCommand}"
+                    Padding="10,0"
+                    Orientation="Horizontal">
+                    <Label
                         FontAttributes="Bold"
-                        FontSize="20"
-                        HeightRequest="46"
-                        Text="{i18n:Translate Save}"
-                        TextColor="Black"/>
+                        FontSize="18"
+                        Text="{i18n:Translate ChangeEmail}"
+                        TextColor="LightGray"
+                        VerticalOptions="Center"/>
+                    <Switch                    
+                        HorizontalOptions="EndAndExpand"
+                        Scale=".9"
+                        IsToggled="{Binding IsActEmail}"
+                        Toggled="SwEmail_Toggled"
+                        VerticalOptions="Center"
+                        x:Name="SwEmail"/>
+                </StackLayout>
+                <StackLayout
+                    IsEnabled="false"
+                    Opacity=".5"
+                    Padding="30,0"
+                    VerticalOptions="StartAndExpand"
+                    x:Name="StackEmail">
+                    <control:CustomRegEntry 
+                        BorderColor="LightGray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Grid.Column="1"
+                        Grid.Row="3"
+                        HeightRequest="40"
+                        HorizontalTextAlignment="Start"
+                        IsCurvedCornersEnabled="True"
+                        Keyboard="Email"
+                        Placeholder="{i18n:Translate Email}"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Cliente.Correo, Mode=TwoWay}"
+                        TextColor="LightGray"
+                        WidthRequest="40"/>
+                </StackLayout>
+                <StackLayout
+                    Padding="10,0"
+                    Orientation="Horizontal">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        Text="{i18n:Translate ChangePersonal}"
+                        TextColor="LightGray"
+                        VerticalOptions="Center"/>
+                    <Switch                    
+                        HorizontalOptions="EndAndExpand"
+                        Scale=".9"
+                        IsToggled="{Binding IsActPersonal}"
+                        Toggled="SwPersonal_Toggled"
+                        VerticalOptions="Center"
+                        x:Name="SwPersonal"/>
+                </StackLayout>
+                <StackLayout
+                    IsEnabled="false"
+                    Opacity=".5"
+                    Padding="30,0"
+                    VerticalOptions="StartAndExpand"
+                    x:Name="StackPersonal">
+                    <control:CustomRegEntry 
+                        BorderColor="LightGray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="15.5"
+                        Grid.Column="1"
+                        Grid.Row="3"
+                        HeightRequest="40"
+                        HorizontalTextAlignment="Start"
+                        IsCurvedCornersEnabled="True"
+                        Placeholder="{i18n:Translate Name}"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Cliente.Nombre, Mode=TwoWay}"
+                        TextColor="LightGray"
+                        WidthRequest="40"/>
+                    <control:CustomRegEntry 
+                        BorderColor="LightGray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="15.5"
+                        Grid.Column="1"
+                        Grid.Row="3"
+                        HeightRequest="40"
+                        HorizontalTextAlignment="Start"
+                        IsCurvedCornersEnabled="True"
+                        Placeholder="{i18n:Translate Lastname}"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Cliente.Apellido, Mode=TwoWay}"
+                        TextColor="LightGray"
+                        WidthRequest="40"/>
+                    <control:CustomRegEntry 
+                        BorderColor="LightGray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="15.5"
+                        Grid.Column="1"
+                        Grid.Row="3"
+                        HeightRequest="40"
+                        HorizontalTextAlignment="Start"
+                        IsCurvedCornersEnabled="True"
+                        Keyboard="Telephone"
+                        Placeholder="{i18n:Translate EnterPhone}"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Cliente.Telefono, Mode=TwoWay}"
+                        TextColor="LightGray"
+                        WidthRequest="40"/>
+                    <control:CustomDatePicker
+                        BackgroundColor="Black"
+                        BorderColor="LightGray"                        
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Grid.Column="1"
+                        Grid.Row="4"
+                        HeightRequest="40"
+                        MinimumDate="1/1/1980"
+                        Placeholder="{i18n:Translate Birthdate}"
+                        PlaceholderColor="Gray"
+                        Date="{Binding Cliente.F_Nac, Mode=TwoWay}"
+                        TextColor="LightGray"
+                        WidthRequest="50"/>
+                </StackLayout>
+                <StackLayout
+                        Margin="40,0,40,5"
+                        VerticalOptions="StartAndExpand">
+                    <Button
+                            BackgroundColor="Gray"
+                            BorderRadius="23"
+                            Command="{Binding SaveUserDataCommand}"
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            HeightRequest="46"
+                            Text="{i18n:Translate Save}"
+                            TextColor="Black"/>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

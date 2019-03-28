@@ -199,6 +199,38 @@
         {
             get { return Resource.Save; }
         }
+        public static string ChangeEmail
+        {
+            get { return Resource.ChangeEmail; }
+        }
+        public static string ChangePersonal
+        {
+            get { return Resource.ChangePersonal; }
+        }
+        public static string NewPasswordError
+        {
+            get { return Resource.NewPasswordError; }
+        }
+        public static string CurrentPasswordError
+        {
+            get { return Resource.CurrentPasswordError; }
+        }
+        public static string NoCurrentPassword
+        {
+            get { return Resource.NoCurrentPassword; }
+        }
+        public static string UserInfo
+        {
+            get { return Resource.UserInfo; }
+        }
+        public static string Study
+        {
+            get { return Resource.Study; }
+        }
+        public static string Artist
+        {
+            get { return Resource.Artist; }
+        }
 
     }
 }

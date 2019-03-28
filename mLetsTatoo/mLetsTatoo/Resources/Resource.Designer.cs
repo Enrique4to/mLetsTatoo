@@ -79,6 +79,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Artists.
+        /// </summary>
+        internal static string Artist {
+            get {
+                return ResourceManager.GetString("Artist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Birthdate....
         /// </summary>
         internal static string Birthdate {
@@ -106,11 +115,29 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Email.
+        /// </summary>
+        internal static string ChangeEmail {
+            get {
+                return ResourceManager.GetString("ChangeEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change password.
         /// </summary>
         internal static string ChangePassword {
             get {
                 return ResourceManager.GetString("ChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Personal Information.
+        /// </summary>
+        internal static string ChangePersonal {
+            get {
+                return ResourceManager.GetString("ChangePersonal", resourceCulture);
             }
         }
         
@@ -138,6 +165,15 @@ namespace mLetsTatoo.Resources {
         internal static string CurrentPassword {
             get {
                 return ResourceManager.GetString("CurrentPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The current password that you entered, must be the same as your current password.
+        /// </summary>
+        internal static string CurrentPasswordError {
+            get {
+                return ResourceManager.GetString("CurrentPasswordError", resourceCulture);
             }
         }
         
@@ -331,6 +367,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The new password must be different as current password.
+        /// </summary>
+        internal static string NewPasswordError {
+            get {
+                return ResourceManager.GetString("NewPasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Take a new picture.
         /// </summary>
         internal static string NewPicture {
@@ -345,6 +390,15 @@ namespace mLetsTatoo.Resources {
         internal static string Next {
             get {
                 return ResourceManager.GetString("Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must enter your current password.
+        /// </summary>
+        internal static string NoCurrentPassword {
+            get {
+                return ResourceManager.GetString("NoCurrentPassword", resourceCulture);
             }
         }
         
@@ -439,6 +493,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Studies.
+        /// </summary>
+        internal static string Study {
+            get {
+                return ResourceManager.GetString("Study", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter your account data....
         /// </summary>
         internal static string UserData {
@@ -462,6 +525,15 @@ namespace mLetsTatoo.Resources {
         internal static string UserExistError {
             get {
                 return ResourceManager.GetString("UserExistError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Info.
+        /// </summary>
+        internal static string UserInfo {
+            get {
+                return ResourceManager.GetString("UserInfo", resourceCulture);
             }
         }
         
