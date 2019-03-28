@@ -71,8 +71,8 @@
             this.apiService = new ApiService();
             this.IsRemember = true;
             this.IsEnabled = true;
-            this.Usuario = string.Empty;
-            this.Pass = string.Empty;
+            this.Usuario = "Enrique3";
+            this.Pass = "1";
         }
         #endregion
         #region Commands
@@ -228,7 +228,6 @@
             }
 
         }
-
         private async void Registro()
         {
             MainViewModel.GetInstance().Register = new RegisterViewModel();

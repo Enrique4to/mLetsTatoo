@@ -21,15 +21,21 @@
 
         #endregion
         #region Attributes
+        private string nombreEmpresa;
         private byte[] byteImage;
         private ImageSource imageSource;
         private bool isRefreshing;
-        private ObservableCollection<T_empresas> empresas;
-        private ObservableCollection<T_tecnicos> tecnicos;
+        private ObservableCollection<EmpresaItemViewModel> empresas;
+        private ObservableCollection<TecnicoItemViewModel> tecnicos;
         private T_usuarios user;
         private Image image;
         #endregion
         #region Properties
+        public string NombreEmpresa
+        {
+            get { return this.nombreEmpresa; }
+            set { SetValue(ref this.nombreEmpresa, value); }
+        }
         public T_usuarios User
         {
             get { return this.user; }
@@ -45,12 +51,12 @@
             get { return this.isRefreshing; }
             set { SetValue(ref this.isRefreshing, value); }
         }
-        public ObservableCollection<T_empresas> Empresas
+        public ObservableCollection<EmpresaItemViewModel> Empresas
         {
             get { return this.empresas; }
             set { SetValue(ref this.empresas, value); }
         }
-        public ObservableCollection<T_tecnicos> Tecnicos
+        public ObservableCollection<TecnicoItemViewModel> Tecnicos
         {
             get { return this.tecnicos; }
             set { SetValue(ref this.tecnicos, value); }
@@ -174,8 +180,8 @@
             }
             var list = (List<T_empresas>)response.Result;
 
-            this.Empresas = new ObservableCollection<T_empresas>(list);
-            this.IsRefreshing = false;                       
+            this.Empresas = new ObservableCollection<EmpresaItemViewModel>(list);
+            this.IsRefreshing = false;
         }
         private async void LoadTecnicos()
         {
@@ -198,7 +204,6 @@
             var controller = App.Current.Resources["UrlT_tecnicosController"].ToString();
 
             var response = await this.apiService.GetList<T_tecnicos>(urlApi, prefix, controller);
-
             if (!response.IsSuccess)
             {
                 this.IsRefreshing = false;
@@ -209,8 +214,22 @@
                 return;
             }
             var list = (List<T_tecnicos>)response.Result;
+            var tecnicoList = list.Select(t => new TecnicoItemViewModel
+            {
+                Apellido1 = t.Apellido1,
+                Apellido2 = t.Apellido2,
+                Apodo = t.Apodo,
+                Carrera = t.Carrera,
+                F_Perfil = t.F_Perfil,
+                Id_Empresa = t.Id_Empresa,
+                Id_Local = t.Id_Local,
+                Id_Tecnico = t.Id_Tecnico,
+                Nombre = t.Nombre,
 
-            this.Tecnicos = new ObservableCollection<T_tecnicos>(list);
+            });
+            this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnicoList);
+
+
             this.IsRefreshing = false;
         }
         private async void GoToUserPage()

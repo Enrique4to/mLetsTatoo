@@ -4,7 +4,8 @@
             x:Class="mLetsTatoo.Views.HomePage"
             xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
             xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
-            BindingContext="{Binding Main, Source={StaticResource Locator}}">
+            BindingContext="{Binding Main, Source={StaticResource Locator}}"
+            x:Name="Home">
     <TabbedPage.ToolbarItems>
         <ToolbarItem BindingContext="{Binding Home}"
                      Icon="{Binding Image}"
@@ -109,13 +110,32 @@
                                             </OnPlatform>
                                         </control:CircleImage.HeightRequest>
                                     </control:CircleImage>
-                                    <Label
-                                        FontAttributes="Bold"
-                                        FontSize="20"
-                                        Grid.Column="1"
-                                        Text="{Binding Apodo}"
-                                        TextColor="LightGray"
-                                        VerticalTextAlignment="Center"/>
+                                    <StackLayout
+                                        Grid.Column="1">
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="15"
+                                            Text="{Binding Apodo}"
+                                            TextColor="LightGray"
+                                            VerticalTextAlignment="Center"/>
+                                        <StackLayout
+                                                Orientation="Horizontal">
+                                                <Label
+                                                FontAttributes="Bold"
+                                                FontSize="12"
+                                                HorizontalOptions="Start"
+                                                Text="{Binding Nombre}"
+                                                TextColor="LightGray"
+                                                VerticalTextAlignment="Center"/>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="12"
+                                                HorizontalOptions="StartAndExpand"
+                                                Text="{Binding Apellido1}"
+                                                TextColor="LightGray"
+                                                VerticalTextAlignment="Center"/>
+                                        </StackLayout>
+                                    </StackLayout>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
