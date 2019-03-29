@@ -15,6 +15,7 @@ namespace mLetsTatoo.ViewModels
         #region Services
         private ApiService apiService;
         #endregion
+
         #region Attributes
         private T_clientes cliente;
         private T_usuarios user;
@@ -25,6 +26,7 @@ namespace mLetsTatoo.ViewModels
         private bool isActEmail;
         private bool isActPersonal;
         #endregion
+
         #region Properties
 
         public string CurrentPassword { get; set; }
@@ -71,15 +73,16 @@ namespace mLetsTatoo.ViewModels
             set { SetValue(ref this.isActPersonal, value); }
         }
         #endregion
+
         #region Contructors
         public EditUserViewModel(T_clientes cliente, T_usuarios user)
         {
             this.apiService = new ApiService();
             this.cliente = cliente;
             this.user = user;
-            this.NewPassword = user.Pass;
         }
         #endregion
+
         #region Commands
         public ICommand SaveUserDataCommand
         {
@@ -90,10 +93,14 @@ namespace mLetsTatoo.ViewModels
         }
 
         #endregion
+
         #region Methods
         private async void SaveUserData()
         {
-
+            if (string.IsNullOrEmpty(this.NewPassword))
+            {
+                this.NewPassword = user.Pass;
+            }
             //-------------- Change Password --------------//
             if (this.IsActPass==true)
             {
@@ -105,7 +112,7 @@ namespace mLetsTatoo.ViewModels
                         "Ok");
                     return;
                 }
-                if (this.User.Pass == this.CurrentPassword)
+                if (this.user.Pass == this.CurrentPassword)
                 {
                     await Application.Current.MainPage.DisplayAlert(
                         Languages.Error,
@@ -137,12 +144,13 @@ namespace mLetsTatoo.ViewModels
                         "Ok");
                     return;
                 }
+
             }
 
             //-------------- Change Email --------------//
             if (this.IsActEmail == true)
             {
-                if (string.IsNullOrEmpty(this.User.Ucorreo))
+                if (string.IsNullOrEmpty(this.user.Ucorreo))
                 {
                     await Application.Current.MainPage.DisplayAlert(
                         Languages.Error,
@@ -155,7 +163,7 @@ namespace mLetsTatoo.ViewModels
             //-------------- Change Personal --------------//
             if (this.IsActEmail == true)
             {
-                if (string.IsNullOrEmpty(this.Cliente.Nombre))
+                if (string.IsNullOrEmpty(this.cliente.Nombre))
                 {
                     await Application.Current.MainPage.DisplayAlert(
                         Languages.Error,
@@ -163,7 +171,7 @@ namespace mLetsTatoo.ViewModels
                         "Ok");
                     return;
                 }
-                if (string.IsNullOrEmpty(this.Cliente.Apellido))
+                if (string.IsNullOrEmpty(this.cliente.Apellido))
                 {
                     await Application.Current.MainPage.DisplayAlert(
                         Languages.Error,
@@ -171,7 +179,7 @@ namespace mLetsTatoo.ViewModels
                         "Ok");
                     return;
                 }
-                if (this.Cliente.Telefono > 0)
+                if (this.cliente.Telefono > 0)
                 {
                     await Application.Current.MainPage.DisplayAlert(
                         Languages.Error,
@@ -180,7 +188,7 @@ namespace mLetsTatoo.ViewModels
                     return;
                 }
                 DateTime now = DateTime.Today;
-                int age = now.Year - this.Cliente.F_Nac.Year;
+                int age = now.Year - this.cliente.F_Nac.Year;
                 if (age < 18)
                 {
                     await Application.Current.MainPage.DisplayAlert(
@@ -209,17 +217,17 @@ namespace mLetsTatoo.ViewModels
 
             var editUser = new T_usuarios
             {
-                Id_usuario = this.User.Id_usuario,
-                Bloqueo = this.User.Bloqueo,
-                Confirmacion = this.User.Confirmacion,
-                Confirmado = this.User.Confirmado,
-                Id_empresa = this.User.Id_empresa,
+                Id_usuario = this.user.Id_usuario,
+                Bloqueo = this.user.Bloqueo,
+                Confirmacion = this.user.Confirmacion,
+                Confirmado = this.user.Confirmado,
+                Id_empresa = this.user.Id_empresa,
                 Pass = this.NewPassword,
-                Tipo = this.User.Tipo,
-                Ucorreo = this.Cliente.Correo,
-                Usuario = this.User.Usuario,
+                Tipo = this.user.Tipo,
+                Ucorreo = this.cliente.Correo,
+                Usuario = this.user.Usuario,
             };
-            var id = cliente.Id_Usuario;
+            var id = this.user.Id_usuario;
             var urlApi = App.Current.Resources["UrlAPI"].ToString();
             var prefix = App.Current.Resources["UrlPrefix"].ToString();
             var controller = App.Current.Resources["UrlT_usuariosController"].ToString();
@@ -257,7 +265,7 @@ namespace mLetsTatoo.ViewModels
                 (urlApi,
                 prefix,
                 controller,
-                Cliente,
+                cliente,
                 id);
 
             if (!response.IsSuccess)
@@ -277,11 +285,9 @@ namespace mLetsTatoo.ViewModels
             this.IsActEmail = false;
             this.IsActPersonal = false;
 
-            MainViewModel.GetInstance().User = new UserViewModel(user);
+            MainViewModel.GetInstance().User = new UserViewModel(user, cliente);
             await Application.Current.MainPage.Navigation.PopAsync();
         }
-
-
         #endregion
 
     }

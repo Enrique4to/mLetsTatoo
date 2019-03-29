@@ -4,56 +4,269 @@
              xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
              xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
-             x:Class="mLetsTatoo.Views.EmpresaPage"
-             Title="{Binding Nombre}">
+             x:Class="mLetsTatoo.Views.EmpresaPage">
     <ContentPage.Content>
-        <StackLayout
-            BindingContext="{Binding Empresa}"
-            BackgroundColor="Black"
-            Padding="5">
-            <ListView
-                HasUnevenRows="True"
-                IsPullToRefreshEnabled="True"
-                IsRefreshing="{Binding IsRefreshing}"
-                ItemsSource="{Binding Empresas}"
-                RefreshCommand="{Binding RefreshCommand}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <control:CircleImage 
-                                    Aspect="AspectFill"
-                                    Grid.Row="0"
-                                    Source="{Binding Logo, Converter={StaticResource ByteArrayToImage}}">
-                                    <control:CircleImage.WidthRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="Android, iOS">250</On>
-                                        </OnPlatform>
-                                    </control:CircleImage.WidthRequest>
-                                    <control:CircleImage.HeightRequest>
-                                        <OnPlatform x:TypeArguments="x:Double">
-                                            <On Platform="Android, iOS">250</On>
-                                        </OnPlatform>
-                                    </control:CircleImage.HeightRequest>
-                                </control:CircleImage>
-                                <Label
-                                    BackgroundColor="Gray"
-                                    Grid.Row="1"
-                                    Text="{Binding Nombre}"
-                                    TextColor="Black"/>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackLayout>
-    </ContentPage.Content>
+        <ScrollView>
+            <StackLayout
+                BindingContext="{Binding Empresa}"
+                BackgroundColor="Black"
+                Padding="5" >
+                <StackLayout
+                        VerticalOptions="StartAndExpand">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width=".1*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width=".1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <control:CircleImage 
+                                Aspect="AspectFill"
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Source="{Binding Empresa.Logo, Converter={StaticResource ByteArrayToImage}}"
+                                VerticalOptions="StartAndExpand">
+                            <control:CircleImage.WidthRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="Android, iOS">200</On>
+                                </OnPlatform>
+                            </control:CircleImage.WidthRequest>
+                            <control:CircleImage.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="Android, iOS">200</On>
+                                </OnPlatform>
+                            </control:CircleImage.HeightRequest>
+                        </control:CircleImage>
+                        <Label
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Text="{Binding Empresa.Nombre, Mode=TwoWay}"
+                                TextColor="LightGray"
+                                HorizontalTextAlignment="Center"/>
+                    </Grid>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Grid 
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand"
+                        ColumnSpacing="0"
+                        RowSpacing="0"
+                        Padding="0">
 
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+
+
+                        <!-- Tab 1 -->                        
+                        <StackLayout 
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            VerticalOptions="FillAndExpand"
+                            HeightRequest="20">
+                            <Button
+                                FontSize="16"
+                                BackgroundColor="DimGray"
+                                Clicked="Tab1Clicked" 
+                                Text="{i18n:Translate BranchOffices}" 
+                                TextColor="LightGray"/>
+                        </StackLayout>
+
+                        <!-- Tab 2 -->
+                        <StackLayout
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            VerticalOptions="FillAndExpand"
+                            HeightRequest="20">
+                            <Button
+                                FontSize="16"
+                                BackgroundColor="DimGray"
+                                Clicked="Tab2Clicked" 
+                                Text="{i18n:Translate Artist}" 
+                                TextColor="LightGray"/>
+                        </StackLayout>
+                        
+                        <!-- Tab 3 -->
+                        <StackLayout
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            VerticalOptions="FillAndExpand"
+                            HeightRequest="20">
+                            <Button
+                            FontSize="16"
+                                BackgroundColor="DimGray"
+                                Clicked="Tab3Clicked" 
+                                Text="{i18n:Translate Images}" 
+                                TextColor="LightGray"/>
+                        </StackLayout>
+
+                        <!-- Tab 4 -->
+                        <StackLayout 
+                            Grid.Row="0"
+                            Grid.Column="3"
+                            VerticalOptions="FillAndExpand"
+                            HeightRequest="20">
+                            <Button
+                                FontSize="16"
+                                BackgroundColor="DimGray"
+                                Clicked="Tab4Clicked" 
+                                Text="{i18n:Translate AboutStudie}" 
+                                TextColor="LightGray"/>
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+                <StackLayout
+                        VerticalOptions="StartAndExpand">
+                    <ActivityIndicator
+                            HeightRequest="30"
+                            IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                            Opacity="80"
+                            Color="Gray"/>
+                </StackLayout>
+
+                <!-- tab 1 container -->
+                <StackLayout x:Name="stkTab1">
+                    <StackLayout
+                        VerticalOptions="StartAndExpand"
+                        Padding="10">
+                        <ListView                    
+                            HasUnevenRows="True"
+                            IsPullToRefreshEnabled="True"
+                            IsRefreshing="{Binding IsRefreshing}"                    
+                            ItemsSource="{Binding Locales}"
+                            RefreshCommand="{Binding RefreshCommand}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="20"
+                                                Grid.Column="1"
+                                                Text="{Binding Nombre}"
+                                                TextColor="LightGray"
+                                                VerticalTextAlignment="Center"/>
+                                            <Image
+                                                Grid.Column="2"
+                                                Source="ChevronRight"
+                                                VerticalOptions="Center"
+                                                WidthRequest="10"/>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                </StackLayout>
+                <!-- tab 2 container -->
+                <StackLayout x:Name="stkTab2" IsVisible="false">
+                    <StackLayout
+                        BindingContext="{Binding Empresa}"
+                        BackgroundColor="Black"
+                        Padding="5">
+                        <StackLayout
+                            VerticalOptions="StartAndExpand"
+                            Padding="10">
+                            <ListView                    
+                                HasUnevenRows="True"
+                                IsPullToRefreshEnabled="True"
+                                IsRefreshing="{Binding IsRefreshing}"                    
+                                ItemsSource="{Binding Tecnicos}"
+                                RefreshCommand="{Binding RefreshCommand}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <Grid>
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding TecnicoPageCommand}"/>
+                                                </Grid.GestureRecognizers>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <control:CircleImage
+                                                    Aspect="AspectFill"
+                                                    Grid.Column="0"
+                                                    Source="{Binding F_Perfil, Converter={StaticResource ByteArrayToImage}}">
+                                                    <control:CircleImage.WidthRequest>
+                                                        <OnPlatform x:TypeArguments="x:Double">
+                                                            <On Platform="Android, iOS">50</On>
+                                                        </OnPlatform>
+                                                    </control:CircleImage.WidthRequest>
+                                                    <control:CircleImage.HeightRequest>
+                                                        <OnPlatform x:TypeArguments="x:Double">
+                                                            <On Platform="Android, iOS">50</On>
+                                                        </OnPlatform>
+                                                    </control:CircleImage.HeightRequest>
+                                                </control:CircleImage>
+                                                <StackLayout
+                                                    Grid.Column="1">        
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="15"
+                                                        Text="{Binding Apodo}"
+                                                        TextColor="LightGray"
+                                                        VerticalTextAlignment="Center"/>
+                                                    <StackLayout
+                                                            Orientation="Horizontal">
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="12"
+                                                            HorizontalOptions="Start"
+                                                            Text="{Binding Nombre}"
+                                                            TextColor="LightGray"
+                                                            VerticalTextAlignment="Center"/>
+                                                        <Label
+                                                            FontAttributes="Bold"
+                                                            FontSize="12"
+                                                            HorizontalOptions="StartAndExpand"
+                                                            Text="{Binding Apellido1}"
+                                                            TextColor="LightGray"
+                                                            VerticalTextAlignment="Center"/>
+                                                    </StackLayout>
+                                                </StackLayout>
+                                                <Image
+                                        Grid.Column="2"
+                                        Source="ChevronRight"
+                                        VerticalOptions="Center"
+                                        WidthRequest="10"/>
+                                            </Grid>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+                <!-- tab 3 container -->
+                <StackLayout x:Name="stkTab3" IsVisible="false">
+                </StackLayout>
+                <!-- tab 4 container -->
+                <StackLayout x:Name="stkTab4" IsVisible="false">
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
 </ContentPage>

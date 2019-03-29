@@ -14,27 +14,32 @@
     using Views;
     using Xamarin.Forms;
 
-    public class HomeViewModel : BaseViewModel
+    public class UserHomeViewModel : BaseViewModel
     {
         #region Services
         private ApiService apiService;
 
         #endregion
+
         #region Attributes
-        private string nombreEmpresa;
         private byte[] byteImage;
         private ImageSource imageSource;
         private bool isRefreshing;
         private ObservableCollection<EmpresaItemViewModel> empresas;
         private ObservableCollection<TecnicoItemViewModel> tecnicos;
+        private T_clientes cliente;
         private T_usuarios user;
         private Image image;
         #endregion
+
         #region Properties
-        public string NombreEmpresa
+        public List<T_empresas> EmpresaList { get; set; }
+        public List<T_tecnicos> TecnicoList { get; set; }
+        public string NomUsuario { get; set; }
+        public T_clientes Cliente
         {
-            get { return this.nombreEmpresa; }
-            set { SetValue(ref this.nombreEmpresa, value); }
+            get { return this.cliente; }
+            set { SetValue(ref this.cliente, value); }
         }
         public T_usuarios User
         {
@@ -72,19 +77,21 @@
             set { SetValue(ref this.byteImage, value); }
         }
         #endregion
+
         #region Constructors
-        public HomeViewModel(T_usuarios user)
+        public UserHomeViewModel(T_usuarios user)
         {
             this.user = user;
+            this.NomUsuario = user.Usuario;
             this.apiService = new ApiService();
-            this.IsRefreshing = false;
             this.LoadCliente();
             this.LoadEmpresas();
             this.LoadTecnicos();
+            this.IsRefreshing = false;
         }
-
         #endregion
-        #region Commans
+
+        #region Commands
         public ICommand RefreshCommand
         {
             get
@@ -100,6 +107,7 @@
             }
         }
         #endregion
+
         #region Methods     
         private async void LoadCliente()
         {
@@ -132,13 +140,11 @@
             }
             var listcte = (List<T_clientes>)response.Result;
 
-            var single = listcte.Single(u => u.Id_Usuario == this.User.Id_usuario);
-            if (single.F_Perfil != null)
+            cliente = listcte.Single(u => u.Id_Usuario == this.user.Id_usuario);
+            if (cliente.F_Perfil != null)
             {
-                //ByteImage = single.F_Perfil;
-                //ImageSource = ImageSource.FromStream(() => new MemoryStream(ByteImage));
                 this.Image = new Image();
-                this.Image.Source = ImageSource.FromStream(() => new MemoryStream(single.F_Perfil));
+                this.Image.Source = ImageSource.FromStream(() => new MemoryStream(cliente.F_Perfil));
             }
             else
             {
@@ -178,9 +184,20 @@
                     "OK");
                 return;
             }
-            var list = (List<T_empresas>)response.Result;
-
-            this.Empresas = new ObservableCollection<EmpresaItemViewModel>(list);
+            this.EmpresaList = (List<T_empresas>)response.Result;
+            this.RefreshEmpresaList();
+            this.IsRefreshing = false;
+        }
+        private void RefreshEmpresaList()
+        {
+            var empresaSelected = this.EmpresaList.Select(e => new EmpresaItemViewModel
+            {
+                Bloqueo = e.Bloqueo,
+                Id_Empresa = e.Id_Empresa,
+                Logo = e.Logo,
+                Nombre = e.Nombre,
+            });
+            this.Empresas = new ObservableCollection<EmpresaItemViewModel>(empresaSelected.OrderBy(e => e.Nombre));
             this.IsRefreshing = false;
         }
         private async void LoadTecnicos()
@@ -213,8 +230,13 @@
                     "OK");
                 return;
             }
-            var list = (List<T_tecnicos>)response.Result;
-            var tecnicoList = list.Select(t => new TecnicoItemViewModel
+            this.TecnicoList = (List<T_tecnicos>)response.Result;
+            this.RefreshTecnicoList();
+            this.IsRefreshing = false;
+        }
+        public void RefreshTecnicoList()
+        {
+             var tecnico = this.TecnicoList.Select(t => new TecnicoItemViewModel
             {
                 Apellido1 = t.Apellido1,
                 Apellido2 = t.Apellido2,
@@ -225,16 +247,16 @@
                 Id_Local = t.Id_Local,
                 Id_Tecnico = t.Id_Tecnico,
                 Nombre = t.Nombre,
-
             });
-            this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnicoList);
-
+            this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
 
             this.IsRefreshing = false;
         }
         private async void GoToUserPage()
         {
-            MainViewModel.GetInstance().User = new UserViewModel(user);
+
+            this.IsRefreshing = false;
+            MainViewModel.GetInstance().User = new UserViewModel(user, cliente);
             await Application.Current.MainPage.Navigation.PushAsync(new UserPage());
         }
         #endregion

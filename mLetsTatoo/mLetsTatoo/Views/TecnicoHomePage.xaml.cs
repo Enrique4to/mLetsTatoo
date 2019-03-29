@@ -15,5 +15,6 @@ namespace mLetsTatoo.Views
 		{
 			InitializeComponent ();
 		}
-	}
+
+    }
 }

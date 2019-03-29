@@ -231,6 +231,18 @@
         {
             get { return Resource.Artist; }
         }
+        public static string Images
+        {
+            get { return Resource.Images; }
+        }
+        public static string BranchOffices
+        {
+            get { return Resource.BranchOffices; }
+        }
+        public static string AboutStudie
+        {
+            get { return Resource.AboutStudie; }
+        }
 
     }
 }

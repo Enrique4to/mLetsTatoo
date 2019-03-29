@@ -1,8 +1,10 @@
 ﻿namespace mLetsTatoo.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
+    using System.Linq;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Helpers;
@@ -17,73 +19,214 @@
         private ApiService apiService;
 
         #endregion
+
         #region Attributes
-        private ObservableCollection<T_empresas> empresas;
+        private byte[] byteImage;
+        private ImageSource imageSource;
+        private bool isRunning;
         private bool isRefreshing;
+        public T_clientes cliente;
+        public T_usuarios user;
+        public T_empresas empresa;
+        private ObservableCollection<LocalItemViewModel> locales;
+        private ObservableCollection<TecnicoItemViewModel> tecnicos;
         #endregion
+
         #region Properties
+        public List<T_locales> LocalesList { get; set; }
+        public List<T_tecnicos> TecnicoList { get; set; }
+        public T_clientes Cliente
+        {
+            get { return this.cliente; }
+            set { SetValue(ref this.cliente, value); }
+        }
+        public T_usuarios User
+        {
+            get { return this.user; }
+            set { SetValue(ref this.user, value); }
+        }
+        public T_empresas Empresa
+        {
+            get { return this.empresa; }
+            set { SetValue(ref this.empresa, value); }
+        }
+        public ObservableCollection<LocalItemViewModel> Locales
+        {
+            get { return this.locales; }
+            set { SetValue(ref this.locales, value); }
+        }
+        public ObservableCollection<TecnicoItemViewModel> Tecnicos
+        {
+            get { return this.tecnicos; }
+            set { SetValue(ref this.tecnicos, value); }
+        }
+        public bool IsRunning
+        {
+            get { return this.isRunning; }
+            set { SetValue(ref this.isRunning, value); }
+        }
+        public ImageSource ImageSource
+        {
+            get { return this.imageSource; }
+            set { SetValue(ref this.imageSource, value); }
+        }
+        public byte[] ByteImage
+        {
+            get { return this.byteImage; }
+            set { SetValue(ref this.byteImage, value); }
+        }
         public bool IsRefreshing
         {
             get { return this.isRefreshing; }
             set { SetValue(ref this.isRefreshing, value); }
         }
-        public ObservableCollection<T_empresas> Empresas
-        {
-            get { return this.empresas; }
-            set { SetValue(ref this.empresas, value); }
-        }
         #endregion
-        #region Constructors
-        public EmpresaViewModel()
-        {
-            this.apiService = new ApiService();
-            this.IsRefreshing = false;
-            this.LoadEmpresas();
-        }
-        #endregion
-        #region Methods
-        private async void LoadEmpresas()
-        {
 
+        #region Constructors
+        public EmpresaViewModel(T_empresas empresa, T_usuarios user, T_clientes cliente)
+        {
+            this.user = user;
+            this.cliente = cliente;
+            this.empresa = empresa;
+            this.apiService = new ApiService();
+            this.LoadEmpresa();
+            this.LoadLocales();
+            this.LoadTecnicos();
+            this.IsRefreshing = false;
+            this.IsRunning = false;
+        }
+
+
+        #endregion
+
+        #region Commands
+        #endregion
+
+        #region Methods
+        private void LoadEmpresa()
+        {
+            if (empresa.Logo != null)
+            {
+                this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.empresa.Logo));
+            }
+            else
+            {
+                this.ByteImage = apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
+                this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
+            }
+        }
+        private async void LoadTecnicos()
+        {
             this.IsRefreshing = true;
 
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
+                this.IsRefreshing = false;
                 await App.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
                     "OK");
                 return;
+
             }
 
             var urlApi = App.Current.Resources["UrlAPI"].ToString();
             var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_empresasController"].ToString();
+            var controller = App.Current.Resources["UrlT_tecnicosController"].ToString();
 
-            var response = await this.apiService.GetList<T_empresas>(urlApi, prefix, controller);
+            var response = await this.apiService.GetList<T_tecnicos>(urlApi, prefix, controller);
             if (!response.IsSuccess)
             {
+                this.IsRefreshing = false;
                 await App.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
                     "OK");
                 return;
             }
-            var list = (List<T_empresas>)response.Result;
-
-            this.Empresas = new ObservableCollection<T_empresas>(list);
+            this.TecnicoList = (List<T_tecnicos>)response.Result;
+            this.RefreshTecnicoList();
             this.IsRefreshing = false;
         }
-        #endregion
-        #region Commans
-        public ICommand RefreshCommand
+        public void RefreshTecnicoList()
         {
-            get
+            var tecnico = this.TecnicoList.Select(t => new TecnicoItemViewModel
             {
-                return new RelayCommand(LoadEmpresas);
-            }
+                Apellido1 = t.Apellido1,
+                Apellido2 = t.Apellido2,
+                Apodo = t.Apodo,
+                Carrera = t.Carrera,
+                F_Perfil = t.F_Perfil,
+                Id_Empresa = t.Id_Empresa,
+                Id_Local = t.Id_Local,
+                Id_Tecnico = t.Id_Tecnico,
+                Nombre = t.Nombre,
+            });
+            this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
+
+            this.IsRefreshing = false;
         }
+        private async void LoadLocales()
+        {
+            this.IsRefreshing = true;
+            this.IsRunning = true;
+
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.IsRefreshing = false;
+                this.IsRunning = false;
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+
+            }
+
+            var urlApi = App.Current.Resources["UrlAPI"].ToString();
+            var prefix = App.Current.Resources["UrlPrefix"].ToString();
+            var controller = App.Current.Resources["UrlT_localesController"].ToString();
+
+            var response = await this.apiService.GetList<T_locales>(urlApi, prefix, controller);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRefreshing = false;
+                this.IsRunning = false;
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+            this.LocalesList = (List<T_locales>)response.Result;
+            this.RefreshLocalesList();
+            this.IsRefreshing = false;
+            this.IsRunning = false;
+        }
+        private void RefreshLocalesList()
+        {
+            var localSelected = this.LocalesList.Select(l => new LocalItemViewModel
+            {
+                Calle = l.Calle,
+                Id_Ciudad = l.Id_Ciudad,
+                Id_Colonia = l.Id_Colonia,
+                Id_Cpostal = l.Id_Cpostal,
+                Id_Empresa = l.Id_Empresa,
+                Id_Estado = l.Id_Estado,
+                Id_Local = l.Id_Local,
+                Id_Pais = l.Id_Pais,
+                Nombre = l.Nombre,
+                Numero = l.Numero,
+                Referencia = l.Referencia,
+            });
+            this.Locales = new ObservableCollection<LocalItemViewModel>(localSelected.OrderBy(e => e.Nombre));
+            this.IsRefreshing = false;
+            this.IsRunning = false;
+        }
+
         #endregion
 
     }

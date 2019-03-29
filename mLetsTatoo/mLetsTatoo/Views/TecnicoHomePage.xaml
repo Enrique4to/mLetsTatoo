@@ -3,10 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="mLetsTatoo.Views.TecnicoHomePage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+
+
+                <!-- tab 1 container -->
+                <StackLayout x:Name="stkTab1">
+                </StackLayout>
+
+                <!-- tab 2 container -->
+                <StackLayout x:Name="stkTab2" IsVisible="false">
+                </StackLayout>
+             </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

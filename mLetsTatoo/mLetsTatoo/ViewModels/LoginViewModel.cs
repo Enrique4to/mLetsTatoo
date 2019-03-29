@@ -203,7 +203,7 @@
                 this.Usuario = string.Empty;
                 this.Pass = string.Empty;
 
-                MainViewModel.GetInstance().Home = new HomeViewModel(user);
+                MainViewModel.GetInstance().UserHome = new UserHomeViewModel(user);
                 Application.Current.MainPage = new NavigationPage(new HomePage())
                 {
                     BarBackgroundColor = Color.FromRgb(20, 20, 20),

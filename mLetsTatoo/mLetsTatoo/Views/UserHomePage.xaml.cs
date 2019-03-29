@@ -17,5 +17,5 @@ namespace mLetsTatoo.Views
             this.BarBackgroundColor = Color.FromRgb(20, 20, 20);
             this.BarTextColor =Color.FromRgb(200,200,200);
 		}
-	}
+    }
 }

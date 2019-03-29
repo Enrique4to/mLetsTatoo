@@ -61,6 +61,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About....
+        /// </summary>
+        internal static string AboutStudie {
+            get {
+                return ResourceManager.GetString("AboutStudie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This user is blocked, please contact the technical support at soporte@letstattoo.com.mx.
         /// </summary>
         internal static string AccountBloqued {
@@ -102,6 +111,15 @@ namespace mLetsTatoo.Resources {
         internal static string BirthdateError {
             get {
                 return ResourceManager.GetString("BirthdateError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Branch offices.
+        /// </summary>
+        internal static string BranchOffices {
+            get {
+                return ResourceManager.GetString("BranchOffices", resourceCulture);
             }
         }
         
@@ -273,6 +291,15 @@ namespace mLetsTatoo.Resources {
         internal static string FromGallery {
             get {
                 return ResourceManager.GetString("FromGallery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Images.
+        /// </summary>
+        internal static string Images {
+            get {
+                return ResourceManager.GetString("Images", resourceCulture);
             }
         }
         

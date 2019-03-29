@@ -18,7 +18,6 @@ namespace mLetsTatoo.Models
         public int Id_Colonia { get; set; }
         public int Id_Ciudad { get; set; }
         public int Id_Estado { get; set; }
-        public int Id_Pais { get; set; }
         public int Id_Cpostal { get; set; }
         [Required]
         public string Nombre { get; set; }

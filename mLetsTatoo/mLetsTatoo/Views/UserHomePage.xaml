@@ -5,9 +5,9 @@
             xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
             xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
             BindingContext="{Binding Main, Source={StaticResource Locator}}"
-            x:Name="Home">
+            Title="{Binding Login.User.Usuario}">
     <TabbedPage.ToolbarItems>
-        <ToolbarItem BindingContext="{Binding Home}"
+        <ToolbarItem BindingContext="{Binding UserHome}"
                      Icon="{Binding Image}"
                      Command="{Binding UserPageCommand}"/>
         <!--<ToolbarItem Icon="Citas"/>
@@ -16,7 +16,7 @@
     <ContentPage
         Title="{i18n:Translate Study}">
         <StackLayout
-            BindingContext="{Binding Home}"
+            BindingContext="{Binding UserHome}"
             BackgroundColor="Black"
             Padding="5">
             <StackLayout
@@ -32,6 +32,9 @@
                         <DataTemplate>
                             <ViewCell>
                                 <Grid>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding EmpresaPageCommand}"/>
+                                    </Grid.GestureRecognizers>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="2*"/>
@@ -61,6 +64,11 @@
                                         Text="{Binding Nombre}"
                                         TextColor="LightGray"
                                         VerticalTextAlignment="Center"/>
+                                    <Image
+                                        Grid.Column="2"
+                                        Source="ChevronRight"
+                                        VerticalOptions="Center"
+                                        WidthRequest="10"/>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
@@ -72,7 +80,7 @@
     <ContentPage
         Title="{i18n:Translate Artist}">
         <StackLayout
-            BindingContext="{Binding Home}"
+            BindingContext="{Binding UserHome}"
             BackgroundColor="Black"
             Padding="5">
             <StackLayout
@@ -88,6 +96,9 @@
                         <DataTemplate>
                             <ViewCell>
                                 <Grid>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding TecnicoPageCommand}"/>
+                                    </Grid.GestureRecognizers>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="2*"/>
@@ -136,6 +147,11 @@
                                                 VerticalTextAlignment="Center"/>
                                         </StackLayout>
                                     </StackLayout>
+                                    <Image
+                                        Grid.Column="2"
+                                        Source="ChevronRight"
+                                        VerticalOptions="Center"
+                                        WidthRequest="10"/>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

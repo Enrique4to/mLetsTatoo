@@ -17,7 +17,6 @@
     using Xamarin.Forms;
     public class UserViewModel : BaseViewModel
     {
-
         #region Services
         private ApiService apiService;
 
@@ -29,22 +28,11 @@
         private MediaFile file;
         private bool isRefreshing;
         private bool isRunning;
-        private ObservableCollection<T_clientes> clientes;
         public List<T_clientes> listClientes;
         public T_clientes cliente;
-        private T_usuarios user;
+        public T_usuarios user;
         #endregion
         #region Properties
-        public T_clientes Cliente
-        {
-            get { return this.cliente; }
-            set { SetValue(ref this.cliente, value); }
-        }
-        public T_usuarios User
-        {
-            get { return this.user; }
-            set { SetValue(ref this.user, value); }
-        }
         public bool IsRunning
         {
             get { return this.isRunning; }
@@ -72,10 +60,10 @@
         }
         #endregion
         #region Constructors
-        public UserViewModel(T_usuarios user)
+        public UserViewModel(T_usuarios user, T_clientes cliente)
         {
             this.user = user;
-            //instance = this;
+            this.cliente = cliente;
             this.apiService = new ApiService();
             this.IsRefreshing = false;
             this.LoadUser();
@@ -213,43 +201,13 @@
             this.LoadUser();
             this.IsRunning = false;
         }
-        private async void LoadUser()
+        private void LoadUser()
         {
-            this.IsRefreshing = true;
-
-            var connection = await this.apiService.CheckConnection();
-            if (!connection.IsSuccess)
-            {
-                await App.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    connection.Message,
-                    "OK");
-                return;
-            }
-            
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_clientesController"].ToString();
-
-            var response = await this.apiService.GetList<T_clientes>(urlApi, prefix, controller);
-            if (!response.IsSuccess)
-            {
-                await App.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-
-            this.listClientes = (List<T_clientes>)response.Result;
-            this.cliente = this.listClientes.Single(u => u.Id_Usuario == this.User.Id_usuario);
-
             this.NombreCompleto = $"{this.cliente.Nombre} {this.cliente.Apellido}";
 
             if (cliente.F_Perfil != null)
             {
-                this.ByteImage = this.cliente.F_Perfil;
-                this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
+                this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.cliente.F_Perfil));
             }
             else
             {
@@ -263,17 +221,6 @@
             await Application.Current.MainPage.Navigation.PushAsync(new EditUserPage());
         }
         #endregion
-        //#region Singleton
-        //private static UserViewModel instance;
-        //public static UserViewModel GetInstance()
-        //{
-        //    if (instance == null)
-        //    {
-        //        return new UserViewModel();
-        //    }
-        //    return instance;
-        //}
-        //#endregion
     }
 
 

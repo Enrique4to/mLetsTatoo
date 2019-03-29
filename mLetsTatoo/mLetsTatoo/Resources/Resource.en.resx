@@ -282,4 +282,13 @@
   <data name="Artist" xml:space="preserve">
     <value>Artists</value>
   </data>
+  <data name="Images" xml:space="preserve">
+    <value>Images</value>
+  </data>
+  <data name="BranchOffices" xml:space="preserve">
+    <value>Branch offices!</value>
+  </data>
+  <data name="AboutStudie" xml:space="preserve">
+    <value>About...</value>
+  </data>
 </root>

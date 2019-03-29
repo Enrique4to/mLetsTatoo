@@ -205,12 +205,6 @@
     <BundleResource Include="Resources\Home.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\ic_chevron_left.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\ic_chevron_right.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\Logo.png" />
   </ItemGroup>
   <ItemGroup>
@@ -221,5 +215,8 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Editar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ChevronRight.png" />
   </ItemGroup>
 </Project>

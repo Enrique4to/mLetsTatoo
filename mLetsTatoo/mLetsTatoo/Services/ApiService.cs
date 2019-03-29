@@ -186,7 +186,7 @@
                 };
             }
         }
-        public async Task<Response> Delete<T>(string urlBase, string prefix, string controller, int id)
+        public async Task<Response> Delete(string urlBase, string prefix, string controller, int id)
         {
             try
             {
