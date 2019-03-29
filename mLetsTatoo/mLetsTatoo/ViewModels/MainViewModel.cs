@@ -12,6 +12,7 @@
         public UserViewModel User { get; set; }
         public EditUserViewModel EditUser { get; set; }
         public TecnicoViewModel Tecnico { get; set; }
+        public LocalViewModel Local { get; set; }
         #endregion
 
         #region Constructors

@@ -26,25 +26,24 @@
         }
         #endregion
 
-        //#region Commands
-        //public ICommand EmpresaPageCommand
-        //{
-        //    get
-        //    {
-        //        return new RelayCommand(GoToEmpresaPage);
-        //    }
-        //}
-        //#endregion
+        #region Commands
+        public ICommand LocalPageCommand
+        {
+            get
+            {
+                return new RelayCommand(GoToLocalPage);
+            }
+        }
+        #endregion
 
-        //#region Methods
-        //private async void GoToEmpresaPage()
-        //{
-        //    user = MainViewModel.GetInstance().UserHome.User;
-        //    cliente = MainViewModel.GetInstance().UserHome.Cliente;
-        //    this.NombreEmpresa = this.Nombre;
-        //    MainViewModel.GetInstance().Empresa = new EmpresaViewModel(this, user, cliente);
-        //    await Application.Current.MainPage.Navigation.PushAsync(new EmpresaPage());
-        //}
-        //#endregion
+        #region Methods
+        private async void GoToLocalPage()
+        {
+            user = MainViewModel.GetInstance().UserHome.User;
+            cliente = MainViewModel.GetInstance().UserHome.Cliente;
+            MainViewModel.GetInstance().Local = new LocalViewModel(this, user, cliente);
+            await Application.Current.MainPage.Navigation.PushAsync(new LocalPage());
+        }
+        #endregion
     }
 }

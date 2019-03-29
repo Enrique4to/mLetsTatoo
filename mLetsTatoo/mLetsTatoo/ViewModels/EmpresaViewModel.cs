@@ -217,7 +217,6 @@
                 Id_Empresa = l.Id_Empresa,
                 Id_Estado = l.Id_Estado,
                 Id_Local = l.Id_Local,
-                Id_Pais = l.Id_Pais,
                 Nombre = l.Nombre,
                 Numero = l.Numero,
                 Referencia = l.Referencia,
