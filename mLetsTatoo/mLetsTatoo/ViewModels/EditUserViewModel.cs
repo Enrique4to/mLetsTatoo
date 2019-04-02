@@ -285,7 +285,7 @@ namespace mLetsTatoo.ViewModels
             this.IsActEmail = false;
             this.IsActPersonal = false;
 
-            MainViewModel.GetInstance().User = new UserViewModel(user, cliente);
+            MainViewModel.GetInstance().UserPage = new UserViewModel(user, cliente);
             await Application.Current.MainPage.Navigation.PopAsync();
         }
         #endregion

@@ -28,13 +28,21 @@
         public T_clientes cliente;
         public T_usuarios user;
         public T_empresas empresa;
+        public T_tecnicos tecnico;
         private ObservableCollection<LocalItemViewModel> locales;
         private ObservableCollection<TecnicoItemViewModel> tecnicos;
+        private string nombreEmpresa;
         #endregion
 
         #region Properties
-        public List<T_locales> LocalesList { get; set; }
-        public List<T_tecnicos> TecnicoList { get; set; }
+        
+        public List<T_locales> EmpresaLocalesList { get; set; }
+        public List<T_tecnicos> EmpresaTecnicoList { get; set; }
+        public string NombreEmpresa
+        {
+            get { return this.nombreEmpresa; }
+            set { SetValue(ref this.nombreEmpresa, value); }
+        }
         public T_clientes Cliente
         {
             get { return this.cliente; }
@@ -49,6 +57,12 @@
         {
             get { return this.empresa; }
             set { SetValue(ref this.empresa, value); }
+        }
+
+        public T_tecnicos Tecnico
+        {
+            get { return this.tecnico; }
+            set { SetValue(ref this.tecnico, value); }
         }
         public ObservableCollection<LocalItemViewModel> Locales
         {
@@ -95,8 +109,6 @@
             this.IsRefreshing = false;
             this.IsRunning = false;
         }
-
-
         #endregion
 
         #region Commands
@@ -114,6 +126,7 @@
                 this.ByteImage = apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
                 this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
             }
+            nombreEmpresa = this.empresa.Nombre;
         }
         private async void LoadTecnicos()
         {
@@ -145,13 +158,15 @@
                     "OK");
                 return;
             }
-            this.TecnicoList = (List<T_tecnicos>)response.Result;
+            var TecnicoList = (List<T_tecnicos>)response.Result;
+            var empresaList = MainViewModel.GetInstance().UserHome.EmpresaList;
+            this.EmpresaTecnicoList = TecnicoList.Where(t => empresaList.Any(e => t.Id_Empresa == e.Id_Empresa)).ToList();
             this.RefreshTecnicoList();
             this.IsRefreshing = false;
         }
         public void RefreshTecnicoList()
         {
-            var tecnico = this.TecnicoList.Select(t => new TecnicoItemViewModel
+            var tecnico = this.EmpresaTecnicoList.Select(t => new TecnicoItemViewModel
             {
                 Apellido1 = t.Apellido1,
                 Apellido2 = t.Apellido2,
@@ -164,8 +179,6 @@
                 Nombre = t.Nombre,
             });
             this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
-
-            this.IsRefreshing = false;
         }
         private async void LoadLocales()
         {
@@ -201,14 +214,16 @@
                     "OK");
                 return;
             }
-            this.LocalesList = (List<T_locales>)response.Result;
+            var empresaList = MainViewModel.GetInstance().UserHome.EmpresaList;
+            var LocalesList = (List<T_locales>)response.Result;
+            this.EmpresaLocalesList = LocalesList.Where(l => empresaList.Any(e => l.Id_Empresa == e.Id_Empresa)).ToList();
             this.RefreshLocalesList();
             this.IsRefreshing = false;
             this.IsRunning = false;
         }
         private void RefreshLocalesList()
         {
-            var localSelected = this.LocalesList.Select(l => new LocalItemViewModel
+            var localSelected = this.EmpresaLocalesList.Select(l => new LocalItemViewModel
             {
                 Calle = l.Calle,
                 Id_Ciudad = l.Id_Ciudad,
@@ -221,11 +236,9 @@
                 Numero = l.Numero,
                 Referencia = l.Referencia,
             });
-            this.Locales = new ObservableCollection<LocalItemViewModel>(localSelected.OrderBy(e => e.Nombre));
-            this.IsRefreshing = false;
-            this.IsRunning = false;
-        }
 
+            this.Locales = new ObservableCollection<LocalItemViewModel>(localSelected.OrderBy(e => e.Nombre));
+        }
         #endregion
 
     }

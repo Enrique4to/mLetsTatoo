@@ -11,7 +11,7 @@ namespace mLetsTatoo.Droid
 {
 
     [Activity(Label = "mLetsTatoo", 
-        Icon = "@mipmap/icon", 
+        Icon = "@drawable/icon", 
         Theme = "@style/MainTheme", 
         MainLauncher = true, 
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]

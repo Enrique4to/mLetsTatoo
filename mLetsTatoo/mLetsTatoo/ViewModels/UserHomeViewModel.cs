@@ -5,6 +5,7 @@
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Helpers;
@@ -30,6 +31,7 @@
         private T_clientes cliente;
         private T_usuarios user;
         private Image image;
+        private string file;
         #endregion
 
         #region Properties
@@ -99,13 +101,6 @@
                 return new RelayCommand(LoadEmpresas);
             }
         }
-        public ICommand UserPageCommand
-        {
-            get
-            {
-                return new RelayCommand(GoToUserPage);
-            }
-        }
         #endregion
 
         #region Methods     
@@ -117,22 +112,22 @@
             if (!connection.IsSuccess)
             {
                 this.IsRefreshing = false;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
                     "OK");
                 return;
             }
 
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_clientesController"].ToString();
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_clientesController"].ToString();
 
             var response = await this.apiService.GetList<T_clientes>(urlApi, prefix, controller);
             if (!response.IsSuccess)
             {
                 this.IsRefreshing = false;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
                     "OK");
@@ -140,17 +135,21 @@
             }
             var listcte = (List<T_clientes>)response.Result;
 
-            cliente = listcte.Single(u => u.Id_Usuario == this.user.Id_usuario);
-            if (cliente.F_Perfil != null)
+            this.cliente = listcte.Single(u => u.Id_Usuario == this.user.Id_usuario);
+            if (this.cliente.F_Perfil != null)
             {
+                string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "UserIcon.png");
+                File.WriteAllBytes(fileName, this.cliente.F_Perfil);
                 this.Image = new Image();
-                this.Image.Source = ImageSource.FromStream(() => new MemoryStream(cliente.F_Perfil));
+                this.ImageSource = FileImageSource.FromFile(fileName);
             }
             else
             {
                 this.ByteImage = this.apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
                 this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
             }
+
+            MainViewModel.GetInstance().UserPage = new UserViewModel(user, cliente);
             this.IsRefreshing = false;
         }
         private async void LoadEmpresas()
@@ -161,7 +160,7 @@
             if (!connection.IsSuccess)
             {
                 this.IsRefreshing = false;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
                     "OK");
@@ -169,16 +168,16 @@
 
             }
 
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_empresasController"].ToString();
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_empresasController"].ToString();
 
             var response = await this.apiService.GetList<T_empresas>(urlApi, prefix, controller);
 
             if (!response.IsSuccess)
             {
                 this.IsRefreshing = false;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
                     "OK");
@@ -251,13 +250,6 @@
             this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
 
             this.IsRefreshing = false;
-        }
-        private async void GoToUserPage()
-        {
-
-            this.IsRefreshing = false;
-            MainViewModel.GetInstance().User = new UserViewModel(user, cliente);
-            await Application.Current.MainPage.Navigation.PushAsync(new UserPage());
         }
         #endregion
     }

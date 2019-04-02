@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-namespace mLetsTatoo.Views
+﻿namespace mLetsTatoo.Views
 {
-	public partial class LocalPage : ContentPage
+    using System.Threading.Tasks;
+    using ViewModels;
+    using Xamarin.Forms;
+
+    public partial class LocalPage : ContentPage
 	{
 		public LocalPage ()
-		{
-			InitializeComponent ();
+        {
+            InitializeComponent ();
 		}
-	}
+    }
 }

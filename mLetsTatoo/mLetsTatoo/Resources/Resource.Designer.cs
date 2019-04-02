@@ -115,6 +115,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Branch Office.
+        /// </summary>
+        internal static string BranchOffice {
+            get {
+                return ResourceManager.GetString("BranchOffice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Branch offices.
         /// </summary>
         internal static string BranchOffices {

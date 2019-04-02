@@ -4,12 +4,11 @@
              xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
              xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
-             x:Class="mLetsTatoo.Views.UserPage"
-             Title="{i18n:Translate UserInfo}">
+             x:Class="mLetsTatoo.Views.UserPage">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout
-                    BindingContext="{Binding User}"
+                    BindingContext="{Binding UserPage}"
                     BackgroundColor="Black"
                     Padding="5" >
                 <StackLayout

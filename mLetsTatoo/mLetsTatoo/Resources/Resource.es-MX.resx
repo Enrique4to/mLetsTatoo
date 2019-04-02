@@ -291,4 +291,7 @@
   <data name="AboutStudie" xml:space="preserve">
     <value>Acerca de...</value>
   </data>
+  <data name="BranchOffice" xml:space="preserve">
+    <value>Sucursal</value>
+  </data>
 </root>

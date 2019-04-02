@@ -9,8 +9,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using mLetsTatoo.Common.Models;
 using mLetsTatoo.Domain.Modules;
+using mLetsTatoo.Models;
 
 namespace mLetsTatoo.API.Controllers
 {

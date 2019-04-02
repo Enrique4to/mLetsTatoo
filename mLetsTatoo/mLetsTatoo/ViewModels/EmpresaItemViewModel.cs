@@ -1,6 +1,5 @@
 ﻿namespace mLetsTatoo.ViewModels
 {
-    using System;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Models;
@@ -18,8 +17,8 @@
         public T_clientes cliente;
         public T_usuarios user;
         #endregion
+
         #region Properties
-        public string NombreEmpresa { get; set; }
         #endregion
 
         #region Constructors
@@ -42,11 +41,12 @@
         #region Methods
         private async void GoToEmpresaPage()
         {
-            user = MainViewModel.GetInstance().UserHome.User;
-            cliente = MainViewModel.GetInstance().UserHome.Cliente;
-            this.NombreEmpresa = this.Nombre;
+            this.user = MainViewModel.GetInstance().UserHome.User;
+            this.cliente = MainViewModel.GetInstance().UserHome.Cliente;
             MainViewModel.GetInstance().Empresa = new EmpresaViewModel(this, user, cliente);
             await Application.Current.MainPage.Navigation.PushAsync(new EmpresaPage());
+            //await Application.Current.MainPage.Navigation.PushModalAsync(new EmpresaPage());
+
         }
         #endregion
     }

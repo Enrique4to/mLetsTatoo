@@ -15,7 +15,7 @@
 
         public System.Data.Entity.DbSet<mLetsTatoo.Models.T_citaimagenes> T_citaimagenes { get; set; }
 
-        public System.Data.Entity.DbSet<mLetsTatoo.Common.Models.T_ciudad> T_ciudad { get; set; }
+        public System.Data.Entity.DbSet<mLetsTatoo.Models.T_ciudad> T_ciudad { get; set; }
 
         public System.Data.Entity.DbSet<mLetsTatoo.Models.T_clientes> T_clientes { get; set; }
 

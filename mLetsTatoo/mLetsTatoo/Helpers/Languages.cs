@@ -239,6 +239,10 @@
         {
             get { return Resource.BranchOffices; }
         }
+        public static string BranchOffice
+        {
+            get { return Resource.BranchOffice; }
+        }
         public static string AboutStudie
         {
             get { return Resource.AboutStudie; }

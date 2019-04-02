@@ -3,133 +3,157 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             x:Class="mLetsTatoo.Views.HomePage"
             xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
+            xmlns:views="clr-namespace:mLetsTatoo.Views"
+            xmlns:viewmodels="clr-namespace:mLetsTatoo.ViewModels"
             xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
             BindingContext="{Binding Main, Source={StaticResource Locator}}"
-            Title="{Binding Login.User.Usuario}">
+            x:Name="UserHome">
     <TabbedPage.ToolbarItems>
-        <ToolbarItem BindingContext="{Binding UserHome}"
-                     Icon="{Binding Image}"
-                     Command="{Binding UserPageCommand}"/>
+        <!--<ToolbarItem BindingContext="{Binding UserHome}"
+                     Icon="Options.png"
+                     Command="{Binding UserPageCommand}"/>-->
         <!--<ToolbarItem Icon="Citas"/>
         <ToolbarItem Icon="Notificacion"/>-->
     </TabbedPage.ToolbarItems>
-    <ContentPage
-        Title="{i18n:Translate Study}">
-        <StackLayout
+    <TabbedPage.Children>
+        <ContentPage
+            Icon="NewsFeed.png"
+            x:Name="Newsfeed">
+            <StackLayout
             BindingContext="{Binding UserHome}"
             BackgroundColor="Black"
             Padding="5">
-            <StackLayout
-                VerticalOptions="StartAndExpand"
-                Padding="10">
-                <ListView                    
-                    HasUnevenRows="True"
-                    IsPullToRefreshEnabled="True"
-                    IsRefreshing="{Binding IsRefreshing}"                    
-                    ItemsSource="{Binding Empresas}"
-                    RefreshCommand="{Binding RefreshCommand}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid>
-                                    <Grid.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding EmpresaPageCommand}"/>
-                                    </Grid.GestureRecognizers>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <control:CircleImage
-                                        Aspect="AspectFill"
-                                        Grid.Column="0"
-                                        Source="{Binding Logo, Converter={StaticResource ByteArrayToImage}}">
-                                        <control:CircleImage.WidthRequest>
-                                            <OnPlatform x:TypeArguments="x:Double">
-                                                <On Platform="Android, iOS">50</On>
-                                            </OnPlatform>
-                                        </control:CircleImage.WidthRequest>
-                                        <control:CircleImage.HeightRequest>
-                                            <OnPlatform x:TypeArguments="x:Double">
-                                                <On Platform="Android, iOS">50</On>
-                                            </OnPlatform>
-                                        </control:CircleImage.HeightRequest>
-                                    </control:CircleImage>
-                                    <Label
-                                        FontAttributes="Bold"
-                                        FontSize="20"
-                                        Grid.Column="1"
-                                        Text="{Binding Nombre}"
-                                        TextColor="LightGray"
-                                        VerticalTextAlignment="Center"/>
-                                    <Image
-                                        Grid.Column="2"
-                                        Source="ChevronRight"
-                                        VerticalOptions="Center"
-                                        WidthRequest="10"/>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+
             </StackLayout>
-        </StackLayout>
-    </ContentPage>
-    <ContentPage
-        Title="{i18n:Translate Artist}">
-        <StackLayout
+        </ContentPage>
+        <ContentPage
+            Icon="Citas.png"
+            x:Name="Citas">
+            <StackLayout
             BindingContext="{Binding UserHome}"
             BackgroundColor="Black"
             Padding="5">
+            </StackLayout>
+        </ContentPage>
+        <ContentPage
+            Icon="Local.png"        
+            x:Name="Locals">
             <StackLayout
+                BindingContext="{Binding UserHome}"
+                BackgroundColor="Black"
+                Padding="5">
+                <StackLayout
+                    VerticalOptions="StartAndExpand"
+                    Padding="10">
+                    <ListView                    
+                        HasUnevenRows="True"
+                        IsPullToRefreshEnabled="True"
+                        IsRefreshing="{Binding IsRefreshing}"                    
+                        ItemsSource="{Binding Empresas}"
+                        RefreshCommand="{Binding RefreshCommand}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid>
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding EmpresaPageCommand}"/>
+                                        </Grid.GestureRecognizers>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <control:CircleImage
+                                            Aspect="AspectFill"
+                                            Grid.Column="0"
+                                            Source="{Binding Logo, Converter={StaticResource ByteArrayToImage}}">
+                                            <control:CircleImage.WidthRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="Android, iOS">50</On>
+                                                </OnPlatform>
+                                            </control:CircleImage.WidthRequest>
+                                            <control:CircleImage.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="Android, iOS">50</On>
+                                                </OnPlatform>
+                                            </control:CircleImage.HeightRequest>
+                                        </control:CircleImage>
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="20"
+                                            Grid.Column="1"
+                                            Text="{Binding Nombre}"
+                                            TextColor="LightGray"
+                                            VerticalTextAlignment="Center"/>
+                                        <Image
+                                            Grid.Column="2"
+                                            Source="ChevronRight"
+                                            VerticalOptions="Center"
+                                            WidthRequest="20"/>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </StackLayout>
+        </ContentPage>
+        <ContentPage
+            Icon="Tattoo.png"        
+            x:Name="Artists">
+            <StackLayout
+            BindingContext="{Binding UserHome}"
+            BackgroundColor="Black"
+            Padding="5">
+                <StackLayout
                 VerticalOptions="StartAndExpand"
                 Padding="10">
-                <ListView                    
+                    <ListView                    
                     HasUnevenRows="True"
                     IsPullToRefreshEnabled="True"
                     IsRefreshing="{Binding IsRefreshing}"                    
                     ItemsSource="{Binding Tecnicos}"
                     RefreshCommand="{Binding RefreshCommand}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid>
-                                    <Grid.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding TecnicoPageCommand}"/>
-                                    </Grid.GestureRecognizers>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="2*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <control:CircleImage
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid>
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding TecnicoPageCommand}"/>
+                                        </Grid.GestureRecognizers>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <control:CircleImage
                                         Aspect="AspectFill"
                                         Grid.Column="0"
                                         Source="{Binding F_Perfil, Converter={StaticResource ByteArrayToImage}}">
-                                        <control:CircleImage.WidthRequest>
-                                            <OnPlatform x:TypeArguments="x:Double">
-                                                <On Platform="Android, iOS">50</On>
-                                            </OnPlatform>
-                                        </control:CircleImage.WidthRequest>
-                                        <control:CircleImage.HeightRequest>
-                                            <OnPlatform x:TypeArguments="x:Double">
-                                                <On Platform="Android, iOS">50</On>
-                                            </OnPlatform>
-                                        </control:CircleImage.HeightRequest>
-                                    </control:CircleImage>
-                                    <StackLayout
+                                            <control:CircleImage.WidthRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="Android, iOS">50</On>
+                                                </OnPlatform>
+                                            </control:CircleImage.WidthRequest>
+                                            <control:CircleImage.HeightRequest>
+                                                <OnPlatform x:TypeArguments="x:Double">
+                                                    <On Platform="Android, iOS">50</On>
+                                                </OnPlatform>
+                                            </control:CircleImage.HeightRequest>
+                                        </control:CircleImage>
+                                        <StackLayout
                                         Grid.Column="1">
-                                        <Label
+                                            <Label
                                             FontAttributes="Bold"
                                             FontSize="15"
                                             Text="{Binding Apodo}"
                                             TextColor="LightGray"
                                             VerticalTextAlignment="Center"/>
-                                        <StackLayout
+                                            <StackLayout
                                                 Orientation="Horizontal">
                                                 <Label
                                                 FontAttributes="Bold"
@@ -138,27 +162,41 @@
                                                 Text="{Binding Nombre}"
                                                 TextColor="LightGray"
                                                 VerticalTextAlignment="Center"/>
-                                            <Label
+                                                <Label
                                                 FontAttributes="Bold"
                                                 FontSize="12"
                                                 HorizontalOptions="StartAndExpand"
                                                 Text="{Binding Apellido1}"
                                                 TextColor="LightGray"
                                                 VerticalTextAlignment="Center"/>
+                                            </StackLayout>
                                         </StackLayout>
-                                    </StackLayout>
-                                    <Image
+                                        <Image
                                         Grid.Column="2"
                                         Source="ChevronRight"
                                         VerticalOptions="Center"
-                                        WidthRequest="10"/>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                                        WidthRequest="20"/>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
             </StackLayout>
-        </StackLayout>
-    </ContentPage>
+        </ContentPage>
+        <ContentPage
+            Icon="Notificacion.png"
+            x:Name="Notifications">
+            <StackLayout
+            BindingContext="{Binding UserHome}"
+            BackgroundColor="Black"
+            Padding="5">
 
+            </StackLayout>
+        </ContentPage>
+        <views:UserPage 
+            BindingContext="{Binding UserPage}"
+            Icon="Options.png">            
+        </views:UserPage>
+    </TabbedPage.Children>
 </TabbedPage>

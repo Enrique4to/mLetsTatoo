@@ -1,13 +1,7 @@
 ﻿namespace mLetsTatoo.Models
 {
-    using Android;
-    using Android.Graphics;
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.IO;
-    using System.Text;
     public class T_clientes
     {
         #region Properties

@@ -9,10 +9,10 @@
         public TecnicoHomeViewModel TecnicoHome { get; set; }
         public EmpresaViewModel Empresa { get; set; }
         public RegisterViewModel Register { get; set; }
-        public UserViewModel User { get; set; }
+        public UserViewModel UserPage { get; set; }
         public EditUserViewModel EditUser { get; set; }
         public TecnicoViewModel Tecnico { get; set; }
-        public LocalViewModel Local { get; set; }
+        public LocalViewModel LocalPage { get; set; }
         #endregion
 
         #region Constructors

@@ -225,7 +225,6 @@
         {
             //var applicationTypeInfo = Application.Current.GetType().GetTypeInfo();
             var assembly = GetType().GetTypeInfo().Assembly;
-
             byte[] buffer = null;
             using (var stream = assembly.GetManifestResourceStream(fileName))
             {
@@ -239,6 +238,7 @@
 
             return buffer;
         }
+
         #endregion
     }
 }

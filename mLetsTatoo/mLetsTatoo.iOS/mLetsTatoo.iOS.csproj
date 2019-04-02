@@ -175,6 +175,9 @@
       <Version>4.0.1.5</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
+    <PackageReference Include="Xamarin.Forms.CarouselView">
+      <Version>2.3.0-pre2</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -218,5 +221,26 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\ChevronRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Local.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Options.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Tattoo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\NewsFeed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Locales.png" />
   </ItemGroup>
 </Project>

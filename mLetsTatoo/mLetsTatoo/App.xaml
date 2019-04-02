@@ -18,6 +18,9 @@
             <x:String x:Key="UrlT_clientesController">/T_clientes</x:String>
             <x:String x:Key="UrlT_tecnicosController">/T_tecnicos</x:String>
             <x:String x:Key="UrlT_localesController">/T_locales</x:String>
+            <x:String x:Key="UrlT_estadoController">/T_estado</x:String>
+            <x:String x:Key="UrlT_ciudadController">/T_ciudad</x:String>
+            <x:String x:Key="UrlT_postalController">/T_postal</x:String>
         </ResourceDictionary>
 
     </Application.Resources>

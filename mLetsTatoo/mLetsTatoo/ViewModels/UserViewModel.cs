@@ -11,6 +11,7 @@
     using Services;
     using Views;
     using Xamarin.Forms;
+
     public class UserViewModel : BaseViewModel
     {
         #region Services
@@ -95,48 +96,44 @@
                 Languages.FromGallery,
                 Languages.NewPicture);
 
-            if (source == Languages.Cancel)
-            {
-                this.file = null;
-                return;
-            }
-
-            if (source == Languages.NewPicture)
-            {
-                this.file = await CrossMedia.Current.TakePhotoAsync(
-                    new StoreCameraMediaOptions
-                    {
-                        Directory = "Sample",
-                        Name = "test.jpg",
-                        PhotoSize = PhotoSize.Small,
-                        MaxWidthHeight = 400,
-                        
-                    });
-            }
-            else
-            {
-                this.file = await CrossMedia.Current.PickPhotoAsync(
-                    new PickMediaOptions
-                    {
-                        PhotoSize= PhotoSize.Small,
-                        MaxWidthHeight = 400,
-                    });
-                  
-            }
-
-            if (this.file != null)
-            {
-                this.ImageSource = ImageSource.FromStream(() =>
+                if (source == Languages.Cancel)
                 {
-                    var stream = this.file.GetStream();
-                    this.SavePic();
-                    return stream;
-                });
+                    this.file = null;
+                    return;
+                }
 
-            }
+                if (source == Languages.NewPicture)
+                {
+                    this.file = await CrossMedia.Current.TakePhotoAsync(
+                        new StoreCameraMediaOptions
+                        {
+                            Directory = "Sample",
+                            Name = "test.jpg",
+                            PhotoSize = PhotoSize.Small,
 
+                        });
+                }
+                else
+                {
+                    this.file = await CrossMedia.Current.PickPhotoAsync(
+                        new PickMediaOptions
+                        {
+                            PhotoSize = PhotoSize.Small,
+                        });
 
+                }
+
+                if (this.file != null)
+                {
+                    this.ImageSource = ImageSource.FromStream(() =>
+                    {
+                        var stream = this.file.GetStream();
+                        this.SavePic();
+                        return stream;
+                    });
+                }
         }
+
         private async void SavePic()
         {
             this.IsRunning = true;
@@ -158,7 +155,7 @@
                 ByteImage = FileHelper.ReadFully(this.file.GetStream());
             }
             
-            var editCliente = new T_clientes
+            this.cliente = new T_clientes
             {
                 Id_Cliente= cliente.Id_Cliente,
                 Nombre = cliente.Nombre,
@@ -181,7 +178,7 @@
                 (urlApi,
                 prefix,
                 controller,
-                editCliente,
+                this.cliente,
                 id);
 
             if (!response.IsSuccess)
@@ -201,7 +198,7 @@
         {
             this.NombreCompleto = $"{this.cliente.Nombre} {this.cliente.Apellido}";
 
-            if (cliente.F_Perfil != null)
+            if (this.cliente.F_Perfil != null)
             {
                 this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.cliente.F_Perfil));
             }
