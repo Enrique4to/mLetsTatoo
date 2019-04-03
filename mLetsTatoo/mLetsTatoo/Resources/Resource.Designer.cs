@@ -529,7 +529,7 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Studies.
+        ///   Looks up a localized string similar to Studio.
         /// </summary>
         internal static string Study {
             get {

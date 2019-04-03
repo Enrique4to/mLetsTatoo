@@ -1,93 +1,210 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage 
+<TabbedPage 
+    BackgroundColor="Black"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
     xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
-    BindingContext="{Binding Main, Source={StaticResource Locator}}"
     x:Class="mLetsTatoo.Views.LocalPage">
-
-    <ContentPage.Content>
-        <ScrollView>
-            <StackLayout
-                BackgroundColor="Black"
-                Padding="5" >
-                <StackLayout
-                    VerticalOptions="StartAndExpand">                    
-                    <Grid
-                    BindingContext="{Binding LocalPage}">
-                        <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <control:CircleImage
-                            Aspect="AspectFill"
-                            Grid.Column="0"
-                            Grid.RowSpan="2"
-                            HorizontalOptions="Start"
-                            Source="{Binding Empresa.Logo, Converter={StaticResource ByteArrayToImage}}"
-                            VerticalOptions="StartAndExpand">
-                            <control:CircleImage.WidthRequest>
-                                <OnPlatform x:TypeArguments="x:Double">
-                                    <On Platform="Android, iOS">70</On>
-                                </OnPlatform>
-                            </control:CircleImage.WidthRequest>
-                            <control:CircleImage.HeightRequest>
-                                <OnPlatform x:TypeArguments="x:Double">
-                                    <On Platform="Android, iOS">70</On>
-                                </OnPlatform>
-                            </control:CircleImage.HeightRequest>
-                        </control:CircleImage>
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="20"
-                            Grid.Column="1"
-                            Grid.Row="0"
-                            Text="{Binding Empresa.Nombre, Mode=TwoWay}"
-                            TextColor="LightGray"
-                            HorizontalTextAlignment="Start"
-                            VerticalOptions="End"/>
-                        <StackLayout
-                            Grid.Column="1"
-                            Grid.Row="1"
-                            HorizontalOptions="StartAndExpand"
-                            VerticalOptions="Start"
-                            Orientation="Horizontal">
-                            <Label
-                                FontAttributes="Bold"
-                                FontSize="16"
-                                Text="{i18n:Translate BranchOffice}"
-                                TextColor="LightGray"
-                                HorizontalTextAlignment="Start"/>
-                            <Label
-                                FontAttributes="Bold"
-                                FontSize="16"
-                                Text="{Binding Local.Nombre, Mode=TwoWay}"
-                                TextColor="LightGray"
-                                HorizontalTextAlignment="Start"/>
-                        </StackLayout>
-                        <Label
-                            Grid.Column="1"
-                            Grid.Row="2"
-                            FontAttributes="Bold"
-                            FontSize="11"
-                            Text="{Binding Address}"
-                            TextColor="LightGray"
-                            HorizontalOptions="StartAndExpand"
-                            HorizontalTextAlignment="Start"
-                            VerticalOptions="Start"/>
-                    </Grid>
-                    <ActivityIndicator
-                        HeightRequest="30"
-                        IsRunning="{Binding IsRunning, Mode=TwoWay}"
-                        Opacity="80"
-                        Color="Gray"/>
-                </StackLayout>
-                
+    <TabbedPage.Children>
+        
+        <ContentPage            
+            Icon="Locales.png"
+            x:Name="LocalNewsFeed">
+            <StackLayout>
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    Text="Local News Feed"
+                    TextColor="LightGray"
+                    HorizontalTextAlignment="Center"
+                    VerticalOptions="CenterAndExpand"/>
             </StackLayout>
-        </ScrollView>
-    </ContentPage.Content>
-</ContentPage>
+        </ContentPage>
+        
+        <ContentPage
+            Icon="Tattoo.png"
+            x:Name="Artists">
+            <StackLayout
+                BindingContext="{Binding LocalPage}"
+                Padding="5" >
+                <ListView                    
+                    HasUnevenRows="True"
+                    IsPullToRefreshEnabled="True"
+                    IsRefreshing="{Binding IsRefreshing}"                    
+                    ItemsSource="{Binding Tecnicos}"
+                    RefreshCommand="{Binding RefreshArtistCommand}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding TecnicoPageCommand}"/>
+                                    </Grid.GestureRecognizers>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width=".05*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <control:CircleImage
+                                        Aspect="AspectFill"
+                                        Grid.Column="0"
+                                        HorizontalOptions="StartAndExpand"
+                                        Margin="4"
+                                        Source="{Binding F_Perfil, Converter={StaticResource ByteArrayToImage}}"
+                                        VerticalOptions="Center">
+                                        <control:CircleImage.WidthRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="Android, iOS">50</On>
+                                            </OnPlatform>
+                                        </control:CircleImage.WidthRequest>
+                                        <control:CircleImage.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="Android, iOS">50</On>
+                                            </OnPlatform>
+                                        </control:CircleImage.HeightRequest>
+                                    </control:CircleImage>
+                                    <StackLayout
+                                        Grid.Column="1"
+                                        HorizontalOptions="StartAndExpand"
+                                        VerticalOptions="CenterAndExpand">
+                                        <Label
+                                            FontAttributes="Bold"
+                                            FontSize="16"
+                                            Text="{Binding Apodo}"
+                                            TextColor="LightGray"
+                                            VerticalTextAlignment="End"/>
+                                        <StackLayout
+                                            HorizontalOptions="StartAndExpand"
+                                            Orientation="Horizontal"
+                                            VerticalOptions="Start">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="12"
+                                                HorizontalOptions="Start"
+                                                Text="{Binding Nombre}"
+                                                TextColor="LightGray"
+                                                VerticalTextAlignment="Start"/>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="12"
+                                                HorizontalOptions="StartAndExpand"
+                                                Text="{Binding Apellido1}"
+                                                TextColor="LightGray"
+                                                VerticalTextAlignment="Start"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                    <Image
+                                        Grid.Column="2"
+                                        HorizontalOptions="StartAndExpand"
+                                        Source="ChevronRight"
+                                        VerticalOptions="Center"
+                                        WidthRequest="20"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            </StackLayout>
+        </ContentPage> 
+        
+        <ContentPage
+            Icon="Info.png"
+            x:Name="InfoLocal">
+            <ScrollView>
+                <StackLayout
+                    Padding="5" >
+                    <StackLayout
+                        VerticalOptions="StartAndExpand">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <control:CircleImage
+                                BindingContext="{Binding LocalPage}"
+                                Aspect="AspectFill"
+                                HorizontalOptions="Center"
+                                Opacity=".6"
+                                Source="{Binding Empresa.Logo, Converter={StaticResource ByteArrayToImage}}"
+                                VerticalOptions="Start">
+                                <control:CircleImage.WidthRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="Android, iOS">150</On>
+                                    </OnPlatform>
+                                </control:CircleImage.WidthRequest>
+                                <control:CircleImage.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="Android, iOS">150</On>
+                                    </OnPlatform>
+                                </control:CircleImage.HeightRequest>
+                            </control:CircleImage>
+                            <Grid
+                                BindingContext="{Binding LocalPage}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="24"
+                                    Grid.Column="1"
+                                    Grid.Row="0"
+                                    Text="{Binding Empresa.Nombre, Mode=TwoWay}"
+                                    TextColor="LightGray"
+                                    HorizontalOptions="CenterAndExpand"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalOptions="End"/>
+                                <StackLayout
+                                    Grid.Column="1"
+                                    Grid.Row="3"
+                                    HorizontalOptions="CenterAndExpand"
+                                    VerticalOptions="Center"
+                                    Orientation="Horizontal">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="20"
+                                        Text="{i18n:Translate BranchOffice}"
+                                        TextColor="LightGray"
+                                        HorizontalTextAlignment="Center"/>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="20"
+                                        Text="{Binding Local.Nombre, Mode=TwoWay}"
+                                        TextColor="LightGray"
+                                        HorizontalTextAlignment="Center"/>
+                                </StackLayout>
+                                <Label
+                                    Grid.Column="1"
+                                    Grid.Row="4"
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    Text="{Binding Address}"
+                                    TextColor="LightGray"
+                                    HorizontalOptions="CenterAndExpand"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalOptions="Start"/>
+                            </Grid>
+                        </Grid>
+                        <ActivityIndicator
+                            BindingContext="{Binding LocalPage}"
+                            HeightRequest="30"
+                            IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                            Opacity="80"
+                            Color="Gray"/>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+        </ContentPage>
+        
+    </TabbedPage.Children>
+</TabbedPage>

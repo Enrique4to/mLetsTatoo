@@ -4,7 +4,6 @@
             x:Class="mLetsTatoo.Views.HomePage"
             xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
             xmlns:views="clr-namespace:mLetsTatoo.Views"
-            xmlns:viewmodels="clr-namespace:mLetsTatoo.ViewModels"
             xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
             BindingContext="{Binding Main, Source={StaticResource Locator}}"
             x:Name="UserHome">
@@ -16,6 +15,7 @@
         <ToolbarItem Icon="Notificacion"/>-->
     </TabbedPage.ToolbarItems>
     <TabbedPage.Children>
+        
         <ContentPage
             Icon="NewsFeed.png"
             x:Name="Newsfeed">
@@ -26,6 +26,7 @@
 
             </StackLayout>
         </ContentPage>
+        
         <ContentPage
             Icon="Citas.png"
             x:Name="Citas">
@@ -35,6 +36,7 @@
             Padding="5">
             </StackLayout>
         </ContentPage>
+        
         <ContentPage
             Icon="Local.png"        
             x:Name="Locals">
@@ -50,7 +52,7 @@
                         IsPullToRefreshEnabled="True"
                         IsRefreshing="{Binding IsRefreshing}"                    
                         ItemsSource="{Binding Empresas}"
-                        RefreshCommand="{Binding RefreshCommand}">
+                        RefreshCommand="{Binding RefreshEmpresasCommand}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -68,7 +70,10 @@
                                         <control:CircleImage
                                             Aspect="AspectFill"
                                             Grid.Column="0"
-                                            Source="{Binding Logo, Converter={StaticResource ByteArrayToImage}}">
+                                            HorizontalOptions="StartAndExpand"
+                                            Margin="4"
+                                            Source="{Binding Logo, Converter={StaticResource ByteArrayToImage}}"
+                                            VerticalOptions="Center">
                                             <control:CircleImage.WidthRequest>
                                                 <OnPlatform x:TypeArguments="x:Double">
                                                     <On Platform="Android, iOS">50</On>
@@ -86,9 +91,11 @@
                                             Grid.Column="1"
                                             Text="{Binding Nombre}"
                                             TextColor="LightGray"
-                                            VerticalTextAlignment="Center"/>
+                                            VerticalTextAlignment="Center"
+                                            VerticalOptions="Center"/>
                                         <Image
                                             Grid.Column="2"
+                                            HorizontalOptions="EndAndExpand"
                                             Source="ChevronRight"
                                             VerticalOptions="Center"
                                             WidthRequest="20"/>
@@ -100,8 +107,9 @@
                 </StackLayout>
             </StackLayout>
         </ContentPage>
+        
         <ContentPage
-            Icon="Tattoo.png"        
+            Icon="Tattoo.png"            
             x:Name="Artists">
             <StackLayout
             BindingContext="{Binding UserHome}"
@@ -115,7 +123,7 @@
                     IsPullToRefreshEnabled="True"
                     IsRefreshing="{Binding IsRefreshing}"                    
                     ItemsSource="{Binding Tecnicos}"
-                    RefreshCommand="{Binding RefreshCommand}">
+                    RefreshCommand="{Binding RefreshArtistCommand}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -124,16 +132,20 @@
                                             <TapGestureRecognizer Command="{Binding TecnicoPageCommand}"/>
                                         </Grid.GestureRecognizers>
                                         <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width=".05*"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
                                         <control:CircleImage
-                                        Aspect="AspectFill"
-                                        Grid.Column="0"
-                                        Source="{Binding F_Perfil, Converter={StaticResource ByteArrayToImage}}">
+                                            Aspect="AspectFill"
+                                            Grid.Column="0"
+                                            HorizontalOptions="StartAndExpand"
+                                            Margin="4"
+                                            Source="{Binding F_Perfil, Converter={StaticResource ByteArrayToImage}}"
+                                            VerticalOptions="Center">
                                             <control:CircleImage.WidthRequest>
                                                 <OnPlatform x:TypeArguments="x:Double">
                                                     <On Platform="Android, iOS">50</On>
@@ -146,36 +158,41 @@
                                             </control:CircleImage.HeightRequest>
                                         </control:CircleImage>
                                         <StackLayout
-                                        Grid.Column="1">
+                                            Grid.Column="1"
+                                            HorizontalOptions="StartAndExpand"
+                                            VerticalOptions="CenterAndExpand">
                                             <Label
-                                            FontAttributes="Bold"
-                                            FontSize="15"
-                                            Text="{Binding Apodo}"
-                                            TextColor="LightGray"
-                                            VerticalTextAlignment="Center"/>
+                                                FontAttributes="Bold"
+                                                FontSize="16"
+                                                Text="{Binding Apodo}"
+                                                TextColor="LightGray"
+                                                VerticalTextAlignment="End"/>
                                             <StackLayout
-                                                Orientation="Horizontal">
-                                                <Label
-                                                FontAttributes="Bold"
-                                                FontSize="12"
-                                                HorizontalOptions="Start"
-                                                Text="{Binding Nombre}"
-                                                TextColor="LightGray"
-                                                VerticalTextAlignment="Center"/>
-                                                <Label
-                                                FontAttributes="Bold"
-                                                FontSize="12"
                                                 HorizontalOptions="StartAndExpand"
-                                                Text="{Binding Apellido1}"
-                                                TextColor="LightGray"
-                                                VerticalTextAlignment="Center"/>
+                                                Orientation="Horizontal"
+                                                VerticalOptions="Start">
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="12"
+                                                    HorizontalOptions="Start"
+                                                    Text="{Binding Nombre}"
+                                                    TextColor="LightGray"
+                                                    VerticalTextAlignment="Start"/>
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="12"
+                                                    HorizontalOptions="StartAndExpand"
+                                                    Text="{Binding Apellido1}"
+                                                    TextColor="LightGray"
+                                                    VerticalTextAlignment="Start"/>
                                             </StackLayout>
                                         </StackLayout>
                                         <Image
-                                        Grid.Column="2"
-                                        Source="ChevronRight"
-                                        VerticalOptions="Center"
-                                        WidthRequest="20"/>
+                                            Grid.Column="2"
+                                            HorizontalOptions="StartAndExpand"
+                                            Source="ChevronRight"
+                                            VerticalOptions="Center"
+                                            WidthRequest="20"/>
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>
@@ -184,6 +201,7 @@
                 </StackLayout>
             </StackLayout>
         </ContentPage>
+            
         <ContentPage
             Icon="Notificacion.png"
             x:Name="Notifications">
@@ -194,9 +212,11 @@
 
             </StackLayout>
         </ContentPage>
+            
         <views:UserPage 
             BindingContext="{Binding UserPage}"
             Icon="Options.png">            
         </views:UserPage>
+            
     </TabbedPage.Children>
 </TabbedPage>

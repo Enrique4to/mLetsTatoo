@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"             
-             xmlns:control="clr-namespace:mLetsTatoo.Controls"
-             x:Class="mLetsTatoo.Views.EditUserPage"
-             BindingContext="{Binding Main, Source={StaticResource Locator}}"
-             Title="{i18n:Translate EditUser}">
+<ContentPage 
+    BackgroundColor="Black"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}"
+    Title="{i18n:Translate EditUser}"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
+    xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
+    x:Class="mLetsTatoo.Views.EditUserPage">
     <ContentPage.Content>
         <ScrollView
-            BackgroundColor="Black"
             BindingContext="{Binding EditUser}">
             <StackLayout
                 BackgroundColor="Black"
@@ -33,8 +34,9 @@
                         VerticalOptions="Center"/>
                     <Switch                    
                         HorizontalOptions="EndAndExpand"
-                        Scale=".9"
+                        IsEnabled="{Binding IsEnabled}"
                         IsToggled="{Binding IsActPass}"
+                        Scale=".9"
                         Toggled="SwPass_Toggled"
                         VerticalOptions="Center"
                         x:Name="SwPass"/>
@@ -53,6 +55,7 @@
                         HeightRequest="40"
                         HorizontalTextAlignment="Start"
                         IsCurvedCornersEnabled="True"
+                        IsEnabled="{Binding IsEnabled}"
                         IsPassword="True"
                         Placeholder="{i18n:Translate CurrentPassword}"
                         PlaceholderColor="Gray"
@@ -69,6 +72,7 @@
                         HeightRequest="40"
                         HorizontalTextAlignment="Start"
                         IsCurvedCornersEnabled="True"
+                        IsEnabled="{Binding IsEnabled}"
                         IsPassword="True"
                         Placeholder="{i18n:Translate NewPassword}"
                         PlaceholderColor="Gray"  
@@ -84,6 +88,7 @@
                         HeightRequest="40"
                         HorizontalTextAlignment="Start"
                         IsCurvedCornersEnabled="True"
+                        IsEnabled="{Binding IsEnabled}"
                         IsPassword="True"
                         Placeholder="{i18n:Translate ConfirmPassword}"
                         PlaceholderColor="Gray"
@@ -94,7 +99,6 @@
                 </StackLayout>
                 <ActivityIndicator
                     IsRunning="{Binding IsRunning}"
-                    IsVisible="False"
                     VerticalOptions="CenterAndExpand"/>
                 <StackLayout
                     Padding="10,0"
@@ -107,8 +111,9 @@
                         VerticalOptions="Center"/>
                     <Switch                    
                         HorizontalOptions="EndAndExpand"
-                        Scale=".9"
+                        IsEnabled="{Binding IsEnabled}"
                         IsToggled="{Binding IsActEmail}"
+                        Scale=".9"
                         Toggled="SwEmail_Toggled"
                         VerticalOptions="Center"
                         x:Name="SwEmail"/>
@@ -129,6 +134,7 @@
                         HeightRequest="40"
                         HorizontalTextAlignment="Start"
                         IsCurvedCornersEnabled="True"
+                        IsEnabled="{Binding IsEnabled}"
                         Keyboard="Email"
                         Placeholder="{i18n:Translate Email}"
                         PlaceholderColor="Gray"
@@ -147,8 +153,9 @@
                         VerticalOptions="Center"/>
                     <Switch                    
                         HorizontalOptions="EndAndExpand"
-                        Scale=".9"
+                        IsEnabled="{Binding IsEnabled}"
                         IsToggled="{Binding IsActPersonal}"
+                        Scale=".9"
                         Toggled="SwPersonal_Toggled"
                         VerticalOptions="Center"
                         x:Name="SwPersonal"/>
@@ -169,6 +176,7 @@
                         HeightRequest="40"
                         HorizontalTextAlignment="Start"
                         IsCurvedCornersEnabled="True"
+                        IsEnabled="{Binding IsEnabled}"
                         Placeholder="{i18n:Translate Name}"
                         PlaceholderColor="Gray"
                         Text="{Binding Cliente.Nombre, Mode=TwoWay}"
@@ -184,6 +192,7 @@
                         HeightRequest="40"
                         HorizontalTextAlignment="Start"
                         IsCurvedCornersEnabled="True"
+                        IsEnabled="{Binding IsEnabled}"
                         Placeholder="{i18n:Translate Lastname}"
                         PlaceholderColor="Gray"
                         Text="{Binding Cliente.Apellido, Mode=TwoWay}"
@@ -225,14 +234,15 @@
                         Margin="40,0,40,5"
                         VerticalOptions="StartAndExpand">
                     <Button
-                            BackgroundColor="Gray"
-                            BorderRadius="23"
-                            Command="{Binding SaveUserDataCommand}"
-                            FontAttributes="Bold"
-                            FontSize="20"
-                            HeightRequest="46"
-                            Text="{i18n:Translate Save}"
-                            TextColor="Black"/>
+                        BackgroundColor="Gray"
+                        BorderRadius="23"
+                        Command="{Binding SaveUserDataCommand}"
+                        FontAttributes="Bold"
+                        FontSize="20"
+                        HeightRequest="46"
+                        IsEnabled="{Binding IsEnabled}"
+                        Text="{i18n:Translate Save}"
+                        TextColor="Black"/>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

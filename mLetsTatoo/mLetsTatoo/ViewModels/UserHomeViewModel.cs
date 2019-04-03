@@ -26,6 +26,7 @@
         private byte[] byteImage;
         private ImageSource imageSource;
         private bool isRefreshing;
+        private bool isRunning;
         private ObservableCollection<EmpresaItemViewModel> empresas;
         private ObservableCollection<TecnicoItemViewModel> tecnicos;
         private T_clientes cliente;
@@ -78,6 +79,11 @@
             get { return this.byteImage; }
             set { SetValue(ref this.byteImage, value); }
         }
+        public bool IsRunning
+        {
+            get { return this.isRunning; }
+            set { SetValue(ref this.isRunning, value); }
+        }
         #endregion
 
         #region Constructors
@@ -89,16 +95,24 @@
             this.LoadCliente();
             this.LoadEmpresas();
             this.LoadTecnicos();
+            this.IsRunning = false;
             this.IsRefreshing = false;
         }
         #endregion
 
         #region Commands
-        public ICommand RefreshCommand
+        public ICommand RefreshEmpresasCommand
         {
             get
             {
                 return new RelayCommand(LoadEmpresas);
+            }
+        }
+        public ICommand RefreshArtistCommand
+        {
+            get
+            {
+                return new RelayCommand(LoadTecnicos);
             }
         }
         #endregion
@@ -107,11 +121,13 @@
         private async void LoadCliente()
         {
             this.IsRefreshing = true;
+            this.IsRunning = true;
 
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
                 this.IsRefreshing = false;
+                this.IsRunning = false;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
@@ -127,6 +143,7 @@
             if (!response.IsSuccess)
             {
                 this.IsRefreshing = false;
+                this.IsRunning = false;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
@@ -150,15 +167,19 @@
             }
 
             MainViewModel.GetInstance().UserPage = new UserViewModel(user, cliente);
+
             this.IsRefreshing = false;
+            this.IsRunning = false;
         }
         private async void LoadEmpresas()
         {
             this.IsRefreshing = true;
+            this.IsRunning = true;
 
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
+                this.IsRunning = false;
                 this.IsRefreshing = false;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
@@ -176,6 +197,7 @@
 
             if (!response.IsSuccess)
             {
+                this.IsRunning = false;
                 this.IsRefreshing = false;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
@@ -184,8 +206,11 @@
                 return;
             }
             this.EmpresaList = (List<T_empresas>)response.Result;
-            this.RefreshEmpresaList();
+
             this.IsRefreshing = false;
+            this.IsRunning = false;
+
+            this.RefreshEmpresaList();
         }
         private void RefreshEmpresaList()
         {
@@ -197,16 +222,17 @@
                 Nombre = e.Nombre,
             });
             this.Empresas = new ObservableCollection<EmpresaItemViewModel>(empresaSelected.OrderBy(e => e.Nombre));
-            this.IsRefreshing = false;
         }
         private async void LoadTecnicos()
         {
             this.IsRefreshing = true;
+            this.IsRunning = true;
 
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
                 this.IsRefreshing = false;
+                this.IsRunning = false;
                 await App.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
@@ -230,8 +256,10 @@
                 return;
             }
             this.TecnicoList = (List<T_tecnicos>)response.Result;
-            this.RefreshTecnicoList();
             this.IsRefreshing = false;
+            this.IsRunning = false;
+
+            this.RefreshTecnicoList();
         }
         public void RefreshTecnicoList()
         {
@@ -248,8 +276,6 @@
                 Nombre = t.Nombre,
             });
             this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
-
-            this.IsRefreshing = false;
         }
         #endregion
     }

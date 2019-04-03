@@ -211,7 +211,7 @@
         private async void EditUser()
         {
             MainViewModel.GetInstance().EditUser = new EditUserViewModel(cliente, user);
-            await Application.Current.MainPage.Navigation.PushAsync(new EditUserPage());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new EditUserPage());
         }
         #endregion
     }

@@ -129,6 +129,7 @@
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
+
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
@@ -143,6 +144,9 @@
             var response = await this.apiService.GetList<T_clientes>(urlApi, prefix, controller);
             if (!response.IsSuccess)
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+
                 await App.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
@@ -152,10 +156,10 @@
             }
             var listcte = (List<T_clientes>)response.Result;
             if (listcte.Any(u => u.Correo == this.Email && u.Bloqueo == true))
-            {
-                
+            {                
                 this.IsRunning = false;
                 this.IsEnabled = true;
+
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.AccountBloqued,
@@ -184,6 +188,7 @@
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
+
                 await App.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
@@ -197,6 +202,7 @@
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
+
                 await App.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
@@ -209,7 +215,7 @@
             var single = listusu.Single(u => u.Usuario == this.User && u.Ucorreo == this.Email);
             this.id_usuario = single.Id_usuario;
 
-            ByteImage = apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
+            this.ByteImage = apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
 
             var phone = int.Parse(Phone);
             var cliente = new T_clientes
@@ -221,7 +227,7 @@
                 F_Nac = this.Birthdate,
                 Bloqueo = clibloq,
                 Id_Usuario = id_usuario,
-                F_Perfil = ByteImage,
+                F_Perfil = this.ByteImage,
                 
             };
 
@@ -232,6 +238,7 @@
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
+
                 await App.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
@@ -239,9 +246,10 @@
                 return;
             }
 
+            await Application.Current.MainPage.Navigation.PopToRootAsync();
+
             this.IsRunning = false;
             this.IsEnabled = true;
-            await Application.Current.MainPage.Navigation.PopToRootAsync();
         }
 
         private async void RegPersonal()
@@ -295,6 +303,7 @@
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
+
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
@@ -309,6 +318,9 @@
             var response = await this.apiService.GetList<T_usuarios>(urlApi, prefix, controller);
             if (!response.IsSuccess)
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+
                 await App.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
@@ -321,6 +333,7 @@
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
+
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.UserExistError,
@@ -333,6 +346,7 @@
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
+
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.EmailExistError,
@@ -341,12 +355,10 @@
                 return;
             }
 
+            await Application.Current.MainPage.Navigation.PushModalAsync(new RegisterPersonalPage());
+
             this.IsRunning = false;
             this.IsEnabled = true;
-
-            //MainViewModel.GetInstance().Register = new RegisterViewModel();
-            this.apiService = new ApiService();
-            await Application.Current.MainPage.Navigation.PushAsync(new RegisterPersonalPage());
         }
         #endregion
     }

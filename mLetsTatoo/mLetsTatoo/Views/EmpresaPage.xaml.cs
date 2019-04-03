@@ -1,7 +1,7 @@
 ﻿namespace mLetsTatoo.Views
 {
+    using mLetsTatoo.Helpers;
     using mLetsTatoo.ViewModels;
-    using System;
     using Xamarin.Forms;
     public partial class EmpresaPage : TabbedPage
     {

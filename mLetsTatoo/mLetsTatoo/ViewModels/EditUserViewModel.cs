@@ -19,7 +19,6 @@ namespace mLetsTatoo.ViewModels
         #region Attributes
         private T_clientes cliente;
         private T_usuarios user;
-        private bool isRefreshing;
         private bool isRunning;
         private bool isEnabled;
         private bool isActPass;
@@ -28,7 +27,6 @@ namespace mLetsTatoo.ViewModels
         #endregion
 
         #region Properties
-
         public string CurrentPassword { get; set; }
         public string ConfirmPassword { get; set; }
         public string NewPassword { get; set; }
@@ -46,11 +44,6 @@ namespace mLetsTatoo.ViewModels
         {
             get { return this.isRunning; }
             set { SetValue(ref this.isRunning, value); }
-        }
-        public bool IsRefreshing
-        {
-            get { return this.isRefreshing; }
-            set { SetValue(ref this.isRefreshing, value); }
         }
         public bool IsEnabled
         {
@@ -80,6 +73,8 @@ namespace mLetsTatoo.ViewModels
             this.apiService = new ApiService();
             this.cliente = cliente;
             this.user = user;
+            this.IsRunning = false;
+            this.isEnabled = true;
         }
         #endregion
 
@@ -199,15 +194,16 @@ namespace mLetsTatoo.ViewModels
                 }
 
             }
+
             this.IsRunning = true;
             this.IsEnabled = false;
-
 
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
+
                 await App.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
@@ -245,6 +241,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
+
                 await App.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
@@ -272,6 +269,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
+
                 await App.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
@@ -279,14 +277,15 @@ namespace mLetsTatoo.ViewModels
                 return;
             }
 
+            MainViewModel.GetInstance().UserPage = new UserViewModel(user, cliente);
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+
             this.IsRunning = false;
             this.IsEnabled = true;
+
             this.IsActPass = false;
             this.IsActEmail = false;
             this.IsActPersonal = false;
-
-            MainViewModel.GetInstance().UserPage = new UserViewModel(user, cliente);
-            await Application.Current.MainPage.Navigation.PopAsync();
         }
         #endregion
 

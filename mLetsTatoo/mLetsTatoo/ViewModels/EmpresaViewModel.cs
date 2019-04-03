@@ -112,6 +112,20 @@
         #endregion
 
         #region Commands
+        public ICommand RefreshLocalesCommand
+        {
+            get
+            {
+                return new RelayCommand(LoadLocales);
+            }
+        }
+        public ICommand RefreshArtistCommand
+        {
+            get
+            {
+                return new RelayCommand(LoadTecnicos);
+            }
+        }
         #endregion
 
         #region Methods

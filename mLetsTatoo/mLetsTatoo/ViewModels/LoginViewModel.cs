@@ -231,7 +231,7 @@
         private async void Registro()
         {
             MainViewModel.GetInstance().Register = new RegisterViewModel();
-            await Application.Current.MainPage.Navigation.PushAsync(new RegisterAccountPage());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new RegisterAccountPage());
         }
         #endregion
         #region Singleton

@@ -1,15 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
-             xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
-             BindingContext="{Binding Main, Source={StaticResource Locator}}"
-             x:Class="mLetsTatoo.Views.UserPage">
+<ContentPage 
+    BackgroundColor="Black"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
+    xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
+    x:Class="mLetsTatoo.Views.UserPage">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout
                     BindingContext="{Binding UserPage}"
-                    BackgroundColor="Black"
                     Padding="5" >
                 <StackLayout
                         VerticalOptions="StartAndExpand">
