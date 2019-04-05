@@ -88,11 +88,29 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Artists.
+        ///   Looks up a localized string similar to Schedule your appointment!.
+        /// </summary>
+        internal static string AppointmentSchedule {
+            get {
+                return ResourceManager.GetString("AppointmentSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Artist.
         /// </summary>
         internal static string Artist {
             get {
                 return ResourceManager.GetString("Artist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Artists.
+        /// </summary>
+        internal static string Artists {
+            get {
+                return ResourceManager.GetString("Artists", resourceCulture);
             }
         }
         
@@ -525,6 +543,51 @@ namespace mLetsTatoo.Resources {
         internal static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search....
+        /// </summary>
+        internal static string Search {
+            get {
+                return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search appointments....
+        /// </summary>
+        internal static string SearchAppointment {
+            get {
+                return ResourceManager.GetString("SearchAppointment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search artists....
+        /// </summary>
+        internal static string SearchArtists {
+            get {
+                return ResourceManager.GetString("SearchArtists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search studios....
+        /// </summary>
+        internal static string SearchStudios {
+            get {
+                return ResourceManager.GetString("SearchStudios", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Artist....
+        /// </summary>
+        internal static string SelectArtist {
+            get {
+                return ResourceManager.GetString("SelectArtist", resourceCulture);
             }
         }
         

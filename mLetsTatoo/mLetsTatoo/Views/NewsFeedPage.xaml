@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    BackgroundColor="Black"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
+    xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
+    xmlns:page="clr-namespace:mLetsTatoo.CustomPages;assembly=mLetsTatoo"
+    xmlns:views="clr-namespace:mLetsTatoo.Views"
+    x:Class="mLetsTatoo.Views.NewsFeedPage">
+        <page:SNavigationPage.NavContent>
+        <Grid 
+            BindingContext="{Binding UserHome}"
+            Margin="5,10,5,5">
+            <SearchBar
+                CancelButtonColor="Gray"
+                Placeholder="{i18n:Translate Search}" 
+                PlaceholderColor="Gray"
+                SearchCommand="{Binding SearchCommand}"
+                Text="{Binding Filter}"
+                TextColor="LightGray"
+                x:Name="SearchBar"/>
+            </Grid>
+        </page:SNavigationPage.NavContent>
+        <ContentPage.Content>
+        <StackLayout>
+            <StackLayout 
+                Orientation="Horizontal">
+                <Grid 
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    ColumnSpacing="0"
+                    RowSpacing="0"
+                    Padding="2,10">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--Details Tab-->
+                    <StackLayout 
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Padding="4"
+                        VerticalOptions="CenterAndExpand">
+                        <Image
+                            Source="NewsFeed.png"
+                            WidthRequest="25"
+                            x:Name="ImgNews">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="NewsTab"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </StackLayout>
+
+                    <!-- Tab 2 -->
+                    <StackLayout 
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Padding="7.5"
+                        VerticalOptions="CenterAndExpand">
+                        <Image
+                            Source="CitasUns.png"
+                            WidthRequest="25"
+                            x:Name="ImgCitas">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="CitasTab"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </StackLayout>
+                    
+                    <!--Tab 3-->
+                    <StackLayout 
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Padding="4"
+                        VerticalOptions="CenterAndExpand">
+                        <Image
+                            Source="LocalUns.png"
+                            WidthRequest="25"
+                            x:Name="ImgLocal">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="StudiosTab"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </StackLayout>
+
+                    <!-- Tab 4 -->
+                    <StackLayout 
+                        Grid.Row="0"
+                        Grid.Column="3"
+                        Padding="7.5"
+                        VerticalOptions="CenterAndExpand">
+                        <Image
+                            Source="TattooUns.png"
+                            WidthRequest="25"
+                            x:Name="ImgTattoo">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="ArtistsTab"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </StackLayout>
+                    
+                    <!--Tab 3-->
+                    <StackLayout 
+                        Grid.Row="0"
+                        Grid.Column="4"
+                        Padding="4"
+                        VerticalOptions="CenterAndExpand">
+                        <Image
+                            Source="NotificacionUns.png"
+                            WidthRequest="25"
+                            x:Name="ImgNotif">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="NotifTab"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </StackLayout>
+
+                    <!-- Tab 4 -->
+                    <StackLayout 
+                        Grid.Row="0"
+                        Grid.Column="5"
+                        Padding="7.5"
+                        VerticalOptions="CenterAndExpand">
+                        <Image
+                            Source="OptionsUns.png"
+                            WidthRequest="25"
+                            x:Name="ImgOptions">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OptionsTab"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </StackLayout>
+                </Grid>
+            </StackLayout>
+        
+            <!-- tab 1 container -->
+            <StackLayout 
+                x:Name="NewsFeed">
+            </StackLayout>
+            <!-- tab 2 container -->
+            <StackLayout 
+                x:Name="Citas" 
+                IsVisible="false">
+            </StackLayout>
+            <!-- tab 3 container -->
+            <StackLayout 
+                x:Name="Studios" 
+                IsVisible="false">
+            </StackLayout>
+            <!-- tab 4 container -->
+            <StackLayout 
+                x:Name="Artists" 
+                IsVisible="false">
+            </StackLayout>
+            <!-- tab 5 container -->
+            <StackLayout 
+                x:Name="Notificatios" 
+                IsVisible="false">
+            </StackLayout>
+            <!-- tab 6 container -->
+            <StackLayout 
+                x:Name="Options" 
+                IsVisible="false">
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

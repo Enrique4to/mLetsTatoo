@@ -82,7 +82,6 @@
             }
         }
 
-
         #endregion
         #region Methods
         private async void ChangeImage()

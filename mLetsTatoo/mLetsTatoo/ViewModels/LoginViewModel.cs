@@ -8,6 +8,7 @@
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Helpers;
+    using mLetsTatoo.CustomPages;
     using mLetsTatoo.Models;
     using Services;
     using Views;
@@ -204,12 +205,13 @@
                 this.Pass = string.Empty;
 
                 MainViewModel.GetInstance().UserHome = new UserHomeViewModel(user);
-                Application.Current.MainPage = new NavigationPage(new HomePage())
+                Application.Current.MainPage = new SNavigationPage(new UserHomePage())
                 {
                     BarBackgroundColor = Color.FromRgb(20, 20, 20),
                     BarTextColor = Color.FromRgb(200, 200, 200),
                     Title = this.user.Usuario.ToUpper(),
                 };
+                //Application.Current.MainPage = new UserHomePage();
             }
             if (this.user.Tipo == 2)
             {
@@ -220,17 +222,17 @@
                 this.Pass = string.Empty;
 
                 MainViewModel.GetInstance().TecnicoHome = new TecnicoHomeViewModel();
-                Application.Current.MainPage = new NavigationPage(new TecnicoHomePage())
+                Application.Current.MainPage = new SNavigationPage(new TecnicoHomePage())
                 {
                     BarBackgroundColor = Color.FromRgb(20, 20, 20),
                     BarTextColor = Color.FromRgb(200, 200, 200),
                 };
+                //Application.Current.MainPage = new TecnicoHomePage();
             }
-
         }
         private async void Registro()
         {
-            MainViewModel.GetInstance().Register = new RegisterViewModel();
+            MainViewModel.GetInstance().Register = new RegisterAccountViewModel();
             await Application.Current.MainPage.Navigation.PushModalAsync(new RegisterAccountPage());
         }
         #endregion

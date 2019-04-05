@@ -11,14 +11,13 @@ namespace mLetsTatoo.Models
         [Key]
         public int Id_Imagen { get; set; }
         [Required]
-        public int Id_Cita { get; set; }
-        [Required]
         public byte[] Imagen
         {
             get;
             set;
         }
-        public string Descripcion { get; set; }
+        [Required]
+        public int Id_Cita { get; set; }
         #endregion
     }
 }

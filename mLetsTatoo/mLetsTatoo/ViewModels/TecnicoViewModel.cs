@@ -12,7 +12,8 @@
 
         #endregion
 
-        #region Attributes        
+        #region Attributes
+        private string selectedArtist;
         private string nombreCompleto;
         private byte[] byteImage;
         private ImageSource imageSource;
@@ -58,6 +59,11 @@
             get { return this.nombreCompleto; }
             set { SetValue(ref this.nombreCompleto, value); }
         }
+        public string SelectedArtist
+        {
+            get { return this.selectedArtist; }
+            set { SetValue(ref this.selectedArtist, value); }
+        }
         #endregion
 
         #region Constructors
@@ -77,6 +83,7 @@
         #region Methods
         private void LoadTecnico()
         {
+            this.selectedArtist = $"{this.tecnico.Apodo} - {this.tecnico.Nombre} {this.tecnico.Apellido1}";
             this.NombreCompleto = $"{this.tecnico.Nombre} {this.tecnico.Apellido1}";
 
             if (cliente.F_Perfil != null)

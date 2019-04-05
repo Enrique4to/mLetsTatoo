@@ -279,7 +279,7 @@
   <data name="Study" xml:space="preserve">
     <value>Studio</value>
   </data>
-  <data name="Artist" xml:space="preserve">
+  <data name="Artists" xml:space="preserve">
     <value>Artists</value>
   </data>
   <data name="Images" xml:space="preserve">
@@ -293,5 +293,26 @@
   </data>
   <data name="BranchOffice" xml:space="preserve">
     <value>Branch Office</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search...</value>
+  </data>
+  <data name="SearchStudios" xml:space="preserve">
+    <value>Search studios...</value>
+  </data>
+  <data name="SearchArtists" xml:space="preserve">
+    <value>Search artists...</value>
+  </data>
+  <data name="SearchAppointment" xml:space="preserve">
+    <value>Search appointments...</value>
+  </data>
+  <data name="Artist" xml:space="preserve">
+    <value>Artist</value>
+  </data>
+  <data name="SelectArtist" xml:space="preserve">
+    <value>Select Artist...</value>
+  </data>
+  <data name="AppointmentSchedule" xml:space="preserve">
+    <value>Schedule your appointment!</value>
   </data>
 </root>

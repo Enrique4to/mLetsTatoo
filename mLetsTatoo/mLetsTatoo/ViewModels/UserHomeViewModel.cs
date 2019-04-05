@@ -31,11 +31,25 @@
         private ObservableCollection<TecnicoItemViewModel> tecnicos;
         private T_clientes cliente;
         private T_usuarios user;
+        private T_tecnicos tecnico;
         private Image image;
         private string file;
+        public string filter;
+        public string filterEmpresa;
+        public string filterTecnico;
         #endregion
 
         #region Properties
+        public string TipoBusqueda { get; set; }
+        public string Filter
+        {
+            get { return this.filter; }
+            set
+            {
+                this.filter = value;
+
+            }
+        }
         public List<T_empresas> EmpresaList { get; set; }
         public List<T_tecnicos> TecnicoList { get; set; }
         public string NomUsuario { get; set; }
@@ -49,15 +63,15 @@
             get { return this.user; }
             set { SetValue(ref this.user, value); }
         }
+        public T_tecnicos Tecnico
+        {
+            get { return this.tecnico; }
+            set { SetValue(ref this.tecnico, value); }
+        }
         public Image Image
         {
             get { return this.image; }
             set { SetValue(ref this.image, value); }
-        }
-        public bool IsRefreshing
-        {
-            get { return this.isRefreshing; }
-            set { SetValue(ref this.isRefreshing, value); }
         }
         public ObservableCollection<EmpresaItemViewModel> Empresas
         {
@@ -84,6 +98,11 @@
             get { return this.isRunning; }
             set { SetValue(ref this.isRunning, value); }
         }
+        public bool IsRefreshing
+        {
+            get { return this.isRefreshing; }
+            set { SetValue(ref this.isRefreshing, value); }
+        }
         #endregion
 
         #region Constructors
@@ -97,6 +116,7 @@
             this.LoadTecnicos();
             this.IsRunning = false;
             this.IsRefreshing = false;
+            this.TipoBusqueda = "All";
         }
         #endregion
 
@@ -113,6 +133,20 @@
             get
             {
                 return new RelayCommand(LoadTecnicos);
+            }
+        }
+        public ICommand SearchCommand
+        {
+            get
+            {
+                return new RelayCommand(Busqueda);
+            }
+        }
+        public ICommand NewAppointmentCommand
+        {
+            get
+            {
+                return new RelayCommand(GoToCitasPage);
             }
         }
         #endregion
@@ -212,16 +246,33 @@
 
             this.RefreshEmpresaList();
         }
-        private void RefreshEmpresaList()
+        public void RefreshEmpresaList()
         {
-            var empresaSelected = this.EmpresaList.Select(e => new EmpresaItemViewModel
+            if(string.IsNullOrEmpty(this.filterEmpresa))
             {
-                Bloqueo = e.Bloqueo,
-                Id_Empresa = e.Id_Empresa,
-                Logo = e.Logo,
-                Nombre = e.Nombre,
-            });
-            this.Empresas = new ObservableCollection<EmpresaItemViewModel>(empresaSelected.OrderBy(e => e.Nombre));
+                var empresaSelected = this.EmpresaList.Select(e => new EmpresaItemViewModel
+                {
+                    Bloqueo = e.Bloqueo,
+                    Id_Empresa = e.Id_Empresa,
+                    Logo = e.Logo,
+                    Nombre = e.Nombre,
+                });
+                this.Empresas = new ObservableCollection<EmpresaItemViewModel>(
+                    empresaSelected.OrderBy(e => e.Nombre));
+            }
+            else
+            {
+                var empresaSelected = this.EmpresaList.Select(e => new EmpresaItemViewModel
+                {
+                    Bloqueo = e.Bloqueo,
+                    Id_Empresa = e.Id_Empresa,
+                    Logo = e.Logo,
+                    Nombre = e.Nombre,
+                }).Where(e => e.Nombre.ToLower().Contains(this.filterEmpresa.ToLower())).ToList();
+                this.Empresas = new ObservableCollection<EmpresaItemViewModel>(
+                    empresaSelected.OrderBy(e => e.Nombre));
+            }
+
         }
         private async void LoadTecnicos()
         {
@@ -263,19 +314,65 @@
         }
         public void RefreshTecnicoList()
         {
-             var tecnico = this.TecnicoList.Select(t => new TecnicoItemViewModel
+            if (string.IsNullOrEmpty(this.filterTecnico))
             {
-                Apellido1 = t.Apellido1,
-                Apellido2 = t.Apellido2,
-                Apodo = t.Apodo,
-                Carrera = t.Carrera,
-                F_Perfil = t.F_Perfil,
-                Id_Empresa = t.Id_Empresa,
-                Id_Local = t.Id_Local,
-                Id_Tecnico = t.Id_Tecnico,
-                Nombre = t.Nombre,
-            });
-            this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
+                var tecnico = this.TecnicoList.Select(t => new TecnicoItemViewModel
+                {
+                    Apellido1 = t.Apellido1,
+                    Apellido2 = t.Apellido2,
+                    Apodo = t.Apodo,
+                    Carrera = t.Carrera,
+                    F_Perfil = t.F_Perfil,
+                    Id_Empresa = t.Id_Empresa,
+                    Id_Local = t.Id_Local,
+                    Id_Tecnico = t.Id_Tecnico,
+                    Nombre = t.Nombre,
+                });
+                this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
+            }
+            else
+            {
+                var tecnico = this.TecnicoList.Select(t => new TecnicoItemViewModel
+                {
+                    Apellido1 = t.Apellido1,
+                    Apellido2 = t.Apellido2,
+                    Apodo = t.Apodo,
+                    Carrera = t.Carrera,
+                    F_Perfil = t.F_Perfil,
+                    Id_Empresa = t.Id_Empresa,
+                    Id_Local = t.Id_Local,
+                    Id_Tecnico = t.Id_Tecnico,
+                    Nombre = t.Nombre,
+                }).Where(t => t.Nombre.ToLower().Contains(this.filterTecnico.ToLower()) 
+                || t.Apodo.ToLower().Contains(this.filterTecnico.ToLower())
+                || t.Apellido1.ToLower().Contains(this.filterTecnico.ToLower())).ToList();
+                this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
+            }
+
+        }
+        public void Busqueda()
+        {
+            if (TipoBusqueda == "All")
+            {
+            }
+            if (TipoBusqueda == "Studios")
+            {
+                this.filterEmpresa = this.filter;
+                this.RefreshEmpresaList();
+            }
+            if (TipoBusqueda == "Citas")
+            {
+            }
+            if (TipoBusqueda == "Artists")
+            {
+                this.filterTecnico = this.filter;
+                this.RefreshTecnicoList();
+            }
+        }
+        private async void GoToCitasPage()
+        {
+            MainViewModel.GetInstance().CitasPage = new CitasViewModel(tecnico);
+            await Application.Current.MainPage.Navigation.PushModalAsync(new CitasPage());
         }
         #endregion
     }

@@ -1,44 +1,69 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            x:Class="mLetsTatoo.Views.HomePage"
-            xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
-            xmlns:views="clr-namespace:mLetsTatoo.Views"
-            xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
-            BindingContext="{Binding Main, Source={StaticResource Locator}}"
-            x:Name="UserHome">
-    <TabbedPage.ToolbarItems>
-        <!--<ToolbarItem BindingContext="{Binding UserHome}"
-                     Icon="Options.png"
-                     Command="{Binding UserPageCommand}"/>-->
-        <!--<ToolbarItem Icon="Citas"/>
-        <ToolbarItem Icon="Notificacion"/>-->
-    </TabbedPage.ToolbarItems>
+<TabbedPage
+    BackgroundColor="Black"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+xmlns:schedule="clr-namespace:Syncfusion.SfSchedule.XForms;assembly=Syncfusion.SfSchedule.XForms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
+    xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
+    xmlns:page="clr-namespace:mLetsTatoo.CustomPages;assembly=mLetsTatoo"
+    xmlns:views="clr-namespace:mLetsTatoo.Views"
+    x:Class="mLetsTatoo.Views.UserHomePage"
+    x:Name="Root">
+    <page:SNavigationPage.NavContent>
+        <Grid
+            Margin="2,10,2,2">
+            <SearchBar
+                CancelButtonColor="Gray"
+                Placeholder="{i18n:Translate Search}" 
+                PlaceholderColor="Gray"
+                SearchCommand="{Binding SearchCommand, Source={x:Reference Root}}"
+                Text="{Binding Filter, Source={x:Reference Root}}"
+                TextColor="LightGray"
+                x:Name="Search"/>
+        </Grid>
+
+    </page:SNavigationPage.NavContent>
     <TabbedPage.Children>
-        
+
         <ContentPage
             Icon="NewsFeed.png"
-            x:Name="Newsfeed">
+            x:Name="News">
             <StackLayout
             BindingContext="{Binding UserHome}"
-            BackgroundColor="Black"
             Padding="5">
-
             </StackLayout>
         </ContentPage>
-        
+
         <ContentPage
-            Icon="Citas.png"
+            Icon="CitasUns.png"
             x:Name="Citas">
             <StackLayout
-            BindingContext="{Binding UserHome}"
-            BackgroundColor="Black"
-            Padding="5">
+                BindingContext="{Binding UserHome}"
+                BackgroundColor="Black"
+                Padding="5">
+                <Grid                    
+                    VerticalOptions="FillAndExpand">
+                    <schedule:SfSchedule
+                    VerticalOptions="FillAndExpand"
+                    ScheduleView ="WeekView">
+                    </schedule:SfSchedule>
+                    <Image
+                        HorizontalOptions="End"
+                        Source="NewAppointment.png"
+                        VerticalOptions="End">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command ="{Binding NewAppointmentCommand}"/>
+                        </Image.GestureRecognizers>
+                        
+                    </Image>
+                </Grid>
             </StackLayout>
         </ContentPage>
-        
+
         <ContentPage
-            Icon="Local.png"        
+            Icon="LocalUns.png"        
             x:Name="Locals">
             <StackLayout
                 BindingContext="{Binding UserHome}"
@@ -107,9 +132,9 @@
                 </StackLayout>
             </StackLayout>
         </ContentPage>
-        
+
         <ContentPage
-            Icon="Tattoo.png"            
+            Icon="TattooUns.png"            
             x:Name="Artists">
             <StackLayout
             BindingContext="{Binding UserHome}"
@@ -201,9 +226,9 @@
                 </StackLayout>
             </StackLayout>
         </ContentPage>
-            
+
         <ContentPage
-            Icon="Notificacion.png"
+            Icon="NotificacionUns.png"
             x:Name="Notifications">
             <StackLayout
             BindingContext="{Binding UserHome}"
@@ -212,11 +237,12 @@
 
             </StackLayout>
         </ContentPage>
-            
+
         <views:UserPage 
             BindingContext="{Binding UserPage}"
-            Icon="Options.png">            
+            Icon="OptionsUns.png"
+            x:Name="UserOptions">
         </views:UserPage>
-            
+
     </TabbedPage.Children>
 </TabbedPage>

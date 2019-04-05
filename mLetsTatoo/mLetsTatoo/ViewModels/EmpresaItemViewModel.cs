@@ -44,6 +44,11 @@
             this.user = MainViewModel.GetInstance().UserHome.User;
             this.cliente = MainViewModel.GetInstance().UserHome.Cliente;
             MainViewModel.GetInstance().Empresa = new EmpresaViewModel(this, user, cliente);
+            //Application.Current.MainPage = new NavigationPage(new EmpresaPage())
+            //{
+            //    BarBackgroundColor = Color.FromRgb(20, 20, 20),
+            //    BarTextColor = Color.FromRgb(200, 200, 200),
+            //};
             await Application.Current.MainPage.Navigation.PushAsync(new EmpresaPage());
             //await Application.Current.MainPage.Navigation.PushModalAsync(new EmpresaPage());
 

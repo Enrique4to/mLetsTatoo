@@ -21,5 +21,7 @@ namespace mLetsTatoo.Models
         public string Nota { get; set; }
         [Required]
         public DateTime F_nota { get; set; }
+        [Required]
+        public int Id_Cita { get; set; }
     }
 }

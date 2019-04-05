@@ -157,6 +157,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </StackLayout>
-        </ContentPage>            
+        </ContentPage>
+        
     </TabbedPage.Children>
 </TabbedPage>

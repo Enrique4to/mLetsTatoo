@@ -3,16 +3,17 @@
     public class MainViewModel
     {
         #region ViewModels
-
         public LoginViewModel Login { get; set; }
         public UserHomeViewModel UserHome { get; set; }
         public TecnicoHomeViewModel TecnicoHome { get; set; }
         public EmpresaViewModel Empresa { get; set; }
-        public RegisterViewModel Register { get; set; }
+        public RegisterAccountViewModel Register { get; set; }
         public UserViewModel UserPage { get; set; }
         public EditUserViewModel EditUser { get; set; }
         public TecnicoViewModel Tecnico { get; set; }
         public LocalViewModel LocalPage { get; set; }
+        public CitasViewModel CitasPage { get; set; }
+        public SearchViewModel Search { get; set; }
         #endregion
 
         #region Constructors

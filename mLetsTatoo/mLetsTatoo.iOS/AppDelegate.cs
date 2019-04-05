@@ -1,3 +1,4 @@
+using Syncfusion.SfSchedule.XForms.iOS;
 using Syncfusion.SfPicker.XForms.iOS;
 using Syncfusion.SfCalendar.XForms.iOS;
 using System;
@@ -24,7 +25,8 @@ namespace mLetsTatoo.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            global::Xamarin.Forms.Forms.Init();
+global::Xamarin.Forms.Forms.Init();
+SfScheduleRenderer.Init();
             SfPickerRenderer.Init();
             SfCalendarRenderer.Init();
             LoadApplication(new App());

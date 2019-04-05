@@ -12,10 +12,8 @@ namespace mLetsTatoo.Models
         [Required]
         public int Id_Trabajo { get; set; }
         [Required]
-        public DateTime Fecha { get; set; }
+        public DateTime F_Inicio { get; set; }
         [Required]
-        public DateTime H_Inicio { get; set; }
-        [Required]
-        public DateTime H_Fin { get; set; }
+        public DateTime F_Fin { get; set; }
     }
 }

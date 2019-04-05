@@ -227,9 +227,9 @@
         {
             get { return Resource.Study; }
         }
-        public static string Artist
+        public static string Artists
         {
-            get { return Resource.Artist; }
+            get { return Resource.Artists; }
         }
         public static string Images
         {
@@ -247,6 +247,30 @@
         {
             get { return Resource.AboutStudie; }
         }
-
+        public static string Search
+        {
+            get { return Resource.Search; }
+        }
+        public static string SearchStudios
+        {
+            get { return Resource.SearchStudios; }
+        }
+        public static string SearchArtists
+        {
+            get { return Resource.SearchArtists; }
+        }
+        public static string SearchAppointment
+        {
+            get { return Resource.SearchAppointment; }
+        }
+        public static string SelectArtist
+        {
+            get { return Resource.SelectArtist; }
+        }
+        public static string AppointmentSchedule
+        {
+            get { return Resource.AppointmentSchedule; }
+        }
+        
     }
 }

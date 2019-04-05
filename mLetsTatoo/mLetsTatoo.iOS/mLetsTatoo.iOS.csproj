@@ -93,10 +93,12 @@
     <Compile Include="Implementations\Localize.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Platform\Platform.cs" />
     <Compile Include="Renderers\CircleImageRenderer.cs" />
     <Compile Include="Renderers\CustomDatePickerRenderer.cs" />
     <Compile Include="Renderers\CustomRegEntryRenderer.cs" />
     <Compile Include="Renderers\CustomEntryRenderer.cs" />
+    <Compile Include="Renderers\SNavigationPageRenderer.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -157,24 +159,21 @@
       <Version>5.4.1.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="Syncfusion.Xamarin.SfCalendar">
-      <Version>16.4.0.54</Version>
-    </PackageReference>
-    <PackageReference Include="Syncfusion.Xamarin.SfChart">
-      <Version>16.4.0.54</Version>
+      <Version>12.0.2-beta1</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfPicker">
-      <Version>16.4.0.54</Version>
+      <Version>17.1.0.38</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfSchedule">
+      <Version>17.1.0.38</Version>
     </PackageReference>
     <PackageReference Include="Xam.Plugin.Connectivity">
-      <Version>3.2.0</Version>
+      <Version>4.0.0.190-beta</Version>
     </PackageReference>
     <PackageReference Include="Xam.Plugin.Media">
-      <Version>4.0.1.5</Version>
+      <Version>4.2.0-beta</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="3.4.0.1008975" />
+    <PackageReference Include="Xamarin.Forms" Version="4.0.0.304370-pre8" />
     <PackageReference Include="Xamarin.Forms.CarouselView">
       <Version>2.3.0-pre2</Version>
     </PackageReference>
@@ -242,5 +241,38 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Locales.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\CitasUns.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ImagesUns.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\InfoUns.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\LocalesUns.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\LocalUns.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\NewsFeedUns.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\NotificacionUns.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\OptionsUns.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\TattooUns.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\NewAppointment.png" />
   </ItemGroup>
 </Project>
