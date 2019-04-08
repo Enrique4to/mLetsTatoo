@@ -29,6 +29,7 @@
   <ItemGroup>
     <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2-beta1" />
+    <PackageReference Include="Syncfusion.Xamarin.Buttons" Version="17.1.0.38" />
     <PackageReference Include="Syncfusion.Xamarin.SfPicker" Version="17.1.0.38" />
     <PackageReference Include="Syncfusion.Xamarin.SfSchedule" Version="17.1.0.38" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="4.0.0.190-beta" />
@@ -56,6 +57,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Update="Views\NewDatePage.xaml.cs">
+      <DependentUpon>NewDatePage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\SearchPage.xaml.cs">
       <DependentUpon>SearchPage.xaml</DependentUpon>
     </Compile>
@@ -69,7 +73,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\CitasPage.xaml">
+    <EmbeddedResource Update="Views\NewDatePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\EditUserPage.xaml">

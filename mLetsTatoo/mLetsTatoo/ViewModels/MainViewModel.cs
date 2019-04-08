@@ -12,7 +12,7 @@
         public EditUserViewModel EditUser { get; set; }
         public TecnicoViewModel Tecnico { get; set; }
         public LocalViewModel LocalPage { get; set; }
-        public CitasViewModel CitasPage { get; set; }
+        public NewDateViewModel NewDatePage { get; set; }
         public SearchViewModel Search { get; set; }
         #endregion
 

@@ -271,6 +271,78 @@
         {
             get { return Resource.AppointmentSchedule; }
         }
-        
+        public static string Date
+        {
+            get { return Resource.Date; }
+        }
+        public static string Time
+        {
+            get { return Resource.Time; }
+        }
+        public static string AppointmentWho
+        {
+            get { return Resource.AppointmentWho; }
+        }
+        public static string AppointmentWhen
+        {
+            get { return Resource.AppointmentWhen; }
+        }
+        public static string CharacteristicsArt
+        {
+            get { return Resource.CharacteristicsArt; }
+        }
+        public static string Size
+        {
+            get { return Resource.Size; }
+        }
+        public static string Complexity
+        {
+            get { return Resource.Complexity; }
+        }
+        public static string Small
+        {
+            get { return Resource.Small; }
+        }
+        public static string MediumSize
+        {
+            get { return Resource.MediumSize; }
+        }
+        public static string Big
+        {
+            get { return Resource.Big; }
+        }
+        public static string Easy
+        {
+            get { return Resource.Easy; }
+        }
+        public static string MediumComplexity
+        {
+            get { return Resource.MediumComplexity; }
+        }
+        public static string Hard
+        {
+            get { return Resource.Hard; }
+        }
+        public static string DescribeArt
+        {
+            get { return Resource.DescribeArt; }
+        }
+        public static string AddArtImage
+        {
+            get { return Resource.AddArtImage; }
+        }
+        public static string SelectedArtistError
+        {
+            get { return Resource.SelectedArtistError; }
+        }
+        public static string DateError
+        {
+            get { return Resource.DateError; }
+        }
+        public static string DescribeArtError
+        {
+            get { return Resource.DescribeArtError; }
+        }
+
     }
 }

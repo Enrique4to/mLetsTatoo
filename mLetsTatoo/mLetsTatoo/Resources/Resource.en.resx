@@ -315,4 +315,58 @@
   <data name="AppointmentSchedule" xml:space="preserve">
     <value>Schedule your appointment!</value>
   </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="AppointmentWho" xml:space="preserve">
+    <value>Who do you want the appointment with?!</value>
+  </data>
+  <data name="AppointmentWhen" xml:space="preserve">
+    <value>When do you want the appointment?!</value>
+  </data>
+  <data name="CharacteristicsArt" xml:space="preserve">
+    <value>Characteristics of your art...</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size:</value>
+  </data>
+  <data name="Complexity" xml:space="preserve">
+    <value>Complexity:</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Small</value>
+  </data>
+  <data name="MediumSize" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="Big" xml:space="preserve">
+    <value>Big</value>
+  </data>
+  <data name="Easy" xml:space="preserve">
+    <value>Easy</value>
+  </data>
+  <data name="Hard" xml:space="preserve">
+    <value>Hard</value>
+  </data>
+  <data name="MediumComplexity" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="DescribeArt" xml:space="preserve">
+    <value>Describe your art...</value>
+  </data>
+  <data name="AddArtImage" xml:space="preserve">
+    <value>Add an image of the art you want ...</value>
+  </data>
+  <data name="SelectedArtistError" xml:space="preserve">
+    <value>You need to select the artist you want to make your art!</value>
+  </data>
+  <data name="DateError" xml:space="preserve">
+    <value>The date can not be earlier than today!</value>
+  </data>
+  <data name="DescribeArtError" xml:space="preserve">
+    <value>You need to enter a description of the art you want!</value>
+  </data>
 </root>

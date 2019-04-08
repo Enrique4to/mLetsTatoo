@@ -79,6 +79,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add an image of the art you want ....
+        /// </summary>
+        internal static string AddArtImage {
+            get {
+                return ResourceManager.GetString("AddArtImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You must be at least 18 years old..
         /// </summary>
         internal static string AgeError {
@@ -97,6 +106,24 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to When do you want the appointment?.
+        /// </summary>
+        internal static string AppointmentWhen {
+            get {
+                return ResourceManager.GetString("AppointmentWhen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Who do you want the appointment with?.
+        /// </summary>
+        internal static string AppointmentWho {
+            get {
+                return ResourceManager.GetString("AppointmentWho", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Artist.
         /// </summary>
         internal static string Artist {
@@ -111,6 +138,15 @@ namespace mLetsTatoo.Resources {
         internal static string Artists {
             get {
                 return ResourceManager.GetString("Artists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Big.
+        /// </summary>
+        internal static string Big {
+            get {
+                return ResourceManager.GetString("Big", resourceCulture);
             }
         }
         
@@ -187,6 +223,24 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Characteristics of your art....
+        /// </summary>
+        internal static string CharacteristicsArt {
+            get {
+                return ResourceManager.GetString("CharacteristicsArt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Complexity:.
+        /// </summary>
+        internal static string Complexity {
+            get {
+                return ResourceManager.GetString("Complexity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm password.
         /// </summary>
         internal static string ConfirmPassword {
@@ -219,6 +273,51 @@ namespace mLetsTatoo.Resources {
         internal static string CurrentPasswordError {
             get {
                 return ResourceManager.GetString("CurrentPasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        internal static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The date can not be earlier than today!.
+        /// </summary>
+        internal static string DateError {
+            get {
+                return ResourceManager.GetString("DateError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Describe your art....
+        /// </summary>
+        internal static string DescribeArt {
+            get {
+                return ResourceManager.GetString("DescribeArt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You need to enter a description of the art you want!.
+        /// </summary>
+        internal static string DescribeArtError {
+            get {
+                return ResourceManager.GetString("DescribeArtError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Easy.
+        /// </summary>
+        internal static string Easy {
+            get {
+                return ResourceManager.GetString("Easy", resourceCulture);
             }
         }
         
@@ -322,6 +421,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hard.
+        /// </summary>
+        internal static string Hard {
+            get {
+                return ResourceManager.GetString("Hard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Images.
         /// </summary>
         internal static string Images {
@@ -390,6 +498,24 @@ namespace mLetsTatoo.Resources {
         internal static string MatchPasswordError {
             get {
                 return ResourceManager.GetString("MatchPasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medium.
+        /// </summary>
+        internal static string MediumComplexity {
+            get {
+                return ResourceManager.GetString("MediumComplexity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medium.
+        /// </summary>
+        internal static string MediumSize {
+            get {
+                return ResourceManager.GetString("MediumSize", resourceCulture);
             }
         }
         
@@ -592,11 +718,47 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You need to select the artist you want to make your art!.
+        /// </summary>
+        internal static string SelectedArtistError {
+            get {
+                return ResourceManager.GetString("SelectedArtistError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Size:.
+        /// </summary>
+        internal static string Size {
+            get {
+                return ResourceManager.GetString("Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Small.
+        /// </summary>
+        internal static string Small {
+            get {
+                return ResourceManager.GetString("Small", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Studio.
         /// </summary>
         internal static string Study {
             get {
                 return ResourceManager.GetString("Study", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time.
+        /// </summary>
+        internal static string Time {
+            get {
+                return ResourceManager.GetString("Time", resourceCulture);
             }
         }
         

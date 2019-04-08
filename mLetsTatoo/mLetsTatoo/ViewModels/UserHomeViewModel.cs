@@ -371,8 +371,8 @@
         }
         private async void GoToCitasPage()
         {
-            MainViewModel.GetInstance().CitasPage = new CitasViewModel(tecnico);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new CitasPage());
+            MainViewModel.GetInstance().NewDatePage = new NewDateViewModel(tecnico, user, cliente);
+            await Application.Current.MainPage.Navigation.PushModalAsync(new NewDatePage());
         }
         #endregion
     }

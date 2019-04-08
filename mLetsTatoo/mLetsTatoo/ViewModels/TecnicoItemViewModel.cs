@@ -24,6 +24,8 @@
         public TecnicoItemViewModel()
         {
             this.apiService = new ApiService();
+            this.user = MainViewModel.GetInstance().UserHome.User;
+            this.cliente = MainViewModel.GetInstance().UserHome.Cliente;
         }
         #endregion
 
@@ -47,8 +49,7 @@
         #region Methods
         private void GoToTecnicoPage()
         {
-            user = MainViewModel.GetInstance().UserHome.User;
-            cliente = MainViewModel.GetInstance().UserHome.Cliente;
+
             MainViewModel.GetInstance().Tecnico = new TecnicoViewModel(this, user, cliente);
             Application.Current.MainPage = new NavigationPage(new TecnicoPage())
             {
@@ -59,7 +60,7 @@
         }
         private async void TecnicoSelected()
         {
-            MainViewModel.GetInstance().CitasPage = new CitasViewModel(this);
+            MainViewModel.GetInstance().NewDatePage = new NewDateViewModel(this, user, cliente);
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
         #endregion
