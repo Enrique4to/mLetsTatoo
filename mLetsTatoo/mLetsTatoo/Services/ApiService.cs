@@ -26,7 +26,7 @@
                 };
             }
             var isReachable = await CrossConnectivity.Current.IsRemoteReachable(
-                "https://letstattooapi.azurewebsites.net");
+                "https://mletstattooapi.azurewebsites.net");
 
             if (!isReachable)
             {

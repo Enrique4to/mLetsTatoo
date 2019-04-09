@@ -18,6 +18,6 @@ namespace mLetsTatoo.Models
         [Required]
         public string Id_Empresa { get; set; }
         [Required]
-        public int Tel_Contacto { get; set; }
+        public Int64 Tel_Contacto { get; set; }
     }
 }
