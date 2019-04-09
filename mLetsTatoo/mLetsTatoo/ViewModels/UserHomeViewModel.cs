@@ -371,7 +371,7 @@
         }
         private async void GoToCitasPage()
         {
-            MainViewModel.GetInstance().NewDatePage = new NewDateViewModel(tecnico, user, cliente);
+            MainViewModel.GetInstance().NewDate = new NewDateViewModel(tecnico, user, cliente);
             await Application.Current.MainPage.Navigation.PushModalAsync(new NewDatePage());
         }
         #endregion

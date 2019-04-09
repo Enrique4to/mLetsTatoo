@@ -164,6 +164,9 @@
     <PackageReference Include="Syncfusion.Xamarin.Buttons">
       <Version>17.1.0.38</Version>
     </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfCalendar.IOS">
+      <Version>17.1.0.38</Version>
+    </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfPicker">
       <Version>17.1.0.38</Version>
     </PackageReference>

@@ -52,5 +52,7 @@
         public System.Data.Entity.DbSet<mLetsTatoo.Models.T_trabajos> T_trabajos { get; set; }
 
         public System.Data.Entity.DbSet<mLetsTatoo.Models.T_usuarios> T_usuarios { get; set; }
+
+        public System.Data.Entity.DbSet<mLetsTatoo.Common.Models.T_teccaract> T_teccaract { get; set; }
     }
 }

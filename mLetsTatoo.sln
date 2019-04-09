@@ -216,8 +216,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_NeutralResourcesLanguage = en-US
-		SolutionGuid = {7940F395-DAA1-4FBF-A140-5F192B5CC0A4}
+		RESX_SaveFilesImmediatelyUponChange = True
 		RESX_DuplicateKeyHandling = Fail
+		SolutionGuid = {7940F395-DAA1-4FBF-A140-5F192B5CC0A4}
+		RESX_NeutralResourcesLanguage = en-US
 	EndGlobalSection
 EndGlobal

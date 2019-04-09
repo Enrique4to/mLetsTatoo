@@ -60,7 +60,7 @@
         }
         private async void TecnicoSelected()
         {
-            MainViewModel.GetInstance().NewDatePage = new NewDateViewModel(this, user, cliente);
+            MainViewModel.GetInstance().NewDate = new NewDateViewModel(this, user, cliente);
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
         #endregion

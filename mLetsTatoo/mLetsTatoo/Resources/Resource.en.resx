@@ -327,8 +327,8 @@
   <data name="AppointmentWhen" xml:space="preserve">
     <value>When do you want the appointment?!</value>
   </data>
-  <data name="CharacteristicsArt" xml:space="preserve">
-    <value>Characteristics of your art...</value>
+  <data name="FeaturesArt" xml:space="preserve">
+    <value>Features of your art...</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>Size:</value>
@@ -368,5 +368,41 @@
   </data>
   <data name="DescribeArtError" xml:space="preserve">
     <value>You need to enter a description of the art you want!</value>
+  </data>
+  <data name="ApproximateCost" xml:space="preserve">
+    <value>The approximate total cost of your art is:</value>
+  </data>
+  <data name="AppointmentCost" xml:space="preserve">
+    <value>The advance for your appointment is:</value>
+  </data>
+  <data name="IntroduceActivationCode" xml:space="preserve">
+    <value>Introduce your activation code!</value>
+  </data>
+  <data name="ActivationCode" xml:space="preserve">
+    <value>Activation code</value>
+  </data>
+  <data name="Activate" xml:space="preserve">
+    <value>Activate</value>
+  </data>
+  <data name="ActivationCodeError" xml:space="preserve">
+    <value>You must enter the correct activation code.</value>
+  </data>
+  <data name="Notice" xml:space="preserve">
+    <value>Notice!</value>
+  </data>
+  <data name="CompleteFeatures" xml:space="preserve">
+    <value>Now, it is necessary that you fill out the form with the pre-established Features for the art that the clients will select.</value>
+  </data>
+  <data name="FillFeatures" xml:space="preserve">
+    <value>Fill all the features</value>
+  </data>
+  <data name="Advance" xml:space="preserve">
+    <value>Advance</value>
+  </data>
+  <data name="Cost" xml:space="preserve">
+    <value>Cost</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
   </data>
 </root>

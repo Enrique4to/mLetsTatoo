@@ -1,19 +1,15 @@
-﻿using GalaSoft.MvvmLight.Command;
-using mLetsTatoo.Helpers;
-using mLetsTatoo.Models;
-using mLetsTatoo.Services;
-using mLetsTatoo.Views;
-using Syncfusion.XForms.Buttons;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Windows.Input;
-using Xamarin.Forms;
-
-namespace mLetsTatoo.ViewModels
+﻿namespace mLetsTatoo.ViewModels
 {
+    using System;
+    using System.Windows.Input;
+    using GalaSoft.MvvmLight.Command;
+    using mLetsTatoo.Helpers;
+    using mLetsTatoo.Models;
+    using mLetsTatoo.Services;
+    using mLetsTatoo.Views;
+    using Plugin.Media;
+    using Plugin.Media.Abstractions;
+    using Xamarin.Forms;
     public class NewDateViewModel : BaseViewModel
     {
         #region Services
@@ -23,12 +19,18 @@ namespace mLetsTatoo.ViewModels
         #region Attributes
         private bool isRefreshing;
         private bool isRunning;
+        private bool isVisivle;
         public string filter;
         private string selectedArtist;
         private string describeArt;
         public T_tecnicos tecnico;
         public T_usuarios user;
         public T_clientes cliente;
+        public decimal cost;
+        public decimal advance;
+        private byte[] byteImage;
+        private ImageSource imageSource;
+        private MediaFile file;
 
         private bool smallChecked;
         private bool mediumSizeChecked;
@@ -81,6 +83,21 @@ namespace mLetsTatoo.ViewModels
             get { return this.isRefreshing; }
             set { SetValue(ref this.isRefreshing, value); }
         }
+        public bool IsVisible
+        {
+            get { return this.isVisivle; }
+            set { SetValue(ref this.isVisivle, value); }
+        }
+        public ImageSource ImageSource
+        {
+            get { return this.imageSource; }
+            set { SetValue(ref this.imageSource, value); }
+        }
+        public byte[] ByteImage
+        {
+            get { return this.byteImage; }
+            set { SetValue(ref this.byteImage, value); }
+        }
         public string Filter
         {
             get { return this.filter; }
@@ -95,6 +112,16 @@ namespace mLetsTatoo.ViewModels
         {
             get { return this.describeArt; }
             set { SetValue(ref this.describeArt, value); }
+        }
+        public decimal Cost
+        {
+            get { return this.cost; }
+            set { SetValue(ref this.cost, value); }
+        }
+        public decimal Advance
+        {
+            get { return this.advance; }
+            set { SetValue(ref this.advance, value); }
         }
         #endregion
 
@@ -124,7 +151,7 @@ namespace mLetsTatoo.ViewModels
                 this.selectedArtist = $"Artista: {this.tecnico.Apodo} - {this.tecnico.Nombre} {this.tecnico.Apellido1}";
             }
 
-
+            this.LoadFeatures();
         }
         #endregion
 
@@ -141,6 +168,13 @@ namespace mLetsTatoo.ViewModels
             get
             {
                 return new RelayCommand(SaveDate);
+            }
+        }
+        public ICommand AddArtImageCommand
+        {
+            get
+            {
+                return new RelayCommand(ChangeImage);
             }
         }
         #endregion
@@ -177,7 +211,111 @@ namespace mLetsTatoo.ViewModels
                 "Ok");
                 return;
             }
+        }
+        public void LoadFeatures()
+        {
+            if (smallChecked == true)
+            {
+                if (easyChecked == true)
+                {
+                    this.cost = 300;
+                    this.advance = 150;
+                }
+                else if (mediumComplexityChecked == true)
+                {
+                    this.cost = 500;
+                    this.advance = 150;
+                }
+                else if (HardChecked == true)
+                {
+                    this.cost = 800;
+                    this.advance = 150;
+                }
+            }
+            if (mediumSizeChecked == true)
+            {
+                if (easyChecked == true)
+                {
+                    this.cost = 800;
+                    this.advance = 150;
+                }
+                else if (mediumComplexityChecked == true)
+                {
+                    this.cost = 1200;
+                    this.advance = 150;
+                }
+                else if (HardChecked == true)
+                {
+                    this.cost = 1500;
+                    this.advance = 150;
+                }
+            }
+            if (bigChecked == true)
+            {
+                if (easyChecked == true)
+                {
+                    this.cost = 1200;
+                    this.advance = 150;
+                }
+                else if (mediumComplexityChecked == true)
+                {
+                    this.cost = 1500;
+                    this.advance = 150;
+                }
+                else if (HardChecked == true)
+                {
+                    this.cost = 2000;
+                    this.advance = 150;
+                }
+            }
+        }
+        private async void ChangeImage()
+        {
+            await CrossMedia.Current.Initialize();
 
+            var source = await Application.Current.MainPage.DisplayActionSheet(
+                Languages.WhereTakePicture,
+                Languages.Cancel,
+                null,
+                Languages.FromGallery,
+                Languages.NewPicture);
+
+            if (source == Languages.Cancel)
+            {
+                this.file = null;
+                return;
+            }
+
+            if (source == Languages.NewPicture)
+            {
+                this.file = await CrossMedia.Current.TakePhotoAsync(
+                    new StoreCameraMediaOptions
+                    {
+                        Directory = "Sample",
+                        Name = "test.jpg",
+                        PhotoSize = PhotoSize.Small,
+
+                    });
+            }
+            else
+            {
+                this.file = await CrossMedia.Current.PickPhotoAsync(
+                    new PickMediaOptions
+                    {
+                        PhotoSize = PhotoSize.Small,
+                    });
+
+            }
+
+            if (this.file != null)
+            {
+                this.ImageSource = ImageSource.FromStream(() =>
+                {
+                    var stream = this.file.GetStream();
+                    return stream;
+                });
+                IsVisible = true;
+            }
         }
         #endregion
 

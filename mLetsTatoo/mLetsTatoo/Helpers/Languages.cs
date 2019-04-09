@@ -287,9 +287,9 @@
         {
             get { return Resource.AppointmentWhen; }
         }
-        public static string CharacteristicsArt
+        public static string FeaturesArt
         {
-            get { return Resource.CharacteristicsArt; }
+            get { return Resource.FeaturesArt; }
         }
         public static string Size
         {
@@ -342,6 +342,50 @@
         public static string DescribeArtError
         {
             get { return Resource.DescribeArtError; }
+        }
+        public static string ApproximateCost
+        {
+            get { return Resource.ApproximateCost; }
+        }
+        public static string AppointmentCost
+        {
+            get { return Resource.AppointmentCost; }
+        }
+        public static string IntroduceActivationCode
+        {
+            get { return Resource.IntroduceActivationCode; }
+        }
+        public static string ActivationCode
+        {
+            get { return Resource.ActivationCode; }
+        }
+        public static string ActivationCodeError
+        {
+            get { return Resource.ActivationCodeError; }
+        }
+        public static string Notice
+        {
+            get { return Resource.Notice; }
+        }
+        public static string CompleteFeatures
+        {
+            get { return Resource.CompleteFeatures; }
+        }
+        public static string FillFeatures
+        {
+            get { return Resource.FillFeatures; }
+        }
+        public static string Cost
+        {
+            get { return Resource.Cost; }
+        }
+        public static string Advance
+        {
+            get { return Resource.Advance; }
+        }
+        public static string Done
+        {
+            get { return Resource.Done; }
         }
 
     }

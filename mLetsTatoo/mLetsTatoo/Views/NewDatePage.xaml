@@ -13,28 +13,30 @@
     x:Name="Root">
     <ContentPage.Content>
         <ScrollView
-            BindingContext="{Binding NewDatePage}">
+            BindingContext="{Binding NewDate}">
             <StackLayout
                 Padding="5,10">
                 <Label
                     FontAttributes="Bold"
-                    FontSize="16"
+                    FontSize="22"
                     Grid.Column="0"
                     Grid.Row="0"
+                    Margin="0,5,0,10"
                     Text="{i18n:Translate AppointmentSchedule}"
                     TextColor="LightGray"
                     HorizontalTextAlignment="Center"/>
                 <Label
                     FontAttributes="Bold"
                     FontSize="16"
-                    Margin="25,0,0,0"
+                    Margin="25,0,0,5"
                     Text="{i18n:Translate AppointmentWho}"
                     TextColor="LightGray"
                     HorizontalTextAlignment="Start"/>
                 <StackLayout
                     Padding="10,0,10,0"
-                    VerticalOptions="Start">
-                    <Grid>
+                    VerticalOptions="StartAndExpand">
+                    <Grid
+                        Padding="0,0,0,15">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width=".1*"/>
@@ -48,7 +50,7 @@
                             Grid.Column="0"
                             Grid.Row="1"
                             Text="{Binding SelectedArtist, Mode=TwoWay}"
-                            TextColor="LightGray"
+                            TextColor="Gray"
                             HorizontalTextAlignment="Start"
                             VerticalOptions="Center"/>
                         <Image                            
@@ -66,70 +68,73 @@
                     <Label
                         FontAttributes="Bold"
                         FontSize="16"
-                        Margin="15,0,0,0"
+                        Margin="15,0,0,5"
                         Text="{i18n:Translate AppointmentWhen}"
                         TextColor="LightGray"
                         HorizontalTextAlignment="Start"/>
                     <StackLayout
-                        Padding="10,0,10,0"
-                        VerticalOptions="Start">
+                        Padding="7,0,7,15"
+                        VerticalOptions="StartAndExpand">
                         <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width=".1*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <StackLayout
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width=".1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <StackLayout
                             Grid.ColumnSpan="2"
                             Grid.Row="0"
                             Orientation="Horizontal"
                             HorizontalOptions="Center"
                             VerticalOptions="Start">
-                            <Label
+                                <Label
                             FontAttributes="Bold"
                             FontSize="16"
                             Text="{i18n:Translate Date}"
                             TextColor="LightGray"
                             HorizontalTextAlignment="Start"
                             VerticalOptions="Center"/>
-                            <DatePicker
+                                <DatePicker
                                 Date="{Binding AppointmentDate, Mode=TwoWay}"
                                 Format="dd MMM yyyy"
                                 TextColor="Gray"
                                 VerticalOptions="Center">
-                            </DatePicker>
-                            <Label
+                                </DatePicker>
+                                <Label
                             FontAttributes="Bold"
                             FontSize="16"
                             Text="{i18n:Translate Time}"
                             TextColor="LightGray"
                             HorizontalTextAlignment="Start"
                             VerticalOptions="Center"/>
-                            <TimePicker                                
+                                <TimePicker                                
                                 TextColor="Gray"
                                 Time="{Binding AppintmentTime, Mode=TwoWay}"
                                 VerticalOptions="Center">
-                            </TimePicker>
-                        </StackLayout>
-                    </Grid>
-                </StackLayout>
+                                </TimePicker>
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
                     <Label
                         FontAttributes="Bold"
                         FontSize="16"
                         Grid.Column="0"
                         Grid.Row="4"
-                        Margin="15,0,0,0"
-                        Text="{i18n:Translate CharacteristicsArt}"
+                        Margin="15,0,0,5"
+                        Text="{i18n:Translate FeaturesArt}"
                         TextColor="LightGray"
                         HorizontalTextAlignment="Start"/>
                     <StackLayout
-                            HorizontalOptions="Center"
-                            Orientation="Horizontal">
+                        HorizontalOptions="Center"
+                        Orientation="Horizontal"
+                        VerticalOptions="StartAndExpand">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width=".1*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -141,95 +146,150 @@
                                     FontSize="16"
                                     Text="{i18n:Translate Size}"
                                     TextColor="LightGray"
-                                    HorizontalTextAlignment="Center"/>
-                                <radiobutton:SfRadioButton
+                                    HorizontalTextAlignment="Start"/>
+                                <radiobutton:SfRadioGroup x:Name="SizeGroup">
+                                    <radiobutton:SfRadioButton
                                     IsChecked="{Binding SmallChecked}"
                                     CheckedColor="LightGray"
-                                    HorizontalOptions="CenterAndExpand"
-                                    HorizontalTextAlignment="Center"
-                                    StateChanged="LoadCharacteristics"
+                                    HorizontalOptions="Start"
+                                    HorizontalTextAlignment="Start"
+                                    StateChanged="LoadFeatures"  
                                     Text="{i18n:Translate Small}"
                                     TextColor="Gray"
                                     UncheckedColor="DimGray"
                                     VerticalOptions="Center"
                                     x:Name="SmallChecked">
-                                </radiobutton:SfRadioButton>
-                                <radiobutton:SfRadioButton
+                                    </radiobutton:SfRadioButton>
+                                    <radiobutton:SfRadioButton
                                     IsChecked="{Binding MediumSizeChecked}"
                                     CheckedColor="LightGray"
-                                    HorizontalOptions="CenterAndExpand"
-                                    HorizontalTextAlignment="Center"
-                                    StateChanged="LoadCharacteristics"
+                                    HorizontalOptions="Start"
+                                    HorizontalTextAlignment="Start"
+                                    StateChanged="LoadFeatures"  
                                     Text="{i18n:Translate MediumSize}"
                                     TextColor="Gray"
                                     UncheckedColor="DimGray"
                                     VerticalOptions="Center"
                                     x:Name="MediumSizeChecked"/>
-                                <radiobutton:SfRadioButton
+                                    <radiobutton:SfRadioButton
                                     IsChecked="{Binding BigChecked}"
                                     CheckedColor="LightGray"
-                                    HorizontalOptions="CenterAndExpand"
-                                    HorizontalTextAlignment="Center"
-                                    StateChanged="LoadCharacteristics"
+                                    HorizontalOptions="Start"
+                                    HorizontalTextAlignment="Start"
+                                    StateChanged="LoadFeatures"
                                     Text="{i18n:Translate Big}"
                                     TextColor="Gray"
                                     UncheckedColor="DimGray"
                                     VerticalOptions="Center"
                                     x:Name="BigChecked"/>
+                                </radiobutton:SfRadioGroup>
                             </StackLayout>
                             <StackLayout
-                                    Grid.Column="1">
+                                    Grid.Column="2">
                                 <Label
                                     FontAttributes="Bold"
                                     FontSize="16"
                                     Text="{i18n:Translate Complexity}"
                                     TextColor="LightGray"
-                                    HorizontalTextAlignment="Center"/>
-                                <radiobutton:SfRadioButton
+                                    HorizontalTextAlignment="Start"/>
+                                <radiobutton:SfRadioGroup x:Name="ComplexityGroup">
+                                    <radiobutton:SfRadioButton
                                     IsChecked="{Binding EasyChecked}"
                                     CheckedColor="LightGray"
-                                    HorizontalOptions="CenterAndExpand"
-                                    HorizontalTextAlignment="Center"
-                                    StateChanged="LoadCharacteristics"
+                                    HorizontalOptions="Start"
+                                    HorizontalTextAlignment="Start"
+                                    StateChanged="LoadFeatures"  
                                     Text="{i18n:Translate Easy}"
                                     TextColor="Gray"
                                     UncheckedColor="DimGray"
                                     VerticalOptions="Center"
                                     x:Name="EasyChecked"/>
-                                <radiobutton:SfRadioButton
+                                    <radiobutton:SfRadioButton
                                     IsChecked="{Binding MediumComplexityChecked}"
                                     CheckedColor="LightGray"
-                                    HorizontalOptions="CenterAndExpand"
-                                    HorizontalTextAlignment="Center"
-                                    StateChanged="LoadCharacteristics"
+                                    HorizontalOptions="Start"
+                                    HorizontalTextAlignment="Start"
+                                    StateChanged="LoadFeatures"  
                                     Text="{i18n:Translate MediumComplexity}"
                                     TextColor="Gray"
                                     UncheckedColor="DimGray"
                                     VerticalOptions="Center"
                                     x:Name="MediumComplexityChecked"/>
-                                <radiobutton:SfRadioButton
+                                    <radiobutton:SfRadioButton
                                     IsChecked="{Binding HardChecked}"
                                     CheckedColor="LightGray"
-                                    HorizontalOptions="CenterAndExpand"
-                                    HorizontalTextAlignment="Center"
-                                    StateChanged="LoadCharacteristics"                                  
+                                    HorizontalOptions="Start"
+                                    HorizontalTextAlignment="Start"
+                                    StateChanged="LoadFeatures"                                  
                                     Text="{i18n:Translate Hard}"
                                     TextColor="Gray"
                                     UncheckedColor="DimGray"
                                     VerticalOptions="Center"
                                     x:Name="HardChecked"/>
+                                </radiobutton:SfRadioGroup>
                             </StackLayout>
                         </Grid>
                     </StackLayout>
-                </StackLayout>
-                <ActivityIndicator
+                    <ActivityIndicator
                     IsRunning="{Binding IsRunning}"
-                    VerticalOptions="Start"/>
+                    VerticalOptions="EndAndExpand"/>
+                    <StackLayout
+                        Padding="2,0,2,10"
+                        VerticalOptions="EndAndExpand">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width=".4*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    Grid.Column="0"
+                                    Grid.Row="0"
+                                    Text="{i18n:Translate ApproximateCost}"
+                                    TextColor="Gray"
+                                    HorizontalTextAlignment="Start"
+                                    VerticalTextAlignment="Center"/>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="16"
+                                    Grid.Column="1"
+                                    Grid.Row="0"
+                                    Text="{Binding Cost, Source={x:Reference Root}, StringFormat=' {0:C2}'}"
+                                    TextColor="LightGray"
+                                    HorizontalTextAlignment="End"
+                                    VerticalTextAlignment="Center"
+                                    x:Name="lblCost"/>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="14"
+                                    Grid.Column="0"
+                                    Grid.Row="1"
+                                    Text="{i18n:Translate AppointmentCost}"
+                                    TextColor="Gray"
+                                    HorizontalTextAlignment="Start"
+                                    VerticalTextAlignment="Center"/>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="16"
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    Text="{Binding Advance, Source={x:Reference Root}, StringFormat=' {0:C2}'}"
+                                    TextColor="LightGray"
+                                    HorizontalTextAlignment="End"
+                                    VerticalTextAlignment="Center"
+                                    x:Name="lblAdvance"/>
+                        </Grid>
+                    </StackLayout>
+                </StackLayout>
                 <StackLayout
                     Padding="5,0"
-                    VerticalOptions="StartAndExpand">
+                    VerticalOptions="EndAndExpand">
                     <Editor
-                        Margin="20,0,25,0"
+                        Margin="20,0,25,10"
                         Placeholder="{i18n:Translate DescribeArt}"
                         PlaceholderColor="DimGray"
                         Text="{Binding DescribeArt}"
@@ -252,6 +312,16 @@
                             <Image.GestureRecognizers>
                                 <TapGestureRecognizer Command ="{Binding AddArtImageCommand}"/>
                             </Image.GestureRecognizers>
+                        </Image>
+                    </StackLayout>
+                    <StackLayout
+                        Padding="15,5,15,5">
+                        <Image
+                            HorizontalOptions="CenterAndExpand"
+                            IsVisible="{Binding IsVisible}"
+                            Source="{Binding ImageSource}"
+                            VerticalOptions="CenterAndExpand"
+                            WidthRequest="150">
                         </Image>
                     </StackLayout>
                 </StackLayout>
@@ -280,7 +350,7 @@
                         IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
                         Text="{i18n:Translate Cancel}"
                         TextColor="Black"/>
-                    
+
                 </StackLayout>
             </StackLayout>
         </ScrollView>

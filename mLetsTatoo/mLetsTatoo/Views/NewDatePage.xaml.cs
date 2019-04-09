@@ -1,97 +1,60 @@
-﻿using Syncfusion.XForms.Buttons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-namespace mLetsTatoo.Views
+﻿namespace mLetsTatoo.Views
 {
-	public partial class NewDatePage : ContentPage
+    using mLetsTatoo.ViewModels;
+    using Syncfusion.XForms.Buttons;
+    using Xamarin.Forms;
+    public partial class NewDatePage : ContentPage
 	{
-		public NewDatePage ()
+        #region Attributes
+        public decimal cost;
+        public decimal advance;
+        #endregion
+        public decimal Cost
+        {
+            get { return cost; }
+            set
+            {
+                cost = value;
+                OnPropertyChanged(nameof(Cost)); // Notify that there was a change on this property
+            }
+        }
+        public decimal Advance
+        {
+            get { return advance; }
+            set
+            {
+                advance = value;
+                OnPropertyChanged(nameof(Advance)); // Notify that there was a change on this property
+            }
+        }
+
+        public NewDatePage ()
 		{
 			InitializeComponent ();
-            this.SmallChecked.IsChecked = true;
-            this.EasyChecked.IsChecked = true;
-		}
+        }
         protected override void OnAppearing()
         {
             base.OnAppearing();
             InitializeComponent();
         }
-        private void LoadCharacteristics(object sender, StateChangedEventArgs e)
+        private void LoadFeatures(object sender, StateChangedEventArgs e)
         {
-            if (SmallChecked.IsChecked == true)
+            if (e.IsChecked.HasValue && e.IsChecked.Value)
             {
-                Application.Current.MainPage.DisplayAlert("error", SmallChecked.IsChecked.Value.ToString(), "ok");
-                //MediumSizeChecked.IsChecked = false;
-                //BigChecked.IsChecked = false;
-
-                //if (EasyChecked.IsChecked == true)
-                //{
-                //    MediumSizeChecked.IsChecked = false;
-                //    BigChecked.IsChecked = false;
-                //}
-                //else if (MediumSizeChecked.IsChecked == true)
-                //{
-                //    EasyChecked.IsChecked = false;
-                //    BigChecked.IsChecked = false;
-                //}
-                //else if (BigChecked.IsChecked.HasValue == true)
-                //{
-                //    MediumSizeChecked.IsChecked = false;
-                //    EasyChecked.IsChecked = false;
-                //}
+                MainViewModel.GetInstance().NewDate.LoadFeatures();
+                this.cost= MainViewModel.GetInstance().NewDate.Cost;
+                this.advance = MainViewModel.GetInstance().NewDate.Advance;
+                this.Labels();
             }
-            //else if (MediumSizeChecked.IsChecked == true)
-            //{
-
-            //    SmallChecked.IsChecked = false;
-            //    BigChecked.IsChecked = false;
-
-            //    if (EasyChecked.IsChecked == true)
-            //    {
-            //        MediumSizeChecked.IsChecked = false;
-            //        BigChecked.IsChecked = false;
-            //    }
-            //    else if (MediumSizeChecked.IsChecked == true)
-            //    {
-            //        EasyChecked.IsChecked = false;
-            //        BigChecked.IsChecked = false;
-            //    }
-            //    else if (BigChecked.IsChecked == true)
-            //    {
-            //        MediumSizeChecked.IsChecked = false;
-            //        EasyChecked.IsChecked = false;
-            //    }
-            //}
-            //else if (BigChecked.IsChecked == true)
-            //{
-
-            //    MediumSizeChecked.IsChecked = false;
-            //    SmallChecked.IsChecked = false;
-
-            //    if (EasyChecked.IsChecked == true)
-            //    {
-            //        MediumSizeChecked.IsChecked = false;
-            //        BigChecked.IsChecked = false;
-            //    }
-            //    else if (MediumSizeChecked.IsChecked == true)
-            //    {
-            //        EasyChecked.IsChecked = false;
-            //        BigChecked.IsChecked = false;
-            //    }
-            //    else if (BigChecked.IsChecked == true)
-            //    {
-            //        MediumSizeChecked.IsChecked = false;
-            //        EasyChecked.IsChecked = false;
-            //    }
-            //}
         }
-
+        private void Labels()
+        {
+            Device.BeginInvokeOnMainThread(() => {
+                lblAdvance.Text = this.advance.ToString("C2");
+            });
+            Device.BeginInvokeOnMainThread(() => {
+                lblCost.Text = this.cost.ToString("C2");
+            });
+        }
     }
 }

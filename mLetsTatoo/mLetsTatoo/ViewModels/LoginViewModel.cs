@@ -72,8 +72,8 @@
             this.apiService = new ApiService();
             this.IsRemember = true;
             this.IsEnabled = true;
-            this.Usuario = "Enrique3";
-            this.Pass = "1";
+            this.Usuario = "Juan";
+            this.Pass = "elt4Vc0f";
         }
         #endregion
         #region Commands
@@ -171,19 +171,6 @@
                 await Application.Current.MainPage.Navigation.PopToRootAsync();
                 return;
             }
-
-            if (!user.Confirmado == true)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.ErrorUsuarioyPassword,
-                    "Ok");
-                this.Pass = string.Empty;
-                this.Usuario = string.Empty;
-                return;
-            }
             if (user.Tipo > 2)
             {
                 this.IsRunning = false;
@@ -219,15 +206,24 @@
                 this.IsEnabled = true;
 
                 this.Usuario = string.Empty;
+
                 this.Pass = string.Empty;
 
-                MainViewModel.GetInstance().TecnicoHome = new TecnicoHomeViewModel();
-                Application.Current.MainPage = new SNavigationPage(new TecnicoHomePage())
+                if(this.user.Confirmado == true)
                 {
-                    BarBackgroundColor = Color.FromRgb(20, 20, 20),
-                    BarTextColor = Color.FromRgb(200, 200, 200),
-                };
-                //Application.Current.MainPage = new TecnicoHomePage();
+                    MainViewModel.GetInstance().TecnicoHome = new TecnicoHomeViewModel(user);
+                    Application.Current.MainPage = new SNavigationPage(new TecnicoHomePage())
+                    {
+                        BarBackgroundColor = Color.FromRgb(20, 20, 20),
+                        BarTextColor = Color.FromRgb(200, 200, 200),
+                    };
+                    //Application.Current.MainPage = new TecnicoHomePage();
+                }
+                else
+                {
+                    MainViewModel.GetInstance().TecnicoConfirm = new TecnicoConfirmViewModel(user);
+                    await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoConfirmPage());
+                }
             }
         }
         private async void Registro()

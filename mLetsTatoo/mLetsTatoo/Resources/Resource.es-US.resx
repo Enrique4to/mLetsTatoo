@@ -327,7 +327,7 @@
   <data name="AppointmentWhen" xml:space="preserve">
     <value>¿Cuándo quieres la cita?</value>
   </data>
-  <data name="CharacteristicsArt" xml:space="preserve">
+  <data name="FeaturesArt" xml:space="preserve">
     <value>Características de tu arte...</value>
   </data>
   <data name="Size" xml:space="preserve">
@@ -337,10 +337,10 @@
     <value>Complejidad:</value>
   </data>
   <data name="Small" xml:space="preserve">
-    <value>Pequeña</value>
+    <value>Chico</value>
   </data>
   <data name="MediumSize" xml:space="preserve">
-    <value>Medio</value>
+    <value>Mediano</value>
   </data>
   <data name="Big" xml:space="preserve">
     <value>Grande</value>
@@ -368,5 +368,41 @@
   </data>
   <data name="DescribeArtError" xml:space="preserve">
     <value>¡Necesitas ingresar una descripción del arte que quieres!</value>
+  </data>
+  <data name="ApproximateCost" xml:space="preserve">
+    <value>El costo total aproximado de tu arte es :</value>
+  </data>
+  <data name="AppointmentCost" xml:space="preserve">
+    <value>El anticipo para tu cita es :</value>
+  </data>
+  <data name="IntroduceActivationCode" xml:space="preserve">
+    <value>¡Introduce tu código de activación!</value>
+  </data>
+  <data name="ActivationCode" xml:space="preserve">
+    <value>Código de activación</value>
+  </data>
+  <data name="Activate" xml:space="preserve">
+    <value>¡Activar!</value>
+  </data>
+  <data name="ActivationCodeError" xml:space="preserve">
+    <value>Debes ingresar el código de activación correcto.</value>
+  </data>
+  <data name="Notice" xml:space="preserve">
+    <value>¡Aviso!</value>
+  </data>
+  <data name="CompleteFeatures" xml:space="preserve">
+    <value>Ahora, es necesario que llenes el formulario con las características preestablecidas para el arte que los clientes seleccionarán.</value>
+  </data>
+  <data name="FillFeatures" xml:space="preserve">
+    <value>¡Llena todas las características!</value>
+  </data>
+  <data name="Advance" xml:space="preserve">
+    <value>Anticipo</value>
+  </data>
+  <data name="Cost" xml:space="preserve">
+    <value>Costo</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Listo</value>
   </data>
 </root>

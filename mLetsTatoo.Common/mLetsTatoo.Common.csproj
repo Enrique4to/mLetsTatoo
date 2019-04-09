@@ -120,6 +120,7 @@
     <Compile Include="Models\T_postal.cs" />
     <Compile Include="Models\T_propietarios.cs" />
     <Compile Include="Models\T_redes.cs" />
+    <Compile Include="Models\T_teccaract.cs" />
     <Compile Include="Models\T_tecnicos.cs" />
     <Compile Include="Models\T_tecimagenes.cs" />
     <Compile Include="Models\T_trabajos.cs" />

@@ -9,12 +9,11 @@ using Xamarin.Forms.Xaml;
 
 namespace mLetsTatoo.Views
 {
-	public partial class TecnicoHomePage : TabbedPage
+	public partial class TecnicoProfilePage : ContentPage
 	{
-		public TecnicoHomePage ()
+		public TecnicoProfilePage ()
 		{
 			InitializeComponent ();
 		}
-
-    }
+	}
 }

@@ -1,20 +1,82 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="mLetsTatoo.Views.TecnicoHomePage">
-    <ContentPage.Content>
-        <ScrollView>
-            <StackLayout>
+<TabbedPage 
+    BackgroundColor="Black"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:schedule="clr-namespace:Syncfusion.SfSchedule.XForms;assembly=Syncfusion.SfSchedule.XForms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
+    xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
+    xmlns:page="clr-namespace:mLetsTatoo.CustomPages;assembly=mLetsTatoo"
+    xmlns:views="clr-namespace:mLetsTatoo.Views"
+    x:Class="mLetsTatoo.Views.TecnicoHomePage">
+    <page:SNavigationPage.NavContent>
+        <Grid
+            Margin="2,10,2,2">
+            <SearchBar
+                CancelButtonColor="Gray"
+                Placeholder="{i18n:Translate Search}" 
+                PlaceholderColor="Gray"
+                SearchCommand="{Binding SearchCommand, Source={x:Reference Root}}"
+                Text="{Binding Filter, Source={x:Reference Root}}"
+                TextColor="LightGray"
+                x:Name="Search"/>
+        </Grid>
 
+    </page:SNavigationPage.NavContent>
+    <TabbedPage.Children>
 
-                <!-- tab 1 container -->
-                <StackLayout x:Name="stkTab1">
-                </StackLayout>
+        <ContentPage
+            Icon="NewsFeed.png"
+            x:Name="News">
+            <StackLayout
+            BindingContext="{Binding UserHome}"
+            Padding="5">
+            </StackLayout>
+        </ContentPage>
 
-                <!-- tab 2 container -->
-                <StackLayout x:Name="stkTab2" IsVisible="false">
-                </StackLayout>
-             </StackLayout>
-        </ScrollView>
-    </ContentPage.Content>
-</ContentPage>
+        <ContentPage
+            Icon="CitasUns.png"
+            x:Name="Citas">
+            <StackLayout
+                BindingContext="{Binding UserHome}"
+                BackgroundColor="Black"
+                Padding="5">
+                <Grid                    
+                    VerticalOptions="FillAndExpand">
+                    <schedule:SfSchedule
+                        BackgroundColor="DimGray"
+                        ScheduleView ="WeekView"
+                        VerticalOptions="FillAndExpand">
+                    </schedule:SfSchedule>
+                    <Image
+                        HorizontalOptions="End"
+                        Source="NewAppointment.png"
+                        VerticalOptions="End">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command ="{Binding NewAppointmentCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Grid>
+            </StackLayout>
+        </ContentPage>
+
+        <ContentPage
+            Icon="NotificacionUns.png"
+            x:Name="Notifications">
+            <StackLayout
+            BindingContext="{Binding UserHome}"
+            BackgroundColor="Black"
+            Padding="5">
+
+            </StackLayout>
+        </ContentPage>
+
+        <views:UserPage 
+            BindingContext="{Binding UserPage}"
+            Icon="OptionsUns.png"
+            x:Name="UserOptions">
+        </views:UserPage>
+
+    </TabbedPage.Children>
+</TabbedPage>

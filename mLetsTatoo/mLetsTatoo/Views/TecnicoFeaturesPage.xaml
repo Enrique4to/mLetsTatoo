@@ -1,0 +1,714 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    BackgroundColor="Black"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
+    xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
+    x:Class="mLetsTatoo.Views.TecnicoFeaturesPage">
+    <ContentPage.Content>
+        <StackLayout
+            BindingContext="{Binding TecnicoFeatures}"
+            Padding="15">
+            <Label
+                FontAttributes="Bold"
+                FontSize="16"
+                Margin="25,0,0,5"
+                Text="{i18n:Translate FillFeatures}"
+                TextColor="LightGray"
+                HorizontalTextAlignment="Start"/>
+            <StackLayout
+                VerticalOptions="StartAndExpand">
+                <Grid
+                        Padding="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width=".8*"/>
+                        <ColumnDefinition Width=".8*"/>
+                        <ColumnDefinition Width=".3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>                    
+                    <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Text="{i18n:Translate Cost}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Center"
+                            VerticalOptions="Center"/>
+                    <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Grid.Column="2"
+                            Grid.Row="0"
+                            Text="{i18n:Translate Advance}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Center"
+                            VerticalOptions="Center"/>
+                    <StackLayout
+                            Grid.ColumnSpan="2"
+                            Grid.Row="0"
+                        Orientation="Horizontal">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="{i18n:Translate Size}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Start"
+                            VerticalOptions="Center"/>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text=" - "
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Start"
+                            VerticalOptions="Center"/>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="{i18n:Translate Small}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Start"
+                            VerticalOptions="Center"/>
+                    </StackLayout>
+                    <StackLayout
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        HorizontalOptions="Start"
+                        Orientation="Horizontal"
+                        VerticalOptions="Center">
+                        <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="{i18n:Translate Easy}"
+                        TextColor="Gray"
+                        HorizontalTextAlignment="Start"
+                        VerticalOptions="Center"/>
+                    </StackLayout>
+                    <control:CustomRegEntry 
+                        BorderColor="Gray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        HeightRequest="25"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Cost1, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"
+                        WidthRequest="50"/>
+                    <control:CustomRegEntry 
+                        BorderColor="Gray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Grid.Column="2"
+                        Grid.Row="1"
+                        HeightRequest="25"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Advance1, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"
+                        WidthRequest="50"/>
+                    <Image                            
+                            Grid.Column="3"
+                            Grid.Row="1"
+                            HorizontalOptions="End"
+                            Source="{Binding ImageSource1}"
+                            VerticalOptions="Center"
+                            WidthRequest="20">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command ="{Binding SearchArtistCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <StackLayout
+                        Grid.Column="0"
+                        Grid.Row="2"
+                        HorizontalOptions="Start"
+                        Orientation="Horizontal"
+                        VerticalOptions="Center">
+                        <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="{i18n:Translate MediumComplexity}"
+                        TextColor="Gray"
+                        HorizontalTextAlignment="Start"
+                        VerticalOptions="Center"/>
+                    </StackLayout>
+                    <control:CustomRegEntry 
+                        BorderColor="Gray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Grid.Column="1"
+                        Grid.Row="2"
+                        HeightRequest="25"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Cost2, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"
+                        WidthRequest="50"/>
+                    <control:CustomRegEntry 
+                        BorderColor="Gray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Grid.Column="2"
+                        Grid.Row="2"
+                        HeightRequest="25"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Advance2, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"
+                        WidthRequest="50"/>
+                    <Image                            
+                            Grid.Column="3"
+                            Grid.Row="2"
+                            HorizontalOptions="End"
+                            Source="{Binding ImageSource2}"
+                            VerticalOptions="Center"
+                            WidthRequest="20">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command ="{Binding SearchArtistCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <StackLayout
+                        Grid.Column="0"
+                        Grid.Row="3"
+                        HorizontalOptions="Start"
+                        Orientation="Horizontal"
+                        VerticalOptions="Center">
+                        <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="{i18n:Translate Hard}"
+                        TextColor="Gray"
+                        HorizontalTextAlignment="Start"
+                        VerticalOptions="Center"/>
+                    </StackLayout>
+                    <control:CustomRegEntry 
+                        BorderColor="Gray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Grid.Column="1"
+                        Grid.Row="3"
+                        HeightRequest="25"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Cost3, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"
+                        WidthRequest="50"/>
+                    <control:CustomRegEntry 
+                        BorderColor="Gray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Grid.Column="2"
+                        Grid.Row="3"
+                        HeightRequest="25"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Advance3, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"
+                        WidthRequest="50"/>
+                    <Image                            
+                            Grid.Column="3"
+                            Grid.Row="3"
+                            HorizontalOptions="End"
+                            Source="{Binding ImageSource3}"
+                            VerticalOptions="Center"
+                            WidthRequest="20">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command ="{Binding SearchArtistCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Grid>
+            </StackLayout>
+            <StackLayout
+                VerticalOptions="StartAndExpand">
+                <Grid
+                        Padding="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width=".8*"/>
+                        <ColumnDefinition Width=".8*"/>
+                        <ColumnDefinition Width=".3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Text="{i18n:Translate Cost}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Center"
+                            VerticalOptions="Center"/>
+                    <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Grid.Column="2"
+                            Grid.Row="0"
+                            Text="{i18n:Translate Advance}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Center"
+                            VerticalOptions="Center"/>
+                    <StackLayout
+                            Grid.ColumnSpan="2"
+                            Grid.Row="0"
+                        Orientation="Horizontal">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="{i18n:Translate Size}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Start"
+                            VerticalOptions="Center"/>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text=" - "
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Start"
+                            VerticalOptions="Center"/>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="{i18n:Translate MediumSize}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Start"
+                            VerticalOptions="Center"/>
+                    </StackLayout>
+                    <StackLayout
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        HorizontalOptions="Start"
+                        Orientation="Horizontal"
+                        VerticalOptions="Center">
+                        <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="{i18n:Translate Easy}"
+                        TextColor="Gray"
+                        HorizontalTextAlignment="Start"
+                        VerticalOptions="Center"/>
+                    </StackLayout>
+                    <control:CustomEntry 
+                        BorderColor="Gray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        HeightRequest="25"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Cost4, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"
+                        WidthRequest="50"/>
+                    <control:CustomEntry 
+                        BorderColor="Gray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Grid.Column="2"
+                        Grid.Row="1"
+                        HeightRequest="25"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Advance4, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"
+                        WidthRequest="50"/>
+                    <Image                            
+                            Grid.Column="3"
+                            Grid.Row="1"
+                            HorizontalOptions="End"
+                            Source="{Binding ImageSource4}"
+                            VerticalOptions="Center"
+                            WidthRequest="20">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command ="{Binding SearchArtistCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <StackLayout
+                        Grid.Column="0"
+                        Grid.Row="2"
+                        HorizontalOptions="Start"
+                        Orientation="Horizontal"
+                        VerticalOptions="Center">
+                        <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="{i18n:Translate MediumComplexity}"
+                        TextColor="Gray"
+                        HorizontalTextAlignment="Start"
+                        VerticalOptions="Center"/>
+                    </StackLayout>
+                    <control:CustomEntry 
+                        BorderColor="Gray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Grid.Column="1"
+                        Grid.Row="2"
+                        HeightRequest="25"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Cost5, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"
+                        WidthRequest="50"/>
+                    <control:CustomEntry 
+                        BorderColor="Gray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Grid.Column="2"
+                        Grid.Row="2"
+                        HeightRequest="25"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Advance5, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"
+                        WidthRequest="50"/>
+                    <Image                            
+                            Grid.Column="3"
+                            Grid.Row="2"
+                            HorizontalOptions="End"
+                            Source="{Binding ImageSource5}"
+                            VerticalOptions="Center"
+                            WidthRequest="20">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command ="{Binding SearchArtistCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <StackLayout
+                        Grid.Column="0"
+                        Grid.Row="3"
+                        HorizontalOptions="Start"
+                        Orientation="Horizontal"
+                        VerticalOptions="Center">
+                        <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="{i18n:Translate Hard}"
+                        TextColor="Gray"
+                        HorizontalTextAlignment="Start"
+                        VerticalOptions="Center"/>
+                    </StackLayout>
+                    <control:CustomEntry 
+                        BorderColor="Gray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Grid.Column="1"
+                        Grid.Row="3"
+                        HeightRequest="25"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Cost6, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"
+                        WidthRequest="50"/>
+                    <control:CustomEntry 
+                        BorderColor="Gray"
+                        CornerRadius="12"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        Grid.Column="2"
+                        Grid.Row="3"
+                        HeightRequest="25"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Advance6, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"
+                        WidthRequest="50"/>
+                    <Image                            
+                            Grid.Column="3"
+                            Grid.Row="3"
+                            HorizontalOptions="End"
+                            Source="{Binding ImageSource6}"
+                            VerticalOptions="Center"
+                            WidthRequest="20">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command ="{Binding SearchArtistCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Grid>
+            </StackLayout>
+            <StackLayout
+                VerticalOptions="StartAndExpand">
+                <Grid
+                        Padding="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width=".8*"/>
+                        <ColumnDefinition Width=".8*"/>
+                        <ColumnDefinition Width=".3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Grid.Column="1"
+                            Grid.Row="0"
+                            Text="{i18n:Translate Cost}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Center"
+                            VerticalOptions="Center"/>
+                    <Label
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Grid.Column="2"
+                            Grid.Row="0"
+                            Text="{i18n:Translate Advance}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Center"
+                            VerticalOptions="Center"/>
+                    <StackLayout
+                            Grid.ColumnSpan="2"
+                            Grid.Row="0"
+                        Orientation="Horizontal">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="{i18n:Translate Size}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Start"
+                            VerticalOptions="Center"/>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text=" - "
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Start"
+                            VerticalOptions="Center"/>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="{i18n:Translate Big}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Start"
+                            VerticalOptions="Center"/>
+                    </StackLayout>
+                    <StackLayout
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        HorizontalOptions="Start"
+                        Orientation="Horizontal"
+                        VerticalOptions="Center">
+                        <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="{i18n:Translate Easy}"
+                        TextColor="Gray"
+                        HorizontalTextAlignment="Start"
+                        VerticalOptions="Center"/>
+                    </StackLayout>
+                    <control:CustomEntry 
+                        BorderColor="Gray"
+                        CornerRadius="15"
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        HeightRequest="30"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Cost7, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"
+                        WidthRequest="50"/>
+                    <control:CustomEntry 
+                        BorderColor="Gray"
+                        CornerRadius="15"
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        Grid.Column="2"
+                        Grid.Row="1"
+                        HeightRequest="30"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Advance7, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"
+                        WidthRequest="50"/>
+                    <Image                            
+                            Grid.Column="3"
+                            Grid.Row="1"
+                            HorizontalOptions="End"
+                            Source="{Binding ImageSource7}"
+                            VerticalOptions="Center"
+                            WidthRequest="20">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command ="{Binding SearchArtistCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <StackLayout
+                        Grid.Column="0"
+                        Grid.Row="2"
+                        HorizontalOptions="Start"
+                        Orientation="Horizontal"
+                        VerticalOptions="Center">
+                        <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="{i18n:Translate MediumComplexity}"
+                        TextColor="Gray"
+                        HorizontalTextAlignment="Start"
+                        VerticalOptions="Center"/>
+                    </StackLayout>
+                    <control:CustomEntry 
+                        BorderColor="Gray"
+                        CornerRadius="15"
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        Grid.Column="1"
+                        Grid.Row="2"
+                        HeightRequest="30"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Cost8, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"
+                        WidthRequest="50"/>
+                    <control:CustomEntry 
+                        BorderColor="Gray"
+                        CornerRadius="15"
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        Grid.Column="2"
+                        Grid.Row="2"
+                        HeightRequest="30"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Advance8, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"
+                        WidthRequest="50"/>
+                    <Image                            
+                            Grid.Column="3"
+                            Grid.Row="2"
+                            HorizontalOptions="End"
+                            Source="{Binding ImageSource8}"
+                            VerticalOptions="Center"
+                            WidthRequest="20">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command ="{Binding SearchArtistCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <StackLayout
+                        Grid.Column="0"
+                        Grid.Row="3"
+                        HorizontalOptions="Start"
+                        Orientation="Horizontal"
+                        VerticalOptions="Center">
+                        <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="{i18n:Translate Hard}"
+                        TextColor="Gray"
+                        HorizontalTextAlignment="Start"
+                        VerticalOptions="Center"/>
+                    </StackLayout>
+                    <control:CustomEntry 
+                        BorderColor="Gray"
+                        CornerRadius="15"
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        Grid.Column="1"
+                        Grid.Row="3"
+                        HeightRequest="30"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Cost9, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"
+                        WidthRequest="50"/>
+                    <control:CustomEntry 
+                        BorderColor="Gray"
+                        CornerRadius="15"
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        Grid.Column="2"
+                        Grid.Row="3"
+                        HeightRequest="30"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Advance9, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"
+                        WidthRequest="50"/>
+                    <Image                            
+                            Grid.Column="3"
+                            Grid.Row="3"
+                            HorizontalOptions="End"
+                            Source="{Binding ImageSource9}"
+                            VerticalOptions="Center"
+                            WidthRequest="20">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command ="{Binding SearchArtistCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Grid>
+            </StackLayout>
+            <ActivityIndicator
+                IsRunning="{Binding IsRunning}"
+                VerticalOptions="EndAndExpand"/>
+            <StackLayout
+                    Margin="40,0,40,5"
+                    VerticalOptions="EndAndExpand">
+                <Button
+                    BackgroundColor="Gray"
+                    BorderRadius="23"
+                    Command="{Binding ActivateCommand}"
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    HeightRequest="46"
+                    IsEnabled="{Binding IsEnabled}"
+                    Text="{i18n:Translate Done}"
+                    TextColor="Black"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

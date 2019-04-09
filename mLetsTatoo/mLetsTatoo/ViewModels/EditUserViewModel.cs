@@ -1,5 +1,4 @@
-﻿
-namespace mLetsTatoo.ViewModels
+﻿namespace mLetsTatoo.ViewModels
 {
     using System;
     using System.Windows.Input;

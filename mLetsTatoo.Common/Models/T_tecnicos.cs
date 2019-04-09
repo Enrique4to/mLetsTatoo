@@ -12,7 +12,8 @@ namespace mLetsTatoo.Models
         [Required]
         public int Id_Local { get; set; }
         [Required]
-        public int Id_Empresa { get; set; }
+        public int Id_Empresa { get; set; }        
+        public int Id_Usuario { get; set; }
         [Required]
         public string Nombre { get; set; }
         [Required]

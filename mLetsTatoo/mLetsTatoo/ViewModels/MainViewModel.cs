@@ -12,8 +12,11 @@
         public EditUserViewModel EditUser { get; set; }
         public TecnicoViewModel Tecnico { get; set; }
         public LocalViewModel LocalPage { get; set; }
-        public NewDateViewModel NewDatePage { get; set; }
+        public NewDateViewModel NewDate { get; set; }
         public SearchViewModel Search { get; set; }
+        public TecnicoProfileViewModel TecnicoProfile { get; set; }
+        public TecnicoConfirmViewModel TecnicoConfirm { get; set; }
+        public TecnicoFeaturesViewModel TecnicoFeatures { get; set; }
         #endregion
 
         #region Constructors

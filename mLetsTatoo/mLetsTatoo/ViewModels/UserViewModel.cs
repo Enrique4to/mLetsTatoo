@@ -95,44 +95,43 @@
                 Languages.FromGallery,
                 Languages.NewPicture);
 
-                if (source == Languages.Cancel)
-                {
-                    this.file = null;
-                    return;
-                }
+            if (source == Languages.Cancel)
+            {
+                this.file = null;
+                return;
+            }
 
-                if (source == Languages.NewPicture)
-                {
-                    this.file = await CrossMedia.Current.TakePhotoAsync(
-                        new StoreCameraMediaOptions
-                        {
-                            Directory = "Sample",
-                            Name = "test.jpg",
-                            PhotoSize = PhotoSize.Small,
-
-                        });
-                }
-                else
-                {
-                    this.file = await CrossMedia.Current.PickPhotoAsync(
-                        new PickMediaOptions
-                        {
-                            PhotoSize = PhotoSize.Small,
-                        });
-
-                }
-
-                if (this.file != null)
-                {
-                    this.ImageSource = ImageSource.FromStream(() =>
+            if (source == Languages.NewPicture)
+            {
+                this.file = await CrossMedia.Current.TakePhotoAsync(
+                    new StoreCameraMediaOptions
                     {
-                        var stream = this.file.GetStream();
-                        this.SavePic();
-                        return stream;
-                    });
-                }
-        }
+                        Directory = "Sample",
+                        Name = "test.jpg",
+                        PhotoSize = PhotoSize.Small,
 
+                    });
+            }
+            else
+            {
+                this.file = await CrossMedia.Current.PickPhotoAsync(
+                    new PickMediaOptions
+                    {
+                        PhotoSize = PhotoSize.Small,
+                    });
+
+            }
+
+            if (this.file != null)
+            {
+                this.ImageSource = ImageSource.FromStream(() =>
+                {
+                    var stream = this.file.GetStream();
+                    this.SavePic();
+                    return stream;
+                });
+            }
+        }
         private async void SavePic()
         {
             this.IsRunning = true;
