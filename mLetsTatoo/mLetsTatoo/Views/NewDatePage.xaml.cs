@@ -2,6 +2,7 @@
 {
     using mLetsTatoo.ViewModels;
     using Syncfusion.XForms.Buttons;
+    using System.Threading.Tasks;
     using Xamarin.Forms;
     public partial class NewDatePage : ContentPage
 	{
@@ -39,22 +40,13 @@
         }
         private void LoadFeatures(object sender, StateChangedEventArgs e)
         {
-            if (e.IsChecked.HasValue && e.IsChecked.Value)
+            if (MainViewModel.GetInstance().NewDate.tecnico != null)
             {
-                MainViewModel.GetInstance().NewDate.LoadFeatures();
-                this.cost= MainViewModel.GetInstance().NewDate.Cost;
-                this.advance = MainViewModel.GetInstance().NewDate.Advance;
-                this.Labels();
+                if (e.IsChecked.HasValue && e.IsChecked.Value)
+                {
+                    MainViewModel.GetInstance().NewDate.LoadFeatures(sender);
+                }
             }
-        }
-        private void Labels()
-        {
-            Device.BeginInvokeOnMainThread(() => {
-                lblAdvance.Text = this.advance.ToString("C2");
-            });
-            Device.BeginInvokeOnMainThread(() => {
-                lblCost.Text = this.cost.ToString("C2");
-            });
         }
     }
 }

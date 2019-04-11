@@ -19,10 +19,15 @@
         private T_usuarios user;
         private bool isRunning;
         private bool isEnabled;
+        private string activationCode;
         #endregion
 
         #region Properties
-        public string Confirmacion { get; set; }
+        public string ActivationCode
+        {
+            get { return this.activationCode; }
+            set { SetValue(ref this.activationCode, value); }
+        }
         public string ConfirmPassword { get; set; }
         public string NewPassword { get; set; }
         public T_tecnicos Tecnico
@@ -103,7 +108,7 @@
 
             ////-------------- Confirm Activation --------------//
 
-            //if (string.IsNullOrEmpty(this.Confirmacion))
+            //if (string.IsNullOrEmpty(this.ActivationCode))
             //{
             //    await Application.Current.MainPage.DisplayAlert(
             //        Languages.Error,
@@ -111,7 +116,7 @@
             //        "Ok");
             //    return;
             //}
-            //var confirm = int.Parse(this.Confirmacion);
+            //var confirm = int.Parse(this.ActivationCode);
             //if (confirm != this.user.Confirmacion)
             //{
             //    await Application.Current.MainPage.DisplayAlert(
@@ -175,7 +180,6 @@
             //    "OK");
             //    return;
             //}
-            //this.IsRunning = false;
 
             MainViewModel.GetInstance().TecnicoFeatures = new TecnicoFeaturesViewModel(user);
             await Application.Current.MainPage.Navigation.PopModalAsync();

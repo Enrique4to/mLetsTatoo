@@ -72,8 +72,8 @@
             this.apiService = new ApiService();
             this.IsRemember = true;
             this.IsEnabled = true;
-            this.Usuario = "Juan";
-            this.Pass = "elt4Vc0f";
+            this.Usuario = null;
+            this.Pass = null;
         }
         #endregion
         #region Commands

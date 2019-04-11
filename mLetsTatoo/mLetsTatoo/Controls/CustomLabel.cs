@@ -1,13 +1,13 @@
 ﻿namespace mLetsTatoo.Controls
 {
     using Xamarin.Forms;
-    public class CustomRegEntry : Entry
+    public class CustomLabel : Label
     {
         public static readonly BindableProperty BorderColorProperty =
         BindableProperty.Create(
             nameof(BorderColor),
             typeof(Color),
-            typeof(CustomRegEntry),
+            typeof(CustomLabel),
             Color.Gray);
 
         // Gets or sets BorderColor value
@@ -21,7 +21,7 @@
         BindableProperty.Create(
             nameof(BorderWidth),
             typeof(int),
-            typeof(CustomRegEntry),
+            typeof(CustomLabel),
             Device.OnPlatform<int>(1, 2, 2));
 
         // Gets or sets BorderWidth value
@@ -35,7 +35,7 @@
         BindableProperty.Create(
             nameof(CornerRadius),
             typeof(double),
-            typeof(CustomRegEntry),
+            typeof(CustomLabel),
             Device.OnPlatform<double>(6, 7, 7));
 
         // Gets or sets CornerRadius value
@@ -49,7 +49,7 @@
         BindableProperty.Create(
             nameof(IsCurvedCornersEnabled),
             typeof(bool),
-            typeof(CustomRegEntry),
+            typeof(CustomLabel),
             true);
 
         // Gets or sets IsCurvedCornersEnabled value

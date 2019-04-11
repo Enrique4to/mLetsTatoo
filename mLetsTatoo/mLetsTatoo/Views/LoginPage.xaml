@@ -31,7 +31,6 @@
                     </Grid.RowDefinitions>
                     <control:CustomEntry 
                         BorderColor="Gray"
-                        CornerRadius="12"
                         FontAttributes="Bold"
                         FontSize="20"
                         Grid.Row="0"
@@ -42,11 +41,9 @@
                         Placeholder="{i18n:Translate Usuario}"
                         PlaceholderColor="Gray"
                         Text="{Binding Usuario, Mode=TwoWay}"                        
-                        TextColor="LightGray"
-                        WidthRequest="50"/>
+                        TextColor="LightGray"/>
                     <control:CustomEntry
                         BorderColor="Gray"
-                        CornerRadius="12"
                         FontAttributes="Bold"
                         FontSize="20"
                         Grid.Row="1"
@@ -58,8 +55,7 @@
                         Placeholder="{i18n:Translate Password}"
                         PlaceholderColor="Gray"
                         Text="{Binding Pass, Mode=TwoWay}"                      
-                        TextColor="LightGray"
-                        WidthRequest="50"/>
+                        TextColor="LightGray"/>
                     <Label                        
                         Grid.Row="2"
                         Grid.Column="1"

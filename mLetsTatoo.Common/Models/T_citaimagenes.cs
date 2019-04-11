@@ -17,7 +17,7 @@ namespace mLetsTatoo.Models
             set;
         }
         [Required]
-        public int Id_Cita { get; set; }
+        public int Id_Nota { get; set; }
         #endregion
     }
 }

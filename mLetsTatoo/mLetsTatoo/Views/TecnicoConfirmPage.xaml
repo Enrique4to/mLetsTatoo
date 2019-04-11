@@ -32,42 +32,35 @@
                     TextColor="LightGray"
                     VerticalOptions="Center"/>
                 <StackLayout
-                    IsEnabled="false"
                     Opacity=".5"
                     Padding="30,0"
                     VerticalOptions="StartAndExpand"
                     x:Name="StackPass">
-                    <control:CustomRegEntry 
+                    <control:CustomEntry 
                         BorderColor="LightGray"
-                        CornerRadius="12"
                         FontAttributes="Bold"
                         FontSize="18"
                         HeightRequest="40"
-                        HorizontalTextAlignment="Start"
+                        HorizontalTextAlignment="Center"
                         IsCurvedCornersEnabled="True"
-                        IsEnabled="{Binding IsEnabled}"
                         IsPassword="True"
                         Placeholder="{i18n:Translate NewPassword}"
                         PlaceholderColor="Gray"  
                         Text="{Binding NewPassword, Mode=TwoWay}"                     
                         TextColor="LightGray"
-                        WidthRequest="50"
                         x:Name="NewPassword"/>
-                    <control:CustomRegEntry 
+                    <control:CustomEntry 
                         BorderColor="LightGray"
-                        CornerRadius="12"
                         FontAttributes="Bold"
                         FontSize="18"
                         HeightRequest="40"
-                        HorizontalTextAlignment="Start"
+                        HorizontalTextAlignment="Center"
                         IsCurvedCornersEnabled="True"
-                        IsEnabled="{Binding IsEnabled}"
                         IsPassword="True"
                         Placeholder="{i18n:Translate ConfirmPassword}"
                         PlaceholderColor="Gray"
                         Text="{Binding ConfirmPassword, Mode=TwoWay}"
                         TextColor="LightGray"
-                        WidthRequest="50"
                         x:Name="ConfirmPassword"/>
                 </StackLayout>
                 <Label
@@ -79,28 +72,24 @@
                     TextColor="LightGray"
                     VerticalOptions="Start"/>
                 <StackLayout
-                    IsEnabled="false"
                     Opacity=".5"
                     Padding="30,0"
                     VerticalOptions="Start"
                     x:Name="StackEmail">
-                    <control:CustomRegEntry 
+                    <control:CustomEntry 
                         BorderColor="LightGray"
-                        CornerRadius="12"
                         FontAttributes="Bold"
                         FontSize="16"
                         Grid.Column="1"
                         Grid.Row="3"
                         HeightRequest="40"
-                        HorizontalTextAlignment="Start"
+                        HorizontalTextAlignment="Center"
                         IsCurvedCornersEnabled="True"
-                        IsEnabled="{Binding IsEnabled}"
-                        Keyboard="Email"
+                        Keyboard="Numeric"
                         Placeholder="{i18n:Translate ActivationCode}"
                         PlaceholderColor="Gray"
                         Text="{Binding ActivationCode, Mode=TwoWay}"
-                        TextColor="LightGray"
-                        WidthRequest="40"/>
+                        TextColor="LightGray"/>
                 </StackLayout>
                 <ActivityIndicator
                     IsRunning="{Binding IsRunning}"

@@ -5,22 +5,22 @@ using mLetsTatoo.Droid.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(handler: typeof(CustomEntry), target: typeof(CustomEntryRenderer))]
+[assembly: ExportRenderer(handler: typeof(CustomLabel), target: typeof(CustomLabelRenderer))]
 namespace mLetsTatoo.Droid.Renderers
 {
-    public class CustomEntryRenderer : EntryRenderer
+    public class CustomLabelRenderer : LabelRenderer
     {
-        public CustomEntryRenderer(Context context) : base(context)
+        public CustomLabelRenderer(Context context) : base(context)
         {
         }
 
-        protected override void OnElementChanged(ElementChangedEventArgs<Entry> e)
+        protected override void OnElementChanged(ElementChangedEventArgs<Label> e)
         {
             base.OnElementChanged(e);
 
             if (e.OldElement == null)
             {
-                var view = (CustomEntry)Element;
+                var view = (CustomLabel)Element;
                 //Control.SetBackgroundResource(Resource.Layout.rounded_shape);
                 if (view.IsCurvedCornersEnabled)
                 {

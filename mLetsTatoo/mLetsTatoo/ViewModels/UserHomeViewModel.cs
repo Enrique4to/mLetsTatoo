@@ -19,7 +19,6 @@
     {
         #region Services
         private ApiService apiService;
-
         #endregion
 
         #region Attributes

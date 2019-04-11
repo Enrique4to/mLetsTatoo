@@ -387,6 +387,50 @@
         {
             get { return Resource.Done; }
         }
+        public static string CostError
+        {
+            get { return Resource.CostError; }
+        }
+        public static string AdvanceError
+        {
+            get { return Resource.AdvanceError; }
+        }
+        public static string ExampleImageError
+        {
+            get { return Resource.ExampleImageError; }
+        }
+        public static string Example
+        {
+            get { return Resource.Example; }
+        }
+        public static string NegativeError
+        {
+            get { return Resource.NegativeError; }
+        }
+        public static string Height
+        {
+            get { return Resource.Height; }
+        }
+        public static string Width
+        {
+            get { return Resource.Width; }
+        }
+        public static string SizeError
+        {
+            get { return Resource.SizeError; }
+        }
+        public static string MaximunSize
+        {
+            get { return Resource.MaximunSize; }
+        }
+        public static string EstimatedTime
+        {
+            get { return Resource.EstimatedTime; }
+        }
+        public static string SelectEstimatedTime
+        {
+            get { return Resource.SelectEstimatedTime; }
+        }
 
     }
 }

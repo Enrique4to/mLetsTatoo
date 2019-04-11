@@ -21,6 +21,8 @@
             <x:String x:Key="UrlT_estadoController">/T_estado</x:String>
             <x:String x:Key="UrlT_ciudadController">/T_ciudad</x:String>
             <x:String x:Key="UrlT_postalController">/T_postal</x:String>
+            <x:String x:Key="UrlT_teccaractController">/T_teccaract</x:String>
+            
         </ResourceDictionary>
 
     </Application.Resources>

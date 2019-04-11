@@ -9,7 +9,8 @@
     xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
     xmlns:page="clr-namespace:mLetsTatoo.CustomPages;assembly=mLetsTatoo"
     xmlns:views="clr-namespace:mLetsTatoo.Views"
-    x:Class="mLetsTatoo.Views.TecnicoHomePage">
+    x:Class="mLetsTatoo.Views.TecnicoHomePage"
+    x:Name="Root">
     <page:SNavigationPage.NavContent>
         <Grid
             Margin="2,10,2,2">
@@ -30,7 +31,7 @@
             Icon="NewsFeed.png"
             x:Name="News">
             <StackLayout
-            BindingContext="{Binding UserHome}"
+            BindingContext="{Binding TecnicoHome}"
             Padding="5">
             </StackLayout>
         </ContentPage>
@@ -39,7 +40,7 @@
             Icon="CitasUns.png"
             x:Name="Citas">
             <StackLayout
-                BindingContext="{Binding UserHome}"
+                BindingContext="{Binding TecnicoHome}"
                 BackgroundColor="Black"
                 Padding="5">
                 <Grid                    
@@ -65,18 +66,18 @@
             Icon="NotificacionUns.png"
             x:Name="Notifications">
             <StackLayout
-            BindingContext="{Binding UserHome}"
+            BindingContext="{Binding TecnicoHome}"
             BackgroundColor="Black"
             Padding="5">
 
             </StackLayout>
         </ContentPage>
 
-        <views:UserPage 
-            BindingContext="{Binding UserPage}"
+        <views:TecnicoProfilePage 
+            BindingContext="{Binding TecnicoHome}"
             Icon="OptionsUns.png"
-            x:Name="UserOptions">
-        </views:UserPage>
+            x:Name="TecnicoOptions">
+        </views:TecnicoProfilePage>
 
     </TabbedPage.Children>
 </TabbedPage>

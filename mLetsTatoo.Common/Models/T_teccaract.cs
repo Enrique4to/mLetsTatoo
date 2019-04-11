@@ -1,4 +1,4 @@
-﻿namespace mLetsTatoo.Common.Models
+﻿namespace mLetsTatoo.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;
@@ -17,6 +17,10 @@
         public decimal Costo_Cita { get; set; }
         [Required]
         public byte[] Imagen_Ejemplo { get; set; }
+        [Required]
+        public decimal Alto { get; set; }
+        [Required]
+        public decimal Ancho { get; set; }
         #endregion
     }
 }

@@ -405,4 +405,37 @@
   <data name="Done" xml:space="preserve">
     <value>Listo</value>
   </data>
+  <data name="CostError" xml:space="preserve">
+    <value>Debes completar todos los campos de costos ...</value>
+  </data>
+  <data name="AdvanceError" xml:space="preserve">
+    <value>Debes completar todos los campos de anticipo ...</value>
+  </data>
+  <data name="ExampleImageError" xml:space="preserve">
+    <value>Debes añadir todas las imágenes de ejemplo ...</value>
+  </data>
+  <data name="Example" xml:space="preserve">
+    <value>Ejemplo</value>
+  </data>
+  <data name="NegativeError" xml:space="preserve">
+    <value>¡No puedes introducir valores negativos!</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Alto</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Ancho</value>
+  </data>
+  <data name="SizeError" xml:space="preserve">
+    <value>¡Debes introducir los valores de tamaño para continuar!</value>
+  </data>
+  <data name="MaximunSize" xml:space="preserve">
+    <value>La medida máxima seleccionada para tu arte es:</value>
+  </data>
+  <data name="EstimatedTime" xml:space="preserve">
+    <value>Duración estimada:</value>
+  </data>
+  <data name="SelectEstimatedTime" xml:space="preserve">
+    <value>Selecciona la duración estimada para esta combinacion de caracteristicas.</value>
+  </data>
 </root>

@@ -124,6 +124,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You must fill all the advance fields ....
+        /// </summary>
+        internal static string AdvanceError {
+            get {
+                return ResourceManager.GetString("AdvanceError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You must be at least 18 years old..
         /// </summary>
         internal static string AgeError {
@@ -322,6 +331,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You must fill out all the cost fields ....
+        /// </summary>
+        internal static string CostError {
+            get {
+                return ResourceManager.GetString("CostError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current password.
         /// </summary>
         internal static string CurrentPassword {
@@ -484,6 +502,33 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Estimated duration time:.
+        /// </summary>
+        internal static string EstimatedTime {
+            get {
+                return ResourceManager.GetString("EstimatedTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Example.
+        /// </summary>
+        internal static string Example {
+            get {
+                return ResourceManager.GetString("Example", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must add all the example images ....
+        /// </summary>
+        internal static string ExampleImageError {
+            get {
+                return ResourceManager.GetString("ExampleImageError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Features of your art....
         /// </summary>
         internal static string FeaturesArt {
@@ -516,6 +561,15 @@ namespace mLetsTatoo.Resources {
         internal static string Hard {
             get {
                 return ResourceManager.GetString("Hard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Height.
+        /// </summary>
+        internal static string Height {
+            get {
+                return ResourceManager.GetString("Height", resourceCulture);
             }
         }
         
@@ -601,6 +655,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The maximum measure selected for your art is:.
+        /// </summary>
+        internal static string MaximunSize {
+            get {
+                return ResourceManager.GetString("MaximunSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Medium.
         /// </summary>
         internal static string MediumComplexity {
@@ -633,6 +696,15 @@ namespace mLetsTatoo.Resources {
         internal static string NameError {
             get {
                 return ResourceManager.GetString("NameError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can&apos;t introduce negative values!.
+        /// </summary>
+        internal static string NegativeError {
+            get {
+                return ResourceManager.GetString("NegativeError", resourceCulture);
             }
         }
         
@@ -835,11 +907,29 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select the estimated time duration for this feature..
+        /// </summary>
+        internal static string SelectEstimatedTime {
+            get {
+                return ResourceManager.GetString("SelectEstimatedTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Size:.
         /// </summary>
         internal static string Size {
             get {
                 return ResourceManager.GetString("Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must enter the size values ​​to continue!.
+        /// </summary>
+        internal static string SizeError {
+            get {
+                return ResourceManager.GetString("SizeError", resourceCulture);
             }
         }
         
@@ -921,6 +1011,15 @@ namespace mLetsTatoo.Resources {
         internal static string WhereTakePicture {
             get {
                 return ResourceManager.GetString("WhereTakePicture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Width.
+        /// </summary>
+        internal static string Width {
+            get {
+                return ResourceManager.GetString("Width", resourceCulture);
             }
         }
     }

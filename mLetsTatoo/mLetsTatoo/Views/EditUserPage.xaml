@@ -47,9 +47,8 @@
                     Padding="30,0"
                     VerticalOptions="StartAndExpand"
                     x:Name="StackPass">
-                    <control:CustomRegEntry                         
+                    <control:CustomEntry                         
                         BorderColor="LightGray"
-                        CornerRadius="12"
                         FontAttributes="Bold"
                         FontSize="18"
                         HeightRequest="40"
@@ -62,11 +61,9 @@
                         Text="{Binding CurrentPassword, Mode=TwoWay}"
                         TextColor="LightGray"
                         VerticalOptions="StartAndExpand"
-                        WidthRequest="50"
                         x:Name="CurrentPassword"/>
-                    <control:CustomRegEntry 
+                    <control:CustomEntry 
                         BorderColor="LightGray"
-                        CornerRadius="12"
                         FontAttributes="Bold"
                         FontSize="18"
                         HeightRequest="40"
@@ -78,11 +75,9 @@
                         PlaceholderColor="Gray"  
                         Text="{Binding NewPassword, Mode=TwoWay}"                     
                         TextColor="LightGray"
-                        WidthRequest="50"
                         x:Name="NewPassword"/>
-                    <control:CustomRegEntry 
+                    <control:CustomEntry 
                         BorderColor="LightGray"
-                        CornerRadius="12"
                         FontAttributes="Bold"
                         FontSize="18"
                         HeightRequest="40"
@@ -94,7 +89,6 @@
                         PlaceholderColor="Gray"
                         Text="{Binding ConfirmPassword, Mode=TwoWay}"
                         TextColor="LightGray"
-                        WidthRequest="50"
                         x:Name="ConfirmPassword"/>
                 </StackLayout>
                 <ActivityIndicator
@@ -124,9 +118,8 @@
                     Padding="30,0"
                     VerticalOptions="StartAndExpand"
                     x:Name="StackEmail">
-                    <control:CustomRegEntry 
+                    <control:CustomEntry 
                         BorderColor="LightGray"
-                        CornerRadius="12"
                         FontAttributes="Bold"
                         FontSize="16"
                         Grid.Column="1"
@@ -139,8 +132,7 @@
                         Placeholder="{i18n:Translate Email}"
                         PlaceholderColor="Gray"
                         Text="{Binding Cliente.Correo, Mode=TwoWay}"
-                        TextColor="LightGray"
-                        WidthRequest="40"/>
+                        TextColor="LightGray"/>
                 </StackLayout>
                 <StackLayout
                     Padding="10,0"
@@ -166,9 +158,8 @@
                     Padding="30,0"
                     VerticalOptions="StartAndExpand"
                     x:Name="StackPersonal">
-                    <control:CustomRegEntry 
+                    <control:CustomEntry 
                         BorderColor="LightGray"
-                        CornerRadius="12"
                         FontAttributes="Bold"
                         FontSize="15.5"
                         Grid.Column="1"
@@ -180,11 +171,9 @@
                         Placeholder="{i18n:Translate Name}"
                         PlaceholderColor="Gray"
                         Text="{Binding Cliente.Nombre, Mode=TwoWay}"
-                        TextColor="LightGray"
-                        WidthRequest="40"/>
-                    <control:CustomRegEntry 
+                        TextColor="LightGray"/>
+                    <control:CustomEntry 
                         BorderColor="LightGray"
-                        CornerRadius="12"
                         FontAttributes="Bold"
                         FontSize="15.5"
                         Grid.Column="1"
@@ -196,11 +185,9 @@
                         Placeholder="{i18n:Translate Lastname}"
                         PlaceholderColor="Gray"
                         Text="{Binding Cliente.Apellido, Mode=TwoWay}"
-                        TextColor="LightGray"
-                        WidthRequest="40"/>
-                    <control:CustomRegEntry 
+                        TextColor="LightGray"/>
+                    <control:CustomEntry 
                         BorderColor="LightGray"
-                        CornerRadius="12"
                         FontAttributes="Bold"
                         FontSize="15.5"
                         Grid.Column="1"
@@ -212,8 +199,7 @@
                         Placeholder="{i18n:Translate EnterPhone}"
                         PlaceholderColor="Gray"
                         Text="{Binding Cliente.Telefono, Mode=TwoWay}"
-                        TextColor="LightGray"
-                        WidthRequest="40"/>
+                        TextColor="LightGray"/>
                     <control:CustomDatePicker
                         BackgroundColor="Black"
                         BorderColor="LightGray"                        

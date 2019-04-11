@@ -1,6 +1,10 @@
 ﻿namespace mLetsTatoo.ViewModels
 {
     using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using mLetsTatoo.Helpers;
@@ -9,6 +13,7 @@
     using mLetsTatoo.Views;
     using Plugin.Media;
     using Plugin.Media.Abstractions;
+    using Syncfusion.XForms.Buttons;
     using Xamarin.Forms;
     public class NewDateViewModel : BaseViewModel
     {
@@ -19,30 +24,39 @@
         #region Attributes
         private bool isRefreshing;
         private bool isRunning;
+        private bool isEnabled;
         private bool isVisivle;
-        public string filter;
-        private string selectedArtist;
-        private string describeArt;
-        public T_tecnicos tecnico;
-        public T_usuarios user;
-        public T_clientes cliente;
-        public decimal cost;
-        public decimal advance;
-        private byte[] byteImage;
-        private ImageSource imageSource;
-        private MediaFile file;
-
         private bool smallChecked;
         private bool mediumSizeChecked;
         private bool bigChecked;
         private bool easyChecked;
         private bool mediumComplexityChecked;
         private bool hardChecked;
+
+        public string filter;
+        private string selectedArtist;
+        private string describeArt;
+        private string heightWidth;
+        private string appCost;
+        private string appAdvance;
+
+        public T_tecnicos tecnico;
+        public T_usuarios user;
+        public T_teccaract feature;
+        public T_clientes cliente;
+
+        public decimal cost;
+        public decimal advance;
+
+        private byte[] byteImage;
+
+        private ImageSource imageSource;
+        private ImageSource imageSource2;
+
+        private MediaFile file;
         #endregion
 
         #region Properties
-        public DateTime AppointmentDate { get; set; }
-        public DateTime AppointmentTime { get; set; }
         public bool SmallChecked
         {
             get { return this.smallChecked; }
@@ -88,16 +102,12 @@
             get { return this.isVisivle; }
             set { SetValue(ref this.isVisivle, value); }
         }
-        public ImageSource ImageSource
+        public bool IsEnabled
         {
-            get { return this.imageSource; }
-            set { SetValue(ref this.imageSource, value); }
+            get { return this.isEnabled; }
+            set { SetValue(ref this.isEnabled, value); }
         }
-        public byte[] ByteImage
-        {
-            get { return this.byteImage; }
-            set { SetValue(ref this.byteImage, value); }
-        }
+
         public string Filter
         {
             get { return this.filter; }
@@ -113,6 +123,22 @@
             get { return this.describeArt; }
             set { SetValue(ref this.describeArt, value); }
         }
+        public string HeightWidth
+        {
+            get { return this.heightWidth; }
+            set { SetValue(ref this.heightWidth, value); }
+        }
+        public string AppCost
+        {
+            get { return this.appCost; }
+            set { SetValue(ref this.appCost, value); }
+        }
+        public string AppAdvance
+        {
+            get { return this.appAdvance; }
+            set { SetValue(ref this.appAdvance, value); }
+        }
+
         public decimal Cost
         {
             get { return this.cost; }
@@ -123,6 +149,28 @@
             get { return this.advance; }
             set { SetValue(ref this.advance, value); }
         }
+
+        public ImageSource ImageSource
+        {
+            get { return this.imageSource; }
+            set { SetValue(ref this.imageSource, value); }
+        }
+        public ImageSource ImageSource2
+        {
+            get { return this.imageSource2; }
+            set { SetValue(ref this.imageSource2, value); }
+        }
+
+        public byte[] ByteImage
+        {
+            get { return this.byteImage; }
+            set { SetValue(ref this.byteImage, value); }
+        }
+
+        public DateTime AppointmentDate { get; set; }
+        public DateTime AppointmentTime { get; set; }
+
+        public List<T_teccaract> ListFeature { get; set; }
         #endregion
 
         #region Constructors
@@ -137,6 +185,8 @@
             this.smallChecked = true;
             this.easyChecked = true;
 
+            this.AppointmentDate = DateTime.Today;
+            this.AppointmentTime = DateTime.Now;
 
             if (MainViewModel.GetInstance().Tecnico == null)
             {
@@ -146,12 +196,11 @@
             {
                 this.selectedArtist = MainViewModel.GetInstance().Tecnico.SelectedArtist;
             }
-            if(this.tecnico != null)
+            if (this.tecnico != null)
             {
                 this.selectedArtist = $"Artista: {this.tecnico.Apodo} - {this.tecnico.Nombre} {this.tecnico.Apellido1}";
             }
 
-            this.LoadFeatures();
         }
         #endregion
 
@@ -187,7 +236,7 @@
         }
         private async void SaveDate()
         {
-            if(string.IsNullOrEmpty(this.selectedArtist))
+            if (string.IsNullOrEmpty(this.selectedArtist))
             {
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
@@ -212,62 +261,93 @@
                 return;
             }
         }
-        public void LoadFeatures()
+        public async void LoadFeatures(object sender)
         {
-            if (smallChecked == true)
+            this.IsRefreshing = true;
+            this.IsRunning = true;
+            
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
             {
-                if (easyChecked == true)
-                {
-                    this.cost = 300;
-                    this.advance = 150;
-                }
-                else if (mediumComplexityChecked == true)
-                {
-                    this.cost = 500;
-                    this.advance = 150;
-                }
-                else if (HardChecked == true)
-                {
-                    this.cost = 800;
-                    this.advance = 150;
-                }
+                this.IsRefreshing = false;
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
             }
-            if (mediumSizeChecked == true)
+
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_teccaractController"].ToString();
+
+            var response = await this.apiService.GetList<T_teccaract>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
             {
-                if (easyChecked == true)
-                {
-                    this.cost = 800;
-                    this.advance = 150;
-                }
-                else if (mediumComplexityChecked == true)
-                {
-                    this.cost = 1200;
-                    this.advance = 150;
-                }
-                else if (HardChecked == true)
-                {
-                    this.cost = 1500;
-                    this.advance = 150;
-                }
+                this.IsRefreshing = false;
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
             }
-            if (bigChecked == true)
+            var list = (List<T_teccaract>)response.Result;
+
+            this.ListFeature = list.Where(f => f.Id_Tecnico == this.tecnico.Id_Tecnico).ToList();
+
+            if (smallChecked == true && easyChecked == true)
             {
-                if (easyChecked == true)
-                {
-                    this.cost = 1200;
-                    this.advance = 150;
-                }
-                else if (mediumComplexityChecked == true)
-                {
-                    this.cost = 1500;
-                    this.advance = 150;
-                }
-                else if (HardChecked == true)
-                {
-                    this.cost = 2000;
-                    this.advance = 150;
-                }
+                this.feature = this.ListFeature.Single(f => f.Caract == "SmallEasy");
             }
+            else if (smallChecked == true && mediumComplexityChecked == true)
+            {
+                this.feature = this.ListFeature.Single(f => f.Caract == "SmallMedium");
+            }
+            else if (smallChecked == true && hardChecked == true)
+            {
+                this.feature = this.ListFeature.Single(f => f.Caract == "SmallHard");
+            }
+
+            if (mediumSizeChecked == true && easyChecked == true)
+            {
+                this.feature = this.ListFeature.Single(f => f.Caract == "MediumEasy");
+            }
+            else if (mediumSizeChecked == true && mediumComplexityChecked == true)
+            {
+                this.feature = this.ListFeature.Single(f => f.Caract == "MediumMedium");
+            }
+            else if (mediumSizeChecked == true && hardChecked == true)
+            {
+                this.feature = this.ListFeature.Single(f => f.Caract == "MediumHard");
+            }
+
+            if (bigChecked == true && easyChecked == true)
+            {
+                this.feature = this.ListFeature.Single(f => f.Caract == "BigEasy");
+            }
+            else if (bigChecked == true && mediumComplexityChecked == true)
+            {
+                this.feature = this.ListFeature.Single(f => f.Caract == "BigMedium");
+            }
+            else if (bigChecked == true && hardChecked == true)
+            {
+                this.feature = this.ListFeature.Single(f => f.Caract == "BigHard");
+            }
+
+            this.Cost = this.feature.Total_Aprox;
+            this.Advance = this.feature.Costo_Cita;
+            if (this.feature.Imagen_Ejemplo != null)
+            {
+                this.ImageSource2 = ImageSource.FromStream(() => new MemoryStream(this.feature.Imagen_Ejemplo));
+            }
+            this.HeightWidth = $"{Languages.MaximunSize} {this.feature.Alto} cm X {this.feature.Ancho} cm";
+            this.AppCost = $"{Languages.ApproximateCost} {this.feature.Total_Aprox.ToString("C2")}";
+            this.AppAdvance = $"{Languages.AppointmentCost} {this.feature.Costo_Cita.ToString("C2")}";
+
+            this.IsRefreshing = false;
+            this.IsRunning = false;
         }
         private async void ChangeImage()
         {

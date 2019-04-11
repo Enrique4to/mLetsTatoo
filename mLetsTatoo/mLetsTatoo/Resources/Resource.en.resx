@@ -405,4 +405,37 @@
   <data name="Done" xml:space="preserve">
     <value>Done</value>
   </data>
+  <data name="CostError" xml:space="preserve">
+    <value>You must fill out all the cost fields ...</value>
+  </data>
+  <data name="AdvanceError" xml:space="preserve">
+    <value>You must fill all the advance fields ...</value>
+  </data>
+  <data name="ExampleImageError" xml:space="preserve">
+    <value>You must add all the example images ...</value>
+  </data>
+  <data name="Example" xml:space="preserve">
+    <value>Example</value>
+  </data>
+  <data name="NegativeError" xml:space="preserve">
+    <value>You can't introduce negative values!</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="Width" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="SizeError" xml:space="preserve">
+    <value>You must enter the size values ​​to continue!</value>
+  </data>
+  <data name="MaximunSize" xml:space="preserve">
+    <value>The maximum measure selected for your art is:</value>
+  </data>
+  <data name="EstimatedTime" xml:space="preserve">
+    <value>Estimated duration time:</value>
+  </data>
+  <data name="SelectEstimatedTime" xml:space="preserve">
+    <value>Select the estimated time duration for this feature.</value>
+  </data>
 </root>

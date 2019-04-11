@@ -87,7 +87,7 @@
     <Compile Include="Platform\Platform.cs" />
     <Compile Include="Renderers\CircleImageRenderer.cs" />
     <Compile Include="Renderers\CustomDatePickerRenderer.cs" />
-    <Compile Include="Renderers\CustomRegEntryRenderer.cs" />
+    <Compile Include="Renderers\CustomLabelRenderer.cs" />
     <Compile Include="Renderers\CustomEntryRenderer.cs" />
     <Compile Include="Renderers\SNavigationPageRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />

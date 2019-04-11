@@ -145,9 +145,7 @@
                     "OK");
                 return;
             }
-
-            byte[] ByetImage = null;
-
+            
             if (this.file != null)
             {
                 ByteImage = FileHelper.ReadFully(this.file.GetStream());
@@ -169,9 +167,7 @@
             var urlApi = App.Current.Resources["UrlAPI"].ToString();
             var prefix = App.Current.Resources["UrlPrefix"].ToString();
             var controller = App.Current.Resources["UrlT_clientesController"].ToString();
-
-            this.apiService = new ApiService();
-
+            
             var response = await this.apiService.Put
                 (urlApi,
                 prefix,

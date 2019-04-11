@@ -32,9 +32,8 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <control:CustomRegEntry 
+                        <control:CustomEntry 
                             BorderColor="Gray"
-                            CornerRadius="12"
                             FontAttributes="Bold"
                             FontSize="18"
                             Grid.Column="1"
@@ -45,11 +44,9 @@
                             Placeholder="{i18n:Translate Usuario}"
                             PlaceholderColor="Gray"
                             Text="{Binding User, Mode=TwoWay}"                        
-                            TextColor="LightGray"
-                            WidthRequest="50"/>
-                        <control:CustomRegEntry 
+                            TextColor="LightGray"/>
+                        <control:CustomEntry 
                             BorderColor="Gray"
-                            CornerRadius="12"
                             FontAttributes="Bold"
                             FontSize="18"
                             Grid.Column="1"
@@ -61,11 +58,9 @@
                             Placeholder="{i18n:Translate Password}"
                             PlaceholderColor="Gray"
                             Text="{Binding Password, Mode=TwoWay}"                        
-                            TextColor="LightGray"
-                            WidthRequest="50"/>
-                        <control:CustomRegEntry 
+                            TextColor="LightGray"/>
+                        <control:CustomEntry 
                             BorderColor="Gray"
-                            CornerRadius="12"
                             FontAttributes="Bold"
                             FontSize="18"
                             Grid.Column="1"
@@ -77,11 +72,9 @@
                             Placeholder="{i18n:Translate ConfirmPassword}"
                             PlaceholderColor="Gray"
                             Text="{Binding ConfirmPassword, Mode=TwoWay}"
-                            TextColor="LightGray"
-                            WidthRequest="50"/>
-                        <control:CustomRegEntry 
+                            TextColor="LightGray"/>
+                        <control:CustomEntry 
                             BorderColor="Gray"
-                            CornerRadius="12"
                             FontAttributes="Bold"
                             FontSize="16"
                             Grid.Column="1"
@@ -92,8 +85,7 @@
                             Placeholder="{i18n:Translate Email}"
                             PlaceholderColor="Gray"
                             Text="{Binding Email, Mode=TwoWay}"                        
-                            TextColor="LightGray"
-                            WidthRequest="40"/>
+                            TextColor="LightGray"/>
                     </Grid>
                 </StackLayout>
                 <ActivityIndicator
@@ -102,17 +94,17 @@
                 <StackLayout
                     Padding="5,0"
                     VerticalOptions="StartAndExpand">
-                <Label                            
-                    FontAttributes="Bold"
-                    FontSize="16"
-                    Margin="20,5"
-                    Text="{i18n:Translate PersonalData}"
-                    TextColor="LightGray"
-                    VerticalOptions="StartAndExpand"/>
-                <StackLayout
-                    Padding="5,0,5,0"
-                    VerticalOptions="StartAndExpand">
-                    <Grid>
+                    <Label                            
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Margin="20,5"
+                        Text="{i18n:Translate PersonalData}"
+                        TextColor="LightGray"
+                        VerticalOptions="StartAndExpand"/>
+                    <StackLayout
+                        Padding="5,0,5,0"
+                        VerticalOptions="StartAndExpand">
+                        <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width=".1*"/>
                             <ColumnDefinition Width="*"/>
@@ -121,9 +113,8 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <control:CustomRegEntry
+                        <control:CustomEntry
                             BorderColor="Gray"
-                            CornerRadius="12"
                             FontAttributes="Bold"
                             FontSize="18"
                             Grid.Column="1"
@@ -134,11 +125,9 @@
                             Placeholder="{i18n:Translate Name}"
                             PlaceholderColor="Gray"
                             Text="{Binding Name, Mode=TwoWay}"                        
-                            TextColor="LightGray"
-                            WidthRequest="50"/>
-                        <control:CustomRegEntry 
+                            TextColor="LightGray"/>
+                        <control:CustomEntry 
                             BorderColor="Gray"
-                            CornerRadius="12"
                             FontAttributes="Bold"
                             FontSize="18"
                             Grid.Column="1"
@@ -149,11 +138,9 @@
                             Placeholder="{i18n:Translate Lastname}"
                             PlaceholderColor="Gray"
                             Text="{Binding Lastname, Mode=TwoWay}"                        
-                            TextColor="LightGray"
-                            WidthRequest="50"/>
-                        <control:CustomRegEntry 
+                            TextColor="LightGray"/>
+                        <control:CustomEntry 
                             BorderColor="Gray"
-                            CornerRadius="12"
                             FontAttributes="Bold"
                             FontSize="16"
                             Grid.Column="1"
@@ -165,8 +152,7 @@
                             Placeholder="{i18n:Translate EnterPhone}"
                             PlaceholderColor="Gray"
                             Text="{Binding Phone, Mode=TwoWay}"                        
-                            TextColor="LightGray"
-                            WidthRequest="50"/>
+                            TextColor="LightGray"/>
                         <control:CustomDatePicker
                             BackgroundColor="Black"
                             BorderColor="Gray"
@@ -179,10 +165,9 @@
                             MinimumDate="1/1/1980"
                             Placeholder="{i18n:Translate Birthdate}"
                             Date="{Binding Birthdate, Mode=TwoWay}"
-                            TextColor="LightGray"
-                            WidthRequest="50"/>
-                    </Grid>
-                </StackLayout>
+                            TextColor="LightGray"/>
+                        </Grid>
+                    </StackLayout>
                 </StackLayout>
                 <StackLayout
                     Margin="40,0,40,5"

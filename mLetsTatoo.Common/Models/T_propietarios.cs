@@ -16,7 +16,7 @@ namespace mLetsTatoo.Models
         [Required]
         public string Apellido2 { get; set; }
         [Required]
-        public string Id_Empresa { get; set; }
+        public int Id_Empresa { get; set; }
         [Required]
         public Int64 Tel_Contacto { get; set; }
     }

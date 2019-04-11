@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace mLetsTatoo.ViewModels
+﻿namespace mLetsTatoo.ViewModels
 {
     using System;
     using System.Collections.Generic;
@@ -10,6 +6,7 @@ namespace mLetsTatoo.ViewModels
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Threading.Tasks;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Helpers;
@@ -29,7 +26,6 @@ namespace mLetsTatoo.ViewModels
         private ImageSource imageSource;
         private bool isRefreshing;
         private bool isRunning;
-        private ObservableCollection<EmpresaItemViewModel> empresas;
         private ObservableCollection<TecnicoItemViewModel> tecnicos;
         private T_clientes cliente;
         private T_usuarios user;
@@ -37,8 +33,6 @@ namespace mLetsTatoo.ViewModels
         private Image image;
         private string file;
         public string filter;
-        public string filterEmpresa;
-        public string filterTecnico;
         #endregion
 
         #region Properties
@@ -51,9 +45,7 @@ namespace mLetsTatoo.ViewModels
                 this.filter = value;
             }
         }
-        public List<T_empresas> EmpresaList { get; set; }
         public List<T_tecnicos> TecnicoList { get; set; }
-        public string NomUsuario { get; set; }
         public T_clientes Cliente
         {
             get { return this.cliente; }
@@ -73,11 +65,6 @@ namespace mLetsTatoo.ViewModels
         {
             get { return this.image; }
             set { SetValue(ref this.image, value); }
-        }
-        public ObservableCollection<EmpresaItemViewModel> Empresas
-        {
-            get { return this.empresas; }
-            set { SetValue(ref this.empresas, value); }
         }
         public ObservableCollection<TecnicoItemViewModel> Tecnicos
         {
@@ -110,19 +97,34 @@ namespace mLetsTatoo.ViewModels
         public TecnicoHomeViewModel(T_usuarios user)
         {
             this.user = user;
-            this.NomUsuario = user.Usuario;
             this.apiService = new ApiService();
+            
             this.IsRunning = false;
             this.IsRefreshing = false;
             this.TipoBusqueda = "All";
+
+            Task.Run(async () => { await this.LoadTecnico(); }).Wait();
         }
         #endregion
         #region Commands
-
+        public ICommand SearchCommand
+        {
+            get
+            {
+                return new RelayCommand(Busqueda);
+            }
+        }
+        public ICommand NewAppointmentCommand
+        {
+            get
+            {
+                return new RelayCommand(GoToCitasPage);
+            }
+        }
         #endregion
         #region Methods
 
-        private async void LoadTecnico()
+        private async Task LoadTecnico()
         {
             this.IsRefreshing = true;
             this.IsRunning = true;
@@ -170,10 +172,23 @@ namespace mLetsTatoo.ViewModels
                 this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
             }
 
-            MainViewModel.GetInstance().UserPage = new UserViewModel(user, cliente);
 
             this.IsRefreshing = false;
             this.IsRunning = false;
+        }
+        public void Busqueda()
+        {
+            if (TipoBusqueda == "All")
+            {
+            }
+            if (TipoBusqueda == "Citas")
+            {
+            }
+        }
+        private async void GoToCitasPage()
+        {
+            MainViewModel.GetInstance().NewDate = new NewDateViewModel(tecnico, user, cliente);
+            await Application.Current.MainPage.Navigation.PushModalAsync(new NewDatePage());
         }
         #endregion
     }
