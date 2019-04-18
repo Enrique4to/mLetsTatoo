@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage 
+<TabbedPage
     BackgroundColor="Black"
     BindingContext="{Binding Main, Source={StaticResource Locator}}"
     xmlns="http://xamarin.com/schemas/2014/forms"
@@ -9,9 +9,126 @@
     xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
     xmlns:page="clr-namespace:mLetsTatoo.CustomPages;assembly=mLetsTatoo"
     xmlns:views="clr-namespace:mLetsTatoo.Views"
-    x:Class="mLetsTatoo.Views.TecnicoViewDatePage"
-    x:Name="Citas">
-    <ContentPage.Content>
+    x:Class="mLetsTatoo.Views.TecnicoViewDatePage">
+    <ContentPage
+        Icon="Citas.png"
+        x:Name="Citas">
+        <StackLayout
+            BindingContext="{Binding TecnicoViewDate}"
+            Padding="5">
+            <Grid                    
+                VerticalOptions="FillAndExpand">
+                <StackLayout
+                    VerticalOptions="StartAndExpand"
+                    Padding="10">
+                    <ListView                    
+                        HasUnevenRows="True"
+                        IsPullToRefreshEnabled="True"
+                        IsRefreshing="{Binding IsRefreshing}"                    
+                        ItemsSource="{Binding Citas}"
+                        RefreshCommand="{Binding RefreshCitasCommand}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout
+                                        Padding="0,2,0,2">
+                                        <Grid
+                                            BackgroundColor="DimGray">
+                                            <!--<Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding TecnicoViewDatePageCommand}"/>
+                                            </Grid.GestureRecognizers>-->
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width=".05*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width=".05*"/>
+                                                <ColumnDefinition Width=".05*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <StackLayout
+                                                Grid.Column="1"
+                                                Grid.Row="0"
+                                                HorizontalOptions="Start"
+                                                Orientation="Horizontal"
+                                                VerticalOptions="End">
+                                                <Label
+                                                    FontSize="16"
+                                                    HorizontalTextAlignment="End"
+                                                    Text="{i18n:Translate Appointment}"
+                                                    TextColor="LightGray"/>
+                                                <Label
+                                                    FontSize="16"
+                                                    HorizontalTextAlignment="End"
+                                                    Text="#"
+                                                    TextColor="LightGray"/>
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="16"
+                                                    HorizontalTextAlignment="End"
+                                                    Text="{Binding Id_Cita}"
+                                                    TextColor="LightGray"/>
+                                            </StackLayout>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="12"
+                                                Grid.Column="1"
+                                                Grid.Row="1"
+                                                HorizontalOptions="Start"
+                                                HorizontalTextAlignment="Start"
+                                                Text="{Binding Asunto}"
+                                                TextColor="LightGray"/>
+                                            <StackLayout
+                                                Grid.Column="1"
+                                                Grid.Row="2"
+                                                HorizontalOptions="Center"
+                                                Orientation="Horizontal"
+                                                VerticalOptions="Start">
+                                                <Label
+                                                    FontSize="12"
+                                                    HorizontalTextAlignment="End"
+                                                    Text="{i18n:Translate Date}"
+                                                    TextColor="LightGray"/>
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="12"
+                                                    HorizontalOptions="Start"
+                                                    Text="{Binding F_Inicio, StringFormat=' {0:dd MMM yy}'}"
+                                                    TextColor="LightGray"
+                                                    VerticalTextAlignment="Start"/>
+                                                <Label
+                                                    FontSize="12"
+                                                    HorizontalTextAlignment="End"
+                                                    Text="{i18n:Translate At}"
+                                                    TextColor="LightGray"/>
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="12"
+                                                    HorizontalOptions="StartAndExpand"
+                                                    Text="{Binding H_Inicio, StringFormat=' {0:T}'}"
+                                                    TextColor="LightGray"
+                                                    VerticalTextAlignment="Start"/>
+                                            </StackLayout>
+                                            <Image
+                                                Grid.Column="3"
+                                                Grid.RowSpan="3"
+                                                HorizontalOptions="End"
+                                                Source="ChevronRight"
+                                                VerticalOptions="Center"
+                                                WidthRequest="20"/>
+                                        </Grid>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </Grid>
+        </StackLayout>
+    </ContentPage>
+    <ContentPage
+            Icon="BalanceUns.png"
+            x:Name="Balance">
         <ScrollView>
             <StackLayout
                 Padding="5">
@@ -99,33 +216,7 @@
                                 VerticalOptions="Center"/>
                         </StackLayout>
                     </StackLayout>
-                    <Label
-                        FontAttributes="Bold"
-                        FontSize="16"
-                        HorizontalTextAlignment="Start"
-                        Margin="10,10,0,0"
-                        Text="{i18n:Translate AppointmentWhere}"
-                        TextColor="LightGray"
-                        VerticalOptions="Center"/>
-                    <control:CustomLabel
-                        FontAttributes="Bold"
-                        FontSize="16"
-                        HorizontalTextAlignment="Center"
-                        Margin="5,0,0,0"
-                        Text="{Binding Studio}"
-                        TextColor="LightGray"/>
-                    <Label
-                        FontSize="14"
-                        HorizontalTextAlignment="Start"
-                        Margin="5,0,0,0"
-                        Text="{Binding Address}"
-                        TextColor="Gray"/>
-                    <Label
-                        FontSize="14"
-                        HorizontalTextAlignment="Start"
-                        Margin="5,10,0,0"
-                        Text="{Binding Reference}"
-                        TextColor="Gray"/>
+
                     <StackLayout
                         HorizontalOptions="EndAndExpand"
                         Padding="5,20,0,10"
@@ -186,7 +277,7 @@
                         VerticalOptions="Start"/>
                 </StackLayout>
                 <StackLayout
-                    BindingContext="{Binding UserViewDate}"
+                    BindingContext="{Binding TecnicoViewDate}"
                     Padding="5"
                     VerticalOptions="StartAndExpand">
                     <ListView                    
@@ -194,7 +285,6 @@
                         IsRefreshing="{Binding IsRefreshing}"                    
                         ItemsSource="{Binding Notas}">
                         <!--RefreshCommand="{Binding RefreshNotasCommand}">-->
-
                         <ListView.ItemTemplate>
                             
                             <DataTemplate>
@@ -202,7 +292,7 @@
                                     <StackLayout
                                             Padding="0,2,0,2">
                                         <Grid
-                                                BackgroundColor="DimGray">
+                                            BackgroundColor="DimGray">
                                             <!--<Grid.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding UserViewDatePageCommand}"/>
                                             </Grid.GestureRecognizers>-->
@@ -275,5 +365,5 @@
                 </StackLayout>
             </StackLayout>
         </ScrollView>
-    </ContentPage.Content>
-</ContentPage>
+    </ContentPage>
+</TabbedPage>

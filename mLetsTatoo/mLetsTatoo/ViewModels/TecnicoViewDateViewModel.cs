@@ -123,8 +123,6 @@
             this.user = user;
             this.tecnico = tecnico;
             this.apiService = new ApiService();
-            this.AppointmentDate = this.cita.F_Inicio;
-            this.AppointmentTime = this.cita.H_Inicio;
             this.MinDate = DateTime.Now.ToLocalTime();
             Task.Run(async () => { await this.LoadInfo(); }).Wait();
         }
@@ -179,6 +177,10 @@
             }).Where(c => c.Id_Trabajo == this.trabajo.Id_Trabajo).ToList();
             this.Citas = new ObservableCollection<CitasItemViewModel>(cita.OrderBy(c => c.F_Inicio));
 
+            this.cita = CitasList.Single(c => c.Id_Trabajo == this.trabajo.Id_Trabajo);
+
+            this.AppointmentDate = this.cita.F_Inicio;
+            this.AppointmentTime = this.cita.H_Inicio;
 
             this.subTotal = $"{Languages.SubTotal} {this.trabajo.Total_Aprox.ToString("C2")}";
             this.advance = $"{Languages.Advance} {this.trabajo.Costo_Cita.ToString("C2")}";

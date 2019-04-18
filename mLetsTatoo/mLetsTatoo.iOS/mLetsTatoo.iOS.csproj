@@ -290,4 +290,10 @@
   <ItemGroup>
     <BundleResource Include="Resources\NoUserPicUns.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Balance.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\BalanceUns.png" />
+  </ItemGroup>
 </Project>

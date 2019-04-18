@@ -235,6 +235,8 @@
 
             this.Trabajos = new ObservableCollection<TecnicoTrabajosItemViewModel>(trabajo.OrderBy(c => c.Id_Trabajo));
 
+            //------------------------------ Carga Datos de Citas --------------------------//
+
             controller = App.Current.Resources["UrlT_trabajocitasController"].ToString();
 
             response = await this.apiService.GetList<T_trabajocitas>(urlApi, prefix, controller);
@@ -264,7 +266,7 @@
                 Id_Cita = c.Id_Cita,
                 Id_Trabajo = c.Id_Trabajo,
 
-            }).Where(c => c.Id_Trabajo == this.trabajo.Id_Trabajo).ToList();
+            }).Where(c => c.Completa == false).ToList();
             this.Citas = new ObservableCollection<CitasItemViewModel>(cita.OrderBy(c => c.F_Inicio));
 
             this.IsRefreshing = false;

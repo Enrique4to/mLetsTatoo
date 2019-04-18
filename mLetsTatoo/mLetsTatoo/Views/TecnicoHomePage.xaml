@@ -27,7 +27,7 @@
     <TabbedPage.Children>
 
         <ContentPage
-            Icon="NewsFeed.png"
+            Icon="NewsFeedUns.png"
             x:Name="News">
             <StackLayout
             BindingContext="{Binding TecnicoHome}"
@@ -36,7 +36,7 @@
         </ContentPage>
 
         <ContentPage
-            Icon="CitasUns.png"
+            Icon="Citas.png"
             x:Name="Citas">
             <StackLayout
                 BindingContext="{Binding TecnicoHome}"
@@ -70,12 +70,12 @@
                                                     <ColumnDefinition Width=".05*"/>
                                                 </Grid.ColumnDefinitions>
                                                 <Grid.RowDefinitions>
-                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
                                                 </Grid.RowDefinitions>
                                                 <StackLayout
                                                     Grid.Column="1"
                                                     Grid.Row="0"
-                                                    HorizontalOptions="Start"
+                                                    HorizontalOptions="End"
                                                     Orientation="Horizontal"
                                                     VerticalOptions="End">
                                                     <Label
@@ -97,7 +97,7 @@
                                                 </StackLayout>
                                                 <Label
                                                     FontAttributes="Bold"
-                                                    FontSize="12"
+                                                    FontSize="14"
                                                     Grid.Column="1"
                                                     Grid.Row="1"
                                                     HorizontalOptions="Start"
