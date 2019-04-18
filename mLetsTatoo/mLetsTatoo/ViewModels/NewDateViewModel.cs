@@ -22,16 +22,17 @@
         #endregion
 
         #region Attributes
-        private bool isRefreshing;
         private bool isRunning;
         private bool isEnabled;
         private bool isVisivle;
+
         private bool smallChecked;
         private bool mediumSizeChecked;
         private bool bigChecked;
         private bool easyChecked;
         private bool mediumComplexityChecked;
         private bool hardChecked;
+        public bool pageVisible;
 
         public string filter;
         private string selectedArtist;
@@ -39,11 +40,19 @@
         private string heightWidth;
         private string appCost;
         private string appAdvance;
+        private string complexity;
 
         public T_tecnicos tecnico;
         public T_usuarios user;
         public T_teccaract feature;
         public T_clientes cliente;
+        public T_trabajos trabajo;
+        public T_trabajocitas cita;
+        public T_trabajonota nota;
+        public T_citaimagenes notaImagen;
+        public T_trabajostemp trabajotemp;
+        public T_trabajonotatemp notatemp;
+        public T_citaimagenestemp notaImagentemp;
 
         public decimal cost;
         public decimal advance;
@@ -52,6 +61,9 @@
 
         private ImageSource imageSource;
         private ImageSource imageSource2;
+
+        private DateTime appointmentDate;
+        private TimeSpan appointmentTime;
 
         private MediaFile file;
         #endregion
@@ -91,11 +103,6 @@
         {
             get { return this.isRunning; }
             set { SetValue(ref this.isRunning, value); }
-        }
-        public bool IsRefreshing
-        {
-            get { return this.isRefreshing; }
-            set { SetValue(ref this.isRefreshing, value); }
         }
         public bool IsVisible
         {
@@ -167,10 +174,23 @@
             set { SetValue(ref this.byteImage, value); }
         }
 
-        public DateTime AppointmentDate { get; set; }
-        public DateTime AppointmentTime { get; set; }
+        public DateTime MinDate { get; set; }
+        public DateTime AppointmentDate
+        {
+            get { return this.appointmentDate; }
+            set { SetValue(ref this.appointmentDate, value); }
+        }
+        public TimeSpan AppointmentTime
+        {
+            get { return this.appointmentTime; }
+            set
+            {
+                SetValue(ref this.appointmentTime, value);
+            }
+        }
 
         public List<T_teccaract> ListFeature { get; set; }
+        public List<T_trabajos> ListJob { get; set; }
         #endregion
 
         #region Constructors
@@ -185,8 +205,9 @@
             this.smallChecked = true;
             this.easyChecked = true;
 
-            this.AppointmentDate = DateTime.Today;
-            this.AppointmentTime = DateTime.Now;
+            this.pageVisible = true;
+
+            this.MinDate = DateTime.Now.ToLocalTime();
 
             if (MainViewModel.GetInstance().Tecnico == null)
             {
@@ -200,6 +221,8 @@
             {
                 this.selectedArtist = $"Artista: {this.tecnico.Apodo} - {this.tecnico.Nombre} {this.tecnico.Apellido1}";
             }
+
+            this.IsEnabled = true;
 
         }
         #endregion
@@ -216,7 +239,9 @@
         {
             get
             {
-                return new RelayCommand(SaveDate);
+
+                    return new RelayCommand(SaveDate);
+
             }
         }
         public ICommand AddArtImageCommand
@@ -234,10 +259,190 @@
             MainViewModel.GetInstance().Search = new SearchViewModel();
             await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPage());
         }
-        private async void SaveDate()
+        private void SaveDate()
         {
+            if(this.pageVisible == true)
+            {
+                this.SaveQuickDate();
+            }
+            else
+            {
+                this.SavePersonalDate();
+            }
+        }
+        private async void SavePersonalDate()
+        {
+            this.IsRunning = true;
+            this.IsEnabled = false;
             if (string.IsNullOrEmpty(this.selectedArtist))
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                Languages.SelectedArtistError,
+                "Ok");
+                return;
+            }
+            if (string.IsNullOrEmpty(this.describeArt))
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                Languages.DescribeArtError,
+                "Ok");
+                return;
+            }
+
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+
+            var subject = $"{Languages.Tattoo} {this.cliente.Nombre} {this.cliente.Apellido}, {Languages.Personalized}";
+
+            this.trabajotemp = new T_trabajostemp
+            {
+                Id_Cliente = this.cliente.Id_Cliente,
+                Id_Tatuador = this.tecnico.Id_Tecnico,
+                Asunto = subject,
+            };
+
+            var urlApi = App.Current.Resources["UrlAPI"].ToString();
+            var prefix = App.Current.Resources["UrlPrefix"].ToString();
+            var controller = App.Current.Resources["UrlT_trabajostempController"].ToString();
+
+            var response = await this.apiService.Post(urlApi, prefix, controller, this.trabajotemp);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+
+                await App.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            response = await this.apiService.GetList<T_trabajostemp>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+            var listJobtemp = (List<T_trabajostemp>)response.Result;
+
+            this.trabajotemp = listJobtemp.Last();
+
+            this.notatemp = new T_trabajonotatemp
+            {
+                Id_Trabajotemp = this.trabajotemp.Id_Trabajotemp,
+                Id_Tatuador = this.tecnico.Id_Tecnico,
+                Id_Cliente = this.cliente.Id_Cliente,
+                Id_Local = this.tecnico.Id_Local,
+                Nota = this.DescribeArt,
+                F_nota = this.AppointmentDate,
+            };
+
+            controller = App.Current.Resources["UrlT_trabajonotatempController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, this.notatemp);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+
+                await App.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            response = await this.apiService.GetList<T_trabajonotatemp>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+
+            var listNotatemp = (List<T_trabajonotatemp>)response.Result;
+
+            this.notatemp = listNotatemp.Last();
+
+            byte[] ByteImage = null;
+            if (this.file == null)
+            {
+                IsRunning = false;
+                IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.ExampleImageError,
+                    "Ok");
+                return;
+            }
+            ByteImage = FileHelper.ReadFully(this.file.GetStream());
+
+            this.notaImagentemp = new T_citaimagenestemp
+            {
+                Imagen = ByteImage,
+                Id_Notatemp = this.notatemp.Id_Notatemp,
+
+            };
+            controller = App.Current.Resources["UrlT_citaimagenestempController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, this.notaImagentemp);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+
+                await App.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            this.IsRunning = false;
+            this.IsEnabled = true;
+
+            var message = $"{Languages.TempJobMessageSent} {this.tecnico.Nombre} '{this.tecnico.Apodo}' {this.tecnico.Apellido1}.{'\n'}{'\n'} {Languages.TempJobAnswerMessage}.";
+
+            await Application.Current.MainPage.DisplayAlert
+                (Languages.Notice,
+                message,
+                "Ok"
+                );
+        }
+        private async void SaveQuickDate()
+        {
+            this.IsRunning = true;
+            this.IsEnabled = false;
+            if (string.IsNullOrEmpty(this.selectedArtist))
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 Languages.SelectedArtistError,
@@ -246,6 +451,8 @@
             }
             if (this.AppointmentDate < DateTime.Today)
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 Languages.DateError,
@@ -254,22 +461,220 @@
             }
             if (string.IsNullOrEmpty(this.describeArt))
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 Languages.DescribeArtError,
                 "Ok");
                 return;
             }
+
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+
+            var subject = $"Tatuaje de {this.feature.Alto} cm X {this.feature.Ancho} cm, {Languages.Complexity} {this.complexity}";
+
+            this.trabajo = new T_trabajos
+            {
+                Id_Cliente = this.cliente.Id_Cliente,
+                Id_Tatuador = this.tecnico.Id_Tecnico,
+                Asunto = subject,
+                Id_Caract = this.feature.Id_Caract,
+                Total_Aprox=this.feature.Total_Aprox,
+                Costo_Cita=this.feature.Costo_Cita,
+            };
+
+            var urlApi = App.Current.Resources["UrlAPI"].ToString();
+            var prefix = App.Current.Resources["UrlPrefix"].ToString();
+            var controller = App.Current.Resources["UrlT_trabajosController"].ToString();
+
+            var response = await this.apiService.Post(urlApi, prefix, controller, this.trabajo);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+
+                await App.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            response = await this.apiService.GetList<T_trabajos>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+            var listJob = (List<T_trabajos>)response.Result;
+
+            this.trabajo = listJob.Last();
+
+            var h_end = this.AppointmentTime.Add(TimeSpan.FromMinutes(this.feature.Tiempo));
+
+            this.cita = new T_trabajocitas
+            {
+                Id_Trabajo = this.trabajo.Id_Trabajo,
+                Id_Cliente = this.trabajo.Id_Cliente,
+                Id_Tatuador = this.trabajo.Id_Tatuador,
+                F_Inicio = this.AppointmentDate,
+                F_Fin = this.AppointmentDate,
+                H_Inicio = this.appointmentTime,
+                H_Fin = h_end,
+                Asunto = subject,
+                Completa = false,
+            };
+
+
+            controller = App.Current.Resources["UrlT_trabajocitasController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, this.cita);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+
+                await App.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            response = await this.apiService.GetList<T_trabajocitas>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+
+            var listDate = (List<T_trabajocitas>)response.Result;
+
+            this.cita = listDate.Last();
+            var nombre_Post = $"{this.cliente.Nombre} {this.cliente.Apellido}";
+            this.nota = new T_trabajonota
+            {
+                Id_Trabajo = this.trabajo.Id_Trabajo,
+                Tipo_Usuario = 1,
+                Id_De = this.cliente.Id_Cliente,
+                Id_Local = this.tecnico.Id_Local,
+                Id_Cita = this.cita.Id_Cita,
+                Nota = this.DescribeArt,
+                F_nota = this.AppointmentDate,
+                Nombre_Post = nombre_Post,
+                Imagen_Post = this.cliente.F_Perfil,
+            };
+
+
+            controller = App.Current.Resources["UrlT_trabajonotaController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, this.nota);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+
+                await App.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            response = await this.apiService.GetList<T_trabajonota>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+
+            var listNota = (List<T_trabajonota>)response.Result;
+
+            this.nota = listNota.Last();
+
+            byte[] ByteImage = null;
+            if (this.file == null)
+            {
+                IsRunning = false;
+                IsEnabled = true;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.ExampleImageError,
+                    "Ok");
+                return;
+            }
+            ByteImage = FileHelper.ReadFully(this.file.GetStream());
+
+            this.notaImagen = new T_citaimagenes
+            {
+                Imagen = ByteImage,
+                Id_Trabajo = this.trabajo.Id_Trabajo,
+
+            };
+            controller = App.Current.Resources["UrlT_citaimagenesController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, this.notaImagen);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+
+                await App.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            this.IsRunning = false;
+            this.IsEnabled = true;
+            string date = DateTime.Parse(this.cita.F_Inicio.ToString()).ToString("dd-MMM-yyyy");
+            string time = DateTime.Parse(this.cita.H_Inicio.ToString()).ToString("hh:mm tt");
+
+            var message = $"{Languages.YourAppointment} #{this.trabajo.Id_Trabajo} {Languages.HasBeenCreated}  {date}  {Languages.At}  {time} " +
+                $" {Languages.WithThe_Artist}  {this.tecnico.Nombre} '{this.tecnico.Apodo}' {this.tecnico.Apellido1}.{'\n'}{'\n'} {Languages.TryToBe}.";
+
+            await Application.Current.MainPage.DisplayAlert
+                (Languages.Notice,
+                message,
+                "Ok"
+                );
         }
         public async void LoadFeatures(object sender)
         {
-            this.IsRefreshing = true;
             this.IsRunning = true;
             
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-                this.IsRefreshing = false;
                 this.IsRunning = false;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
@@ -285,7 +690,6 @@
             var response = await this.apiService.GetList<T_teccaract>(urlApi, prefix, controller);
             if (!response.IsSuccess)
             {
-                this.IsRefreshing = false;
                 this.IsRunning = false;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
@@ -300,40 +704,49 @@
             if (smallChecked == true && easyChecked == true)
             {
                 this.feature = this.ListFeature.Single(f => f.Caract == "SmallEasy");
+                this.complexity = Languages.Easy;
             }
             else if (smallChecked == true && mediumComplexityChecked == true)
             {
                 this.feature = this.ListFeature.Single(f => f.Caract == "SmallMedium");
+                this.complexity = Languages.MediumComplexity;
             }
             else if (smallChecked == true && hardChecked == true)
             {
                 this.feature = this.ListFeature.Single(f => f.Caract == "SmallHard");
+                this.complexity = Languages.Hard;
             }
 
             if (mediumSizeChecked == true && easyChecked == true)
             {
                 this.feature = this.ListFeature.Single(f => f.Caract == "MediumEasy");
+                this.complexity = Languages.Easy;
             }
             else if (mediumSizeChecked == true && mediumComplexityChecked == true)
             {
                 this.feature = this.ListFeature.Single(f => f.Caract == "MediumMedium");
+                this.complexity = Languages.MediumComplexity;
             }
             else if (mediumSizeChecked == true && hardChecked == true)
             {
                 this.feature = this.ListFeature.Single(f => f.Caract == "MediumHard");
+                this.complexity = Languages.Hard;
             }
 
             if (bigChecked == true && easyChecked == true)
             {
                 this.feature = this.ListFeature.Single(f => f.Caract == "BigEasy");
+                this.complexity = Languages.Easy;
             }
             else if (bigChecked == true && mediumComplexityChecked == true)
             {
                 this.feature = this.ListFeature.Single(f => f.Caract == "BigMedium");
+                this.complexity = Languages.MediumComplexity;
             }
             else if (bigChecked == true && hardChecked == true)
             {
                 this.feature = this.ListFeature.Single(f => f.Caract == "BigHard");
+                this.complexity = Languages.Hard;
             }
 
             this.Cost = this.feature.Total_Aprox;
@@ -346,7 +759,6 @@
             this.AppCost = $"{Languages.ApproximateCost} {this.feature.Total_Aprox.ToString("C2")}";
             this.AppAdvance = $"{Languages.AppointmentCost} {this.feature.Costo_Cita.ToString("C2")}";
 
-            this.IsRefreshing = false;
             this.IsRunning = false;
         }
         private async void ChangeImage()

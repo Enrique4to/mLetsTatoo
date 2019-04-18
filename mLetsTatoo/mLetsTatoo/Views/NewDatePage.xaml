@@ -21,7 +21,7 @@
                     FontSize="22"
                     Grid.Column="0"
                     Grid.Row="0"
-                    Margin="0,5,0,10"
+                    Margin="0,5,0,20"
                     Text="{i18n:Translate AppointmentSchedule}"
                     TextColor="LightGray"
                     HorizontalTextAlignment="Center"/>
@@ -32,10 +32,10 @@
                     Text="{i18n:Translate AppointmentWho}"
                     TextColor="LightGray"
                     HorizontalTextAlignment="Start"
-                        VerticalOptions="StartAndExpand"/>
+                    VerticalOptions="Start"/>
                 <StackLayout
                     Padding="10,0,10,0"
-                    VerticalOptions="StartAndExpand">
+                    VerticalOptions="Start">
                     <Grid
                         Padding="0,0,0,15">
                         <Grid.ColumnDefinitions>
@@ -66,59 +66,45 @@
                             </Image.GestureRecognizers>
                         </Image>
                     </Grid>
-                    <Label
-                        FontAttributes="Bold"
-                        FontSize="16"
-                        Margin="15,0,0,5"
-                        Text="{i18n:Translate AppointmentWhen}"
-                        TextColor="LightGray"
-                        HorizontalTextAlignment="Start"
-                        VerticalOptions="StartAndExpand"/>
-                    <StackLayout
-                        Padding="7,0,7,15"
-                        VerticalOptions="StartAndExpand">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width=".1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <StackLayout
-                                Grid.ColumnSpan="2"
-                                Grid.Row="0"
-                                Orientation="Horizontal"
-                                HorizontalOptions="Center"
-                                VerticalOptions="Start">
-                                <Label
-                                    FontAttributes="Bold"
-                                    FontSize="16"
-                                    Text="{i18n:Translate Date}"
-                                    TextColor="LightGray"
-                                    HorizontalTextAlignment="Start"
-                                    VerticalOptions="Center"/>
-                                <DatePicker
-                                    Date="{Binding AppointmentDate, Mode=TwoWay}"
-                                    Format="dd MMM yyyy"
-                                    TextColor="Gray"
-                                    VerticalOptions="Center">
-                                </DatePicker>
-                                <Label
-                                    FontAttributes="Bold"
-                                    FontSize="16"
-                                    Text="{i18n:Translate Time}"
-                                    TextColor="LightGray"
-                                    HorizontalTextAlignment="Start"
-                                    VerticalOptions="Center"/>
-                                <TimePicker                                
-                                    TextColor="Gray"
-                                    Time="{Binding AppointmentTime, Mode=TwoWay}"
-                                    VerticalOptions="Center">
-                                </TimePicker>
-                            </StackLayout>
-                        </Grid>
-                    </StackLayout>
+                </StackLayout>
+                <StackLayout
+                    Padding="20,10"
+                    VerticalOptions="Start">
+                    <radiobutton:SfRadioGroup
+                        HorizontalOptions="CenterAndExpand"
+                        Orientation="Horizontal"
+                        x:Name="radioGroup">
+                        <radiobutton:SfRadioButton
+                            IsChecked="True"
+                            CheckedColor="LightGray"
+                            HorizontalOptions="Start"
+                            HorizontalTextAlignment="Start"
+                            StateChanged ="LoadFeaturesPage"
+                            Text="{i18n:Translate QuickAppointment}"
+                            TextColor="LightGray"
+                            UncheckedColor="DimGray"
+                            VerticalOptions="Center"
+                            x:Name="QuickApp"/>
+                        <radiobutton:SfRadioButton
+                            CheckedColor="LightGray"
+                            HorizontalOptions="Start"
+                            HorizontalTextAlignment="End"
+                            StateChanged ="LoadFeaturesPage"
+                            Text="{i18n:Translate PersonalizedAppointment}"
+                            TextColor="Gray"
+                            UncheckedColor="DimGray"
+                            VerticalOptions="Center"
+                            x:Name="PersonalizedApp"/>
+                    </radiobutton:SfRadioGroup>
+                </StackLayout>
+                <ActivityIndicator
+                    Color="LightGray"
+                    HeightRequest="20"
+                    IsRunning="{Binding IsRunning}"
+                    VerticalOptions="Start"/>
+                <StackLayout
+                    IsVisible="True"
+                    x:Name="QuickPage">
                     <Label
                         FontAttributes="Bold"
                         FontSize="16"
@@ -128,7 +114,7 @@
                         Text="{i18n:Translate FeaturesArt}"
                         TextColor="LightGray"
                         HorizontalTextAlignment="Start"
-                        VerticalOptions="StartAndExpand"/>
+                        VerticalOptions="Start"/>
                     <StackLayout
                         HorizontalOptions="CenterAndExpand"
                         Orientation="Horizontal"
@@ -241,21 +227,16 @@
                                     TextColor="LightGray"
                                     HorizontalTextAlignment="Center"/>
                                 <Image
-                                    HeightRequest="150"
+                                    HeightRequest="100"
                                     HorizontalOptions="FillAndExpand"
                                     Source="{Binding ImageSource2}"
                                     VerticalOptions="Center"/>
                             </StackLayout>
                         </Grid>
                     </StackLayout>
-                    <ActivityIndicator
-                        Color="LightGray"
-                        HeightRequest="20"
-                        IsRunning="{Binding IsRunning}"
-                        VerticalOptions="EndAndExpand"/>
                     <StackLayout
                         Padding="2,0,2,10"
-                        VerticalOptions="EndAndExpand">
+                        VerticalOptions="StartAndExpand">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -266,7 +247,7 @@
                             <StackLayout
                                 Grid.Row="0"
                                 Orientation="Horizontal"
-                                Padding="20,0,20,0">
+                                Padding="15,0,15,0">
                                 <Label
                                     FontAttributes="Bold"
                                     FontSize="14"
@@ -278,7 +259,7 @@
                             <StackLayout
                                 Grid.Row="1"
                                 Orientation="Horizontal"
-                                Padding="20,0,20,0">
+                                Padding="15,0,15,0">
                                 <Label
                                     FontAttributes="Bold"
                                     FontSize="14"
@@ -290,7 +271,7 @@
                             <StackLayout
                                 Grid.Row="2"
                                 Orientation="Horizontal"
-                                Padding="20,0,20,0">
+                                Padding="15,0,15,0">
                                 <Label
                                     FontAttributes="Bold"
                                     FontSize="14"
@@ -298,20 +279,78 @@
                                     TextColor="Gray"
                                     HorizontalTextAlignment="Start"
                                     VerticalTextAlignment="Center"/>
-
                             </StackLayout>
                         </Grid>
                     </StackLayout>
+                    <Label
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    Margin="15,0,0,5"
+                    Text="{i18n:Translate AppointmentWhen}"
+                    TextColor="LightGray"
+                    HorizontalTextAlignment="Start"
+                    VerticalOptions="Start"/>
+                    <StackLayout
+                        Padding="7,0,7,15"
+                        VerticalOptions="StartAndExpand">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width=".1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <StackLayout
+                                Grid.ColumnSpan="2"
+                                Grid.Row="0"
+                                Orientation="Horizontal"
+                                HorizontalOptions="Center"
+                                VerticalOptions="Start">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="16"
+                                    Text="{i18n:Translate Date}"
+                                    TextColor="LightGray"
+                                    HorizontalTextAlignment="Start"
+                                    VerticalOptions="Center"/>
+                                <DatePicker
+                                    Date="{Binding AppointmentDate, Mode=TwoWay}"
+                                    Format="dd MMM yyyy"
+                                    MinimumDate="{Binding MinDate}"
+                                    TextColor="Gray"
+                                    VerticalOptions="Center">
+                                </DatePicker>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="16"
+                                    Text="{i18n:Translate Time}"
+                                    TextColor="LightGray"
+                                    HorizontalTextAlignment="Start"
+                                    VerticalOptions="Center"/>
+                                <TimePicker
+                                    Format="h:mm tt"
+                                    TextColor="Gray"
+                                    Time="{Binding AppointmentTime, Mode=TwoWay}"
+                                    VerticalOptions="Center">
+                                </TimePicker>
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+
                 </StackLayout>
-                <StackLayout
-                    Padding="5,0"
-                    VerticalOptions="EndAndExpand">
-                    <Editor
+                
+                <Editor
+                        HorizontalOptions="FillAndExpand"
                         Margin="20,0,25,10"
                         Placeholder="{i18n:Translate DescribeArt}"
                         PlaceholderColor="DimGray"
                         Text="{Binding DescribeArt}"
-                        TextColor="LightGray"/>
+                        TextColor="LightGray"
+                        VerticalOptions="StartAndExpand"/>
+                <StackLayout
+                    Padding="5,0"
+                    VerticalOptions="EndAndExpand">
                     <StackLayout
                         Orientation="Horizontal">
                         <Label

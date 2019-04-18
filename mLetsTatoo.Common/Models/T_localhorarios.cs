@@ -12,10 +12,10 @@ namespace mLetsTatoo.Models
         public int Id_Horario { get; set; }
         [Required]
         public int Id_Local { get; set; }
-        public DateTime Hluvia { get; set; }
-        public DateTime Hluvide { get; set; }
-        public DateTime Hsaba { get; set; }
-        public DateTime Hsabde { get; set; }        
+        public TimeSpan? Hluvia { get; set; }
+        public TimeSpan? Hluvide { get; set; }
+        public TimeSpan? Hsaba { get; set; }
+        public TimeSpan? Hsabde { get; set; }        
         public bool Hluviact { get; set; }
         public bool Hsabact { get; set; }
         #endregion

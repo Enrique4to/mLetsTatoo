@@ -21,6 +21,16 @@ namespace mLetsTatoo.ViewModels
         #endregion
 
         #region Attributes
+        public int time1;
+        public int time2;
+        public int time3;
+        public int time4;
+        public int time5;
+        public int time6;
+        public int time7;
+        public int time8;
+        public int time9;
+
         private decimal cost;
         private decimal advance;
         private decimal height;
@@ -220,18 +230,17 @@ namespace mLetsTatoo.ViewModels
         #endregion
 
         #region Constructors
-        public TecnicoFeaturesViewModel(T_usuarios user)
+        public TecnicoFeaturesViewModel(T_usuarios user, T_tecnicos tecnico)
         {
 
             Application.Current.MainPage.DisplayAlert(
                 Languages.Notice,
                 Languages.CompleteFeatures,
                 "Ok");
-
+            this.tecnico = tecnico;
             this.user = user;
             this.apiService = new ApiService();
             this.LoadFeatures();
-            this.LoadTecnico();
             IsRunning = false;
             IsEnabled = true;
         }
@@ -261,42 +270,6 @@ namespace mLetsTatoo.ViewModels
         #endregion
 
         #region Merhods
-        private async void LoadTecnico()
-        {
-            this.IsRunning = true;
-
-            var connection = await this.apiService.CheckConnection();
-            if (!connection.IsSuccess)
-            {
-                this.IsRunning = false;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    connection.Message,
-                    "OK");
-                return;
-            }
-
-            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
-            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
-            var controller = Application.Current.Resources["UrlT_tecnicosController"].ToString();
-
-            var response = await this.apiService.GetList<T_tecnicos>(urlApi, prefix, controller);
-            if (!response.IsSuccess)
-            {
-                this.IsRunning = false;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-
-            var listcte = (List<T_tecnicos>)response.Result;
-
-            this.tecnico = listcte.Single(t => t.Id_Usuario == this.user.Id_usuario);
-
-            this.IsRunning = false;
-        }
 
         private async void SaveAndNext()
         {
@@ -390,6 +363,7 @@ namespace mLetsTatoo.ViewModels
                 return;
             }
             ByteImage1 = FileHelper.ReadFully(this.file1.GetStream());
+
             this.cost = decimal.Parse(this.cost1);
             this.advance = decimal.Parse(this.advance1);
             if (this.cost < 0 || this.advance < 0)
@@ -403,6 +377,17 @@ namespace mLetsTatoo.ViewModels
                 return;
             }
 
+            if (this.time1 < 0 || this.time1 == null)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.EstimatedTimeError,
+                    "OK");
+                return;
+            }
+
             this.feature = new T_teccaract
             {
                 Id_Tecnico = this.tecnico.Id_Tecnico,
@@ -412,6 +397,7 @@ namespace mLetsTatoo.ViewModels
                 Imagen_Ejemplo = ByteImage1,
                 Alto = this.height,
                 Ancho = this.width,
+                Tiempo = this.time1,
             };
 
             var urlApi = App.Current.Resources["UrlAPI"].ToString();
@@ -460,6 +446,17 @@ namespace mLetsTatoo.ViewModels
                 return;
             }
 
+            if (this.time2 < 0 || this.time2 == null)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.EstimatedTimeError,
+                    "OK");
+                return;
+            }
+
             this.feature = new T_teccaract
             {
                 Id_Tecnico = this.tecnico.Id_Tecnico,
@@ -469,6 +466,7 @@ namespace mLetsTatoo.ViewModels
                 Imagen_Ejemplo = ByteImage2,
                 Alto = this.height,
                 Ancho = this.width,
+                Tiempo = this.time2,
             };
 
             response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
@@ -514,6 +512,17 @@ namespace mLetsTatoo.ViewModels
                 return;
             }
 
+            if (this.time3 < 0 || this.time3 == null)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.EstimatedTimeError,
+                    "OK");
+                return;
+            }
+
             this.feature = new T_teccaract
             {
                 Id_Tecnico = this.tecnico.Id_Tecnico,
@@ -523,6 +532,7 @@ namespace mLetsTatoo.ViewModels
                 Imagen_Ejemplo = ByteImage3,
                 Alto = this.height,
                 Ancho = this.width,
+                Tiempo = this.time3,
             };
 
             response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
@@ -592,6 +602,17 @@ namespace mLetsTatoo.ViewModels
                 return;
             }
 
+            if (this.time4< 0 || this.time4 == null)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.EstimatedTimeError,
+                    "OK");
+                return;
+            }
+
             this.feature = new T_teccaract
             {
                 Id_Tecnico = this.tecnico.Id_Tecnico,
@@ -601,6 +622,7 @@ namespace mLetsTatoo.ViewModels
                 Imagen_Ejemplo = ByteImage4,
                 Alto = this.height,
                 Ancho = this.width,
+                Tiempo = this.time4,
             };
 
             response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
@@ -646,6 +668,17 @@ namespace mLetsTatoo.ViewModels
                 return;
             }
 
+            if (this.time5 < 0 || this.time5 == null)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.EstimatedTimeError,
+                    "OK");
+                return;
+            }
+
             this.feature = new T_teccaract
             {
                 Id_Tecnico = this.tecnico.Id_Tecnico,
@@ -655,6 +688,7 @@ namespace mLetsTatoo.ViewModels
                 Imagen_Ejemplo = ByteImage5,
                 Alto = this.height,
                 Ancho = this.width,
+                Tiempo = time5,
             };
 
             response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
@@ -700,6 +734,17 @@ namespace mLetsTatoo.ViewModels
                 return;
             }
 
+            if (this.time6 < 0 || this.time6 == null)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.EstimatedTimeError,
+                    "OK");
+                return;
+            }
+
             this.feature = new T_teccaract
             {
                 Id_Tecnico = this.tecnico.Id_Tecnico,
@@ -709,6 +754,7 @@ namespace mLetsTatoo.ViewModels
                 Imagen_Ejemplo = ByteImage6,
                 Alto = this.height,
                 Ancho = this.width,
+                Tiempo = this.time6
             };
 
             response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
@@ -777,6 +823,18 @@ namespace mLetsTatoo.ViewModels
                     "OK");
                 return;
             }
+
+            if (this.time7 < 0 || this.time7 == null)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.EstimatedTimeError,
+                    "OK");
+                return;
+            }
+
             this.feature = new T_teccaract
             {
                 Id_Tecnico = this.tecnico.Id_Tecnico,
@@ -786,6 +844,7 @@ namespace mLetsTatoo.ViewModels
                 Imagen_Ejemplo = ByteImage7,
                 Alto = this.height,
                 Ancho = this.width,
+                Tiempo = this.time7,
             };
             response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
 
@@ -829,6 +888,18 @@ namespace mLetsTatoo.ViewModels
                     "OK");
                 return;
             }
+
+            if (this.time8 < 0 || this.time8 == null)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.EstimatedTimeError,
+                    "OK");
+                return;
+            }
+
             this.feature = new T_teccaract
             {
                 Id_Tecnico = this.tecnico.Id_Tecnico,
@@ -838,6 +909,7 @@ namespace mLetsTatoo.ViewModels
                 Imagen_Ejemplo = ByteImage8,
                 Alto = this.height,
                 Ancho = this.width,
+                Tiempo = this.time8,
             };
             response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
 
@@ -882,6 +954,17 @@ namespace mLetsTatoo.ViewModels
                 return;
             }
 
+            if (this.time9 < 0 || this.time9 == null)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.EstimatedTimeError,
+                    "OK");
+                return;
+            }
+
             this.feature = new T_teccaract
             {
                 Id_Tecnico = this.tecnico.Id_Tecnico,
@@ -891,6 +974,7 @@ namespace mLetsTatoo.ViewModels
                 Imagen_Ejemplo = ByteImage9,
                 Alto = this.height,
                 Ancho = this.width,
+                Tiempo = this.time9,
             };
 
             response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
@@ -913,7 +997,7 @@ namespace mLetsTatoo.ViewModels
             this.IsEnabled = true;
 
             await Application.Current.MainPage.Navigation.PopModalAsync();
-            MainViewModel.GetInstance().TecnicoHome = new TecnicoHomeViewModel(user);
+            MainViewModel.GetInstance().TecnicoHome = new TecnicoHomeViewModel(user, tecnico);
             Application.Current.MainPage = new SNavigationPage(new TecnicoHomePage())
             {
                 BarBackgroundColor = Color.FromRgb(20, 20, 20),

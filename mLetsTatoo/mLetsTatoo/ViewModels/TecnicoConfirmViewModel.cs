@@ -30,16 +30,6 @@
         }
         public string ConfirmPassword { get; set; }
         public string NewPassword { get; set; }
-        public T_tecnicos Tecnico
-        {
-            get { return this.tecnico; }
-            set { SetValue(ref this.tecnico, value); }
-        }
-        public T_usuarios User
-        {
-            get { return this.user; }
-            set { SetValue(ref this.user, value); }
-        }
         public bool IsRunning
         {
             get { return this.isRunning; }
@@ -53,7 +43,7 @@
         #endregion
 
         #region Contructors
-        public TecnicoConfirmViewModel(T_usuarios user)
+        public TecnicoConfirmViewModel(T_usuarios user, T_tecnicos tecnico)
         {
             this.apiService = new ApiService();
             this.user = user;
@@ -75,38 +65,38 @@
         #region Methods
         private async void SaveUserData()
         {
-            //if (string.IsNullOrEmpty(this.NewPassword))
-            //{
-            //    this.NewPassword = user.Pass;
-            //}
-            ////-------------- Change Password --------------//
+            if (string.IsNullOrEmpty(this.NewPassword))
+            {
+                this.NewPassword = user.Pass;
+            }
+            //-------------- Change Password --------------//
 
-            //if (this.NewPassword == this.user.Pass)
-            //{
-            //    await Application.Current.MainPage.DisplayAlert(
-            //        Languages.Error,
-            //        Languages.NewPasswordError,
-            //        "Ok");
-            //    return;
-            //}
-            //if (string.IsNullOrEmpty(this.ConfirmPassword))
-            //{
-            //    await Application.Current.MainPage.DisplayAlert(
-            //        Languages.Error,
-            //        Languages.ConfirmPasswordError,
-            //        "Ok");
-            //    return;
-            //}
-            //if (this.NewPassword != this.ConfirmPassword)
-            //{
-            //    await Application.Current.MainPage.DisplayAlert(
-            //        Languages.Error,
-            //        Languages.MatchPasswordError,
-            //        "Ok");
-            //    return;
-            //}
+            if (this.NewPassword == this.user.Pass)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.NewPasswordError,
+                    "Ok");
+                return;
+            }
+            if (string.IsNullOrEmpty(this.ConfirmPassword))
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.ConfirmPasswordError,
+                    "Ok");
+                return;
+            }
+            if (this.NewPassword != this.ConfirmPassword)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.MatchPasswordError,
+                    "Ok");
+                return;
+            }
 
-            ////-------------- Confirm Activation --------------//
+            //-------------- Confirm Activation --------------//
 
             //if (string.IsNullOrEmpty(this.ActivationCode))
             //{
@@ -126,62 +116,62 @@
             //    return;
             //}
 
-            //this.IsRunning = true;
-            //this.IsEnabled = false;
+            this.IsRunning = true;
+            this.IsEnabled = false;
 
-            //var connection = await this.apiService.CheckConnection();
-            //if (!connection.IsSuccess)
-            //{
-            //    this.IsRunning = false;
-            //    this.IsEnabled = true;
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
 
-            //    await App.Current.MainPage.DisplayAlert(
-            //        Languages.Error,
-            //        connection.Message,
-            //        "Ok");
-            //    return;
-            //}
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "Ok");
+                return;
+            }
 
-            //var editUser = new T_usuarios
-            //{
-            //    Id_usuario = this.user.Id_usuario,
-            //    Bloqueo = this.user.Bloqueo,
-            //    Confirmacion = this.user.Confirmacion,
-            //    Confirmado = true,
-            //    Id_empresa = this.user.Id_empresa,
-            //    Pass = this.NewPassword,
-            //    Tipo = this.user.Tipo,
-            //    Ucorreo = this.user.Ucorreo,
-            //    Usuario = this.user.Usuario,
-            //};
-            //var id = this.user.Id_usuario;
+            var editUser = new T_usuarios
+            {
+                Id_usuario = this.user.Id_usuario,
+                Bloqueo = this.user.Bloqueo,
+                Confirmacion = this.user.Confirmacion,
+                Confirmado = true,
+                Id_empresa = this.user.Id_empresa,
+                Pass = this.NewPassword,
+                Tipo = this.user.Tipo,
+                Ucorreo = this.user.Ucorreo,
+                Usuario = this.user.Usuario,
+            };
+            var id = this.user.Id_usuario;
 
-            //var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            //var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            //var controller = App.Current.Resources["UrlT_usuariosController"].ToString();
+            var urlApi = App.Current.Resources["UrlAPI"].ToString();
+            var prefix = App.Current.Resources["UrlPrefix"].ToString();
+            var controller = App.Current.Resources["UrlT_usuariosController"].ToString();
 
-            //this.apiService = new ApiService();
+            this.apiService = new ApiService();
 
-            //var response = await this.apiService.Put
-            //    (urlApi,
-            //    prefix,
-            //    controller,
-            //    editUser,
-            //    id);
+            var response = await this.apiService.Put
+                (urlApi,
+                prefix,
+                controller,
+                editUser,
+                id);
 
-            //if (!response.IsSuccess)
-            //{
-            //    this.IsRunning = false;
-            //    this.IsEnabled = true;
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
 
-            //    await App.Current.MainPage.DisplayAlert(
-            //    Languages.Error,
-            //    response.Message,
-            //    "OK");
-            //    return;
-            //}
+                await App.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
 
-            MainViewModel.GetInstance().TecnicoFeatures = new TecnicoFeaturesViewModel(user);
+            MainViewModel.GetInstance().TecnicoFeatures = new TecnicoFeaturesViewModel(user, tecnico);
             await Application.Current.MainPage.Navigation.PopModalAsync();
             await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoFeaturesPage());
 

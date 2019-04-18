@@ -180,7 +180,7 @@
                         FontSize="20"
                         HeightRequest="46"
                         IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
-                        Text="{i18n:Translate Next}"
+                        Text="{i18n:Translate Done}"
                         TextColor="Black"/>
                 </StackLayout>
             </StackLayout>

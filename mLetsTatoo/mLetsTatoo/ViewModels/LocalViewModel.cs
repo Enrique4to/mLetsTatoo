@@ -202,15 +202,15 @@
                     "OK");
                 return;
             }
-            var TecnicoList = (List<T_tecnicos>)response.Result;
-            var localList = MainViewModel.GetInstance().Empresa.EmpresaLocalesList;
-            this.LocalTecnicoList = TecnicoList.Where(t => localList.Any(l => t.Id_Local == l.Id_Local)).ToList();
+
+            this.LocalTecnicoList = (List<T_tecnicos>)response.Result;
             this.IsRefreshing = false;
             this.IsRunning = false;
             this.RefreshTecnicoList();
         }
         public void RefreshTecnicoList()
         {
+            var userList = MainViewModel.GetInstance().Login.ListUsuarios;
             var tecnico = this.LocalTecnicoList.Select(t => new TecnicoItemViewModel
             {
                 Apellido1 = t.Apellido1,
@@ -221,8 +221,9 @@
                 Id_Empresa = t.Id_Empresa,
                 Id_Local = t.Id_Local,
                 Id_Tecnico = t.Id_Tecnico,
+                Id_Usuario = t.Id_Usuario,
                 Nombre = t.Nombre,
-            });
+            }).Where(t => t.Id_Local == this.local.Id_Local && userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)).ToList();
             this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
         }
         #endregion

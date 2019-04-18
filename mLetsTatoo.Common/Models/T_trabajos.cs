@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace mLetsTatoo.Models
+﻿namespace mLetsTatoo.Models
 {
+    using System.ComponentModel.DataAnnotations;
     public class T_trabajos
     {
         [Key]
@@ -15,5 +11,12 @@ namespace mLetsTatoo.Models
         public int Id_Tatuador { get; set; }
         [Required]
         public string Asunto { get; set; }
+        public int? Id_Caract { get; set; }
+        [Required]
+        public decimal Total_Aprox { get; set; }
+        [Required]
+        public decimal Costo_Cita { get; set; }
+
+
     }
 }

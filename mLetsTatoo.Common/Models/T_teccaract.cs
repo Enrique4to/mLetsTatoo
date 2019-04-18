@@ -21,6 +21,8 @@
         public decimal Alto { get; set; }
         [Required]
         public decimal Ancho { get; set; }
+        [Required]
+        public int Tiempo { get; set; }
         #endregion
     }
 }

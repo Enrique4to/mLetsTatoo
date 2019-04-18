@@ -29,9 +29,10 @@
   <ItemGroup>
     <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2-beta1" />
-    <PackageReference Include="Syncfusion.Xamarin.Buttons" Version="17.1.0.38" />
-    <PackageReference Include="Syncfusion.Xamarin.SfPicker" Version="17.1.0.38" />
-    <PackageReference Include="Syncfusion.Xamarin.SfSchedule" Version="17.1.0.38" />
+    <PackageReference Include="Syncfusion.Xamarin.Buttons" Version="17.1.0.40" />
+    <PackageReference Include="Syncfusion.Xamarin.SfCarousel" Version="17.1.0.40" />
+    <PackageReference Include="Syncfusion.Xamarin.SfPicker" Version="17.1.0.40" />
+    <PackageReference Include="Syncfusion.Xamarin.SfSchedule" Version="17.1.0.40" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="4.0.0.190-beta" />
     <PackageReference Include="Xam.Plugin.Media" Version="4.2.0-beta" />
     <PackageReference Include="Xamarin.Forms" Version="4.0.0.304370-pre8" />
@@ -68,6 +69,9 @@
     </Compile>
     <Compile Update="Views\UserHomePage.xaml.cs">
       <DependentUpon>UserHomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TecnicoViewDatePage.xaml.cs">
+      <DependentUpon>TecnicoViewDatePage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -121,6 +125,9 @@
     <EmbeddedResource Update="Views\UserPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\UserViewDatePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -139,16 +146,34 @@
     <None Update="Views\LoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <None Update="Views\NewDatePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\NewsFeedPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
     <None Update="Views\RegisterAccountPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
     <None Update="Views\RegisterPersonalPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <None Update="Views\SearchPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\TecnicoConfirmPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\TecnicoFeaturesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
     <None Update="Views\TecnicoHomePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
     <None Update="Views\TecnicoPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\TecnicoProfilePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
     <None Update="Views\UserHomePage.xaml">

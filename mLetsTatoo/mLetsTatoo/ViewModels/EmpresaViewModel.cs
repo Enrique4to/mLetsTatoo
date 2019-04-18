@@ -27,6 +27,7 @@
         private bool isRefreshing;
         public T_clientes cliente;
         public T_usuarios user;
+        private T_usuarios tecuser;
         public T_empresas empresa;
         public T_tecnicos tecnico;
         private ObservableCollection<LocalItemViewModel> locales;
@@ -131,7 +132,7 @@
         #region Methods
         private void LoadEmpresa()
         {
-            if (empresa.Logo != null)
+            if (this.empresa.Logo != null)
             {
                 this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.empresa.Logo));
             }
@@ -140,7 +141,7 @@
                 this.ByteImage = apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
                 this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
             }
-            nombreEmpresa = this.empresa.Nombre;
+            this.nombreEmpresa = this.empresa.Nombre;
         }
         private async void LoadTecnicos()
         {
@@ -172,14 +173,19 @@
                     "OK");
                 return;
             }
-            var TecnicoList = (List<T_tecnicos>)response.Result;
-            var empresaList = MainViewModel.GetInstance().UserHome.EmpresaList;
-            this.EmpresaTecnicoList = TecnicoList.Where(t => empresaList.Any(e => t.Id_Empresa == e.Id_Empresa)).ToList();
+            //var userList = MainViewModel.GetInstance().Login.ListUsuarios;
+            //userList = userList.Where(u => u.Id_empresa == this.Empresa.Id_Empresa && u.Confirmado == true && u.Bloqueo == false).ToList();
+            //userList = userList.Where(u => u.Confirmado == true).ToList();
+            //userList = userList.Where(u => u.Bloqueo == false).ToList();
+            this.EmpresaTecnicoList = (List<T_tecnicos>)response.Result;
+            //this.EmpresaTecnicoList = this.EmpresaTecnicoList.Where(t => userList.Any(u => t.Id_Usuario == u.Id_usuario)).ToList();
             this.RefreshTecnicoList();
             this.IsRefreshing = false;
         }
         public void RefreshTecnicoList()
         {
+
+            var userList = MainViewModel.GetInstance().Login.ListUsuarios;
             var tecnico = this.EmpresaTecnicoList.Select(t => new TecnicoItemViewModel
             {
                 Apellido1 = t.Apellido1,
@@ -190,8 +196,10 @@
                 Id_Empresa = t.Id_Empresa,
                 Id_Local = t.Id_Local,
                 Id_Tecnico = t.Id_Tecnico,
+                Id_Usuario = t.Id_Usuario,
                 Nombre = t.Nombre,
-            });
+                
+            }).Where(t => t.Id_Empresa == this.empresa.Id_Empresa && userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)).ToList();
             this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
         }
         private async void LoadLocales()
@@ -229,8 +237,7 @@
                 return;
             }
             var empresaList = MainViewModel.GetInstance().UserHome.EmpresaList;
-            var LocalesList = (List<T_locales>)response.Result;
-            this.EmpresaLocalesList = LocalesList.Where(l => empresaList.Any(e => l.Id_Empresa == e.Id_Empresa)).ToList();
+            this.EmpresaLocalesList = (List<T_locales>)response.Result;
             this.RefreshLocalesList();
             this.IsRefreshing = false;
             this.IsRunning = false;
@@ -249,7 +256,7 @@
                 Nombre = l.Nombre,
                 Numero = l.Numero,
                 Referencia = l.Referencia,
-            });
+            }).Where(l => l.Id_Empresa == this.empresa.Id_Empresa).ToList();
 
             this.Locales = new ObservableCollection<LocalItemViewModel>(localSelected.OrderBy(e => e.Nombre));
         }

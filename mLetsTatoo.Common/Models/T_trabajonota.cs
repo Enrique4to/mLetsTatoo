@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace mLetsTatoo.Models
+﻿namespace mLetsTatoo.Models
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     public class T_trabajonota
     {
         [Key]
@@ -12,9 +10,9 @@ namespace mLetsTatoo.Models
         [Required]
         public int Id_Trabajo { get; set; }
         [Required]
-        public int Id_Tatuador { get; set; }
+        public int Tipo_Usuario { get; set; }
         [Required]
-        public int Id_Cliente { get; set; }
+        public int Id_De { get; set; }
         [Required]
         public int Id_Local { get; set; }
         [Required]
@@ -23,5 +21,9 @@ namespace mLetsTatoo.Models
         public DateTime F_nota { get; set; }
         [Required]
         public int Id_Cita { get; set; }
+        [Required]
+        public string Nombre_Post { get; set; }
+        public byte[] Imagen_Post { get; set; }
+
     }
 }

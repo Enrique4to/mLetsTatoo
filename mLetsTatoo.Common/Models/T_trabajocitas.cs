@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace mLetsTatoo.Models
 {
@@ -15,5 +13,17 @@ namespace mLetsTatoo.Models
         public DateTime F_Inicio { get; set; }
         [Required]
         public DateTime F_Fin { get; set; }
+        [Required]
+        public TimeSpan H_Inicio { get; set; }
+        [Required]
+        public TimeSpan H_Fin { get; set; }
+        [Required]
+        public string Asunto { get; set; }
+        [Required]
+        public bool Completa { get; set; }
+        [Required]
+        public int Id_Cliente { get; set; }
+        [Required]
+        public int Id_Tatuador { get; set; }
     }
 }

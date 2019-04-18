@@ -32,7 +32,7 @@ namespace mLetsTatoo.Droid.Renderers
 
                     Control.SetBackground(gradientDrawable);
 
-                    Control.SetPadding(10, 15, 10, 7);
+                    Control.SetPadding(10, 10, 10, 7);
                 }
             }
         }

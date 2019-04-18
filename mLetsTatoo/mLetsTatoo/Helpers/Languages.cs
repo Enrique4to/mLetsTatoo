@@ -431,6 +431,101 @@
         {
             get { return Resource.SelectEstimatedTime; }
         }
-
+        public static string EstimatedTimeError
+        {
+            get { return Resource.EstimatedTimeError; }
+        }
+        public static string YourAppointment
+        {
+            get { return Resource.YourAppointment; }
+        }
+        public static string HasBeenCreated
+        {
+            get { return Resource.HasBeenCreated; }
+        }
+        public static string At
+        {
+            get { return Resource.At; }
+        }
+        public static string WithThe_Artist
+        {
+            get { return Resource.WithThe_Artist; }
+        }
+        public static string TryToBe
+        {
+            get { return Resource.TryToBe; }
+        }
+        public static string QuickAppointment
+        {
+            get { return Resource.QuickAppointment; }
+        }
+        public static string PersonalizedAppointment
+        {
+            get { return Resource.PersonalizedAppointment; }
+        }
+        public static string TempJobMessageSent
+        {
+            get { return Resource.TempJobMessageSent; }
+        }
+        public static string TempJobAnswerMessage
+        {
+            get { return Resource.TempJobAnswerMessage; }
+        }
+        public static string Tattoo
+        {
+            get { return Resource.Tattoo; }
+        }
+        public static string Personalized
+        {
+            get { return Resource.Personalized; }
+        }
+        public static string NewsFeed
+        {
+            get { return Resource.NewsFeed; }
+        }
+        public static string Profile
+        {
+            get { return Resource.Profile; }
+        }
+        public static string NewDate
+        {
+            get { return Resource.NewDate; }
+        }
+        public static string Appointment
+        {
+            get { return Resource.Appointment; }
+        }
+        public static string Subject
+        {
+            get { return Resource.Subject; }
+        }
+        public static string Hour
+        {
+            get { return Resource.Hour; }
+        }
+        public static string AppointmentWhere
+        {
+            get { return Resource.AppointmentWhere; }
+        }
+        public static string Phone
+        {
+            get { return Resource.Phone; }
+        }
+        public static string Reference
+        {
+            get { return Resource.Reference; }
+        }
+        public static string SubTotal
+        {
+            get { return Resource.SubTotal; }
+        }
+        public static string Remaining
+        {
+            get { return Resource.Remaining; }
+        }
+        public static string YourArt
+        {
+            get { return Resource.YourArt; }
+        }
     }
 }

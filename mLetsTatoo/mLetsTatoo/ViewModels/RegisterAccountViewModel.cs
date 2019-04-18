@@ -93,6 +93,8 @@
 
             if (string.IsNullOrEmpty(this.User))
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.UserError,
@@ -101,6 +103,8 @@
             }
             if (string.IsNullOrEmpty(this.Password))
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.PasswordError,
@@ -109,6 +113,8 @@
             }
             if (string.IsNullOrEmpty(this.ConfirmPassword))
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.ConfirmPasswordError,
@@ -117,6 +123,8 @@
             }
             if (this.Password != this.ConfirmPassword)
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.MatchPasswordError,
@@ -125,6 +133,8 @@
             }
             if (string.IsNullOrEmpty(this.Email))
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.EmailError,
@@ -180,6 +190,8 @@
 
             if (string.IsNullOrEmpty(this.Name))
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NameError,
@@ -188,6 +200,8 @@
             }
             if (string.IsNullOrEmpty(this.Lastname))
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.LastnameError,
@@ -196,6 +210,8 @@
             }
             if (string.IsNullOrEmpty(this.Phone))
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.PhoneError,
@@ -209,6 +225,8 @@
             int age = now.Year - Birthdate.Year;
             if (age < 18)
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
                 clibloq = true;
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
@@ -261,73 +279,102 @@
                 Tipo = 1,
                 Ucorreo = this.Email,
             };
-
-            controller = App.Current.Resources["UrlT_usuariosController"].ToString();
-            response = await this.apiService.Post(urlApi, prefix, controller, usuario);
-
-            if(!response.IsSuccess)
+            try
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
+                controller = App.Current.Resources["UrlT_usuariosController"].ToString();
+                response = await this.apiService.Post(urlApi, prefix, controller, usuario);
 
-                await App.Current.MainPage.DisplayAlert(
-                Languages.Error,
-                response.Message,
-                "OK");
-                return;
+                if (!response.IsSuccess)
+                {
+                    this.IsRunning = false;
+                    this.IsEnabled = true;
+
+                    await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                    return;
+                }
+
+                response = await this.apiService.GetList<T_usuarios>(urlApi, prefix, controller);
+
+                if (!response.IsSuccess)
+                {
+                    this.IsRunning = false;
+                    this.IsEnabled = true;
+
+                    await App.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        response.Message,
+                        "OK");
+                    return;
+                }
+
+                var listusu = (List<T_usuarios>)response.Result;
+
+                var single = listusu.Single(u => u.Usuario == this.User && u.Ucorreo == this.Email);
+                this.id_usuario = single.Id_usuario;
             }
-
-            response = await this.apiService.GetList<T_usuarios>(urlApi, prefix, controller);
-
-            if (!response.IsSuccess)
+            catch (Exception e)
             {
+
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
                 await App.Current.MainPage.DisplayAlert(
                     Languages.Error,
-                    response.Message,
+                    e.ToString(),
                     "OK");
                 return;
             }
 
-            var listusu = (List<T_usuarios>)response.Result;
-
-            var single = listusu.Single(u => u.Usuario == this.User && u.Ucorreo == this.Email);
-            this.id_usuario = single.Id_usuario;
-
-            this.ByteImage = apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
-
-            var phone = int.Parse(Phone);
-
-            var cliente = new T_clientes
+            try
             {
-                Nombre = this.Name,
-                Apellido = this.Lastname,
-                Correo = this.Email,
-                Telefono = phone,
-                F_Nac = this.Birthdate,
-                Bloqueo = clibloq,
-                Id_Usuario = id_usuario,
-                F_Perfil = this.ByteImage,                
-            };
+                this.ByteImage = apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
 
-            controller = App.Current.Resources["UrlT_clientesController"].ToString();
-            response = await this.apiService.Post(urlApi, prefix, controller, cliente);
+                var phone = int.Parse(Phone);
 
-            if (!response.IsSuccess)
+                var cliente = new T_clientes
+                {
+                    Nombre = this.Name,
+                    Apellido = this.Lastname,
+                    Correo = this.Email,
+                    Telefono = phone,
+                    Id_Usuario = id_usuario,
+                    F_Nac = this.Birthdate,
+                    Bloqueo = clibloq,
+                    F_Perfil = this.ByteImage,
+                };
+
+                controller = App.Current.Resources["UrlT_clientesController"].ToString();
+                response = await this.apiService.Post(urlApi, prefix, controller, cliente);
+
+                if (!response.IsSuccess)
+                {
+                    this.IsRunning = false;
+                    this.IsEnabled = true;
+
+                    await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                    return;
+                }
+            }
+            catch (Exception e)
             {
+
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
                 await App.Current.MainPage.DisplayAlert(
-                Languages.Error,
-                response.Message,
-                "OK");
+                    Languages.Error,
+                    e.ToString(),
+                    "OK");
                 return;
             }
 
-            await Application.Current.MainPage.Navigation.PopToRootAsync();
+            await Application.Current.MainPage.Navigation.PopModalAsync();
 
             this.IsRunning = false;
             this.IsEnabled = true;

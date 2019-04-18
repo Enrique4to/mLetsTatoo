@@ -20,6 +20,7 @@
         #region Services
         private ApiService apiService;
         #endregion
+
         #region Attributes
         private ObservableCollection<T_usuarios> usuarios;
         private bool isRunning;
@@ -27,12 +28,24 @@
         private string pass;
         private string usuario;
         public T_usuarios user;
+        public T_clientes cliente;
+        public T_tecnicos tecnico;
         #endregion
+
         #region Propierties
+        public List<T_usuarios> ListUsuarios { get; set; }
+        public List<T_clientes> ClienteList { get; set; }
+        public List<T_tecnicos> TecnicoList { get; set; }
+
         public T_usuarios User
         {
             get { return this.user; }
             set { SetValue(ref this.user, value); }
+        }
+        public T_clientes Cliente
+        {
+            get { return this.cliente; }
+            set { SetValue(ref this.cliente, value); }
         }
         public ObservableCollection<T_usuarios> Usuarios
         {
@@ -65,6 +78,7 @@
             set { SetValue(ref this.usuario, value); }
         }
         #endregion
+
         #region Constructors
         public LoginViewModel()
         {
@@ -97,8 +111,12 @@
         #region Methods
         private async void Inicio()
         {
+            this.IsRunning = true;
+            this.IsEnabled = false;
             if (string.IsNullOrEmpty(this.Usuario))
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.IntroducirUsuario,
@@ -107,6 +125,8 @@
             }
             if (string.IsNullOrEmpty(this.Pass))
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.IntroducirPasword,
@@ -117,16 +137,15 @@
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
                     "OK");
                 return;
             }
-
-            this.IsRunning = true;
-            this.IsEnabled = false;
-
+            
             var urlApi = App.Current.Resources["UrlAPI"].ToString();
             var prefix = App.Current.Resources["UrlPrefix"].ToString();
             var controller = App.Current.Resources["UrlT_usuariosController"].ToString();
@@ -134,17 +153,19 @@
             var response = await this.apiService.GetList<T_usuarios>(urlApi, prefix, controller);
             if (!response.IsSuccess)
             {
+                this.IsRunning = false;
+                this.IsEnabled = true;
                 await App.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
                     "OK");
                 return;
             }
-            var ListUsuarios = (List<T_usuarios>)response.Result;
+            this.ListUsuarios = (List<T_usuarios>)response.Result;
 
-            if (ListUsuarios.Any(u => u.Usuario == this.Usuario && u.Pass == this.Pass))
+            if (this.ListUsuarios.Any(u => u.Usuario == this.Usuario && u.Pass == this.Pass))
             {
-                user = ListUsuarios.Single(u => u.Usuario == this.Usuario && u.Pass == this.Pass);
+                this.user = this.ListUsuarios.Single(u => u.Usuario == this.Usuario && u.Pass == this.Pass);
             }
             else
             {
@@ -159,7 +180,7 @@
                 return;
             }
 
-            if (user.Bloqueo == true)
+            if (this.user.Bloqueo == true)
             {
                  
                 this.IsRunning = false;
@@ -171,7 +192,7 @@
                 await Application.Current.MainPage.Navigation.PopToRootAsync();
                 return;
             }
-            if (user.Tipo > 2)
+            if (this.user.Tipo > 2)
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
@@ -183,48 +204,75 @@
                 this.Usuario = string.Empty;
                 return;
             }
-            if (user.Tipo == 1)
+            if (this.user.Tipo == 1)
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
+                controller = Application.Current.Resources["UrlT_clientesController"].ToString();
 
-                this.Usuario = string.Empty;
-                this.Pass = string.Empty;
+                response = await this.apiService.GetList<T_clientes>(urlApi, prefix, controller);
+                if (!response.IsSuccess)
+                {
+                    this.IsRunning = false;
+                    this.IsEnabled = true;
+                    await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        response.Message,
+                        "OK");
+                    return;
+                }
+                this.ClienteList = (List<T_clientes>)response.Result;
 
-                MainViewModel.GetInstance().UserHome = new UserHomeViewModel(user);
+                this.cliente = this.ClienteList.Single(c => c.Id_Usuario == this.user.Id_usuario);
+
+                MainViewModel.GetInstance().UserHome = new UserHomeViewModel(this.user, this.cliente);
                 Application.Current.MainPage = new SNavigationPage(new UserHomePage())
                 {
                     BarBackgroundColor = Color.FromRgb(20, 20, 20),
                     BarTextColor = Color.FromRgb(200, 200, 200),
                     Title = this.user.Usuario.ToUpper(),
                 };
-                //Application.Current.MainPage = new UserHomePage();
+
+                this.Usuario = string.Empty;
+                this.Pass = string.Empty;
             }
             if (this.user.Tipo == 2)
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
+                controller = Application.Current.Resources["UrlT_tecnicosController"].ToString();
 
+                response = await this.apiService.GetList<T_tecnicos>(urlApi, prefix, controller);
+                if (!response.IsSuccess)
+                {
+                    this.IsRunning = false;
+                    this.IsEnabled = true;
+                    await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        response.Message,
+                        "OK");
+                    return;
+                }
+                this.TecnicoList = (List<T_tecnicos>)response.Result;
+                this.tecnico = this.TecnicoList.Single(c => c.Id_Usuario == this.user.Id_usuario);
                 this.Usuario = string.Empty;
 
                 this.Pass = string.Empty;
 
                 if(this.user.Confirmado == true)
                 {
-                    MainViewModel.GetInstance().TecnicoHome = new TecnicoHomeViewModel(user);
+                    MainViewModel.GetInstance().TecnicoHome = new TecnicoHomeViewModel(this.user, this.tecnico);
                     Application.Current.MainPage = new SNavigationPage(new TecnicoHomePage())
                     {
                         BarBackgroundColor = Color.FromRgb(20, 20, 20),
                         BarTextColor = Color.FromRgb(200, 200, 200),
                     };
-                    //Application.Current.MainPage = new TecnicoHomePage();
                 }
                 else
                 {
-                    MainViewModel.GetInstance().TecnicoConfirm = new TecnicoConfirmViewModel(user);
+                    MainViewModel.GetInstance().TecnicoConfirm = new TecnicoConfirmViewModel(this.user, this.tecnico);
                     await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoConfirmPage());
                 }
             }
+
+            this.IsRunning = false;
+            this.IsEnabled = true;
         }
         private async void Registro()
         {

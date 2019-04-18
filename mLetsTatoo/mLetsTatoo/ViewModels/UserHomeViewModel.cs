@@ -6,6 +6,7 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Threading.Tasks;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Helpers;
@@ -24,14 +25,22 @@
         #region Attributes
         private byte[] byteImage;
         private ImageSource imageSource;
+        private Image image;
+
         private bool isRefreshing;
         private bool isRunning;
+
         private ObservableCollection<EmpresaItemViewModel> empresas;
         private ObservableCollection<TecnicoItemViewModel> tecnicos;
+        private ObservableCollection<CitasItemViewModel> citas;
+        private ObservableCollection<T_trabajos> trabajos;
+
         private T_clientes cliente;
         private T_usuarios user;
         private T_tecnicos tecnico;
-        private Image image;
+        private T_trabajos trabajo;
+        private T_trabajocitas cita;
+
         private string file;
         public string filter;
         public string filterEmpresa;
@@ -49,9 +58,12 @@
 
             }
         }
+        public string NomUsuario { get; set; }
+
         public List<T_empresas> EmpresaList { get; set; }
         public List<T_tecnicos> TecnicoList { get; set; }
-        public string NomUsuario { get; set; }
+        public List<T_trabajocitas> CitaList { get; set; }
+
         public T_clientes Cliente
         {
             get { return this.cliente; }
@@ -67,11 +79,17 @@
             get { return this.tecnico; }
             set { SetValue(ref this.tecnico, value); }
         }
-        public Image Image
+        public T_trabajos Trabajo
         {
-            get { return this.image; }
-            set { SetValue(ref this.image, value); }
+            get { return this.trabajo; }
+            set { SetValue(ref this.trabajo, value); }
         }
+        public T_trabajocitas Cita
+        {
+            get { return this.cita; }
+            set { SetValue(ref this.cita, value); }
+        }
+
         public ObservableCollection<EmpresaItemViewModel> Empresas
         {
             get { return this.empresas; }
@@ -82,16 +100,33 @@
             get { return this.tecnicos; }
             set { SetValue(ref this.tecnicos, value); }
         }
+        public ObservableCollection<T_trabajos> Trabajos
+        {
+            get { return this.trabajos; }
+            set { SetValue(ref this.trabajos, value); }
+        }
+        public ObservableCollection<CitasItemViewModel> Citas
+        {
+            get { return this.citas; }
+            set { SetValue(ref this.citas, value); }
+        }
+
         public ImageSource ImageSource
         {
             get { return this.imageSource; }
             set { SetValue(ref this.imageSource, value); }
+        }
+        public Image Image
+        {
+            get { return this.image; }
+            set { SetValue(ref this.image, value); }
         }
         public byte[] ByteImage
         {
             get { return this.byteImage; }
             set { SetValue(ref this.byteImage, value); }
         }
+
         public bool IsRunning
         {
             get { return this.isRunning; }
@@ -105,18 +140,21 @@
         #endregion
 
         #region Constructors
-        public UserHomeViewModel(T_usuarios user)
+        public UserHomeViewModel(T_usuarios user, T_clientes cliente)
         {
             this.user = user;
+            this.cliente = cliente;
             this.NomUsuario = user.Usuario;
             this.apiService = new ApiService();
             this.LoadCliente();
             this.LoadEmpresas();
             this.LoadTecnicos();
-            this.IsRunning = false;
+            Task.Run(async () => { await this.LoadCitas(); }).Wait();
+
             this.IsRefreshing = false;
             this.TipoBusqueda = "All";
         }
+
         #endregion
 
         #region Commands
@@ -124,14 +162,21 @@
         {
             get
             {
-                return new RelayCommand(LoadEmpresas);
+                return new RelayCommand(RefreshEmpresaList);
             }
         }
         public ICommand RefreshArtistCommand
         {
             get
             {
-                return new RelayCommand(LoadTecnicos);
+                return new RelayCommand(RefreshTecnicoList);
+            }
+        }
+        public ICommand RefreshCitasCommand
+        {
+            get
+            {                
+                return new RelayCommand(RefreshCitaList);
             }
         }
         public ICommand SearchCommand
@@ -150,42 +195,12 @@
         }
         #endregion
 
-        #region Methods     
-        private async void LoadCliente()
+        #region Methods
+        private void LoadCliente()
         {
             this.IsRefreshing = true;
             this.IsRunning = true;
 
-            var connection = await this.apiService.CheckConnection();
-            if (!connection.IsSuccess)
-            {
-                this.IsRefreshing = false;
-                this.IsRunning = false;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    connection.Message,
-                    "OK");
-                return;
-            }
-
-            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
-            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
-            var controller = Application.Current.Resources["UrlT_clientesController"].ToString();
-
-            var response = await this.apiService.GetList<T_clientes>(urlApi, prefix, controller);
-            if (!response.IsSuccess)
-            {
-                this.IsRefreshing = false;
-                this.IsRunning = false;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-            var listcte = (List<T_clientes>)response.Result;
-
-            this.cliente = listcte.Single(u => u.Id_Usuario == this.user.Id_usuario);
             if (this.cliente.F_Perfil != null)
             {
                 string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "UserIcon.png");
@@ -199,7 +214,7 @@
                 this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
             }
 
-            MainViewModel.GetInstance().UserPage = new UserViewModel(user, cliente);
+            MainViewModel.GetInstance().UserPage = new UserViewModel(this.user, this.cliente);
 
             this.IsRefreshing = false;
             this.IsRunning = false;
@@ -315,6 +330,7 @@
         {
             if (string.IsNullOrEmpty(this.filterTecnico))
             {
+                var userList = MainViewModel.GetInstance().Login.ListUsuarios;
                 var tecnico = this.TecnicoList.Select(t => new TecnicoItemViewModel
                 {
                     Apellido1 = t.Apellido1,
@@ -325,8 +341,9 @@
                     Id_Empresa = t.Id_Empresa,
                     Id_Local = t.Id_Local,
                     Id_Tecnico = t.Id_Tecnico,
+                    Id_Usuario = t.Id_Usuario,
                     Nombre = t.Nombre,
-                });
+                }).Where(t => userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)).ToList(); ;
                 this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
             }
             else
@@ -349,6 +366,64 @@
             }
 
         }
+        private async Task LoadCitas()
+        {
+            this.IsRefreshing = true;
+
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.IsRefreshing = false;
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+
+            }
+
+            var urlApi = App.Current.Resources["UrlAPI"].ToString();
+            var prefix = App.Current.Resources["UrlPrefix"].ToString();
+            var controller = App.Current.Resources["UrlT_trabajocitasController"].ToString();
+
+            var response = await this.apiService.GetList<T_trabajocitas>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                this.IsRefreshing = true;
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+            var list = (List<T_trabajocitas>)response.Result;
+            this.CitaList = list.Where(c => c.Id_Cliente == this.cliente.Id_Cliente).ToList();
+
+            var cita = this.CitaList.Select(c => new CitasItemViewModel
+            {
+                Id_Cita = c.Id_Cita,
+                Id_Trabajo = c.Id_Trabajo,
+                Id_Cliente = c.Id_Cliente,
+                Id_Tatuador = c.Id_Tatuador,
+                F_Inicio = c.F_Inicio,
+                H_Inicio = c.H_Inicio,
+                F_Fin = c.F_Fin,
+                H_Fin = c.H_Fin,
+                Asunto = c.Asunto,
+                Completa = c.Completa,
+
+            }).Where(c => c.Completa == false).ToList();
+
+            this.Citas = new ObservableCollection<CitasItemViewModel>(cita.OrderBy(c => c.F_Inicio));
+
+            this.IsRefreshing = false;
+
+        }
+        public void RefreshCitaList()
+        {
+            Task.Run(async () => { await this.LoadCitas(); }).Wait();
+        }
+
         public void Busqueda()
         {
             if (TipoBusqueda == "All")

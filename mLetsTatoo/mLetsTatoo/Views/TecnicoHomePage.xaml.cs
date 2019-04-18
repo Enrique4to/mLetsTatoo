@@ -34,7 +34,7 @@
         public TecnicoHomePage ()
 		{
 			InitializeComponent ();
-
+            this.CurrentPage = this.Citas;
             this.Search.BackgroundColor = Color.FromRgb(50, 50, 50);
             this.BarBackgroundColor = Color.FromRgb(20, 20, 20);
             this.BarTextColor = Color.FromRgb(200, 200, 200);

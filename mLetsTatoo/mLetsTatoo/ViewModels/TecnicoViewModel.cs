@@ -1,6 +1,10 @@
 ﻿namespace mLetsTatoo.ViewModels
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.IO;
+    using System.Linq;
+    using mLetsTatoo.Helpers;
     using Models;
     using Services;
     using Xamarin.Forms;
@@ -21,9 +25,14 @@
         public T_clientes cliente;
         public T_usuarios user;
         public T_tecnicos tecnico;
+
+        private ObservableCollection<T_localimagenes> imagenes;
+
+
         #endregion
 
         #region Properties
+        public List<T_localimagenes> LocalImagList { get; set; }
         public T_clientes Cliente
         {
             get { return this.cliente; }
@@ -64,6 +73,11 @@
             get { return this.selectedArtist; }
             set { SetValue(ref this.selectedArtist, value); }
         }
+        public ObservableCollection<T_localimagenes> Imagenes
+        {
+            get { return this.imagenes; }
+            set { SetValue(ref this.imagenes, value); }
+        }
         #endregion
 
         #region Constructors
@@ -74,6 +88,7 @@
             this.tecnico = tecnico;
             this.apiService = new ApiService();
             this.LoadTecnico();
+            this.LoadImagenes();
         }
         #endregion
 
@@ -96,6 +111,53 @@
                 this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
             }
         }
+        private async void LoadImagenes()
+        {
+            this.IsRunning = true;
+
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+
+            }
+
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_localimagenesController"].ToString();
+
+            var response = await this.apiService.GetList<T_localimagenes>(urlApi, prefix, controller);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+            this.LocalImagList = (List<T_localimagenes>)response.Result;
+
+            var localImagSelected = this.LocalImagList.Select(li => new T_localimagenes
+            {
+                Id_Imagen = li.Id_Imagen,
+                Id_Local = li.Id_Local,
+                Imagen = li.Imagen,
+                Descripcion = li.Descripcion,
+
+            }).Where(li => li.Id_Local == this.tecnico.Id_Local).ToList();
+            this.Imagenes = new ObservableCollection<T_localimagenes>(localImagSelected.OrderBy(li => li.Id_Imagen));
+
+            this.IsRunning = false;
+
+        }
+
         #endregion
     }
 }

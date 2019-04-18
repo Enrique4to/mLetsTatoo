@@ -162,16 +162,19 @@
       <Version>12.0.2-beta1</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.Buttons">
-      <Version>17.1.0.38</Version>
+      <Version>17.1.0.40</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfCalendar.IOS">
-      <Version>17.1.0.38</Version>
+      <Version>17.1.0.40</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfCarousel">
+      <Version>17.1.0.40</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfPicker">
-      <Version>17.1.0.38</Version>
+      <Version>17.1.0.40</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfSchedule">
-      <Version>17.1.0.38</Version>
+      <Version>17.1.0.40</Version>
     </PackageReference>
     <PackageReference Include="Xam.Plugin.Connectivity">
       <Version>4.0.0.190-beta</Version>
@@ -283,5 +286,8 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\AddImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\NoUserPicUns.png" />
   </ItemGroup>
 </Project>

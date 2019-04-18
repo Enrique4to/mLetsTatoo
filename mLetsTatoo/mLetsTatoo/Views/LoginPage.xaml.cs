@@ -12,8 +12,9 @@ namespace mLetsTatoo.Views
 	public partial class LoginPage : ContentPage
 	{
 		public LoginPage ()
-		{
-			InitializeComponent ();
+        {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("OTAxNjlAMzEzNzJlMzEyZTMwRjQwcisrVWozVTBVMStqRUJjaFY4ckJta3NqaWdRdkpjVzJHVm5NSkwzQT0=");
+            InitializeComponent ();
 		}
 	}
 }

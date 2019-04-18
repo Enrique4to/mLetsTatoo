@@ -35,17 +35,12 @@
         #endregion
 
         #region Methods
-        private void GoToLocalPage()
+        private async void GoToLocalPage()
         {
             this.empresa = MainViewModel.GetInstance().Empresa.empresa;
             MainViewModel.GetInstance().LocalPage = new LocalViewModel(this, empresa);
 
-            Application.Current.MainPage = new NavigationPage(new LocalPage())
-            {
-                BarBackgroundColor = Color.FromRgb(20, 20, 20),
-                BarTextColor = Color.FromRgb(200, 200, 200),
-            };
-            //await Application.Current.MainPage.Navigation.PushAsync(new LocalPage());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new LocalPage());
         }
         #endregion
     }

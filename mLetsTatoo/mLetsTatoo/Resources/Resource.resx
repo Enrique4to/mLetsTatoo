@@ -418,4 +418,79 @@
   <data name="SelectEstimatedTime" xml:space="preserve">
     <value>Select the estimated time duration for this feature.</value>
   </data>
+  <data name="EstimatedTimeError" xml:space="preserve">
+    <value>It is necessary that you select the estimated time for each configuration.</value>
+  </data>
+  <data name="YourAppointment" xml:space="preserve">
+    <value>Your Appointment</value>
+  </data>
+  <data name="HasBeenCreated" xml:space="preserve">
+    <value>has been created for the Date</value>
+  </data>
+  <data name="At" xml:space="preserve">
+    <value>at</value>
+  </data>
+  <data name="WithThe Artist" xml:space="preserve">
+    <value>with the artist</value>
+  </data>
+  <data name="TryToBe" xml:space="preserve">
+    <value>Try to be ther 30 minutes before you Appointment Start!</value>
+  </data>
+  <data name="QuickAppointment" xml:space="preserve">
+    <value>Quick appointment</value>
+  </data>
+  <data name="PersonalizedAppointment" xml:space="preserve">
+    <value>Personalized appointment</value>
+  </data>
+  <data name="TempJobMessageSent" xml:space="preserve">
+    <value>A message has been sent to the artist </value>
+  </data>
+  <data name="TempJobAnswerMessage" xml:space="preserve">
+    <value>You will notify when the artist answer your message.</value>
+  </data>
+  <data name="Tattoo" xml:space="preserve">
+    <value>Tattoo</value>
+  </data>
+  <data name="Personalized" xml:space="preserve">
+    <value>Personalized</value>
+  </data>
+  <data name="NewsFeed" xml:space="preserve">
+    <value>News Feed</value>
+  </data>
+  <data name="NewDate" xml:space="preserve">
+    <value>New Appointment</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="Appointment" xml:space="preserve">
+    <value>Appointment</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>Hour:</value>
+  </data>
+  <data name="AppointmentWhere" xml:space="preserve">
+    <value>Here will be your appointment.</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone:</value>
+  </data>
+  <data name="Reference" xml:space="preserve">
+    <value>Reference:</value>
+  </data>
+  <data name="SubTotal" xml:space="preserve">
+    <value>SubTotal</value>
+  </data>
+  <data name="Remaining" xml:space="preserve">
+    <value>Remaining:</value>
+  </data>
+  <data name="YourArt" xml:space="preserve">
+    <value>This is the art that you chose</value>
+  </data>
+  <data name="Art" xml:space="preserve">
+    <value>Art</value>
+  </data>
 </root>

@@ -10,7 +10,7 @@ using Plugin.Permissions;
 namespace mLetsTatoo.Droid
 {
 
-    [Activity(Label = "mLetsTatoo", 
+    [Activity(Label = "LetsTatoo", 
         Icon = "@drawable/icon", 
         Theme = "@style/MainTheme", 
         MainLauncher = true, 

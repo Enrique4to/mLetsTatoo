@@ -17,6 +17,8 @@
         public TecnicoProfileViewModel TecnicoProfile { get; set; }
         public TecnicoConfirmViewModel TecnicoConfirm { get; set; }
         public TecnicoFeaturesViewModel TecnicoFeatures { get; set; }
+        public UserViewDateViewModel UserViewDate { get; set; }
+        public TecnicoViewDateViewModel TecnicoViewDate { get; set; }
         #endregion
 
         #region Constructors

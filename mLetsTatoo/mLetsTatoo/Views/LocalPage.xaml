@@ -10,7 +10,7 @@
     <TabbedPage.Children>
         
         <ContentPage            
-            Icon="Locales.png"
+            Icon="NewsFeed.png"
             x:Name="LocalNewsFeed">
             <StackLayout>
                 <Label

@@ -47,15 +47,11 @@
         #endregion
 
         #region Methods
-        private void GoToTecnicoPage()
+        private async void GoToTecnicoPage()
         {
-
             MainViewModel.GetInstance().Tecnico = new TecnicoViewModel(this, user, cliente);
-            Application.Current.MainPage = new NavigationPage(new TecnicoPage())
-            {
-                BarBackgroundColor = Color.FromRgb(20, 20, 20),
-                BarTextColor = Color.FromRgb(200, 200, 200),
-            };
+            MainViewModel.GetInstance().NewDate = new NewDateViewModel(this, user, cliente);
+            await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoPage());
             //await Application.Current.MainPage.Navigation.PushAsync(new TecnicoPage());
         }
         private async void TecnicoSelected()

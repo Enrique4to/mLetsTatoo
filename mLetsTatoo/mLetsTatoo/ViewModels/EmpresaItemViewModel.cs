@@ -49,7 +49,7 @@
             //    BarBackgroundColor = Color.FromRgb(20, 20, 20),
             //    BarTextColor = Color.FromRgb(200, 200, 200),
             //};
-            await Application.Current.MainPage.Navigation.PushAsync(new EmpresaPage());
+            await Application.Current.MainPage.Navigation.PushModalAsync(new EmpresaPage());
             //await Application.Current.MainPage.Navigation.PushModalAsync(new EmpresaPage());
 
         }

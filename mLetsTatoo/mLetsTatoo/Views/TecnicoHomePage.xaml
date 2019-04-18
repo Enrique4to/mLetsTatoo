@@ -3,7 +3,6 @@
     BackgroundColor="Black"
     BindingContext="{Binding Main, Source={StaticResource Locator}}"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:schedule="clr-namespace:Syncfusion.SfSchedule.XForms;assembly=Syncfusion.SfSchedule.XForms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
     xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
@@ -45,19 +44,82 @@
                 Padding="5">
                 <Grid                    
                     VerticalOptions="FillAndExpand">
-                    <schedule:SfSchedule
-                        BackgroundColor="DimGray"
-                        ScheduleView ="WeekView"
-                        VerticalOptions="FillAndExpand">
-                    </schedule:SfSchedule>
-                    <Image
-                        HorizontalOptions="End"
-                        Source="NewAppointment.png"
-                        VerticalOptions="End">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command ="{Binding NewAppointmentCommand}"/>
-                        </Image.GestureRecognizers>
-                    </Image>
+                    <StackLayout
+                        VerticalOptions="StartAndExpand"
+                        Padding="10">
+                        <ListView                    
+                            HasUnevenRows="True"
+                            IsPullToRefreshEnabled="True"
+                            IsRefreshing="{Binding IsRefreshing}"                    
+                            ItemsSource="{Binding Trabajos}"
+                            RefreshCommand="{Binding RefreshTrabajoCommand}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout
+                                            Padding="0,2,0,2">
+                                            <Grid
+                                                BackgroundColor="DimGray">
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding TecnicoViewDatePageCommand}"/>
+                                                </Grid.GestureRecognizers>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width=".05*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width=".05*"/>
+                                                    <ColumnDefinition Width=".05*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <StackLayout
+                                                    Grid.Column="1"
+                                                    Grid.Row="0"
+                                                    HorizontalOptions="Start"
+                                                    Orientation="Horizontal"
+                                                    VerticalOptions="End">
+                                                    <Label
+                                                        FontSize="16"
+                                                        HorizontalTextAlignment="End"
+                                                        Text="{i18n:Translate Art}"
+                                                        TextColor="LightGray"/>
+                                                    <Label
+                                                        FontSize="16"
+                                                        HorizontalTextAlignment="End"
+                                                        Text="#"
+                                                        TextColor="LightGray"/>
+                                                    <Label
+                                                        FontAttributes="Bold"
+                                                        FontSize="16"
+                                                        HorizontalTextAlignment="End"
+                                                        Text="{Binding Id_Trabajo}"
+                                                        TextColor="LightGray"/>
+                                                </StackLayout>
+                                                <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="12"
+                                                    Grid.Column="1"
+                                                    Grid.Row="1"
+                                                    HorizontalOptions="Start"
+                                                    HorizontalTextAlignment="Start"
+                                                    LineBreakMode="TailTruncation"
+                                                    Text="{Binding Asunto}"
+                                                    TextColor="LightGray"
+                                                    WidthRequest="250"/>
+                                                <Image
+                                                    Grid.Column="3"
+                                                    Grid.RowSpan="3"
+                                                    HorizontalOptions="End"
+                                                    Source="ChevronRight"
+                                                    VerticalOptions="Center"
+                                                    WidthRequest="20"/>
+                                            </Grid>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
                 </Grid>
             </StackLayout>
         </ContentPage>
@@ -66,10 +128,9 @@
             Icon="NotificacionUns.png"
             x:Name="Notifications">
             <StackLayout
-            BindingContext="{Binding TecnicoHome}"
-            BackgroundColor="Black"
-            Padding="5">
-
+                BindingContext="{Binding TecnicoHome}"
+                BackgroundColor="Black"
+                Padding="5">
             </StackLayout>
         </ContentPage>
 

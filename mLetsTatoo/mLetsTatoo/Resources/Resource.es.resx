@@ -438,4 +438,79 @@
   <data name="SelectEstimatedTime" xml:space="preserve">
     <value>Selecciona la duración estimada para esta combinacion de caracteristicas.</value>
   </data>
+  <data name="EstimatedTimeError" xml:space="preserve">
+    <value>Es necesario que seleccione el tiempo estimado para cada configuración.</value>
+  </data>
+  <data name="YourAppointment" xml:space="preserve">
+    <value>Tu cita</value>
+  </data>
+  <data name="HasBeenCreated" xml:space="preserve">
+    <value>ha sido creada para la fecha</value>
+  </data>
+  <data name="At" xml:space="preserve">
+    <value>a las</value>
+  </data>
+  <data name="WithThe Artist" xml:space="preserve">
+    <value>con el artista</value>
+  </data>
+  <data name="TryToBe" xml:space="preserve">
+    <value>¡Trata de estar 30 minutos antes de que comience tu cita!</value>
+  </data>
+  <data name="QuickAppointment" xml:space="preserve">
+    <value>Cita rapida</value>
+  </data>
+  <data name="PersonalizedAppointment" xml:space="preserve">
+    <value>Cita personalizada</value>
+  </data>
+  <data name="TempJobMessageSent" xml:space="preserve">
+    <value>El mensaje ha sido enviado al artista</value>
+  </data>
+  <data name="TempJobAnswerMessage" xml:space="preserve">
+    <value>Se te notificará cuando el artista responda a tu mensaje.</value>
+  </data>
+  <data name="Tattoo" xml:space="preserve">
+    <value>Tatuaje</value>
+  </data>
+  <data name="Personalized" xml:space="preserve">
+    <value>Personalizado</value>
+  </data>
+  <data name="NewsFeed" xml:space="preserve">
+    <value>Noticias</value>
+  </data>
+  <data name="NewDate" xml:space="preserve">
+    <value>Nueva cita</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Perfil</value>
+  </data>
+  <data name="Appointment" xml:space="preserve">
+    <value>Cita</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>Asunto</value>
+  </data>
+  <data name="Hour" xml:space="preserve">
+    <value>Hora:</value>
+  </data>
+  <data name="AppointmentWhere" xml:space="preserve">
+    <value>Aquí será tu cita.</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Tel.</value>
+  </data>
+  <data name="Reference" xml:space="preserve">
+    <value>Referencia:</value>
+  </data>
+  <data name="SubTotal" xml:space="preserve">
+    <value>Subtotal:</value>
+  </data>
+  <data name="Remaining" xml:space="preserve">
+    <value>Restante:</value>
+  </data>
+  <data name="YourArt" xml:space="preserve">
+    <value>Este es el arte que elegiste</value>
+  </data>
+  <data name="Art" xml:space="preserve">
+    <value>Arte:</value>
+  </data>
 </root>

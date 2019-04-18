@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    BackgroundColor="Black"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:schedule="clr-namespace:Syncfusion.SfSchedule.XForms;assembly=Syncfusion.SfSchedule.XForms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
+    xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
+    xmlns:page="clr-namespace:mLetsTatoo.CustomPages;assembly=mLetsTatoo"
+    xmlns:views="clr-namespace:mLetsTatoo.Views"
+    x:Class="mLetsTatoo.Views.TecnicoViewDatePage"
+    x:Name="Citas">
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout
+                Padding="5">
+                <StackLayout
+                    BindingContext="{Binding TecnicoViewDate}"
+                    Padding="5"
+                    VerticalOptions="StartAndExpand">
+                    <StackLayout
+                        HorizontalOptions="EndAndExpand"
+                        Orientation="Horizontal"
+                        Padding="0,10,10,0"
+                        VerticalOptions="Start">
+                        <Label
+                            FontSize="20"
+                            HorizontalTextAlignment="End"
+                            Text="{i18n:Translate Appointment}"
+                            TextColor="LightGray"
+                            VerticalTextAlignment="End"/>
+                        <Label
+                            FontSize="16"
+                            HorizontalTextAlignment="End"
+                            Text="#"
+                            TextColor="LightGray"
+                            VerticalTextAlignment="End"/>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            HorizontalTextAlignment="End"
+                            Text="{Binding Cita.Id_Cita}"
+                            TextColor="LightGray"
+                            VerticalTextAlignment="End"/>
+                    </StackLayout>
+                    <StackLayout
+                        HorizontalOptions="StartAndExpand"
+                        Orientation="Horizontal"
+                        Padding="10"
+                        VerticalOptions="Start">
+                        <control:CustomLabel
+                            BorderColor="Gray"
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            HorizontalTextAlignment="Center"
+                            IsCurvedCornersEnabled="True"
+                            Margin="10,0,0,0"
+                            Text="{Binding Cita.Asunto}"
+                            TextColor="LightGray"/>
+                    </StackLayout>
+                    <StackLayout
+                        HorizontalOptions="CenterAndExpand"
+                        Orientation="Horizontal"
+                        Padding="5"
+                        VerticalOptions="Start">
+                        <Label
+                            FontSize="16"
+                            HorizontalTextAlignment="End"
+                            Text="{i18n:Translate Date}"
+                            TextColor="LightGray"
+                            VerticalOptions="Center"/>
+                        <StackLayout
+                            IsEnabled="False">
+                            <DatePicker
+                                Date="{Binding AppointmentDate, Mode=TwoWay}"
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                Format="dd MMM yyyy"
+                                HorizontalOptions="Start"
+                                TextColor="LightGray"
+                                VerticalOptions="Center"/>
+                        </StackLayout>
+                        <Label
+                            FontSize="16"
+                            HorizontalTextAlignment="End"
+                            Text="{i18n:Translate Hour}"
+                            TextColor="LightGray"
+                            VerticalOptions="Center"/>
+                        <StackLayout
+                                IsEnabled="False">
+                            <TimePicker
+                                Format="h:mm tt"
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                HorizontalOptions="StartAndExpand"
+                                TextColor="LightGray"
+                                Time="{Binding AppointmentTime, Mode=TwoWay}"
+                                VerticalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalTextAlignment="Start"
+                        Margin="10,10,0,0"
+                        Text="{i18n:Translate AppointmentWhere}"
+                        TextColor="LightGray"
+                        VerticalOptions="Center"/>
+                    <control:CustomLabel
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Margin="5,0,0,0"
+                        Text="{Binding Studio}"
+                        TextColor="LightGray"/>
+                    <Label
+                        FontSize="14"
+                        HorizontalTextAlignment="Start"
+                        Margin="5,0,0,0"
+                        Text="{Binding Address}"
+                        TextColor="Gray"/>
+                    <Label
+                        FontSize="14"
+                        HorizontalTextAlignment="Start"
+                        Margin="5,10,0,0"
+                        Text="{Binding Reference}"
+                        TextColor="Gray"/>
+                    <StackLayout
+                        HorizontalOptions="EndAndExpand"
+                        Padding="5,20,0,10"
+                        VerticalOptions="Start">
+                        <Grid
+                            Padding="0,0,0,15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <control:CustomLabel
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                HorizontalTextAlignment="End"
+                                Margin="5,0,0,0"
+                                Text="{Binding SubTotal}"
+                                TextColor="DimGray"/>
+                            <control:CustomLabel
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                HorizontalTextAlignment="End"
+                                Margin="5,0,0,0"
+                                Text="{Binding Advance}"
+                                TextColor="DimGray"/>
+                            <control:CustomLabel
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                Grid.Column="1"
+                                Grid.Row="2"
+                                HorizontalTextAlignment="End"
+                                Margin="5,0,0,0"
+                                Text="{Binding Total}"
+                                TextColor="LightGray"/>
+                        </Grid>
+                    </StackLayout>
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalTextAlignment="Center"
+                        Margin="10,10,0,0"
+                        Text="{i18n:Translate YourArt}"
+                        TextColor="LightGray"
+                        VerticalOptions="Center"/>
+                    <Image
+                        Aspect="AspectFit"
+                        HeightRequest="400"
+                        HorizontalOptions="Center"
+                        Margin="10,0,10,0"
+                        MinimumHeightRequest="100"
+                        Source="{Binding Image.Imagen, Converter={StaticResource ByteArrayToImage}}"
+                        VerticalOptions="Start"/>
+                </StackLayout>
+                <StackLayout
+                    BindingContext="{Binding UserViewDate}"
+                    Padding="5"
+                    VerticalOptions="StartAndExpand">
+                    <ListView                    
+                        HasUnevenRows="True"
+                        IsRefreshing="{Binding IsRefreshing}"                    
+                        ItemsSource="{Binding Notas}">
+                        <!--RefreshCommand="{Binding RefreshNotasCommand}">-->
+
+                        <ListView.ItemTemplate>
+                            
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout
+                                            Padding="0,2,0,2">
+                                        <Grid
+                                                BackgroundColor="DimGray">
+                                            <!--<Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding UserViewDatePageCommand}"/>
+                                            </Grid.GestureRecognizers>-->
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <StackLayout
+                                                Grid.Column="1"
+                                                Grid.Row="0"
+                                                HorizontalOptions="Start"
+                                                Orientation="Horizontal"
+                                                VerticalOptions="Center">
+                                                <control:CircleImage
+                                                    Aspect="AspectFill"
+                                                    HorizontalOptions="Start"
+                                                    Margin="4"
+                                                    Source="{Binding Imagen_Post, Converter={StaticResource ByteArrayToImage}}"
+                                                    VerticalOptions="Center">
+                                                    <control:CircleImage.WidthRequest>
+                                                        <OnPlatform x:TypeArguments="x:Double">
+                                                            <On Platform="Android, iOS">40</On>
+                                                        </OnPlatform>
+                                                    </control:CircleImage.WidthRequest>
+                                                    <control:CircleImage.HeightRequest>
+                                                        <OnPlatform x:TypeArguments="x:Double">
+                                                            <On Platform="Android, iOS">40</On>
+                                                        </OnPlatform>
+                                                    </control:CircleImage.HeightRequest>
+                                                </control:CircleImage>
+                                                <StackLayout>
+                                                    <Label
+                                                    FontAttributes="Bold"
+                                                    FontSize="14"
+                                                    HorizontalTextAlignment="Start"
+                                                    Text="{Binding Nombre_Post}"
+                                                    TextColor="LightGray"
+                                                    VerticalOptions="End"/>
+                                                    <Label
+                                                    FontSize="12"
+                                                    HorizontalTextAlignment="Start"
+                                                    Text="{Binding F_nota, StringFormat=' {0:dd MMM yyyy}'}"
+                                                    TextColor="LightGray"
+                                                    VerticalOptions="Start"/>
+                                                </StackLayout>
+                                            </StackLayout>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="15"
+                                                Grid.Column="1"
+                                                Grid.Row="1"
+                                                HorizontalOptions="Start"
+                                                HorizontalTextAlignment="Start"
+                                                LineBreakMode="TailTruncation"
+                                                Text="{Binding Nota}"
+                                                TextColor="LightGray"
+                                                VerticalOptions="Center"
+                                                WidthRequest="200"/>
+                                        </Grid>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

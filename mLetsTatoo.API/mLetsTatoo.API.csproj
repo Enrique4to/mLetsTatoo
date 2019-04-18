@@ -109,20 +109,23 @@
     <Reference Include="Plugin.Permissions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Plugin.Permissions.4.0.4-beta\lib\netstandard2.0\Plugin.Permissions.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Buttons.XForms, Version=17.1451.0.38, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Syncfusion.Xamarin.Buttons.17.1.0.38\lib\netstandard1.0\Syncfusion.Buttons.XForms.dll</HintPath>
+    <Reference Include="Syncfusion.Buttons.XForms, Version=17.1451.0.40, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Xamarin.Buttons.17.1.0.40\lib\netstandard1.0\Syncfusion.Buttons.XForms.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Core.XForms, Version=17.1451.0.38, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Syncfusion.Xamarin.Core.17.1.0.38\lib\netstandard1.0\Syncfusion.Core.XForms.dll</HintPath>
+    <Reference Include="Syncfusion.Core.XForms, Version=17.1451.0.40, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Xamarin.Core.17.1.0.40\lib\netstandard1.0\Syncfusion.Core.XForms.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Licensing, Version=17.1460.0.38, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Syncfusion.Licensing.17.1.0.38\lib\net46\Syncfusion.Licensing.dll</HintPath>
+    <Reference Include="Syncfusion.Licensing, Version=17.1460.0.40, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Licensing.17.1.0.40\lib\net46\Syncfusion.Licensing.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.SfPicker.XForms, Version=17.1400.0.38, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Syncfusion.Xamarin.SfPicker.17.1.0.38\lib\netstandard1.0\Syncfusion.SfPicker.XForms.dll</HintPath>
+    <Reference Include="Syncfusion.SfCarousel.XForms, Version=17.1451.0.40, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfCarousel.17.1.0.40\lib\netstandard1.0\Syncfusion.SfCarousel.XForms.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.SfSchedule.XForms, Version=17.1451.0.38, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Syncfusion.Xamarin.SfSchedule.17.1.0.38\lib\netstandard1.0\Syncfusion.SfSchedule.XForms.dll</HintPath>
+    <Reference Include="Syncfusion.SfPicker.XForms, Version=17.1400.0.40, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfPicker.17.1.0.40\lib\netstandard1.0\Syncfusion.SfPicker.XForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfSchedule.XForms, Version=17.1451.0.40, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfSchedule.17.1.0.40\lib\netstandard1.0\Syncfusion.SfSchedule.XForms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -268,6 +271,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\T_citaimagenesController.cs" />
+    <Compile Include="Controllers\T_citaimagenestempController.cs" />
     <Compile Include="Controllers\T_ciudadController.cs" />
     <Compile Include="Controllers\T_clientesController.cs" />
     <Compile Include="Controllers\T_empresasController.cs" />
@@ -286,7 +290,9 @@
     <Compile Include="Controllers\T_tecnicosController.cs" />
     <Compile Include="Controllers\T_trabajocitasController.cs" />
     <Compile Include="Controllers\T_trabajonotaController.cs" />
+    <Compile Include="Controllers\T_trabajonotatempController.cs" />
     <Compile Include="Controllers\T_trabajosController.cs" />
+    <Compile Include="Controllers\T_trabajostempController.cs" />
     <Compile Include="Controllers\T_usuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

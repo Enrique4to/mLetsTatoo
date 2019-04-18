@@ -162,42 +162,42 @@
             {
                 timeSender.Text = stringtime;
             }
-            //if (timeSender == this.Time1)
-            //{
-            //    MainViewModel.GetInstance().TecnicoFeatures.file1 = this.file;
-            //}
-            //else if (timeSender == this.Time2)
-            //{
-            //    MainViewModel.GetInstance().TecnicoFeatures.file2 = this.file;
-            //}
-            //else if (timeSender == this.Time3)
-            //{
-            //    MainViewModel.GetInstance().TecnicoFeatures.file3 = this.file;
-            //}
-            //else if (timeSender == this.Time4)
-            //{
-            //    MainViewModel.GetInstance().TecnicoFeatures.file4 = this.file;
-            //}
-            //else if (timeSender == this.Time5)
-            //{
-            //    MainViewModel.GetInstance().TecnicoFeatures.file5 = this.file;
-            //}
-            //else if (timeSender == this.Time6)
-            //{
-            //    MainViewModel.GetInstance().TecnicoFeatures.file6 = this.file;
-            //}
-            //else if (timeSender == this.Time7)
-            //{
-            //    MainViewModel.GetInstance().TecnicoFeatures.file7 = this.file;
-            //}
-            //else if (timeSender == this.Time8)
-            //{
-            //    MainViewModel.GetInstance().TecnicoFeatures.file8 = this.file;
-            //}
-            //else if (timeSender == this.Time9)
-            //{
-            //    MainViewModel.GetInstance().TecnicoFeatures.file9 = this.file;
-            //}
+            if (timeSender == this.Time1)
+            {
+                MainViewModel.GetInstance().TecnicoFeatures.time1 = this.time;
+            }
+            else if (timeSender == this.Time2)
+            {
+                MainViewModel.GetInstance().TecnicoFeatures.time2 = this.time;
+            }
+            else if (timeSender == this.Time3)
+            {
+                MainViewModel.GetInstance().TecnicoFeatures.time3 = this.time;
+            }
+            else if (timeSender == this.Time4)
+            {
+                MainViewModel.GetInstance().TecnicoFeatures.time4 = this.time;
+            }
+            else if (timeSender == this.Time5)
+            {
+                MainViewModel.GetInstance().TecnicoFeatures.time5 = this.time;
+            }
+            else if (timeSender == this.Time6)
+            {
+                MainViewModel.GetInstance().TecnicoFeatures.time6 = this.time;
+            }
+            else if (timeSender == this.Time7)
+            {
+                MainViewModel.GetInstance().TecnicoFeatures.time7 = this.time;
+            }
+            else if (timeSender == this.Time8)
+            {
+                MainViewModel.GetInstance().TecnicoFeatures.time8 = this.time;
+            }
+            else if (timeSender == this.Time9)
+            {
+                MainViewModel.GetInstance().TecnicoFeatures.time9 = this.time;
+            }
         }
 
         #endregion
