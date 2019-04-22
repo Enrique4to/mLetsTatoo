@@ -21,14 +21,15 @@ namespace mLetsTatoo.API.Controllers
         // GET: api/T_trabajonota
         public IQueryable<T_trabajonota> GetT_trabajonota()
         {
-            return db.T_trabajonota;
+            return db.T_trabajonota.OrderByDescending(n => n.F_nota);
         }
 
         // GET: api/T_trabajonota/5
         [ResponseType(typeof(T_trabajonota))]
         public async Task<IHttpActionResult> GetT_trabajonota(int id)
         {
-            T_trabajonota t_trabajonota = await db.T_trabajonota.FindAsync(id);
+            var t_trabajonota = await db.T_trabajonota.FindAsync(id);
+
             if (t_trabajonota == null)
             {
                 return NotFound();
@@ -76,6 +77,8 @@ namespace mLetsTatoo.API.Controllers
         [ResponseType(typeof(T_trabajonota))]
         public async Task<IHttpActionResult> PostT_trabajonota(T_trabajonota t_trabajonota)
         {
+            t_trabajonota.F_nota = DateTime.Now.ToUniversalTime();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

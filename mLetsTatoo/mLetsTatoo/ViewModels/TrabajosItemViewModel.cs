@@ -12,20 +12,31 @@
     using Views;
     using Xamarin.Forms;
 
-    public class TecnicoTrabajosItemViewModel : T_trabajos
+    public class TrabajosItemViewModel : T_trabajos
     {
         #region Services
         private ApiService apiService;
         #endregion
 
         #region Attributes
+        private T_trabajocitas cita;
+
+        private ObservableCollection<CitasItemViewModel> citas;
         #endregion
 
         #region Properties
+        public List<T_trabajocitas> CitasList { get; set; }
+
+        public ObservableCollection<CitasItemViewModel> Citas
+        {
+            get { return this.citas; }
+            set { this.citas = value; }
+        }
+
         #endregion
 
         #region Constructors
-        public TecnicoTrabajosItemViewModel()
+        public TrabajosItemViewModel()
         {
             this.apiService = new ApiService();
         }
@@ -33,11 +44,11 @@
         #endregion
 
         #region Commands
-        public ICommand TecnicoViewDatePageCommand
+        public ICommand TecnicoViewJobPageCommand
         {
             get
             {
-                return new RelayCommand(GoToTecnicoViewDatePage);
+                return new RelayCommand(GoToTecnicoViewJobPage);
             }
         }
         //public ICommand TecnicoSelectedCommand
@@ -50,12 +61,12 @@
         #endregion
 
         #region Methods
-        private async void GoToTecnicoViewDatePage()
+        public void GoToTecnicoViewJobPage()
         {
             var user = MainViewModel.GetInstance().Login.user;
             var tecnico = MainViewModel.GetInstance().Login.tecnico;
-            MainViewModel.GetInstance().TecnicoViewDate = new TecnicoViewDateViewModel(this, user, tecnico);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoViewDatePage());
+            MainViewModel.GetInstance().TecnicoViewJob = new TecnicoViewJobViewModel(this, user, tecnico);
+            Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoViewJobPage());
         }
         //private async void TecnicoSelected()
         //{

@@ -61,7 +61,7 @@
                                             <Grid
                                                 BackgroundColor="DimGray">
                                                 <Grid.GestureRecognizers>
-                                                    <TapGestureRecognizer Command="{Binding TecnicoViewDatePageCommand}"/>
+                                                    <TapGestureRecognizer Command="{Binding TecnicoViewJobPageCommand}"/>
                                                 </Grid.GestureRecognizers>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width=".05*"/>
@@ -108,7 +108,7 @@
                                                     WidthRequest="250"/>
                                                 <Image
                                                     Grid.Column="3"
-                                                    Grid.RowSpan="3"
+                                                    Grid.RowSpan="2"
                                                     HorizontalOptions="End"
                                                     Source="ChevronRight"
                                                     VerticalOptions="Center"

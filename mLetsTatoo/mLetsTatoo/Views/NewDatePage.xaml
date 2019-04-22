@@ -4,8 +4,6 @@
     BindingContext="{Binding Main, Source={StaticResource Locator}}"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:radiobutton="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
-    xmlns:picker="clr-namespace:Syncfusion.SfPicker.XForms;assembly=Syncfusion.SfPicker.XForms"
-    xmlns:ListCollection="clr-namespace:System.Collections.Generic;assembly=mscorlib"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
     xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
@@ -283,13 +281,13 @@
                         </Grid>
                     </StackLayout>
                     <Label
-                    FontAttributes="Bold"
-                    FontSize="16"
-                    Margin="15,0,0,5"
-                    Text="{i18n:Translate AppointmentWhen}"
-                    TextColor="LightGray"
-                    HorizontalTextAlignment="Start"
-                    VerticalOptions="Start"/>
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Margin="15,0,0,5"
+                        Text="{i18n:Translate AppointmentWhen}"
+                        TextColor="LightGray"
+                        HorizontalTextAlignment="Start"
+                        VerticalOptions="Start"/>
                     <StackLayout
                         Padding="7,0,7,15"
                         VerticalOptions="StartAndExpand">
@@ -341,13 +339,13 @@
                 </StackLayout>
                 
                 <Editor
-                        HorizontalOptions="FillAndExpand"
-                        Margin="20,0,25,10"
-                        Placeholder="{i18n:Translate DescribeArt}"
-                        PlaceholderColor="DimGray"
-                        Text="{Binding DescribeArt}"
-                        TextColor="LightGray"
-                        VerticalOptions="StartAndExpand"/>
+                    HorizontalOptions="FillAndExpand"
+                    Margin="20,0,25,10"
+                    Placeholder="{i18n:Translate DescribeArt}"
+                    PlaceholderColor="DimGray"
+                    Text="{Binding DescribeArt}"
+                    TextColor="LightGray"
+                    VerticalOptions="StartAndExpand"/>
                 <StackLayout
                     Padding="5,0"
                     VerticalOptions="EndAndExpand">

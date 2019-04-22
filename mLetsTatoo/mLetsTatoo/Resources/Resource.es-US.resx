@@ -513,4 +513,10 @@
   <data name="Art" xml:space="preserve">
     <value>Arte:</value>
   </data>
+  <data name="CustomerArt" xml:space="preserve">
+    <value>Este es el arte que el cliente eligió.</value>
+  </data>
+  <data name="AddComment" xml:space="preserve">
+    <value>Agregua tu comentario aquí...</value>
+  </data>
 </root>

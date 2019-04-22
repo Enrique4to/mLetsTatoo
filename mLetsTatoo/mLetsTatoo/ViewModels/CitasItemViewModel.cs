@@ -40,6 +40,13 @@
                 return new RelayCommand(GoToUserViewDatePage);
             }
         }
+        public ICommand TecnicoViewDatePageCommand
+        {
+            get
+            {
+                return new RelayCommand(GoToTecnicoViewDatePage);
+            }
+        }
         //public ICommand TecnicoSelectedCommand
         //{
         //    get
@@ -50,12 +57,20 @@
         #endregion
 
         #region Methods
-        private async void GoToUserViewDatePage()
+        private void GoToUserViewDatePage()
         {
             var user = MainViewModel.GetInstance().Login.user;
             var cliente = MainViewModel.GetInstance().Login.cliente;
             MainViewModel.GetInstance().UserViewDate = new UserViewDateViewModel(this, user, cliente);
-            await Application.Current.MainPage.Navigation.PushModalAsync(new UserViewDatePage());
+            Application.Current.MainPage.Navigation.PushModalAsync(new UserViewDatePage());
+        }
+        private void GoToTecnicoViewDatePage()
+        {
+            var user = MainViewModel.GetInstance().Login.user;
+            var tecnico = MainViewModel.GetInstance().Login.tecnico;
+            var trabajo = MainViewModel.GetInstance().TecnicoViewJob.trabajo;
+            MainViewModel.GetInstance().TecnicoViewDate = new TecnicoViewDateViewModel(this, user, tecnico, trabajo);
+            Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoViewDatePage());
         }
         //private async void TecnicoSelected()
         //{

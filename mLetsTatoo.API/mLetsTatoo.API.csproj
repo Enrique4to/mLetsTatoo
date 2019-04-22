@@ -109,6 +109,9 @@
     <Reference Include="Plugin.Permissions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Plugin.Permissions.4.0.4-beta\lib\netstandard2.0\Plugin.Permissions.dll</HintPath>
     </Reference>
+    <Reference Include="Rg.Plugins.Popup, Version=1.1.5.188, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rg.Plugins.Popup.1.1.5.188\lib\netstandard1.0\Rg.Plugins.Popup.dll</HintPath>
+    </Reference>
     <Reference Include="Syncfusion.Buttons.XForms, Version=17.1451.0.40, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Syncfusion.Xamarin.Buttons.17.1.0.40\lib\netstandard1.0\Syncfusion.Buttons.XForms.dll</HintPath>
     </Reference>

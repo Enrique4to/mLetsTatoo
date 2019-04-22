@@ -24,6 +24,8 @@ namespace mLetsTatoo.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
+            //inicialize plugin
+            Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
@@ -37,6 +39,15 @@ namespace mLetsTatoo.Droid
                 requestCode,
                 permissions,
                 grantResults);
+        }
+        public override void OnBackPressed()
+        {
+            if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed))
+            {
+            }
+            else
+            {
+            }
         }
     }
 

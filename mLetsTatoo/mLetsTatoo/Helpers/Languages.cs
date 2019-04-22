@@ -527,5 +527,17 @@
         {
             get { return Resource.YourArt; }
         }
+        public static string Art
+        {
+            get { return Resource.Art; }
+        }
+        public static string CustomerArt
+        {
+            get { return Resource.CustomerArt; }
+        }
+        public static string AddComment
+        {
+            get { return Resource.AddComment; }
+        }
     }
 }

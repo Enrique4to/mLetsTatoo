@@ -29,6 +29,7 @@
   <ItemGroup>
     <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2-beta1" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="1.1.5.188" />
     <PackageReference Include="Syncfusion.Xamarin.Buttons" Version="17.1.0.40" />
     <PackageReference Include="Syncfusion.Xamarin.SfCarousel" Version="17.1.0.40" />
     <PackageReference Include="Syncfusion.Xamarin.SfPicker" Version="17.1.0.40" />
@@ -70,12 +71,18 @@
     <Compile Update="Views\UserHomePage.xaml.cs">
       <DependentUpon>UserHomePage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\TecnicoViewJobPage.xaml.cs">
+      <DependentUpon>TecnicoViewJobPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\TecnicoViewDatePage.xaml.cs">
       <DependentUpon>TecnicoViewDatePage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Popups\Views\AddCommentPopupPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>

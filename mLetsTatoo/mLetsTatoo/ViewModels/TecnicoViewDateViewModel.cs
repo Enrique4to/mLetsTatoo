@@ -6,8 +6,13 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Windows.Input;
+    using GalaSoft.MvvmLight.Command;
     using Helpers;
+    using mLetsTatoo.Popups.ViewModel;
+    using mLetsTatoo.Popups.Views;
     using Models;
+    using Rg.Plugins.Popup.Extensions;
     using Services;
     using Xamarin.Forms;
 
@@ -18,6 +23,10 @@
         #endregion
 
         #region Attributes
+        private INavigation Navigation;
+        
+        private bool isRefreshing;
+
         private string address;
         private string studio;
         private string reference;
@@ -41,10 +50,15 @@
         public T_citaimagenes image;
 
         private ObservableCollection<NotasItemViewModel> notas;
-        private ObservableCollection<CitasItemViewModel> citas;
         #endregion
 
         #region Properties
+        public bool IsRefreshing
+        {
+            get { return this.isRefreshing; }
+            set { SetValue(ref this.isRefreshing, value); }
+        }
+
         public string Address
         {
             get { return this.address; }
@@ -91,7 +105,7 @@
             }
         }
 
-        public List<T_trabajocitas> CitasList { get; set; }
+        public List<T_trabajonota> NotaList { get; set; }
 
         public T_trabajocitas Cita
         {
@@ -109,91 +123,68 @@
             get { return this.notas; }
             set { this.notas = value; }
         }
-        public ObservableCollection<CitasItemViewModel> Citas
-        {
-            get { return this.citas; }
-            set { this.citas = value; }
-        }
         #endregion
 
         #region Constructors
-        public TecnicoViewDateViewModel(T_trabajos trabajo, T_usuarios user, T_tecnicos tecnico)
+        public TecnicoViewDateViewModel(T_trabajocitas cita, T_usuarios user, T_tecnicos tecnico, T_trabajos trabajo)
         {
-            this.trabajo = trabajo;
+            this.cita = cita;
             this.user = user;
             this.tecnico = tecnico;
+            this.trabajo = trabajo;
             this.apiService = new ApiService();
             this.MinDate = DateTime.Now.ToLocalTime();
+            this.AppointmentDate = this.cita.F_Inicio;
+            this.AppointmentTime = this.cita.H_Inicio;
             Task.Run(async () => { await this.LoadInfo(); }).Wait();
+            Task.Run(async () => { await this.LoadNotas(); }).Wait();
+            this.IsRefreshing = false;
+            //this.LoadInfo();
         }
         #endregion
-        #region Commands
 
-        #endregion
-        #region Methods
-        public async Task LoadInfo()
+        #region Commands
+        public ICommand AddNewCommentCommand
         {
+            get
+            {
+                return new RelayCommand(GoToAddCommandPopup);
+            }
+        }
+        public ICommand RefreshNotasCommand
+        {
+            get
+            {
+                return new RelayCommand(RefreshListNotas);
+            }
+        }
+        #endregion
+
+        #region Methods
+        private async Task LoadInfo()
+        {
+            this.IsRefreshing = true;
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-                await App.Current.MainPage.DisplayAlert(
+                this.IsRefreshing = false;
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
                     "OK");
                 return;
             }
-            //------------------------Cargar Datos de Cita ------------------------//
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_trabajocitasController"].ToString();
-
-            var response = await this.apiService.GetList<T_trabajocitas>(urlApi, prefix, controller);
-
-            if (!response.IsSuccess)
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-            this.CitasList = (List<T_trabajocitas>)response.Result;
-
-            CitasList = CitasList.Where(c => c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
-
-            var cita = CitasList.Select(c => new CitasItemViewModel
-            {
-                Asunto = c.Asunto,
-                Completa = c.Completa,
-                F_Fin = c.F_Fin,
-                H_Fin = c.H_Fin,
-                F_Inicio = c.F_Inicio,
-                H_Inicio = c.H_Inicio,
-                Id_Cliente = c.Id_Cliente,
-                Id_Tatuador = c.Id_Tatuador,
-                Id_Cita = c.Id_Cita,
-                Id_Trabajo = c.Id_Trabajo,                
-
-            }).Where(c => c.Id_Trabajo == this.trabajo.Id_Trabajo).ToList();
-            this.Citas = new ObservableCollection<CitasItemViewModel>(cita.OrderBy(c => c.F_Inicio));
-
-            this.cita = CitasList.Single(c => c.Id_Trabajo == this.trabajo.Id_Trabajo);
-
-            this.AppointmentDate = this.cita.F_Inicio;
-            this.AppointmentTime = this.cita.H_Inicio;
-
-            this.subTotal = $"{Languages.SubTotal} {this.trabajo.Total_Aprox.ToString("C2")}";
-            this.advance = $"{Languages.Advance} {this.trabajo.Costo_Cita.ToString("C2")}";
-            var tot = this.trabajo.Total_Aprox - this.trabajo.Costo_Cita;
-            this.total = $"{Languages.Remaining} {tot.ToString("C2")}";
 
             //------------------------Cargar Datos de Cliente ------------------------//
 
-            controller = Application.Current.Resources["UrlT_clientesController"].ToString();
+            var urlApi = App.Current.Resources["UrlAPI"].ToString();
+            var prefix = App.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_clientesController"].ToString();
 
-            response = await this.apiService.Get<T_clientes>(urlApi, prefix, controller, this.trabajo.Id_Cliente);
+            var response = await this.apiService.Get<T_clientes>(urlApi, prefix, controller, this.trabajo.Id_Cliente);
             if (!response.IsSuccess)
             {
+                this.IsRefreshing = false;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
@@ -210,6 +201,7 @@
 
             if (!response.IsSuccess)
             {
+                this.IsRefreshing = false;
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
@@ -218,23 +210,63 @@
             }
             this.image = (T_citaimagenes)response.Result;
 
+            this.IsRefreshing = false;
+        }
+
+        public async Task LoadNotas()
+        {
+
+            this.IsRefreshing = true;
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.IsRefreshing = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+
             //-----------------Cargar Notas-----------------//
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_trabajonotaController"].ToString();
 
-            controller = App.Current.Resources["UrlT_trabajonotaController"].ToString();
-
-            response = await this.apiService.GetList<T_trabajonota>(urlApi, prefix, controller);
+            var response = await this.apiService.GetList<T_trabajonota>(urlApi, prefix, controller);
             if (!response.IsSuccess)
             {
-                await App.Current.MainPage.DisplayAlert(
+                this.IsRefreshing = false;
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
                     "OK");
                 return;
             }
-            var notaList = (List<T_trabajonota>)response.Result;
-            notaList = notaList.Where(c => c.Id_De == this.tecnico.Id_Tecnico).ToList();
+            this.NotaList = (List<T_trabajonota>)response.Result;
+            this.RefreshListNotas();
+            //var nota = this.NotaList.Select(c => new NotasItemViewModel
+            //{
+            //    Id_Cita = c.Id_Cita,
+            //    Id_Trabajo = c.Id_Trabajo,
+            //    Id_De = c.Id_De,
+            //    Tipo_Usuario = c.Tipo_Usuario,
+            //    F_nota = c.F_nota,
+            //    Id_Local = c.Id_Local,
+            //    Id_Nota = c.Id_Nota,
+            //    Nota = c.Nota,
+            //    Nombre_Post = c.Nombre_Post,
+            //    Imagen_Post = c.Imagen_Post,
 
-            var nota = notaList.Select(c => new NotasItemViewModel
+            //}).Where(c => c.Id_Cita == this.cita.Id_Cita).ToList();
+            //this.Notas = new ObservableCollection<NotasItemViewModel>(nota.OrderByDescending(c => c.F_nota));
+
+            this.IsRefreshing = false;
+        }
+
+        public void RefreshListNotas()
+        {
+            var nota = this.NotaList.Select(c => new NotasItemViewModel
             {
                 Id_Cita = c.Id_Cita,
                 Id_Trabajo = c.Id_Trabajo,
@@ -248,7 +280,13 @@
                 Imagen_Post = c.Imagen_Post,
 
             }).Where(c => c.Id_Cita == this.cita.Id_Cita).ToList();
-            this.Notas = new ObservableCollection<NotasItemViewModel>(nota.OrderBy(c => c.F_nota));
+
+            this.Notas = new ObservableCollection<NotasItemViewModel>(nota.OrderByDescending(c => c.F_nota));
+        }
+        public void GoToAddCommandPopup()
+        {
+            MainViewModel.GetInstance().AddCommentPopup = new AddCommentPopupViewModel(user, cliente, tecnico, trabajo, cita);
+            Navigation.PushPopupAsync(new AddCommentPopupPage());
         }
 
         #endregion

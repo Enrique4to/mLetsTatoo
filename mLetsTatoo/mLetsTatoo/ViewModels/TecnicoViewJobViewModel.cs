@@ -1,0 +1,179 @@
+﻿namespace mLetsTatoo.ViewModels
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows.Input;
+    using GalaSoft.MvvmLight.Command;
+    using Helpers;
+    using Models;
+    using Services;
+    using Xamarin.Forms;
+
+    public class TecnicoViewJobViewModel : BaseViewModel
+    {
+        #region Services
+        private ApiService apiService;
+        #endregion
+
+        #region Attributes
+        private bool isRefreshing;
+        private bool isRunning;
+
+        private string subTotal;
+        private string advance;
+        private string total;
+               
+        private T_trabajocitas cita;
+        private T_usuarios user;
+        private T_clientes cliente;
+        public T_trabajos trabajo;
+        private T_tecnicos tecnico;
+
+        private ObservableCollection<CitasItemViewModel> citas;
+        #endregion
+
+        #region Properties
+
+        public bool IsRefreshing
+        {
+            get { return this.isRefreshing; }
+            set { SetValue(ref this.isRefreshing, value); }
+        }
+        public bool IsRunning
+        {
+            get { return this.isRunning; }
+            set { SetValue(ref this.isRunning, value); }
+        }
+
+        public string SubTotal
+        {
+            get { return this.subTotal; }
+            set { SetValue(ref this.subTotal, value); }
+        }
+        public string Advance
+        {
+            get { return this.advance; }
+            set { SetValue(ref this.advance, value); }
+        }
+        public string Total
+        {
+            get { return this.total; }
+            set { SetValue(ref this.total, value); }
+        }
+        
+        public List<T_trabajocitas> CitasList { get; set; }
+
+        public T_trabajocitas Cita
+        {
+            get { return this.cita; }
+            set { SetValue(ref this.cita, value); }
+        }
+        public T_trabajos Trabajo        {
+            get { return this.trabajo; }
+            set { SetValue(ref this.trabajo, value); }
+        }
+
+        public ObservableCollection<CitasItemViewModel> Citas
+        {
+            get { return this.citas; }
+            set { this.citas = value; }
+        }
+        #endregion
+
+        #region Constructors
+        public TecnicoViewJobViewModel(T_trabajos trabajo, T_usuarios user, T_tecnicos tecnico)
+        {
+            this.trabajo = trabajo;
+            this.user = user;
+            this.tecnico = tecnico;
+            this.apiService = new ApiService();
+            Task.Run(async () => { await this.LoadCitas(); }).Wait();
+            //this.LoadCitas();
+            this.LoadData();
+            this.IsRefreshing = false;
+            this.IsRunning = false;
+        }
+        #endregion
+
+        #region Commands
+        public ICommand RefreshListCitasCommand
+        {
+            get
+            {
+                return new RelayCommand(RerfeshCitasLiast);
+            }                
+        }
+        #endregion
+
+        #region Methods
+        public void LoadData()
+        {
+            this.subTotal = $"{Languages.SubTotal} {this.trabajo.Total_Aprox.ToString("C2")}";
+            this.advance = $"{Languages.Advance} {this.trabajo.Costo_Cita.ToString("C2")}";
+            var tot = this.trabajo.Total_Aprox - this.trabajo.Costo_Cita;
+            this.total = $"{Languages.Remaining} {tot.ToString("C2")}";
+        }
+
+        private async Task LoadCitas()
+        {
+            this.IsRefreshing = true;
+
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.IsRefreshing = false;
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+
+            var urlApi = App.Current.Resources["UrlAPI"].ToString();
+            var prefix = App.Current.Resources["UrlPrefix"].ToString();
+            var controller = App.Current.Resources["UrlT_trabajocitasController"].ToString();
+
+            var response = await this.apiService.GetList<T_trabajocitas>(urlApi, prefix, controller);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRefreshing = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+            this.CitasList = (List<T_trabajocitas>)response.Result;
+            this.CitasList = this.CitasList.Where(c => c.Id_Trabajo == this.trabajo.Id_Trabajo).ToList();
+            
+            var cita = this.CitasList.Select(c => new CitasItemViewModel
+            {
+                Asunto = c.Asunto,
+                Completa = c.Completa,
+                F_Fin = c.F_Fin,
+                H_Fin = c.H_Fin,
+                F_Inicio = c.F_Inicio,
+                H_Inicio = c.H_Inicio,
+                Id_Cliente = c.Id_Cliente,
+                Id_Tatuador = c.Id_Tatuador,
+                Id_Cita = c.Id_Cita,
+                Id_Trabajo = c.Id_Trabajo,
+
+            }).Where(c => c.Completa == false).ToList();
+            this.Citas = new ObservableCollection<CitasItemViewModel>(cita.OrderBy(c => c.F_Inicio));
+            this.IsRefreshing = false;
+        }
+        public void RerfeshCitasLiast()
+        {
+            Task.Run(async () => { await this.LoadCitas(); }).Wait();
+        }
+
+        #endregion
+
+    }
+}

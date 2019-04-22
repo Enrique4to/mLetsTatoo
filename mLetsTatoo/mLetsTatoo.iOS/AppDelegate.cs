@@ -28,13 +28,13 @@ namespace mLetsTatoo.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-global::Xamarin.Forms.Forms.Init();
-SfCarouselRenderer.Init();
+            global::Xamarin.Forms.Forms.Init();
+            SfCarouselRenderer.Init();
             SfRadioButtonRenderer.Init();
             SfScheduleRenderer.Init();
             SfPickerRenderer.Init();
             LoadApplication(new App());
-
+            Rg.Plugins.Popup.Popup.Init();
             return base.FinishedLaunching(app, options);
         }
     }

@@ -149,7 +149,8 @@
             this.LoadCliente();
             this.LoadEmpresas();
             this.LoadTecnicos();
-            Task.Run(async () => { await this.LoadCitas(); }).Wait();
+            //Task.Run(async () => { await this.LoadCitas(); }).Wait();
+            this.LoadCitas();
 
             this.IsRefreshing = false;
             this.TipoBusqueda = "All";
@@ -176,7 +177,7 @@
         {
             get
             {                
-                return new RelayCommand(RefreshCitaList);
+                return new RelayCommand(LoadCitas);
             }
         }
         public ICommand SearchCommand
@@ -366,7 +367,7 @@
             }
 
         }
-        private async Task LoadCitas()
+        private async void LoadCitas()
         {
             this.IsRefreshing = true;
 
@@ -418,10 +419,6 @@
 
             this.IsRefreshing = false;
 
-        }
-        public void RefreshCitaList()
-        {
-            Task.Run(async () => { await this.LoadCitas(); }).Wait();
         }
 
         public void Busqueda()

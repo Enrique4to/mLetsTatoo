@@ -115,6 +115,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add your comment here!.
+        /// </summary>
+        internal static string AddComment {
+            get {
+                return ResourceManager.GetString("AddComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Advance.
         /// </summary>
         internal static string Advance {
@@ -390,6 +399,15 @@ namespace mLetsTatoo.Resources {
         internal static string CurrentPasswordError {
             get {
                 return ResourceManager.GetString("CurrentPasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This is the art that the client chose..
+        /// </summary>
+        internal static string CustomerArt {
+            get {
+                return ResourceManager.GetString("CustomerArt", resourceCulture);
             }
         }
         

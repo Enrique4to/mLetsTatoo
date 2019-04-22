@@ -1,5 +1,8 @@
-﻿namespace mLetsTatoo.ViewModels
+﻿
+
+namespace mLetsTatoo.ViewModels
 {
+    using Popups.ViewModel;
     public class MainViewModel
     {
         #region ViewModels
@@ -18,7 +21,13 @@
         public TecnicoConfirmViewModel TecnicoConfirm { get; set; }
         public TecnicoFeaturesViewModel TecnicoFeatures { get; set; }
         public UserViewDateViewModel UserViewDate { get; set; }
+        public TecnicoViewJobViewModel TecnicoViewJob { get; set; }
         public TecnicoViewDateViewModel TecnicoViewDate { get; set; }
+        #endregion
+
+        #region PopupViewModels
+        public AddCommentPopupViewModel AddCommentPopup { get; set; }
+
         #endregion
 
         #region Constructors
