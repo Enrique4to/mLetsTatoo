@@ -430,6 +430,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this comment?.
+        /// </summary>
+        internal static string DeleteComment {
+            get {
+                return ResourceManager.GetString("DeleteComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Describe your art....
         /// </summary>
         internal static string DescribeArt {
@@ -844,6 +853,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        internal static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You must enter your current password.
         /// </summary>
         internal static string NoCurrentPassword {
@@ -1245,6 +1263,15 @@ namespace mLetsTatoo.Resources {
         internal static string WithThe_Artist {
             get {
                 return ResourceManager.GetString("WithThe Artist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        internal static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
         

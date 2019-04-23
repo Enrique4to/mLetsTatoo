@@ -519,4 +519,13 @@
   <data name="AddComment" xml:space="preserve">
     <value>Agregua tu comentario aquí...</value>
   </data>
+  <data name="DeleteComment" xml:space="preserve">
+    <value>¿Estás seguro de que deseas eliminar este comentario?</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Sí</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
 </root>

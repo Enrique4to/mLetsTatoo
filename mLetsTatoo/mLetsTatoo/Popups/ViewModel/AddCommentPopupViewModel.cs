@@ -96,8 +96,11 @@
                     return;
                 }
 
+                var newNota = (T_trabajonota)response.Result;
+
+                MainViewModel.GetInstance().UserViewDate.NotaList.Add(newNota);
+                MainViewModel.GetInstance().UserViewDate.RefreshListNotas();
                 await Application.Current.MainPage.Navigation.PopPopupAsync();
-                MainViewModel.GetInstance().TecnicoViewDate.RefreshListNotas();
             }
             else if (this.user.Tipo == 2)
             {
@@ -124,27 +127,13 @@
                     "OK");
                     return;
                 }
+
                 var newNota = (T_trabajonota)response.Result;
 
-                //Task.Run(async () => { await MainViewModel.GetInstance().TecnicoViewDate.LoadNotas(); ; }).Wait();
-                MainViewModel.GetInstance().TecnicoViewDate.Notas.Add(new NotasItemViewModel
-                {
-                    Id_Cita = newNota.Id_Cita,
-                    Id_Trabajo = newNota.Id_Trabajo,
-                    Id_De = newNota.Id_De,
-                    Tipo_Usuario = newNota.Tipo_Usuario,
-                    F_nota = newNota.F_nota,
-                    Id_Local = newNota.Id_Local,
-                    Id_Nota = newNota.Id_Nota,
-                    Nota = newNota.Nota,
-                    Nombre_Post = newNota.Nombre_Post,
-                    Imagen_Post = newNota.Imagen_Post,
-
-                });
+                MainViewModel.GetInstance().TecnicoViewDate.NotaList.Add(newNota);
+                MainViewModel.GetInstance().TecnicoViewDate.RefreshListNotas();
                 await Application.Current.MainPage.Navigation.PopPopupAsync();
             }
-
-
         }
         #endregion
     }

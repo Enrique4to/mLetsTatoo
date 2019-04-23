@@ -54,6 +54,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Popups\Views\EditCommentPopupPage.xaml.cs">
+      <DependentUpon>EditCommentPopupPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Resource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

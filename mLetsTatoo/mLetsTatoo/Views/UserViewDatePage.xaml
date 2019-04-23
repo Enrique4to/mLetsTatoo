@@ -189,23 +189,63 @@
                     BindingContext="{Binding UserViewDate}"
                     Padding="5"
                     VerticalOptions="StartAndExpand">
+                    <StackLayout
+                        HorizontalOptions="EndAndExpand"
+                        Orientation="Horizontal">
+                        <Image
+                            Aspect="AspectFit"
+                            HeightRequest="30"
+                            HorizontalOptions="End"
+                            IsEnabled="{Binding IsButtonEnabled}"
+                            IsVisible="{Binding IsVisible}"
+                            Margin="0,8,0,8"
+                            Source="EditComment.png"
+                            VerticalOptions="Center">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding EditCommentCommand}"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image                            
+                            Aspect="AspectFit"
+                            HeightRequest="30"
+                            HorizontalOptions="End"
+                            IsEnabled="{Binding IsButtonEnabled}"
+                            IsVisible="{Binding IsVisible}"
+                            Margin="0,8,0,8"
+                            Source="DeleteComment.png"
+                            VerticalOptions="Center">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding DeleteCommentCommand}"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image
+                            Aspect="AspectFit"
+                            HeightRequest="30"
+                            HorizontalOptions="End"
+                            Margin="0,8,0,8"
+                            Source="AddComment.png"
+                            VerticalOptions="Center">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AddNewCommentCommand}"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </StackLayout>
                     <ListView                    
                         HasUnevenRows="True"
+                        IsPullToRefreshEnabled="True"
                         IsRefreshing="{Binding IsRefreshing}"                    
-                        ItemsSource="{Binding Notas}">
-                        <!--RefreshCommand="{Binding RefreshNotasCommand}">-->
-
+                        ItemsSource="{Binding Notas}"
+                        SeparatorColor="DimGray"
+                        RefreshCommand="{Binding RefreshNotasCommand}">
                         <ListView.ItemTemplate>
-                            
                             <DataTemplate>
                                 <ViewCell>
                                     <StackLayout
                                             Padding="0,2,0,2">
-                                        <Grid
-                                                BackgroundColor="DimGray">
-                                            <!--<Grid.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding UserViewDatePageCommand}"/>
-                                            </Grid.GestureRecognizers>-->
+                                        <Grid>
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding SelectedNotaCommand}" Tapped="OnGridSelect"/>
+                                            </Grid.GestureRecognizers>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
@@ -239,39 +279,36 @@
                                                 </control:CircleImage>
                                                 <StackLayout>
                                                     <Label
-                                                    FontAttributes="Bold"
-                                                    FontSize="14"
-                                                    HorizontalTextAlignment="Start"
-                                                    Text="{Binding Nombre_Post}"
-                                                    TextColor="LightGray"
-                                                    VerticalOptions="End"/>
+                                                        FontAttributes="Bold"
+                                                        FontSize="14"
+                                                        HorizontalTextAlignment="Start"
+                                                            VerticalTextAlignment="End"
+                                                        Text="{Binding Nombre_Post}"                                                        
+                                                        TextColor="LightGray"/>
                                                     <Label
-                                                    FontSize="12"
-                                                    HorizontalTextAlignment="Start"
-                                                    Text="{Binding F_nota, StringFormat=' {0:dd MMM yyyy}'}"
-                                                    TextColor="LightGray"
-                                                    VerticalOptions="Start"/>
+                                                        FontSize="12"
+                                                        HorizontalTextAlignment="Start"
+                                                        Margin="10,0,0,0"
+                                                        Text="{Binding F_nota, StringFormat=' {0:dd MMM yyyy}'}"
+                                                        TextColor="DimGray"
+                                                        VerticalTextAlignment="Start"/>
                                                 </StackLayout>
                                             </StackLayout>
                                             <Label
-                                                FontAttributes="Bold"
-                                                FontSize="15"
+                                                FontSize="14"
                                                 Grid.Column="1"
                                                 Grid.Row="1"
-                                                HorizontalOptions="Start"
                                                 HorizontalTextAlignment="Start"
-                                                LineBreakMode="TailTruncation"
+                                                VerticalTextAlignment="Start"
+                                                Margin="20,0,20,0"
                                                 Text="{Binding Nota}"
-                                                TextColor="LightGray"
-                                                VerticalOptions="Center"
-                                                WidthRequest="200"/>
+                                                TextColor="Gray"/>
                                         </Grid>
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-
                 </StackLayout>
             </StackLayout>
         </ScrollView>

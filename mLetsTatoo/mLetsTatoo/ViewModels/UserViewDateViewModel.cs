@@ -6,8 +6,13 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Windows.Input;
+    using GalaSoft.MvvmLight.Command;
     using Helpers;
+    using mLetsTatoo.Popups.ViewModel;
+    using mLetsTatoo.Popups.Views;
     using Models;
+    using Rg.Plugins.Popup.Extensions;
     using Services;
     using Xamarin.Forms;
 
@@ -18,6 +23,12 @@
         #endregion
 
         #region Attributes
+        private INavigation Navigation;
+
+        private bool isRefreshing;
+        private bool isVisible;
+        private bool isButtonEnabled;
+
         private string address;
         private string studio;
         private string reference;
@@ -38,12 +49,30 @@
         private T_estado estado;
         private T_ciudad ciudad;
         private T_postal postal;
+        public T_trabajonota notaSelected;
         public T_citaimagenes image;
 
         private ObservableCollection<NotasItemViewModel> notas;
         #endregion
 
         #region Properties
+
+        public bool IsRefreshing
+        {
+            get { return this.isRefreshing; }
+            set { SetValue(ref this.isRefreshing, value); }
+        }
+        public bool IsVisible
+        {
+            get { return this.isVisible; }
+            set { SetValue(ref this.isVisible, value); }
+        }
+        public bool IsButtonEnabled
+        {
+            get { return this.isButtonEnabled; }
+            set { SetValue(ref this.isButtonEnabled, value); }
+        }
+
         public string Address
         {
             get { return this.address; }
@@ -90,6 +119,8 @@
             }
         }
 
+        public List<T_trabajonota> NotaList { get; set; }
+
         public T_trabajocitas Cita
         {
             get { return this.cita; }
@@ -104,8 +135,9 @@
         public ObservableCollection<NotasItemViewModel> Notas
         {
             get { return this.notas; }
-            set { this.notas = value; }
+            set { SetValue(ref this.notas, value); }
         }
+
         #endregion
 
         #region Constructors
@@ -119,10 +151,44 @@
             this.AppointmentTime = this.cita.H_Inicio;
             this.MinDate = DateTime.Now.ToLocalTime();
             Task.Run(async () => { await this.LoadInfo(); }).Wait();
+            Task.Run(async () => { await this.LoadNotas(); }).Wait();
+            IsButtonEnabled = false;
+            IsVisible = false;
+            this.IsRefreshing = false;
         }
         #endregion
         #region Commands
+        public ICommand AddNewCommentCommand
+        {
+            get
+            {
+                return new RelayCommand(GoToAddCommandPopup);
+            }
+        }
+        public ICommand EditCommentCommand
+        {
+            get
+            {
+                return new RelayCommand(GoToEditCommentPopup);
+            }
+        }
 
+
+        public ICommand DeleteCommentCommand
+        {
+            get
+            {
+                return new RelayCommand(DeleteComent);
+            }
+        }
+
+        public ICommand RefreshNotasCommand
+        {
+            get
+            {
+                return new RelayCommand(RefreshListNotas);
+            }
+        }
         #endregion
         #region Methods
         public async Task LoadInfo()
@@ -130,7 +196,7 @@
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
                     "OK");
@@ -175,12 +241,12 @@
 
             //------------------------Cargar Datos de Local ------------------------//
 
-            controller = App.Current.Resources["UrlT_localesController"].ToString();
+            controller = Application.Current.Resources["UrlT_localesController"].ToString();
 
             response = await this.apiService.Get<T_locales>(urlApi, prefix, controller, this.tecnico.Id_Local);
             if (!response.IsSuccess)
             {
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
                     "OK");
@@ -190,12 +256,12 @@
             this.reference = $"{Languages.Reference} {this.local.Referencia}";
 
             //------------------------Cargar Datos de Empresa ------------------------//
-            controller = App.Current.Resources["UrlT_empresasController"].ToString();
+            controller = Application.Current.Resources["UrlT_empresasController"].ToString();
 
             response = await this.apiService.Get<T_empresas>(urlApi, prefix, controller, this.local.Id_Empresa);
             if (!response.IsSuccess)
             {
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
                     "OK");
@@ -269,23 +335,48 @@
                 return;
             }
             this.image = (T_citaimagenes)response.Result;
-            //-----------------Cargar Notas-----------------//
+        }
+        public async Task LoadNotas()
+        {
 
-            controller = App.Current.Resources["UrlT_trabajonotaController"].ToString();
+            this.IsRefreshing = true;
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
 
-            response = await this.apiService.GetList<T_trabajonota>(urlApi, prefix, controller);
+                this.IsRefreshing = false;
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+
+            var urlApi = App.Current.Resources["UrlAPI"].ToString();
+            var prefix = App.Current.Resources["UrlPrefix"].ToString();
+            var controller = App.Current.Resources["UrlT_trabajonotaController"].ToString();
+
+            var response = await this.apiService.GetList<T_trabajonota>(urlApi, prefix, controller);
             if (!response.IsSuccess)
             {
+
+                this.IsRefreshing = false;
                 await App.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
                     "OK");
                 return;
             }
-            var notaList = (List<T_trabajonota>)response.Result;
-            notaList = notaList.Where(c => c.Id_De == this.cliente.Id_Cliente).ToList();
+            this.NotaList = (List<T_trabajonota>)response.Result;
 
-            var nota = notaList.Select(c => new NotasItemViewModel
+            this.RefreshListNotas();
+
+            this.IsRefreshing = false;
+        }
+
+        public void RefreshListNotas()
+        {
+            var nota = this.NotaList.Select(c => new NotasItemViewModel
             {
                 Id_Cita = c.Id_Cita,
                 Id_Trabajo = c.Id_Trabajo,
@@ -299,10 +390,85 @@
                 Imagen_Post = c.Imagen_Post,
 
             }).Where(c => c.Id_Cita == this.cita.Id_Cita).ToList();
-            this.Notas = new ObservableCollection<NotasItemViewModel>(nota.OrderBy(c => c.F_nota));
 
+            this.Notas = new ObservableCollection<NotasItemViewModel>(nota.OrderByDescending(c => c.F_nota));
+        }
+        public void SelectedNota()
+        {
+            if (this.notaSelected != null)
+            {
+                if (this.user.Tipo == this.notaSelected.Tipo_Usuario)
+                {
+                    IsButtonEnabled = true;
+                    IsVisible = true;
+                }
+                else
+                {
+                    IsButtonEnabled = false;
+                    IsVisible = false;
+                }
+            }
+        }
+        public void GoToAddCommandPopup()
+        {
+            MainViewModel.GetInstance().AddCommentPopup = new AddCommentPopupViewModel(user, cliente, tecnico, trabajo, cita);
+            Navigation.PushPopupAsync(new AddCommentPopupPage());
+        }
+        private async void DeleteComent()
+        {
+            var answer = await Application.Current.MainPage.DisplayAlert(
+                Languages.Notice,
+                Languages.DeleteComment,
+                Languages.Yes,
+                Languages.No);
+            if (!answer)
+            {
+                return;
+            }
 
+            this.IsRefreshing = true;
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.IsRefreshing = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
 
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_trabajonotaController"].ToString();
+
+            var response = await this.apiService.Delete(urlApi, prefix, controller, this.notaSelected.Id_Nota);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRefreshing = false;
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            var deletedNota = this.NotaList.Where(n => n.Id_Nota == this.notaSelected.Id_Nota).FirstOrDefault();
+            if (deletedNota != null)
+            {
+                this.NotaList.Remove(deletedNota);
+            }
+            this.RefreshListNotas();
+            this.notaSelected = null;
+            IsButtonEnabled = false;
+            IsVisible = false;
+            this.IsRefreshing = false;
+        }
+        private void GoToEditCommentPopup()
+        {
+            MainViewModel.GetInstance().EditCommentPopup = new EditCommentPopupViewModel(notaSelected, user);
+            Navigation.PushPopupAsync(new AddCommentPopupPage());
         }
 
         #endregion

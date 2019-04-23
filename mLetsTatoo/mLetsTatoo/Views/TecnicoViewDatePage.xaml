@@ -119,19 +119,50 @@
                     BindingContext="{Binding TecnicoViewDate}"
                     Padding="5"
                     VerticalOptions="StartAndExpand">
-                    <Image
-                        Aspect="AspectFit"
-                        HeightRequest="30"
+                    <StackLayout
                         HorizontalOptions="EndAndExpand"
-                        Margin="8"
-                        Source="AddCommentUns.png"
-                        VerticalOptions="Start">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding AddNewCommentCommand}"/>
-                        </Image.GestureRecognizers>
-                    </Image>
+                        Orientation="Horizontal">
+                        <Image
+                            Aspect="AspectFit"
+                            HeightRequest="30"
+                            HorizontalOptions="End"
+                            IsEnabled="{Binding IsButtonEnabled}"
+                            IsVisible="{Binding IsVisible}"
+                            Margin="0,8,0,8"
+                            Source="EditComment.png"
+                            VerticalOptions="Center">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding EditCommentCommand}"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image                            
+                            Aspect="AspectFit"
+                            HeightRequest="30"
+                            HorizontalOptions="End"
+                            IsEnabled="{Binding IsButtonEnabled}"
+                            IsVisible="{Binding IsVisible}"
+                            Margin="0,8,0,8"
+                            Source="DeleteComment.png"
+                            VerticalOptions="Center">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding DeleteCommentCommand}"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Image
+                            Aspect="AspectFit"
+                            HeightRequest="30"
+                            HorizontalOptions="End"
+                            Margin="0,8,0,8"
+                            Source="AddComment.png"
+                            VerticalOptions="Center">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AddNewCommentCommand}"/>
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </StackLayout>
                     <ListView                    
                         HasUnevenRows="True"
+                        IsPullToRefreshEnabled="True"
                         IsRefreshing="{Binding IsRefreshing}"                    
                         ItemsSource="{Binding Notas}"
                         SeparatorColor="DimGray"
@@ -139,13 +170,12 @@
                         <ListView.ItemTemplate>                            
                             <DataTemplate>
                                 <ViewCell>
-                                    <ViewCell.ContextActions>
-                                        <MenuItem Icon="EditComment.png" Command="{Binding EditCommentCommand}"/>
-                                        <MenuItem Icon="DeleteComment.png" Command="{Binding DeleteCommentCommand}" IsDestructive="True"/>
-                                    </ViewCell.ContextActions>
                                     <StackLayout
                                             Padding="0,2,0,2">
                                         <Grid>
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding SelectedNotaCommand}" Tapped="OnGridSelect"/>
+                                            </Grid.GestureRecognizers>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>

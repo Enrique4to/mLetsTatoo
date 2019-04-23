@@ -26,6 +26,8 @@
         private INavigation Navigation;
         
         private bool isRefreshing;
+        private bool isVisible;
+        private bool isButtonEnabled;
 
         private string address;
         private string studio;
@@ -47,16 +49,28 @@
         private T_estado estado;
         private T_ciudad ciudad;
         private T_postal postal;
+        public T_trabajonota notaSelected;
         public T_citaimagenes image;
 
         private ObservableCollection<NotasItemViewModel> notas;
         #endregion
 
         #region Properties
+
         public bool IsRefreshing
         {
             get { return this.isRefreshing; }
             set { SetValue(ref this.isRefreshing, value); }
+        }
+        public bool IsVisible
+        {
+            get { return this.isVisible; }
+            set { SetValue(ref this.isVisible, value); }
+        }
+        public bool IsButtonEnabled
+        {
+            get { return this.isButtonEnabled; }
+            set { SetValue(ref this.isButtonEnabled, value); }
         }
 
         public string Address
@@ -121,7 +135,7 @@
         public ObservableCollection<NotasItemViewModel> Notas
         {
             get { return this.notas; }
-            set { this.notas = value; }
+            set { SetValue(ref this.notas, value); }
         }
         #endregion
 
@@ -138,8 +152,9 @@
             this.AppointmentTime = this.cita.H_Inicio;
             Task.Run(async () => { await this.LoadInfo(); }).Wait();
             Task.Run(async () => { await this.LoadNotas(); }).Wait();
+            IsButtonEnabled = false;
+            IsVisible = false;
             this.IsRefreshing = false;
-            //this.LoadInfo();
         }
         #endregion
 
@@ -151,6 +166,23 @@
                 return new RelayCommand(GoToAddCommandPopup);
             }
         }
+        public ICommand EditCommentCommand
+        {
+            get
+            {
+                return new RelayCommand(GoToEditCommentPopup);
+            }
+        }
+
+
+        public ICommand DeleteCommentCommand
+        {
+            get
+            {
+                return new RelayCommand(DeleteComent);
+            }
+        }
+
         public ICommand RefreshNotasCommand
         {
             get
@@ -212,7 +244,6 @@
 
             this.IsRefreshing = false;
         }
-
         public async Task LoadNotas()
         {
 
@@ -244,26 +275,11 @@
                 return;
             }
             this.NotaList = (List<T_trabajonota>)response.Result;
-            this.RefreshListNotas();
-            //var nota = this.NotaList.Select(c => new NotasItemViewModel
-            //{
-            //    Id_Cita = c.Id_Cita,
-            //    Id_Trabajo = c.Id_Trabajo,
-            //    Id_De = c.Id_De,
-            //    Tipo_Usuario = c.Tipo_Usuario,
-            //    F_nota = c.F_nota,
-            //    Id_Local = c.Id_Local,
-            //    Id_Nota = c.Id_Nota,
-            //    Nota = c.Nota,
-            //    Nombre_Post = c.Nombre_Post,
-            //    Imagen_Post = c.Imagen_Post,
 
-            //}).Where(c => c.Id_Cita == this.cita.Id_Cita).ToList();
-            //this.Notas = new ObservableCollection<NotasItemViewModel>(nota.OrderByDescending(c => c.F_nota));
+            this.RefreshListNotas();
 
             this.IsRefreshing = false;
         }
-
         public void RefreshListNotas()
         {
             var nota = this.NotaList.Select(c => new NotasItemViewModel
@@ -283,12 +299,85 @@
 
             this.Notas = new ObservableCollection<NotasItemViewModel>(nota.OrderByDescending(c => c.F_nota));
         }
+        private async void DeleteComent()
+        {
+            var answer = await Application.Current.MainPage.DisplayAlert(
+                Languages.Notice,
+                Languages.DeleteComment,
+                Languages.Yes,
+                Languages.No);
+            if (!answer)
+            {
+                return;
+            }
+
+            this.IsRefreshing = true;
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.IsRefreshing = false;
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+
+            var urlApi = App.Current.Resources["UrlAPI"].ToString();
+            var prefix = App.Current.Resources["UrlPrefix"].ToString();
+            var controller = App.Current.Resources["UrlT_trabajonotaController"].ToString();
+
+            var response = await this.apiService.Delete(urlApi, prefix, controller, this.notaSelected.Id_Nota);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRefreshing = false;
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            var deletedNota = this.NotaList.Where(n => n.Id_Nota == this.notaSelected.Id_Nota).FirstOrDefault();
+            if (deletedNota != null)
+            {
+                this.NotaList.Remove(deletedNota);
+            }
+            this.RefreshListNotas();
+            this.notaSelected = null;
+            IsButtonEnabled = false;
+            IsVisible = false;
+            this.IsRefreshing = false;
+        }
+
+        public void SelectedNota()
+        {
+            if (this.notaSelected != null)
+            {
+                if(this.user.Tipo == this.notaSelected.Tipo_Usuario)
+                {
+                    IsButtonEnabled = true;
+                    IsVisible = true;
+                }
+                else
+                {
+                    IsButtonEnabled = false;
+                    IsVisible = false;
+                }
+            }
+        }
+
         public void GoToAddCommandPopup()
         {
             MainViewModel.GetInstance().AddCommentPopup = new AddCommentPopupViewModel(user, cliente, tecnico, trabajo, cita);
             Navigation.PushPopupAsync(new AddCommentPopupPage());
         }
-
+        private void GoToEditCommentPopup()
+        {
+            MainViewModel.GetInstance().EditCommentPopup = new EditCommentPopupViewModel(notaSelected, user);
+            Navigation.PushPopupAsync(new AddCommentPopupPage());
+        }
         #endregion
 
     }

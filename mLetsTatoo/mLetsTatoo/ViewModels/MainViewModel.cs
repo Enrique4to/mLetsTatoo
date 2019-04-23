@@ -27,6 +27,7 @@ namespace mLetsTatoo.ViewModels
 
         #region PopupViewModels
         public AddCommentPopupViewModel AddCommentPopup { get; set; }
+        public EditCommentPopupViewModel EditCommentPopup { get; set; }
 
         #endregion
 

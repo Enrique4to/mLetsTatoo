@@ -539,5 +539,17 @@
         {
             get { return Resource.AddComment; }
         }
+        public static string DeleteComment
+        {
+            get { return Resource.DeleteComment; }
+        }
+        public static string Yes
+        {
+            get { return Resource.Yes; }
+        }
+        public static string No
+        {
+            get { return Resource.No; }
+        }
     }
 }
