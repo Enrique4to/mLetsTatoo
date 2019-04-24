@@ -1,5 +1,6 @@
 ﻿namespace mLetsTatoo.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Windows.Input;
@@ -69,6 +70,7 @@
             this.apiService = new ApiService();
             this.IsRefreshing = false;
             this.NombreCompleto = $"{this.cliente.Nombre} {this.cliente.Apellido}";
+            this.LoadUser();
         }
         #endregion
         #region Commands
@@ -89,6 +91,18 @@
 
         #endregion
         #region Methods
+        public void LoadUser()
+        {
+            if (this.user.F_Perfil != null)
+            {
+                this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.user.F_Perfil));
+            }
+            else
+            {
+                this.ByteImage = this.apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
+                this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
+            }
+        }
         private async void ChangeImage()
         {
             await CrossMedia.Current.Initialize();
@@ -144,7 +158,7 @@
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
                     "OK");
@@ -156,7 +170,7 @@
                 this.ByteImage = FileHelper.ReadFully(this.file.GetStream());
             }
             
-            this.user = new T_usuarios
+            var newUser = new T_usuarios
             {
                 Id_usuario = this.user.Id_usuario,
                 Bloqueo = this.user.Bloqueo,
@@ -168,31 +182,33 @@
                 Ucorreo = this.user.Ucorreo,
                 Usuario = this.user.Usuario,
             };
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_usuariosController"].ToString();
+
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_usuariosController"].ToString();
             
             var response = await this.apiService.Put
                 (urlApi,
                 prefix,
                 controller,
-                this.user,
+                newUser,
                 this.user.Id_usuario);
 
             if (!response.IsSuccess)
             {
                 this.IsRunning = false;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
                 return;
             }
+            this.user = (T_usuarios)response.Result;
             this.IsRunning = false;
         }
         private async void EditUser()
         {
-            MainViewModel.GetInstance().EditUser = new EditUserViewModel(cliente, user);
+            MainViewModel.GetInstance().EditUser = new EditUserViewModel(this.cliente, this.user);
             await Application.Current.MainPage.Navigation.PushModalAsync(new EditUserPage());
         }
         #endregion

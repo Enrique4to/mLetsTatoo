@@ -31,7 +31,6 @@
         public EmpresaItemViewModel()
         {
             this.apiService = new ApiService();
-            Application.Current.MainPage.DisplayAlert("Notice", $"{this.Nombre} Usuario: {this.Id_Usuario.ToString()}", "Ok");
         }
         #endregion
 
