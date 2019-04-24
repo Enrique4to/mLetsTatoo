@@ -46,6 +46,7 @@
         public TecnicoConfirmViewModel(T_usuarios user, T_tecnicos tecnico)
         {
             this.apiService = new ApiService();
+            this.tecnico = tecnico;
             this.user = user;
             this.IsRunning = false;
             this.isEnabled = true;
@@ -138,7 +139,6 @@
                 Bloqueo = this.user.Bloqueo,
                 Confirmacion = this.user.Confirmacion,
                 Confirmado = true,
-                Id_empresa = this.user.Id_empresa,
                 Pass = this.NewPassword,
                 Tipo = this.user.Tipo,
                 Ucorreo = this.user.Ucorreo,

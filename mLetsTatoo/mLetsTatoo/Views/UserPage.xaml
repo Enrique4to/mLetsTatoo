@@ -28,7 +28,7 @@
                             Aspect="AspectFill"
                             Grid.Column="1"
                             Grid.Row="0"
-                            Source="{Binding ImageSource, Mode=TwoWay}"
+                            Source="{Binding User.F_Perfil, Converter={StaticResource ByteArrayToImage}, Mode=TwoWay}"
                             VerticalOptions="StartAndExpand">
                             <control:CircleImage.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ChangeImageCommand}"/>

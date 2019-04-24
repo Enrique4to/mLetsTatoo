@@ -232,7 +232,6 @@ namespace mLetsTatoo.ViewModels
         #region Constructors
         public TecnicoFeaturesViewModel(T_usuarios user, T_tecnicos tecnico)
         {
-
             Application.Current.MainPage.DisplayAlert(
                 Languages.Notice,
                 Languages.CompleteFeatures,
@@ -240,22 +239,8 @@ namespace mLetsTatoo.ViewModels
             this.tecnico = tecnico;
             this.user = user;
             this.apiService = new ApiService();
-            this.LoadFeatures();
             IsRunning = false;
             IsEnabled = true;
-        }
-
-        private void LoadFeatures()
-        {
-            //if (this.cliente.F_Perfil != null)
-            //{
-            //    this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.cliente.F_Perfil));
-            //}
-            //else
-            //{
-            //    this.ByteImage = apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
-            //    this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
-            //}
         }
         #endregion
 
@@ -317,7 +302,7 @@ namespace mLetsTatoo.ViewModels
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
                     "OK");
@@ -342,7 +327,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
@@ -370,7 +355,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
@@ -381,7 +366,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.EstimatedTimeError,
                     "OK");
@@ -400,9 +385,9 @@ namespace mLetsTatoo.ViewModels
                 Tiempo = this.time1,
             };
 
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_teccaractController"].ToString();
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_teccaractController"].ToString();
 
             var response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
 
@@ -411,7 +396,7 @@ namespace mLetsTatoo.ViewModels
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
@@ -439,7 +424,7 @@ namespace mLetsTatoo.ViewModels
             this.advance = decimal.Parse(this.advance2);
             if (this.cost < 0 || this.advance < 0)
             {
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
@@ -450,7 +435,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.EstimatedTimeError,
                     "OK");
@@ -476,7 +461,7 @@ namespace mLetsTatoo.ViewModels
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
@@ -505,7 +490,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
@@ -516,7 +501,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.EstimatedTimeError,
                     "OK");
@@ -542,7 +527,7 @@ namespace mLetsTatoo.ViewModels
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
@@ -568,7 +553,7 @@ namespace mLetsTatoo.ViewModels
             this.width = decimal.Parse(this.width2);
             if (this.height < 0 || this.width < 0)
             {
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
@@ -595,7 +580,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
@@ -606,7 +591,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.EstimatedTimeError,
                     "OK");
@@ -632,7 +617,7 @@ namespace mLetsTatoo.ViewModels
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
@@ -661,7 +646,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
@@ -672,7 +657,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.EstimatedTimeError,
                     "OK");
@@ -698,7 +683,7 @@ namespace mLetsTatoo.ViewModels
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
@@ -727,7 +712,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
@@ -738,7 +723,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.EstimatedTimeError,
                     "OK");
@@ -764,7 +749,7 @@ namespace mLetsTatoo.ViewModels
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
@@ -790,7 +775,7 @@ namespace mLetsTatoo.ViewModels
             this.width = decimal.Parse(this.width3);
             if (this.height < 0 || this.width < 0)
             {
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
@@ -817,7 +802,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
@@ -828,7 +813,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.EstimatedTimeError,
                     "OK");
@@ -853,7 +838,7 @@ namespace mLetsTatoo.ViewModels
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
@@ -882,7 +867,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
@@ -893,7 +878,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.EstimatedTimeError,
                     "OK");
@@ -918,7 +903,7 @@ namespace mLetsTatoo.ViewModels
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
@@ -947,7 +932,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
@@ -958,7 +943,7 @@ namespace mLetsTatoo.ViewModels
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.EstimatedTimeError,
                     "OK");
@@ -984,7 +969,7 @@ namespace mLetsTatoo.ViewModels
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");

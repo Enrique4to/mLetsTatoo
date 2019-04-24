@@ -23,13 +23,15 @@
         #endregion
 
         #region Attributes
+        public int empresaID;
+
         private byte[] byteImage;
         private ImageSource imageSource;
         private Image image;
 
         private bool isRefreshing;
         private bool isRunning;
-
+        
         private ObservableCollection<EmpresaItemViewModel> empresas;
         private ObservableCollection<TecnicoItemViewModel> tecnicos;
         private ObservableCollection<CitasItemViewModel> citas;
@@ -138,7 +140,6 @@
             set { SetValue(ref this.isRefreshing, value); }
         }
         #endregion
-
         #region Constructors
         public UserHomeViewModel(T_usuarios user, T_clientes cliente)
         {
@@ -149,7 +150,6 @@
             this.LoadCliente();
             this.LoadEmpresas();
             this.LoadTecnicos();
-            //Task.Run(async () => { await this.LoadCitas(); }).Wait();
             this.LoadCitas();
 
             this.IsRefreshing = false;
@@ -177,7 +177,7 @@
         {
             get
             {                
-                return new RelayCommand(LoadCitas);
+                return new RelayCommand(RefreshCitaList);
             }
         }
         public ICommand SearchCommand
@@ -202,10 +202,10 @@
             this.IsRefreshing = true;
             this.IsRunning = true;
 
-            if (this.cliente.F_Perfil != null)
+            if (this.user.F_Perfil != null)
             {
                 string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "UserIcon.png");
-                File.WriteAllBytes(fileName, this.cliente.F_Perfil);
+                File.WriteAllBytes(fileName, this.user.F_Perfil);
                 this.Image = new Image();
                 this.ImageSource = FileImageSource.FromFile(fileName);
             }
@@ -256,6 +256,7 @@
             }
             this.EmpresaList = (List<T_empresas>)response.Result;
 
+
             this.IsRefreshing = false;
             this.IsRunning = false;
 
@@ -267,27 +268,32 @@
             {
                 var empresaSelected = this.EmpresaList.Select(e => new EmpresaItemViewModel
                 {
-                    Bloqueo = e.Bloqueo,
-                    Id_Empresa = e.Id_Empresa,
-                    Logo = e.Logo,
-                    Nombre = e.Nombre,
+
+                        Bloqueo = e.Bloqueo,
+                        Id_Empresa = e.Id_Empresa,
+                        Nombre = e.Nombre,
+                        Id_Usuario = e.Id_Usuario,
+                    
                 });
+
                 this.Empresas = new ObservableCollection<EmpresaItemViewModel>(
-                    empresaSelected.OrderBy(e => e.Nombre));
+                empresaSelected.OrderBy(e => e.Nombre));
             }
             else
             {
                 var empresaSelected = this.EmpresaList.Select(e => new EmpresaItemViewModel
                 {
-                    Bloqueo = e.Bloqueo,
-                    Id_Empresa = e.Id_Empresa,
-                    Logo = e.Logo,
-                    Nombre = e.Nombre,
-                }).Where(e => e.Nombre.ToLower().Contains(this.filterEmpresa.ToLower())).ToList();
-                this.Empresas = new ObservableCollection<EmpresaItemViewModel>(
-                    empresaSelected.OrderBy(e => e.Nombre));
-            }
 
+                        Bloqueo = e.Bloqueo,
+                        Id_Empresa = e.Id_Empresa,
+                        Nombre = e.Nombre,
+                        Id_Usuario = e.Id_Usuario,
+
+                }).Where(e => e.Nombre.ToLower().Contains(this.filterEmpresa.ToLower())).ToList();
+
+                this.Empresas = new ObservableCollection<EmpresaItemViewModel>(
+                empresaSelected.OrderBy(e => e.Nombre));
+            }
         }
         private async void LoadTecnicos()
         {
@@ -338,7 +344,6 @@
                     Apellido2 = t.Apellido2,
                     Apodo = t.Apodo,
                     Carrera = t.Carrera,
-                    F_Perfil = t.F_Perfil,
                     Id_Empresa = t.Id_Empresa,
                     Id_Local = t.Id_Local,
                     Id_Tecnico = t.Id_Tecnico,
@@ -355,11 +360,11 @@
                     Apellido2 = t.Apellido2,
                     Apodo = t.Apodo,
                     Carrera = t.Carrera,
-                    F_Perfil = t.F_Perfil,
                     Id_Empresa = t.Id_Empresa,
                     Id_Local = t.Id_Local,
                     Id_Tecnico = t.Id_Tecnico,
                     Nombre = t.Nombre,
+
                 }).Where(t => t.Nombre.ToLower().Contains(this.filterTecnico.ToLower()) 
                 || t.Apodo.ToLower().Contains(this.filterTecnico.ToLower())
                 || t.Apellido1.ToLower().Contains(this.filterTecnico.ToLower())).ToList();
@@ -400,6 +405,11 @@
             var list = (List<T_trabajocitas>)response.Result;
             this.CitaList = list.Where(c => c.Id_Cliente == this.cliente.Id_Cliente).ToList();
 
+            this.RefreshCitaList();
+            this.IsRefreshing = false;
+        }
+        public void RefreshCitaList()
+        {
             var cita = this.CitaList.Select(c => new CitasItemViewModel
             {
                 Id_Cita = c.Id_Cita,
@@ -415,10 +425,7 @@
 
             }).Where(c => c.Completa == false).ToList();
 
-            this.Citas = new ObservableCollection<CitasItemViewModel>(cita.OrderBy(c => c.F_Inicio));
-
-            this.IsRefreshing = false;
-
+            this.Citas = new ObservableCollection<CitasItemViewModel>(cita.OrderByDescending(c => c.F_Inicio));
         }
 
         public void Busqueda()

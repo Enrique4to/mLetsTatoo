@@ -293,7 +293,6 @@
                 Id_Nota = c.Id_Nota,
                 Nota = c.Nota,
                 Nombre_Post = c.Nombre_Post,
-                Imagen_Post = c.Imagen_Post,
 
             }).Where(c => c.Id_Cita == this.cita.Id_Cita).ToList();
 
@@ -376,7 +375,7 @@
         private void GoToEditCommentPopup()
         {
             MainViewModel.GetInstance().EditCommentPopup = new EditCommentPopupViewModel(notaSelected, user);
-            Navigation.PushPopupAsync(new AddCommentPopupPage());
+            Navigation.PushPopupAsync(new EditCommentPopupPage());
         }
         #endregion
 

@@ -511,20 +511,7 @@
                 return;
             }
 
-            response = await this.apiService.GetList<T_trabajos>(urlApi, prefix, controller);
-            if (!response.IsSuccess)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-            var listJob = (List<T_trabajos>)response.Result;
-
-            this.trabajo = listJob.Last();
+            this.trabajo = (T_trabajos)response.Result;
 
             var h_end = this.AppointmentTime.Add(TimeSpan.FromMinutes(this.feature.Tiempo));
 
@@ -540,7 +527,6 @@
                 Asunto = subject,
                 Completa = false,
             };
-
 
             controller = App.Current.Resources["UrlT_trabajocitasController"].ToString();
 
@@ -558,21 +544,8 @@
                 return;
             }
 
-            response = await this.apiService.GetList<T_trabajocitas>(urlApi, prefix, controller);
-            if (!response.IsSuccess)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
+            this.cita = (T_trabajocitas)response.Result;
 
-            var listDate = (List<T_trabajocitas>)response.Result;
-
-            this.cita = listDate.Last();
             var nombre_Post = $"{this.cliente.Nombre} {this.cliente.Apellido}";
             this.nota = new T_trabajonota
             {
@@ -582,11 +555,8 @@
                 Id_Local = this.tecnico.Id_Local,
                 Id_Cita = this.cita.Id_Cita,
                 Nota = this.DescribeArt,
-                F_nota = this.AppointmentDate,
-                Nombre_Post = nombre_Post,
-                Imagen_Post = this.cliente.F_Perfil,
+                Nombre_Post = nombre_Post,               
             };
-
 
             controller = App.Current.Resources["UrlT_trabajonotaController"].ToString();
 
@@ -603,21 +573,7 @@
                 "OK");
                 return;
             }
-            response = await this.apiService.GetList<T_trabajonota>(urlApi, prefix, controller);
-            if (!response.IsSuccess)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-
-            var listNota = (List<T_trabajonota>)response.Result;
-
-            this.nota = listNota.Last();
+            this.nota = (T_trabajonota)response.Result;
 
             byte[] ByteImage = null;
             if (this.file == null)
@@ -667,6 +623,10 @@
                 message,
                 "Ok"
                 );
+
+            MainViewModel.GetInstance().UserHome.CitaList.Add(this.cita);
+            MainViewModel.GetInstance().UserHome.RefreshCitaList();
+            await Application.Current.MainPage.Navigation.PopAsync();
         }
         public async void LoadFeatures(object sender)
         {

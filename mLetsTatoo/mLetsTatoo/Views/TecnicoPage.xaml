@@ -20,6 +20,7 @@
             </StackLayout>
         </ScrollView>
     </ContentPage>
+    
     <ContentPage
         Icon="ImagesUns.png"
         x:Name="ImagesStack">
@@ -42,6 +43,7 @@
         </ContentPage.Content>
 
     </ContentPage>
+    
     <ContentPage
         Icon="NoUserPic.png"
         x:Name="ProfileStack">
@@ -59,7 +61,7 @@
                         Aspect="AspectFill"
                         HorizontalOptions="CenterAndExpand"
                         Opacity=".6"
-                        Source="{Binding Tecnico.F_Perfil, Converter={StaticResource ByteArrayToImage}}"
+                        Source="{Binding ByteImage, Converter={StaticResource ByteArrayToImage}}"
                         VerticalOptions="Start">
                         <control:CircleImage.WidthRequest>
                             <OnPlatform x:TypeArguments="x:Double">
@@ -125,6 +127,7 @@
             </StackLayout>
         </ScrollView>
     </ContentPage>
+    
     <views:NewDatePage
         BindingContext="{Binding NewDate}"
         Icon="CitasUns.png"

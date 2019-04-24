@@ -160,7 +160,7 @@
                 client.BaseAddress = new Uri(urlBase);
                 var url = $"{prefix}{controller}/{id}";
                 var response = await client.PutAsync(url, content);
-                var result = await response.Content.ReadAsStringAsync();
+                var answer = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
                 {
                     return new Response
@@ -170,7 +170,7 @@
                     };
                 }
 
-                var obj = JsonConvert.DeserializeObject<T>(result);
+                var obj = JsonConvert.DeserializeObject<T>(answer);
                 return new Response
 
                 {

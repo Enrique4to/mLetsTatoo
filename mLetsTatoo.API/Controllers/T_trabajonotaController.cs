@@ -21,14 +21,14 @@ namespace mLetsTatoo.API.Controllers
         // GET: api/T_trabajonota
         public IQueryable<T_trabajonota> GetT_trabajonota()
         {
-            return db.T_trabajonota.OrderByDescending(n => n.F_nota);
+            return this.db.T_trabajonota.OrderByDescending(n => n.F_nota);
         }
 
         // GET: api/T_trabajonota/5
         [ResponseType(typeof(T_trabajonota))]
         public async Task<IHttpActionResult> GetT_trabajonota(int id)
         {
-            var t_trabajonota = await db.T_trabajonota.FindAsync(id);
+            var t_trabajonota = await this.db.T_trabajonota.FindAsync(id);
 
             if (t_trabajonota == null)
             {
@@ -52,11 +52,11 @@ namespace mLetsTatoo.API.Controllers
                 return BadRequest();
             }
 
-            db.Entry(t_trabajonota).State = EntityState.Modified;
+            this.db.Entry(t_trabajonota).State = EntityState.Modified;
 
             try
             {
-                await db.SaveChangesAsync();
+                await this.db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -70,7 +70,8 @@ namespace mLetsTatoo.API.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            //return StatusCode(HttpStatusCode.NoContent);
+            return Ok(t_trabajonota);
         }
 
         // POST: api/T_trabajonota
@@ -84,8 +85,8 @@ namespace mLetsTatoo.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.T_trabajonota.Add(t_trabajonota);
-            await db.SaveChangesAsync();
+            this.db.T_trabajonota.Add(t_trabajonota);
+            await this.db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = t_trabajonota.Id_Nota }, t_trabajonota);
         }
@@ -94,14 +95,14 @@ namespace mLetsTatoo.API.Controllers
         [ResponseType(typeof(T_trabajonota))]
         public async Task<IHttpActionResult> DeleteT_trabajonota(int id)
         {
-            T_trabajonota t_trabajonota = await db.T_trabajonota.FindAsync(id);
+            T_trabajonota t_trabajonota = await this.db.T_trabajonota.FindAsync(id);
             if (t_trabajonota == null)
             {
                 return NotFound();
             }
 
-            db.T_trabajonota.Remove(t_trabajonota);
-            await db.SaveChangesAsync();
+            this.db.T_trabajonota.Remove(t_trabajonota);
+            await this.db.SaveChangesAsync();
 
             return Ok(t_trabajonota);
         }
@@ -110,14 +111,14 @@ namespace mLetsTatoo.API.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                this.db.Dispose();
             }
             base.Dispose(disposing);
         }
 
         private bool T_trabajonotaExists(int id)
         {
-            return db.T_trabajonota.Count(e => e.Id_Nota == id) > 0;
+            return this.db.T_trabajonota.Count(e => e.Id_Nota == id) > 0;
         }
     }
 }

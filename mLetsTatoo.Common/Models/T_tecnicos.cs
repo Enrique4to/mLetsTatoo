@@ -22,6 +22,5 @@ namespace mLetsTatoo.Models
         public string Apellido2 { get; set; }
         public string Apodo { get; set; }
         public string Carrera { get; set; }
-        public byte[] F_Perfil { get; set; }
     }
 }

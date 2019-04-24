@@ -30,6 +30,11 @@
         public T_usuarios user;
         #endregion
         #region Properties
+        public T_usuarios User
+        {
+            get { return this.user; }
+            set { SetValue(ref this.user, value); }
+        }
         public bool IsRunning
         {
             get { return this.isRunning; }
@@ -63,7 +68,7 @@
             this.cliente = cliente;
             this.apiService = new ApiService();
             this.IsRefreshing = false;
-            this.LoadUser();
+            this.NombreCompleto = $"{this.cliente.Nombre} {this.cliente.Apellido}";
         }
         #endregion
         #region Commands
@@ -148,32 +153,31 @@
             
             if (this.file != null)
             {
-                ByteImage = FileHelper.ReadFully(this.file.GetStream());
+                this.ByteImage = FileHelper.ReadFully(this.file.GetStream());
             }
             
-            this.cliente = new T_clientes
+            this.user = new T_usuarios
             {
-                Id_Cliente= cliente.Id_Cliente,
-                Nombre = cliente.Nombre,
-                Apellido = cliente.Apellido,
-                Correo = cliente.Correo,
-                Telefono = cliente.Telefono,
-                Id_Usuario = cliente.Id_Usuario,
-                F_Nac = cliente.F_Nac,
-                Bloqueo = cliente.Bloqueo,
-                F_Perfil = ByteImage,
+                Id_usuario = this.user.Id_usuario,
+                Bloqueo = this.user.Bloqueo,
+                Confirmacion = this.user.Confirmacion,
+                Confirmado = this.user.Confirmado,
+                F_Perfil = this.ByteImage,
+                Pass = this.user.Pass,
+                Tipo = this.user.Tipo,
+                Ucorreo = this.user.Ucorreo,
+                Usuario = this.user.Usuario,
             };
-            var id = cliente.Id_Cliente;
             var urlApi = App.Current.Resources["UrlAPI"].ToString();
             var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_clientesController"].ToString();
+            var controller = App.Current.Resources["UrlT_usuariosController"].ToString();
             
             var response = await this.apiService.Put
                 (urlApi,
                 prefix,
                 controller,
-                this.cliente,
-                id);
+                this.user,
+                this.user.Id_usuario);
 
             if (!response.IsSuccess)
             {
@@ -184,23 +188,7 @@
                 "OK");
                 return;
             }
-
-            this.LoadUser();
             this.IsRunning = false;
-        }
-        private void LoadUser()
-        {
-            this.NombreCompleto = $"{this.cliente.Nombre} {this.cliente.Apellido}";
-
-            if (this.cliente.F_Perfil != null)
-            {
-                this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.cliente.F_Perfil));
-            }
-            else
-            {
-                this.ByteImage = apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
-                this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
-            }
         }
         private async void EditUser()
         {

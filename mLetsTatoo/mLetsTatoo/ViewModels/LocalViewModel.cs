@@ -25,6 +25,7 @@
         public T_ciudad ciudad;
         public T_postal postal;
         public T_empresas empresa;
+        public T_usuarios empresaUser;
         private ObservableCollection<TecnicoItemViewModel> tecnicos;
         private string address;
         #endregion
@@ -44,6 +45,11 @@
         {
             get { return this.empresa; }
             set { SetValue(ref this.empresa, value); }
+        }
+        public T_usuarios EmpresaUser
+        {
+            get { return this.empresaUser; }
+            set { SetValue(ref this.empresaUser, value); }
         }
         public List<T_tecnicos> LocalTecnicoList { get; set; }
         public ObservableCollection<TecnicoItemViewModel> Tecnicos
@@ -164,7 +170,7 @@
                 this.estado = (T_estado)response.Result;
 
                 address = $"{this.local.Calle} {this.local.Numero}, {this.postal.Asentamiento} {this.postal.Colonia}, C.P. {this.postal.Id.ToString()}, {this.ciudad.Ciudad}, {this.estado.Estado}.";
-
+                this.empresaUser = MainViewModel.GetInstance().Login.ListUsuarios.Single(e => e.Id_usuario == this.empresa.Id_Usuario);
                 this.IsRefreshing = false;
                 this.IsRunning = false;
             }
@@ -217,7 +223,6 @@
                 Apellido2 = t.Apellido2,
                 Apodo = t.Apodo,
                 Carrera = t.Carrera,
-                F_Perfil = t.F_Perfil,
                 Id_Empresa = t.Id_Empresa,
                 Id_Local = t.Id_Local,
                 Id_Tecnico = t.Id_Tecnico,

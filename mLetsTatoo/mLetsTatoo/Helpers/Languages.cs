@@ -551,5 +551,9 @@
         {
             get { return Resource.No; }
         }
+        public static string PhoneLenghtError
+        {
+            get { return Resource.PhoneLenghtError; }
+        }
     }
 }

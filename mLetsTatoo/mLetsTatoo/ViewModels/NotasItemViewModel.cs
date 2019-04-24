@@ -51,8 +51,16 @@
         #region Methods
         private void SelectedNota()
         {
-            MainViewModel.GetInstance().TecnicoViewDate.notaSelected = this;
-            MainViewModel.GetInstance().TecnicoViewDate.SelectedNota();
+            if(this.Tipo_Usuario == 1)
+            {
+                MainViewModel.GetInstance().UserViewDate.notaSelected = this;
+                MainViewModel.GetInstance().UserViewDate.SelectedNota();
+            }
+            else if (this.Tipo_Usuario == 2)
+            {
+                MainViewModel.GetInstance().TecnicoViewDate.notaSelected = this;
+                MainViewModel.GetInstance().TecnicoViewDate.SelectedNota();
+            }
         }
         #endregion
     }

@@ -1,7 +1,13 @@
 ﻿namespace mLetsTatoo.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
+    using mLetsTatoo.Helpers;
     using Models;
     using Services;
     using Views;
@@ -25,6 +31,7 @@
         public EmpresaItemViewModel()
         {
             this.apiService = new ApiService();
+            Application.Current.MainPage.DisplayAlert("Notice", $"{this.Nombre} Usuario: {this.Id_Usuario.ToString()}", "Ok");
         }
         #endregion
 
@@ -44,14 +51,7 @@
             this.user = MainViewModel.GetInstance().UserHome.User;
             this.cliente = MainViewModel.GetInstance().UserHome.Cliente;
             MainViewModel.GetInstance().Empresa = new EmpresaViewModel(this, user, cliente);
-            //Application.Current.MainPage = new NavigationPage(new EmpresaPage())
-            //{
-            //    BarBackgroundColor = Color.FromRgb(20, 20, 20),
-            //    BarTextColor = Color.FromRgb(200, 200, 200),
-            //};
             await Application.Current.MainPage.Navigation.PushModalAsync(new EmpresaPage());
-            //await Application.Current.MainPage.Navigation.PushModalAsync(new EmpresaPage());
-
         }
         #endregion
     }

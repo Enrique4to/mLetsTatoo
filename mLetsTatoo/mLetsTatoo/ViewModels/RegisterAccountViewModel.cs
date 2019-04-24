@@ -24,6 +24,9 @@
         private bool isRunning;
         private bool isEnabled;
         private int id_usuario;
+
+        private T_usuarios user;
+        private T_clientes cliente;
         #endregion
 
         #region Properties
@@ -268,7 +271,7 @@
 
             var rnd = new Random();
             var Activacion = rnd.Next(100000, 999999);
-
+            this.ByteImage = apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
             var usuario = new T_usuarios
             {
                 Usuario = this.User,
@@ -278,99 +281,58 @@
                 Confirmado = true,
                 Tipo = 1,
                 Ucorreo = this.Email,
+                F_Perfil = this.ByteImage,
             };
-            try
+
+            controller = App.Current.Resources["UrlT_usuariosController"].ToString();
+            response = await this.apiService.Post(urlApi, prefix, controller, usuario);
+
+            if (!response.IsSuccess)
             {
-                controller = App.Current.Resources["UrlT_usuariosController"].ToString();
-                response = await this.apiService.Post(urlApi, prefix, controller, usuario);
-
-                if (!response.IsSuccess)
-                {
-                    this.IsRunning = false;
-                    this.IsEnabled = true;
-
-                    await App.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                    return;
-                }
-
-                response = await this.apiService.GetList<T_usuarios>(urlApi, prefix, controller);
-
-                if (!response.IsSuccess)
-                {
-                    this.IsRunning = false;
-                    this.IsEnabled = true;
-
-                    await App.Current.MainPage.DisplayAlert(
-                        Languages.Error,
-                        response.Message,
-                        "OK");
-                    return;
-                }
-
-                var listusu = (List<T_usuarios>)response.Result;
-
-                var single = listusu.Single(u => u.Usuario == this.User && u.Ucorreo == this.Email);
-                this.id_usuario = single.Id_usuario;
-            }
-            catch (Exception e)
-            {
-
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
                 await App.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    e.ToString(),
-                    "OK");
+                Languages.Error,
+                response.Message,
+                "OK");
                 return;
             }
-
-            try
+            this.user = (T_usuarios)response.Result;
+            if (this.Phone.Length > 10)
             {
-                this.ByteImage = apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
-
-                var phone = int.Parse(Phone);
-
-                var cliente = new T_clientes
-                {
-                    Nombre = this.Name,
-                    Apellido = this.Lastname,
-                    Correo = this.Email,
-                    Telefono = phone,
-                    Id_Usuario = id_usuario,
-                    F_Nac = this.Birthdate,
-                    Bloqueo = clibloq,
-                    F_Perfil = this.ByteImage,
-                };
-
-                controller = App.Current.Resources["UrlT_clientesController"].ToString();
-                response = await this.apiService.Post(urlApi, prefix, controller, cliente);
-
-                if (!response.IsSuccess)
-                {
-                    this.IsRunning = false;
-                    this.IsEnabled = true;
-
-                    await App.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                    return;
-                }
-            }
-            catch (Exception e)
-            {
-
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
                 await App.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    e.ToString(),
-                    "OK");
+                Languages.PhoneLenghtError,
+                response.Message,
+                "OK");
+                return;
+            }
+            var cliente = new T_clientes
+            {
+                Nombre = this.Name,
+                Apellido = this.Lastname,
+                Correo = this.Email,
+                Telefono = Phone,
+                Id_Usuario = this.user.Id_usuario,
+                F_Nac = this.Birthdate,
+                Bloqueo = clibloq,
+            };
+
+            controller = App.Current.Resources["UrlT_clientesController"].ToString();
+            response = await this.apiService.Post(urlApi, prefix, controller, cliente);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+
+                await App.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
                 return;
             }
 

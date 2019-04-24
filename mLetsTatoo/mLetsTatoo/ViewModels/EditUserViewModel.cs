@@ -173,7 +173,8 @@
                         "Ok");
                     return;
                 }
-                if (this.cliente.Telefono > 0)
+                var cliente_phone = int.Parse(this.cliente.Telefono);
+                if (cliente_phone > 0)
                 {
                     await Application.Current.MainPage.DisplayAlert(
                         Languages.Error,
@@ -216,13 +217,12 @@
                 Bloqueo = this.user.Bloqueo,
                 Confirmacion = this.user.Confirmacion,
                 Confirmado = this.user.Confirmado,
-                Id_empresa = this.user.Id_empresa,
                 Pass = this.NewPassword,
                 Tipo = this.user.Tipo,
                 Ucorreo = this.cliente.Correo,
                 Usuario = this.user.Usuario,
+                F_Perfil= this.user.F_Perfil,
             };
-            var id = this.user.Id_usuario;
             var urlApi = App.Current.Resources["UrlAPI"].ToString();
             var prefix = App.Current.Resources["UrlPrefix"].ToString();
             var controller = App.Current.Resources["UrlT_usuariosController"].ToString();
@@ -234,7 +234,7 @@
                 prefix,
                 controller,
                 editUser,
-                id);
+                this.user.Id_usuario);
 
             if (!response.IsSuccess)
             {
@@ -247,10 +247,8 @@
                 "OK");
                 return;
             }
-            this.IsRunning = false;
+            this.user = (T_usuarios)response.Result;
 
-
-            id = cliente.Id_Cliente;
             urlApi = App.Current.Resources["UrlAPI"].ToString();
             prefix = App.Current.Resources["UrlPrefix"].ToString();
             controller = App.Current.Resources["UrlT_clientesController"].ToString();
@@ -261,8 +259,8 @@
                 (urlApi,
                 prefix,
                 controller,
-                cliente,
-                id);
+                this.cliente,
+                this.cliente.Id_Cliente);
 
             if (!response.IsSuccess)
             {
@@ -276,7 +274,8 @@
                 return;
             }
 
-            MainViewModel.GetInstance().UserPage = new UserViewModel(user, cliente);
+            this.cliente = (T_clientes)response.Result;
+            MainViewModel.GetInstance().UserPage = new UserViewModel(this.user, this.cliente);
             await Application.Current.MainPage.Navigation.PopModalAsync();
 
             this.IsRunning = false;

@@ -158,18 +158,18 @@
         {
             this.IsRefreshing = true;
 
-            if (this.tecnico.F_Perfil != null)
-            {
-                string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TecnicoIcon.png");
-                File.WriteAllBytes(fileName, this.tecnico.F_Perfil);
-                this.Image = new Image();
-                this.ImageSource = FileImageSource.FromFile(fileName);
-            }
-            else
-            {
-                this.ByteImage = this.apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
-                this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
-            }
+            //if (this.tecnico.F_Perfil != null)
+            //{
+            //    string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TecnicoIcon.png");
+            //    File.WriteAllBytes(fileName, this.tecnico.F_Perfil);
+            //    this.Image = new Image();
+            //    this.ImageSource = FileImageSource.FromFile(fileName);
+            //}
+            //else
+            //{
+            //    this.ByteImage = this.apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
+            //    this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
+            //}
 
             this.IsRefreshing = false;
         }

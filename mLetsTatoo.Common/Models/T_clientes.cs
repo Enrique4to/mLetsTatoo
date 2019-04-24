@@ -14,13 +14,12 @@
         [Required]
         public string Correo { get; set; }
         [Required]
-        public Int64 Telefono { get; set; }
+        public string Telefono { get; set; }
         [Required]
         public int Id_Usuario { get; set; }
         [Required]
         public DateTime F_Nac { get; set; }
         public bool Bloqueo { get; set; }
-        public byte[] F_Perfil { get; set; }
         #endregion
     }
 }

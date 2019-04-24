@@ -952,6 +952,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your phone number must be 10 digits maximum.
+        /// </summary>
+        internal static string PhoneLenghtError {
+            get {
+                return ResourceManager.GetString("PhoneLenghtError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Profile.
         /// </summary>
         internal static string Profile {

@@ -23,7 +23,6 @@
         public int Id_Cita { get; set; }
         [Required]
         public string Nombre_Post { get; set; }
-        public byte[] Imagen_Post { get; set; }
 
     }
 }

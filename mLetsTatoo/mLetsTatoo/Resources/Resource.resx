@@ -508,4 +508,7 @@
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
+  <data name="PhoneLenghtError" xml:space="preserve">
+    <value>Your phone number must be 10 digits maximum</value>
+  </data>
 </root>

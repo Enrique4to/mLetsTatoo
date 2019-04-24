@@ -52,7 +52,6 @@
             MainViewModel.GetInstance().Tecnico = new TecnicoViewModel(this, user, cliente);
             MainViewModel.GetInstance().NewDate = new NewDateViewModel(this, user, cliente);
             await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoPage());
-            //await Application.Current.MainPage.Navigation.PushAsync(new TecnicoPage());
         }
         private async void TecnicoSelected()
         {

@@ -82,12 +82,11 @@
         #region Constructors
         public LoginViewModel()
         {
-            instance = this;
             this.apiService = new ApiService();
             this.IsRemember = true;
             this.IsEnabled = true;
-            this.Usuario = "Juan";
-            this.Pass = "elt4Vc0f";
+            this.Usuario = "Enrique3";
+            this.Pass = "1";
         }
         #endregion
         #region Commands
@@ -228,7 +227,6 @@
                 {
                     BarBackgroundColor = Color.FromRgb(20, 20, 20),
                     BarTextColor = Color.FromRgb(200, 200, 200),
-                    Title = this.user.Usuario.ToUpper(),
                 };
 
                 this.Usuario = string.Empty;
@@ -280,16 +278,6 @@
             await Application.Current.MainPage.Navigation.PushModalAsync(new RegisterAccountPage());
         }
         #endregion
-        #region Singleton
-        private static LoginViewModel instance;
-        public static LoginViewModel GetInstance()
-        {
-            if (instance == null)
-            {
-                return new LoginViewModel();
-            }
-            return instance;
-        }
-        #endregion
+
     }
 }

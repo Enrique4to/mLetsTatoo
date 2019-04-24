@@ -68,18 +68,6 @@
             var prefix = App.Current.Resources["UrlPrefix"].ToString();
             var controller = App.Current.Resources["UrlT_trabajonotaController"].ToString();
 
-            this.nota = new T_trabajonota
-            {
-                Id_Nota = this.nota.Id_Nota,
-                Id_Trabajo = this.nota.Id_Trabajo,
-                Tipo_Usuario = this.nota.Tipo_Usuario,
-                Id_De = this.nota.Id_De,
-                Id_Local = this.nota.Id_Local,
-                Id_Cita = this.nota.Id_Cita,
-                Nota = this.nota.Nota,
-                Nombre_Post = this.nota.Nombre_Post,
-                Imagen_Post = this.nota.Imagen_Post,
-            };
             var response = await this.apiService.Put(urlApi, prefix, controller, this.nota, this.nota.Id_Nota);
 
             if (!response.IsSuccess)
@@ -103,6 +91,9 @@
 
                 MainViewModel.GetInstance().TecnicoViewDate.NotaList.Add(newNota);
                 MainViewModel.GetInstance().TecnicoViewDate.RefreshListNotas();
+                MainViewModel.GetInstance().TecnicoViewDate.IsButtonEnabled = false;
+                MainViewModel.GetInstance().TecnicoViewDate.IsVisible = false;
+                MainViewModel.GetInstance().TecnicoViewDate.IsRefreshing = false;
             }
             else if (this.user.Tipo == 1)
             {
@@ -114,6 +105,9 @@
 
                 MainViewModel.GetInstance().UserViewDate.NotaList.Add(newNota);
                 MainViewModel.GetInstance().UserViewDate.RefreshListNotas();
+                MainViewModel.GetInstance().UserViewDate.IsButtonEnabled = false;
+                MainViewModel.GetInstance().UserViewDate.IsVisible = false;
+                MainViewModel.GetInstance().UserViewDate.IsRefreshing = false;
             }
 
             await Application.Current.MainPage.Navigation.PopPopupAsync();

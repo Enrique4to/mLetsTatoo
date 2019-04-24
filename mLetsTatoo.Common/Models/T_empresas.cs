@@ -10,13 +10,10 @@
         [Key]
         public int Id_Empresa { get; set; }
         [Required]
-        [StringLength(100)]
+        public int Id_Usuario { get; set; }
+        [Required]
         public string Nombre { get; set; }
-        public byte[] Logo
-        {
-            get;
-            set;
-        }
+        [Required]
         public bool Bloqueo { get; set; }
         #endregion
 

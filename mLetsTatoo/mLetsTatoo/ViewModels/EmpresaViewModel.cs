@@ -104,7 +104,6 @@
             this.cliente = cliente;
             this.empresa = empresa;
             this.apiService = new ApiService();
-            this.LoadEmpresa();
             this.LoadLocales();
             this.LoadTecnicos();
             this.IsRefreshing = false;
@@ -130,19 +129,6 @@
         #endregion
 
         #region Methods
-        private void LoadEmpresa()
-        {
-            if (this.empresa.Logo != null)
-            {
-                this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.empresa.Logo));
-            }
-            else
-            {
-                this.ByteImage = apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
-                this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
-            }
-            this.nombreEmpresa = this.empresa.Nombre;
-        }
         private async void LoadTecnicos()
         {
             this.IsRefreshing = true;
@@ -192,7 +178,6 @@
                 Apellido2 = t.Apellido2,
                 Apodo = t.Apodo,
                 Carrera = t.Carrera,
-                F_Perfil = t.F_Perfil,
                 Id_Empresa = t.Id_Empresa,
                 Id_Local = t.Id_Local,
                 Id_Tecnico = t.Id_Tecnico,

@@ -83,7 +83,6 @@
                     Id_Cita = this.cita.Id_Cita,
                     Nota = this.AddNota,
                     Nombre_Post = nombre_Post,
-                    Imagen_Post = this.cliente.F_Perfil,
                 };
                 var response = await this.apiService.Post(urlApi, prefix, controller, this.nota);
 
@@ -115,7 +114,6 @@
                     Id_Cita = this.cita.Id_Cita,
                     Nota = this.AddNota,
                     Nombre_Post = nombre_Post,
-                    Imagen_Post = this.tecnico.F_Perfil,
                 };
                 var response = await this.apiService.Post(urlApi, prefix, controller, this.nota);
 

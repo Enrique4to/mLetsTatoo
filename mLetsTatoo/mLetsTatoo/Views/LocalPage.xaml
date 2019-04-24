@@ -133,7 +133,7 @@
                                 Aspect="AspectFill"
                                 HorizontalOptions="Center"
                                 Opacity=".6"
-                                Source="{Binding Empresa.Logo, Converter={StaticResource ByteArrayToImage}}"
+                                Source="{Binding EmpresaUser.F_Perfil, Converter={StaticResource ByteArrayToImage}}"
                                 VerticalOptions="Start">
                                 <control:CircleImage.WidthRequest>
                                     <OnPlatform x:TypeArguments="x:Double">
