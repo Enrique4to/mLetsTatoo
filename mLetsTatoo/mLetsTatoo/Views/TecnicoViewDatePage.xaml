@@ -194,7 +194,7 @@
                                                     Aspect="AspectFill"
                                                     HorizontalOptions="Start"
                                                     Margin="4"
-                                                    Source="{Binding Imagen_Post, Converter={StaticResource ByteArrayToImage}}"
+                                                    Source="{Binding F_Perfil, Converter={StaticResource ByteArrayToImage}}"
                                                     VerticalOptions="Center">
                                                     <control:CircleImage.WidthRequest>
                                                         <OnPlatform x:TypeArguments="x:Double">
@@ -220,7 +220,7 @@
                                                         HorizontalTextAlignment="Start"
                                                         Margin="10,0,0,0"
                                                         Text="{Binding F_nota, StringFormat=' {0:dd MMM yyyy}'}"
-                                                        TextColor="DimGray"
+                                                        TextColor="Gray"
                                                         VerticalTextAlignment="Start"/>
                                                 </StackLayout>
                                             </StackLayout>

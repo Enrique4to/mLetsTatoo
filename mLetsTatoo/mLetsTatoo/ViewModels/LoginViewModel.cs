@@ -22,36 +22,28 @@
         #endregion
 
         #region Attributes
-        private ObservableCollection<T_usuarios> usuarios;
+
         private bool isRunning;
         private bool isEnabled;
         private string pass;
         private string usuario;
+
         public T_usuarios user;
-        public T_clientes cliente;
-        public T_tecnicos tecnico;
+        public ClientesCollection cliente;
+        public TecnicosCollection tecnico;
         #endregion
 
         #region Propierties
         public List<T_usuarios> ListUsuarios { get; set; }
-        public List<T_clientes> ClienteList { get; set; }
-        public List<T_tecnicos> TecnicoList { get; set; }
+        public List<ClientesCollection> ClienteList { get; set; }
+        public List<TecnicosCollection> TecnicoList { get; set; }
 
         public T_usuarios User
         {
             get { return this.user; }
             set { SetValue(ref this.user, value); }
         }
-        public T_clientes Cliente
-        {
-            get { return this.cliente; }
-            set { SetValue(ref this.cliente, value); }
-        }
-        public ObservableCollection<T_usuarios> Usuarios
-        {
-            get { return this.usuarios; }
-            set { SetValue(ref this.usuarios, value); }
-        }
+
         public bool IsRunning
         {
             get { return this.isRunning; }
@@ -67,6 +59,7 @@
             get { return this.isEnabled; }
             set { SetValue(ref this.isEnabled, value); }
         }
+
         public string Pass
         {
             get { return this.pass; }
@@ -85,8 +78,8 @@
             this.apiService = new ApiService();
             this.IsRemember = true;
             this.IsEnabled = true;
-            this.Usuario = "Enrique3";
-            this.Pass = "1";
+            this.Usuario = null;
+            this.Pass = null;
         }
         #endregion
         #region Commands
@@ -145,16 +138,16 @@
                 return;
             }
             
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_usuariosController"].ToString();
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_usuariosController"].ToString();
 
             var response = await this.apiService.GetList<T_usuarios>(urlApi, prefix, controller);
             if (!response.IsSuccess)
             {
                 this.IsRunning = false;
                 this.IsEnabled = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
                     "OK");
@@ -218,7 +211,21 @@
                         "OK");
                     return;
                 }
-                this.ClienteList = (List<T_clientes>)response.Result;
+                var clienteList = (List<T_clientes>)response.Result;
+
+                this.ClienteList = clienteList.Select(c => new ClientesCollection
+                {
+                    Id_Cliente = c.Id_Cliente,
+                    Id_Usuario = c.Id_Usuario,
+                    Apellido = c.Apellido,
+                    Bloqueo = c.Bloqueo,
+                    Correo = c.Correo,
+                    F_Nac = c.F_Nac,
+                    Nombre = c.Nombre,
+                    Telefono = c.Telefono,
+                    F_Perfil = this.ListUsuarios.FirstOrDefault(u => u.Id_usuario == c.Id_Usuario).F_Perfil,
+
+                }).ToList();
 
                 this.cliente = this.ClienteList.Single(c => c.Id_Usuario == this.user.Id_usuario);
 
@@ -247,7 +254,22 @@
                         "OK");
                     return;
                 }
-                this.TecnicoList = (List<T_tecnicos>)response.Result;
+                var tecnicoList = (List<T_tecnicos>)response.Result;
+
+                this.TecnicoList = tecnicoList.Select(t => new TecnicosCollection
+                {
+                    Apellido1 = t.Apellido1,
+                    Apellido2 = t.Apellido2,
+                    Apodo = t.Apodo,
+                    Carrera = t.Carrera,
+                    Id_Empresa = t.Id_Empresa,
+                    Id_Local = t.Id_Local,
+                    Id_Tecnico = t.Id_Tecnico,
+                    Id_Usuario = t.Id_Usuario,
+                    Nombre = t.Nombre,
+                    F_Perfil = this.ListUsuarios.FirstOrDefault(u => u.Id_usuario == t.Id_Usuario).F_Perfil
+
+                }).ToList();
                 this.tecnico = this.TecnicoList.Single(c => c.Id_Usuario == this.user.Id_usuario);
                 this.Usuario = string.Empty;
 

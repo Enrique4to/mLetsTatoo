@@ -21,9 +21,9 @@
 
         private T_trabajocitas cita;
         private T_usuarios user;
-        private T_clientes cliente;
+        private ClientesCollection cliente;
         private T_trabajos trabajo;
-        private T_tecnicos tecnico;
+        private TecnicosCollection tecnico;
         private T_trabajonota nota;
         #endregion
         #region Properties
@@ -35,7 +35,7 @@
         }
         #endregion
         #region Constructors
-        public AddCommentPopupViewModel(T_usuarios user, T_clientes cliente, T_tecnicos tecnico, T_trabajos trabajo, T_trabajocitas cita)
+        public AddCommentPopupViewModel(T_usuarios user, ClientesCollection cliente, TecnicosCollection tecnico, T_trabajos trabajo, T_trabajocitas cita)
         {
             this.user = user;
             this.cliente = cliente;
@@ -60,25 +60,26 @@
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
                     "OK");
                 return;
             }
 
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_trabajonotaController"].ToString();
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_trabajonotaController"].ToString();
 
             if(this.user.Tipo == 1)
             {
                 var nombre_Post = $"{this.cliente.Nombre} {this.cliente.Apellido}";
-                this.nota = new NotasItemViewModel
+
+                this.nota = new T_trabajonota
                 {
                     Id_Trabajo = this.trabajo.Id_Trabajo,
                     Tipo_Usuario = 1,
-                    Id_De = this.cliente.Id_Cliente,
+                    Id_Usuario = this.cliente.Id_Usuario,
                     Id_Local = this.tecnico.Id_Local,
                     Id_Cita = this.cita.Id_Cita,
                     Nota = this.AddNota,
@@ -88,7 +89,7 @@
 
                 if (!response.IsSuccess)
                 {
-                    await App.Current.MainPage.DisplayAlert(
+                    await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
                     "OK");
@@ -109,7 +110,7 @@
                  {
                     Id_Trabajo = this.trabajo.Id_Trabajo,
                     Tipo_Usuario = 2,
-                    Id_De = this.tecnico.Id_Tecnico,
+                    Id_Usuario = this.tecnico.Id_Usuario,
                     Id_Local = this.tecnico.Id_Local,
                     Id_Cita = this.cita.Id_Cita,
                     Nota = this.AddNota,

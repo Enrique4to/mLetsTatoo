@@ -34,13 +34,14 @@
                     IsPullToRefreshEnabled="True"
                     IsRefreshing="{Binding IsRefreshing}"                    
                     ItemsSource="{Binding Tecnicos}"
-                    RefreshCommand="{Binding RefreshArtistCommand}">
+                    RefreshCommand="{Binding RefreshArtistCommand}"
+                    SeparatorColor="DimGray">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <Grid>
                                     <Grid.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding TecnicoPageCommand}"/>
+                                        <TapGestureRecognizer Command="{Binding TecnicoPageCommand}" Tapped="OnGridSelect"/>
                                     </Grid.GestureRecognizers>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
@@ -133,7 +134,7 @@
                                 Aspect="AspectFill"
                                 HorizontalOptions="Center"
                                 Opacity=".6"
-                                Source="{Binding EmpresaUser.F_Perfil, Converter={StaticResource ByteArrayToImage}}"
+                                Source="{Binding Empresa.F_Perfil, Converter={StaticResource ByteArrayToImage}}"
                                 VerticalOptions="Start">
                                 <control:CircleImage.WidthRequest>
                                     <OnPlatform x:TypeArguments="x:Double">
@@ -154,21 +155,28 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <Label
+                                <StackLayout
+                                    BackgroundColor="Black"
+                                    Grid.Column="0"
+                                    Grid.Row="0"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Opacity=".8"
+                                    VerticalOptions="End">
+                                    <Label
                                     FontAttributes="Bold"
                                     FontSize="24"
-                                    Grid.Column="1"
-                                    Grid.Row="0"
                                     Text="{Binding Empresa.Nombre, Mode=TwoWay}"
                                     TextColor="LightGray"
-                                    HorizontalOptions="CenterAndExpand"
-                                    HorizontalTextAlignment="Center"
-                                    VerticalOptions="End"/>
+                                    HorizontalTextAlignment="Center"/>
+                                </StackLayout>
+
                                 <StackLayout
-                                    Grid.Column="1"
+                                    BackgroundColor="Black"
+                                    Grid.Column="0"
                                     Grid.Row="3"
                                     HorizontalOptions="CenterAndExpand"
                                     VerticalOptions="Center"
+                                    Opacity=".8"
                                     Orientation="Horizontal">
                                     <Label
                                         FontAttributes="Bold"
@@ -184,7 +192,7 @@
                                         HorizontalTextAlignment="Center"/>
                                 </StackLayout>
                                 <Label
-                                    Grid.Column="1"
+                                    Grid.Column="0"
                                     Grid.Row="4"
                                     FontAttributes="Bold"
                                     FontSize="14"

@@ -16,6 +16,5 @@
         [Required]
         public bool Bloqueo { get; set; }
         #endregion
-
     }
 }

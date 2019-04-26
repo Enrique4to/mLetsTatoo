@@ -29,9 +29,9 @@
                
         private T_trabajocitas cita;
         private T_usuarios user;
-        private T_clientes cliente;
+        private ClientesCollection cliente;
         public T_trabajos trabajo;
-        private T_tecnicos tecnico;
+        private TecnicosCollection tecnico;
 
         private ObservableCollection<CitasItemViewModel> citas;
         #endregion
@@ -85,7 +85,7 @@
         #endregion
 
         #region Constructors
-        public TecnicoViewJobViewModel(T_trabajos trabajo, T_usuarios user, T_tecnicos tecnico)
+        public TecnicoViewJobViewModel(T_trabajos trabajo, T_usuarios user, TecnicosCollection tecnico)
         {
             this.trabajo = trabajo;
             this.user = user;

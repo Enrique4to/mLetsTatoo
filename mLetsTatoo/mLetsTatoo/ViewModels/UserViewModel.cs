@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Helpers;
@@ -27,7 +28,7 @@
         private bool isRefreshing;
         private bool isRunning;
         public List<T_clientes> listClientes;
-        public T_clientes cliente;
+        public ClientesCollection cliente;
         public T_usuarios user;
         #endregion
         #region Properties
@@ -63,7 +64,7 @@
         }
         #endregion
         #region Constructors
-        public UserViewModel(T_usuarios user, T_clientes cliente)
+        public UserViewModel(T_usuarios user, ClientesCollection cliente)
         {
             this.user = user;
             this.cliente = cliente;
@@ -203,7 +204,15 @@
                 "OK");
                 return;
             }
-            this.user = (T_usuarios)response.Result;
+            var NewUser = (T_usuarios)response.Result;
+
+            var oldUser = MainViewModel.GetInstance().Login.ListUsuarios.Where(n => n.Id_usuario == this.user.Id_usuario).FirstOrDefault();
+            if (oldUser != null)
+            {
+                MainViewModel.GetInstance().Login.ListUsuarios.Remove(oldUser);
+            }
+
+            MainViewModel.GetInstance().Login.ListUsuarios.Add(NewUser);
             this.IsRunning = false;
         }
         private async void EditUser()

@@ -25,10 +25,9 @@
         private ImageSource imageSource;
         private bool isRunning;
         private bool isRefreshing;
-        public T_clientes cliente;
+        public ClientesCollection cliente;
         public T_usuarios user;
-        private T_usuarios tecuser;
-        public T_empresas empresa;
+        public EmpresasCollection empresa;
         public T_tecnicos tecnico;
         private ObservableCollection<LocalItemViewModel> locales;
         private ObservableCollection<TecnicoItemViewModel> tecnicos;
@@ -44,17 +43,12 @@
             get { return this.nombreEmpresa; }
             set { SetValue(ref this.nombreEmpresa, value); }
         }
-        public T_clientes Cliente
-        {
-            get { return this.cliente; }
-            set { SetValue(ref this.cliente, value); }
-        }
         public T_usuarios User
         {
             get { return this.user; }
             set { SetValue(ref this.user, value); }
         }
-        public T_empresas Empresa
+        public EmpresasCollection Empresa
         {
             get { return this.empresa; }
             set { SetValue(ref this.empresa, value); }
@@ -98,7 +92,7 @@
         #endregion
 
         #region Constructors
-        public EmpresaViewModel(T_empresas empresa, T_usuarios user, T_clientes cliente)
+        public EmpresaViewModel(EmpresasCollection empresa, T_usuarios user, ClientesCollection cliente)
         {
             this.user = user;
             this.cliente = cliente;
@@ -159,12 +153,7 @@
                     "OK");
                 return;
             }
-            //var userList = MainViewModel.GetInstance().Login.ListUsuarios;
-            //userList = userList.Where(u => u.Id_empresa == this.Empresa.Id_Empresa && u.Confirmado == true && u.Bloqueo == false).ToList();
-            //userList = userList.Where(u => u.Confirmado == true).ToList();
-            //userList = userList.Where(u => u.Bloqueo == false).ToList();
             this.EmpresaTecnicoList = (List<T_tecnicos>)response.Result;
-            //this.EmpresaTecnicoList = this.EmpresaTecnicoList.Where(t => userList.Any(u => t.Id_Usuario == u.Id_usuario)).ToList();
             this.RefreshTecnicoList();
             this.IsRefreshing = false;
         }
@@ -183,7 +172,8 @@
                 Id_Tecnico = t.Id_Tecnico,
                 Id_Usuario = t.Id_Usuario,
                 Nombre = t.Nombre,
-                
+                F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == t.Id_Usuario).F_Perfil
+
             }).Where(t => t.Id_Empresa == this.empresa.Id_Empresa && userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)).ToList();
             this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
         }

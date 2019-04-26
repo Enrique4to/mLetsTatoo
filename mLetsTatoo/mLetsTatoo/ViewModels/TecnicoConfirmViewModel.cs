@@ -15,7 +15,7 @@
         #endregion
 
         #region Attributes
-        private T_tecnicos tecnico;
+        private TecnicosCollection tecnico;
         private T_usuarios user;
         private bool isRunning;
         private bool isEnabled;
@@ -43,7 +43,7 @@
         #endregion
 
         #region Contructors
-        public TecnicoConfirmViewModel(T_usuarios user, T_tecnicos tecnico)
+        public TecnicoConfirmViewModel(T_usuarios user, TecnicosCollection tecnico)
         {
             this.apiService = new ApiService();
             this.tecnico = tecnico;

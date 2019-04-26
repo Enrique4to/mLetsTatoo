@@ -1,8 +1,7 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace mLetsTatoo.Models
+﻿namespace mLetsTatoo.Models
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
     public class T_Appointment
     {
         [Required]

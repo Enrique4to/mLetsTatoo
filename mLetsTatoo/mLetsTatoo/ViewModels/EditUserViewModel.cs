@@ -16,7 +16,7 @@
         #endregion
 
         #region Attributes
-        private T_clientes cliente;
+        private ClientesCollection cliente;
         private T_usuarios user;
         private bool isRunning;
         private bool isEnabled;
@@ -29,7 +29,7 @@
         public string CurrentPassword { get; set; }
         public string ConfirmPassword { get; set; }
         public string NewPassword { get; set; }
-        public T_clientes Cliente
+        public ClientesCollection Cliente
         {
             get { return this.cliente; }
             set { SetValue(ref this.cliente, value); }
@@ -67,7 +67,7 @@
         #endregion
 
         #region Contructors
-        public EditUserViewModel(T_clientes cliente, T_usuarios user)
+        public EditUserViewModel(ClientesCollection cliente, T_usuarios user)
         {
             this.apiService = new ApiService();
             this.cliente = cliente;
@@ -247,7 +247,7 @@
                 "OK");
                 return;
             }
-            this.user = (T_usuarios)response.Result;
+            //this.user = (T_usuarios)response.Result;
 
             urlApi = App.Current.Resources["UrlAPI"].ToString();
             prefix = App.Current.Resources["UrlPrefix"].ToString();
@@ -274,7 +274,8 @@
                 return;
             }
 
-            this.cliente = (T_clientes)response.Result;
+            //this.cliente = (T_clientes)response.Result;
+
             MainViewModel.GetInstance().UserPage = new UserViewModel(this.user, this.cliente);
             await Application.Current.MainPage.Navigation.PopModalAsync();
 

@@ -1,17 +1,19 @@
 ﻿namespace mLetsTatoo.Views
 {
     using System;
+    using ViewModels;
     using Xamarin.Forms;
     using Xamarin.Forms.Xaml;
 
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class UserViewDatePage : ContentPage
     {
-        private Grid _grid;
+
         public UserViewDatePage ()
 		{
 			InitializeComponent ();
 		}
+        private Grid _grid;
         private void OnGridSelect(object s, EventArgs e)
         {
             if (_grid != null)

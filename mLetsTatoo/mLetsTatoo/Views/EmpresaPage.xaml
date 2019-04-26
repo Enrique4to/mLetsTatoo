@@ -20,13 +20,14 @@
                     IsPullToRefreshEnabled="True"
                     IsRefreshing="{Binding IsRefreshing}"                    
                     ItemsSource="{Binding Locales}"
-                    RefreshCommand="{Binding RefreshLocalesCommand}">
+                    RefreshCommand="{Binding RefreshLocalesCommand}"
+                    SeparatorColor="DimGray">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <Grid>
                                     <Grid.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding LocalPageCommand}"/>
+                                        <TapGestureRecognizer Command="{Binding LocalPageCommand}" Tapped="OnGridSelect"/>
                                     </Grid.GestureRecognizers>
                                     <Grid.ColumnDefinitions>
 
@@ -81,13 +82,14 @@
                     IsPullToRefreshEnabled="True"
                     IsRefreshing="{Binding IsRefreshing}"                    
                     ItemsSource="{Binding Tecnicos}"
-                    RefreshCommand="{Binding RefreshArtistCommand}">
+                    RefreshCommand="{Binding RefreshArtistCommand}"
+                    SeparatorColor="DimGray">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <Grid>
                                     <Grid.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding TecnicoPageCommand}"/>
+                                        <TapGestureRecognizer Command="{Binding TecnicoPageCommand}" Tapped="OnGridSelect"/>
                                     </Grid.GestureRecognizers>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>

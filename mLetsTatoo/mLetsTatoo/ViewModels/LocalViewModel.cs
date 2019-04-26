@@ -24,8 +24,7 @@
         public T_estado estado;
         public T_ciudad ciudad;
         public T_postal postal;
-        public T_empresas empresa;
-        public T_usuarios empresaUser;
+        public EmpresasCollection empresa;
         private ObservableCollection<TecnicoItemViewModel> tecnicos;
         private string address;
         #endregion
@@ -41,15 +40,10 @@
             get { return this.local; }
             set { SetValue(ref this.local, value); }
         }
-        public T_empresas Empresa
+        public EmpresasCollection Empresa
         {
             get { return this.empresa; }
             set { SetValue(ref this.empresa, value); }
-        }
-        public T_usuarios EmpresaUser
-        {
-            get { return this.empresaUser; }
-            set { SetValue(ref this.empresaUser, value); }
         }
         public List<T_tecnicos> LocalTecnicoList { get; set; }
         public ObservableCollection<TecnicoItemViewModel> Tecnicos
@@ -70,7 +64,7 @@
         #endregion
 
         #region Constructors
-        public LocalViewModel(T_locales local, T_empresas empresa)
+        public LocalViewModel(T_locales local, EmpresasCollection empresa)
         {
             this.local = local;
             this.empresa = empresa;
@@ -169,8 +163,7 @@
 
                 this.estado = (T_estado)response.Result;
 
-                address = $"{this.local.Calle} {this.local.Numero}, {this.postal.Asentamiento} {this.postal.Colonia}, C.P. {this.postal.Id.ToString()}, {this.ciudad.Ciudad}, {this.estado.Estado}.";
-                this.empresaUser = MainViewModel.GetInstance().Login.ListUsuarios.Single(e => e.Id_usuario == this.empresa.Id_Usuario);
+                Address = $"{this.local.Calle} {this.local.Numero}, {this.postal.Asentamiento} {this.postal.Colonia}, C.P. {this.postal.Id.ToString()}, {this.ciudad.Ciudad}, {this.estado.Estado}.";
                 this.IsRefreshing = false;
                 this.IsRunning = false;
             }
@@ -210,9 +203,9 @@
             }
 
             this.LocalTecnicoList = (List<T_tecnicos>)response.Result;
+            this.RefreshTecnicoList();
             this.IsRefreshing = false;
             this.IsRunning = false;
-            this.RefreshTecnicoList();
         }
         public void RefreshTecnicoList()
         {
@@ -228,6 +221,8 @@
                 Id_Tecnico = t.Id_Tecnico,
                 Id_Usuario = t.Id_Usuario,
                 Nombre = t.Nombre,
+                F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == t.Id_Usuario).F_Perfil
+
             }).Where(t => t.Id_Local == this.local.Id_Local && userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)).ToList();
             this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
         }

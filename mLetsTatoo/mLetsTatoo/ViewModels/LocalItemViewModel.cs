@@ -11,7 +11,7 @@
     {
         #region Services
         private ApiService apiService;
-        private T_empresas empresa;
+        private EmpresasCollection empresa;
         #endregion
 
         #region Attributes

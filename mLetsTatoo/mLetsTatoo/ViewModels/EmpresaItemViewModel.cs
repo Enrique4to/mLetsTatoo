@@ -13,14 +13,14 @@
     using Views;
     using Xamarin.Forms;
 
-    public class EmpresaItemViewModel : T_empresas
-    {
+    public class EmpresaItemViewModel : EmpresasCollection
+    { 
         #region Services
         private ApiService apiService;
         #endregion
 
         #region Attributes
-        public T_clientes cliente;
+        public ClientesCollection cliente;
         public T_usuarios user;
         #endregion
 
@@ -47,8 +47,8 @@
         #region Methods
         private async void GoToEmpresaPage()
         {
-            this.user = MainViewModel.GetInstance().UserHome.User;
-            this.cliente = MainViewModel.GetInstance().UserHome.Cliente;
+            this.user = MainViewModel.GetInstance().UserHome.user;
+            this.cliente = MainViewModel.GetInstance().UserHome.cliente;
             MainViewModel.GetInstance().Empresa = new EmpresaViewModel(this, user, cliente);
             await Application.Current.MainPage.Navigation.PushModalAsync(new EmpresaPage());
         }

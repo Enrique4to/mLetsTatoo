@@ -19,12 +19,13 @@
         #endregion
 
         #region Attributes
-        private T_trabajonota nota;
+        private TrabajoNotaCollection nota;
+        private T_trabajonota notaTemp;
         private T_usuarios user;
         #endregion
 
         #region Properties
-        public T_trabajonota Nota
+        public TrabajoNotaCollection Nota
         {
             get { return this.nota; }
             set { SetValue(ref this.nota, value); }
@@ -32,7 +33,7 @@
         #endregion
 
         #region Constructors
-        public EditCommentPopupViewModel(T_trabajonota nota, T_usuarios user)
+        public EditCommentPopupViewModel(TrabajoNotaCollection nota, T_usuarios user)
         {
             this.user = user;
             this.nota = nota;
@@ -53,7 +54,6 @@
         #region Methods
         private async void SaveComment()
         {
-
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
@@ -63,12 +63,23 @@
                     "OK");
                 return;
             }
-
+            this.notaTemp = new T_trabajonota
+            {
+                F_nota = this.nota.F_nota,
+                Id_Cita = this.nota.Id_Cita,
+                Id_Local = this.nota.Id_Local,
+                Id_Nota = this.nota.Id_Nota,
+                Id_Trabajo = this.nota.Id_Trabajo,
+                Id_Usuario = this.nota.Id_Usuario,
+                Nombre_Post = this.nota.Nombre_Post,
+                Nota = this.nota.Nota,
+                Tipo_Usuario = this.nota.Tipo_Usuario,
+            };
             var urlApi = App.Current.Resources["UrlAPI"].ToString();
             var prefix = App.Current.Resources["UrlPrefix"].ToString();
             var controller = App.Current.Resources["UrlT_trabajonotaController"].ToString();
 
-            var response = await this.apiService.Put(urlApi, prefix, controller, this.nota, this.nota.Id_Nota);
+            var response = await this.apiService.Put(urlApi, prefix, controller, this.notaTemp, this.nota.Id_Nota);
 
             if (!response.IsSuccess)
             {

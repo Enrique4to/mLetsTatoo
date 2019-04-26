@@ -14,12 +14,13 @@
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
 
-    public class NotasItemViewModel : T_trabajonota
+    public class NotasItemViewModel : TrabajoNotaCollection
 
     {
         #region MyRegion
 
         #endregion
+
         #region Services
         private ApiService apiService;
         #endregion
@@ -51,15 +52,36 @@
         #region Methods
         private void SelectedNota()
         {
-            if(this.Tipo_Usuario == 1)
-            {
-                MainViewModel.GetInstance().UserViewDate.notaSelected = this;
-                MainViewModel.GetInstance().UserViewDate.SelectedNota();
+            if (MainViewModel.GetInstance().UserViewDate != null)
+            { 
+                if (MainViewModel.GetInstance().UserViewDate.user.Tipo == this.Tipo_Usuario)
+                {
+                    MainViewModel.GetInstance().UserViewDate.IsButtonEnabled = true;
+                    MainViewModel.GetInstance().UserViewDate.IsVisible = true;
+                    MainViewModel.GetInstance().UserViewDate.notaSelected = this;
+                }
+                else
+                {
+                    MainViewModel.GetInstance().UserViewDate.IsButtonEnabled = false;
+                    MainViewModel.GetInstance().UserViewDate.IsVisible = false;
+                    MainViewModel.GetInstance().UserViewDate.notaSelected = null;
+                }
             }
-            else if (this.Tipo_Usuario == 2)
+
+            if (MainViewModel.GetInstance().TecnicoViewDate != null)
             {
-                MainViewModel.GetInstance().TecnicoViewDate.notaSelected = this;
-                MainViewModel.GetInstance().TecnicoViewDate.SelectedNota();
+                if (MainViewModel.GetInstance().TecnicoViewDate.user.Tipo == this.Tipo_Usuario)
+                {
+                    MainViewModel.GetInstance().TecnicoViewDate.IsButtonEnabled = true;
+                    MainViewModel.GetInstance().TecnicoViewDate.IsVisible = true;
+                    MainViewModel.GetInstance().TecnicoViewDate.notaSelected = this;
+                }
+                else
+                {
+                    MainViewModel.GetInstance().TecnicoViewDate.IsButtonEnabled = false;
+                    MainViewModel.GetInstance().TecnicoViewDate.IsVisible = false;
+                    MainViewModel.GetInstance().TecnicoViewDate.notaSelected = null;
+                }
             }
         }
         #endregion

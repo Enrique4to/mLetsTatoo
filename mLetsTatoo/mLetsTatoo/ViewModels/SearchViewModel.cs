@@ -123,6 +123,7 @@ namespace mLetsTatoo.ViewModels
         }
         public void RefreshTecnicoList()
         {
+            var userList = MainViewModel.GetInstance().Login.ListUsuarios;
             if (string.IsNullOrEmpty(this.filter))
             {
                 var tecnico = this.TecnicoList.Select(t => new TecnicoItemViewModel
@@ -135,7 +136,9 @@ namespace mLetsTatoo.ViewModels
                     Id_Local = t.Id_Local,
                     Id_Tecnico = t.Id_Tecnico,
                     Nombre = t.Nombre,
-                });
+                    F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == t.Id_Usuario).F_Perfil
+
+                }).Where(t => userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)).ToList();
                 this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
             }
             else
@@ -150,9 +153,13 @@ namespace mLetsTatoo.ViewModels
                     Id_Local = t.Id_Local,
                     Id_Tecnico = t.Id_Tecnico,
                     Nombre = t.Nombre,
-                }).Where(t => t.Nombre.ToLower().Contains(this.filter.ToLower())
+                    F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == t.Id_Usuario).F_Perfil
+
+                }).Where(t => userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)
+                && (t.Nombre.ToLower().Contains(this.filter.ToLower())
                 || t.Apodo.ToLower().Contains(this.filter.ToLower())
-                || t.Apellido1.ToLower().Contains(this.filter.ToLower())).ToList();
+                || t.Apellido1.ToLower().Contains(this.filter.ToLower()))).ToList();
+
                 this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
             }
 

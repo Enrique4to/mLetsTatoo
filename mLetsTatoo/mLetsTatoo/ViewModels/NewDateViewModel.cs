@@ -42,10 +42,10 @@
         private string appAdvance;
         private string complexity;
 
-        public T_tecnicos tecnico;
+        public TecnicosCollection tecnico;
         public T_usuarios user;
         public T_teccaract feature;
-        public T_clientes cliente;
+        public ClientesCollection cliente;
         public T_trabajos trabajo;
         public T_trabajocitas cita;
         public T_trabajonota nota;
@@ -194,7 +194,7 @@
         #endregion
 
         #region Constructors
-        public NewDateViewModel(T_tecnicos tecnico, T_usuarios user, T_clientes cliente)
+        public NewDateViewModel(TecnicosCollection tecnico, T_usuarios user, ClientesCollection cliente)
         {
             this.tecnico = tecnico;
             this.user = user;
@@ -315,9 +315,9 @@
                 Asunto = subject,
             };
 
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_trabajostempController"].ToString();
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_trabajostempController"].ToString();
 
             var response = await this.apiService.Post(urlApi, prefix, controller, this.trabajotemp);
 
@@ -326,7 +326,7 @@
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
@@ -358,7 +358,7 @@
                 F_nota = this.AppointmentDate,
             };
 
-            controller = App.Current.Resources["UrlT_trabajonotatempController"].ToString();
+            controller = Application.Current.Resources["UrlT_trabajonotatempController"].ToString();
 
             response = await this.apiService.Post(urlApi, prefix, controller, this.notatemp);
 
@@ -367,7 +367,7 @@
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
@@ -408,7 +408,7 @@
                 Id_Notatemp = this.notatemp.Id_Notatemp,
 
             };
-            controller = App.Current.Resources["UrlT_citaimagenestempController"].ToString();
+            controller = Application.Current.Resources["UrlT_citaimagenestempController"].ToString();
 
             response = await this.apiService.Post(urlApi, prefix, controller, this.notaImagentemp);
 
@@ -417,7 +417,7 @@
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
@@ -493,9 +493,9 @@
                 Costo_Cita=this.feature.Costo_Cita,
             };
 
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_trabajosController"].ToString();
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_trabajosController"].ToString();
 
             var response = await this.apiService.Post(urlApi, prefix, controller, this.trabajo);
 
@@ -504,7 +504,7 @@
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
@@ -528,7 +528,7 @@
                 Completa = false,
             };
 
-            controller = App.Current.Resources["UrlT_trabajocitasController"].ToString();
+            controller = Application.Current.Resources["UrlT_trabajocitasController"].ToString();
 
             response = await this.apiService.Post(urlApi, prefix, controller, this.cita);
 
@@ -537,7 +537,7 @@
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
@@ -551,14 +551,14 @@
             {
                 Id_Trabajo = this.trabajo.Id_Trabajo,
                 Tipo_Usuario = 1,
-                Id_De = this.cliente.Id_Cliente,
+                Id_Usuario = this.cliente.Id_Usuario,
                 Id_Local = this.tecnico.Id_Local,
                 Id_Cita = this.cita.Id_Cita,
                 Nota = this.DescribeArt,
                 Nombre_Post = nombre_Post,               
             };
 
-            controller = App.Current.Resources["UrlT_trabajonotaController"].ToString();
+            controller = Application.Current.Resources["UrlT_trabajonotaController"].ToString();
 
             response = await this.apiService.Post(urlApi, prefix, controller, this.nota);
 
@@ -567,7 +567,7 @@
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
@@ -594,7 +594,7 @@
                 Id_Trabajo = this.trabajo.Id_Trabajo,
 
             };
-            controller = App.Current.Resources["UrlT_citaimagenesController"].ToString();
+            controller = Application.Current.Resources["UrlT_citaimagenesController"].ToString();
 
             response = await this.apiService.Post(urlApi, prefix, controller, this.notaImagen);
 
@@ -603,7 +603,7 @@
                 this.IsRunning = false;
                 this.IsEnabled = true;
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");

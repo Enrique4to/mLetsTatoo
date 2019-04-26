@@ -8,7 +8,7 @@
     using Xamarin.Forms;
     using System.Collections.ObjectModel;
 
-    public class TecnicoItemViewModel : T_tecnicos
+    public class TecnicoItemViewModel : TecnicosCollection
     {
         #region Services
         private ApiService apiService;
@@ -16,7 +16,7 @@
 
         #region Attributes
         public T_tecnicos tecnico;
-        public T_clientes cliente;
+        public ClientesCollection cliente;
         public T_usuarios user;
         #endregion
         
@@ -24,8 +24,8 @@
         public TecnicoItemViewModel()
         {
             this.apiService = new ApiService();
-            this.user = MainViewModel.GetInstance().UserHome.User;
-            this.cliente = MainViewModel.GetInstance().UserHome.Cliente;
+            this.user = MainViewModel.GetInstance().UserHome.user;
+            this.cliente = MainViewModel.GetInstance().UserHome.cliente;
         }
         #endregion
 

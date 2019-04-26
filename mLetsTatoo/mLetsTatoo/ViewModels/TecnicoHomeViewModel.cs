@@ -23,20 +23,15 @@
         #endregion
 
         #region Attributes
-        private byte[] byteImage;
-        private ImageSource imageSource;
-        private Image image;
-
         private bool isRefreshing;
         private bool isRunning;
 
-        private ObservableCollection<TecnicoItemViewModel> tecnicos;
         private ObservableCollection<TrabajosItemViewModel> trabajos;
 
 
         private T_clientes cliente;
         private T_usuarios user;
-        private T_tecnicos tecnico;
+        private TecnicosCollection tecnico;
         private T_trabajos trabajo;
 
         private string file;
@@ -54,7 +49,6 @@
             }
         }
 
-        public List<T_tecnicos> TecnicoList { get; set; }
         public List<T_trabajos> TrabajoList { get; set; }
         public List<T_trabajocitas> CitasList { get; set; }
 
@@ -68,43 +62,18 @@
             get { return this.user; }
             set { SetValue(ref this.user, value); }
         }
-        public T_tecnicos Tecnico
-        {
-            get { return this.tecnico; }
-            set { SetValue(ref this.tecnico, value); }
-        }
         public T_trabajos Trabajo
         {
             get { return this.trabajo; }
             set { SetValue(ref this.trabajo, value); }
         }
 
-        public ObservableCollection<TecnicoItemViewModel> Tecnicos
-        {
-            get { return this.tecnicos; }
-            set { SetValue(ref this.tecnicos, value); }
-        }
         public ObservableCollection<TrabajosItemViewModel> Trabajos
         {
             get { return this.trabajos; }
             set { SetValue(ref this.trabajos, value); }
         }
 
-        public byte[] ByteImage
-        {
-            get { return this.byteImage; }
-            set { SetValue(ref this.byteImage, value); }
-        }
-        public ImageSource ImageSource
-        {
-            get { return this.imageSource; }
-            set { SetValue(ref this.imageSource, value); }
-        }
-        public Image Image
-        {
-            get { return this.image; }
-            set { SetValue(ref this.image, value); }
-        }
 
         public bool IsRunning
         {
@@ -119,7 +88,7 @@
         #endregion
 
         #region Constructors
-        public TecnicoHomeViewModel(T_usuarios user, T_tecnicos tecnico)
+        public TecnicoHomeViewModel(T_usuarios user, TecnicosCollection tecnico)
         {
             this.user = user;
             this.tecnico = tecnico;
@@ -171,6 +140,7 @@
             //    this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
             //}
 
+            MainViewModel.GetInstance().TecnicoProfile = new TecnicoProfileViewModel(this.user, this.tecnico);
             this.IsRefreshing = false;
         }
         private async void LoadTrabajos()
@@ -181,7 +151,7 @@
             if (!connection.IsSuccess)
             {
                 this.IsRefreshing = false;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
                     "OK");
@@ -189,15 +159,15 @@
 
             }
 
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_trabajosController"].ToString();
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_trabajosController"].ToString();
 
             var response = await this.apiService.GetList<T_trabajos>(urlApi, prefix, controller);
             if (!response.IsSuccess)
             {
                 this.IsRefreshing = true;
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
                     "OK");

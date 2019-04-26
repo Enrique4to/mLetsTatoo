@@ -52,7 +52,8 @@
                             IsPullToRefreshEnabled="True"
                             IsRefreshing="{Binding IsRefreshing}"                    
                             ItemsSource="{Binding Trabajos}"
-                            RefreshCommand="{Binding RefreshTrabajoCommand}">
+                            RefreshCommand="{Binding RefreshTrabajoCommand}"
+                            SeparatorColor="DimGray">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
@@ -61,7 +62,7 @@
                                             <Grid
                                                 BackgroundColor="DimGray">
                                                 <Grid.GestureRecognizers>
-                                                    <TapGestureRecognizer Command="{Binding TecnicoViewJobPageCommand}"/>
+                                                    <TapGestureRecognizer Command="{Binding TecnicoViewJobPageCommand}" Tapped="OnGridSelect"/>
                                                 </Grid.GestureRecognizers>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width=".05*"/>

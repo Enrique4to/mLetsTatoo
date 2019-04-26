@@ -40,16 +40,16 @@
         private TimeSpan appointmentTime;
 
         private T_trabajocitas cita;
-        private T_usuarios user;
-        private T_clientes cliente;
+        public T_usuarios user;
+        private ClientesCollection cliente;
         private T_trabajos trabajo;
-        private T_tecnicos tecnico;
+        private TecnicosCollection tecnico;
         private T_locales local;
         private T_empresas empresa;
         private T_estado estado;
         private T_ciudad ciudad;
         private T_postal postal;
-        public T_trabajonota notaSelected;
+        public TrabajoNotaCollection notaSelected;
         public T_citaimagenes image;
 
         private ObservableCollection<NotasItemViewModel> notas;
@@ -140,7 +140,7 @@
         #endregion
 
         #region Constructors
-        public TecnicoViewDateViewModel(T_trabajocitas cita, T_usuarios user, T_tecnicos tecnico, T_trabajos trabajo)
+        public TecnicoViewDateViewModel(T_trabajocitas cita, T_usuarios user, TecnicosCollection tecnico, T_trabajos trabajo)
         {
             this.cita = cita;
             this.user = user;
@@ -148,7 +148,7 @@
             this.trabajo = trabajo;
             this.apiService = new ApiService();
             this.MinDate = DateTime.Now.ToLocalTime();
-            this.AppointmentDate = this.cita.F_Inicio;
+            this.AppointmentDate = this.cita.F_Inicio.ToLocalTime();
             this.AppointmentTime = this.cita.H_Inicio;
             Task.Run(async () => { await this.LoadInfo(); }).Wait();
             Task.Run(async () => { await this.LoadNotas(); }).Wait();
@@ -223,7 +223,21 @@
                     "OK");
                 return;
             }
-            this.cliente = (T_clientes)response.Result;
+            var clienteTemp = (T_clientes)response.Result;
+            var userList = MainViewModel.GetInstance().Login.ListUsuarios;
+            this.cliente = new ClientesCollection
+            {
+                Id_Cliente = clienteTemp.Id_Cliente,
+                Id_Usuario = clienteTemp.Id_Usuario,
+                Apellido = clienteTemp.Apellido,
+                Bloqueo = clienteTemp.Bloqueo,
+                Correo = clienteTemp.Correo,
+                F_Nac = clienteTemp.F_Nac,
+                Nombre = clienteTemp.Nombre,
+                Telefono = clienteTemp.Telefono,
+                F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == clienteTemp.Id_Usuario).F_Perfil,
+            };
+
 
             //-----------------Cargar Datos Imagenes-----------------//
 
@@ -282,17 +296,19 @@
         }
         public void RefreshListNotas()
         {
+            var userList = MainViewModel.GetInstance().Login.ListUsuarios;
             var nota = this.NotaList.Select(c => new NotasItemViewModel
             {
                 Id_Cita = c.Id_Cita,
                 Id_Trabajo = c.Id_Trabajo,
-                Id_De = c.Id_De,
+                Id_Usuario = c.Id_Usuario,
                 Tipo_Usuario = c.Tipo_Usuario,
                 F_nota = c.F_nota,
                 Id_Local = c.Id_Local,
                 Id_Nota = c.Id_Nota,
                 Nota = c.Nota,
                 Nombre_Post = c.Nombre_Post,
+                F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == c.Id_Usuario).F_Perfil
 
             }).Where(c => c.Id_Cita == this.cita.Id_Cita).ToList();
 

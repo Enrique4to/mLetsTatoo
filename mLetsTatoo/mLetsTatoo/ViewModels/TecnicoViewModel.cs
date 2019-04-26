@@ -22,10 +22,9 @@
         private byte[] byteImage;
         private ImageSource imageSource;
         private bool isRunning;
-        public T_clientes cliente;
+        public ClientesCollection cliente;
         public T_usuarios user;
-        public T_tecnicos tecnico;
-        public T_usuarios tecnicoUser;
+        public TecnicosCollection tecnico;
 
         private ObservableCollection<T_localimagenes> imagenes;
 
@@ -35,7 +34,7 @@
         #region Properties
         public List<T_localimagenes> LocalImagList { get; set; }
 
-        public T_clientes Cliente
+        public ClientesCollection Cliente
         {
             get { return this.cliente; }
             set { SetValue(ref this.cliente, value); }
@@ -45,15 +44,10 @@
             get { return this.user; }
             set { SetValue(ref this.user, value); }
         }
-        public T_tecnicos Tecnico
+        public TecnicosCollection Tecnico
         {
             get { return this.tecnico; }
             set { SetValue(ref this.tecnico, value); }
-        }
-        public T_usuarios TecnicoUser
-        {
-            get { return this.tecnicoUser; }
-            set { SetValue(ref this.tecnicoUser, value); }
         }
 
         public bool IsRunning
@@ -92,7 +86,7 @@
         #endregion
 
         #region Constructors
-        public TecnicoViewModel(T_tecnicos tecnico, T_usuarios user, T_clientes cliente)
+        public TecnicoViewModel(TecnicosCollection tecnico, T_usuarios user, ClientesCollection cliente)
         {
             this.user = user;
             this.cliente = cliente;
@@ -112,11 +106,10 @@
             this.selectedArtist = $"{this.tecnico.Apodo} - {this.tecnico.Nombre} {this.tecnico.Apellido1}";
             this.NombreCompleto = $"{this.tecnico.Nombre} {this.tecnico.Apellido1}";
 
-            this.tecnicoUser = MainViewModel.GetInstance().Login.ListUsuarios.Single(e => e.Id_usuario == this.tecnico.Id_Usuario);
-            if (this.tecnicoUser.F_Perfil != null)
+            if (this.tecnico.F_Perfil != null)
             {
-                ByteImage = this.tecnicoUser.F_Perfil;
-                this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.tecnicoUser.F_Perfil));
+                ByteImage = this.tecnico.F_Perfil;
+                this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.tecnico.F_Perfil));
             }
             else
             {

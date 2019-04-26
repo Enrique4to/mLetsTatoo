@@ -65,14 +65,12 @@ namespace mLetsTatoo.ViewModels
         private string width3;
 
         private T_usuarios user;
-        private T_tecnicos tecnico;
+        private TecnicosCollection tecnico;
         private T_teccaract feature;
 
         private bool isEnabled;
         private bool isRunning;
-
-        private byte[] byteImage;
-
+        
         public MediaFile file1;
         public MediaFile file2;
         public MediaFile file3;
@@ -221,16 +219,10 @@ namespace mLetsTatoo.ViewModels
                 set { SetValue(ref this.isRunning, value); }
         }
 
-        //public byte[] ByteImage
-        //{
-        //    get { return this.byteImage; }
-        //    set { SetValue(ref this.byteImage, value); }
-        //}
-
         #endregion
 
         #region Constructors
-        public TecnicoFeaturesViewModel(T_usuarios user, T_tecnicos tecnico)
+        public TecnicoFeaturesViewModel(T_usuarios user, TecnicosCollection tecnico)
         {
             Application.Current.MainPage.DisplayAlert(
                 Languages.Notice,

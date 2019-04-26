@@ -53,16 +53,16 @@
                             IsPullToRefreshEnabled="True"
                             IsRefreshing="{Binding IsRefreshing}"                    
                             ItemsSource="{Binding Citas}"
-                            RefreshCommand="{Binding RefreshCitasCommand}">
+                            RefreshCommand="{Binding RefreshCitasCommand}"
+                            SeparatorColor="DimGray">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
                                         <StackLayout
                                             Padding="0,2,0,2">
-                                            <Grid
-                                                BackgroundColor="DimGray">
+                                            <Grid>
                                                 <Grid.GestureRecognizers>
-                                                    <TapGestureRecognizer Command="{Binding UserViewDatePageCommand}"/>
+                                                    <TapGestureRecognizer Command="{Binding UserViewDatePageCommand}" Tapped="OnGridSelect"/>
                                                 </Grid.GestureRecognizers>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width=".05*"/>
@@ -178,13 +178,14 @@
                         IsPullToRefreshEnabled="True"
                         IsRefreshing="{Binding IsRefreshing}"                    
                         ItemsSource="{Binding Empresas}"
-                        RefreshCommand="{Binding RefreshEmpresasCommand}">
+                        RefreshCommand="{Binding RefreshEmpresasCommand}"
+                        SeparatorColor="DimGray">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
                                     <Grid>
                                         <Grid.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding EmpresaPageCommand}"/>
+                                            <TapGestureRecognizer Command="{Binding EmpresaPageCommand}" Tapped="OnGridSelect"/>
                                         </Grid.GestureRecognizers>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
@@ -249,13 +250,14 @@
                     IsPullToRefreshEnabled="True"
                     IsRefreshing="{Binding IsRefreshing}"                    
                     ItemsSource="{Binding Tecnicos}"
-                    RefreshCommand="{Binding RefreshArtistCommand}">
+                    RefreshCommand="{Binding RefreshArtistCommand}"
+                        SeparatorColor="DimGray">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
                                     <Grid>
                                         <Grid.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding TecnicoPageCommand}"/>
+                                            <TapGestureRecognizer Command="{Binding TecnicoPageCommand}" Tapped="OnGridSelect"/>
                                         </Grid.GestureRecognizers>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>

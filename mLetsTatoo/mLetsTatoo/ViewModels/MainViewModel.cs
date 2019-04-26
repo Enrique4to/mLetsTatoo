@@ -20,6 +20,7 @@ namespace mLetsTatoo.ViewModels
         public TecnicoProfileViewModel TecnicoProfile { get; set; }
         public TecnicoConfirmViewModel TecnicoConfirm { get; set; }
         public TecnicoFeaturesViewModel TecnicoFeatures { get; set; }
+        public TecnicoEditFeaturesViewModel TecnicoEditFeatures { get; set; }
         public UserViewDateViewModel UserViewDate { get; set; }
         public TecnicoViewJobViewModel TecnicoViewJob { get; set; }
         public TecnicoViewDateViewModel TecnicoViewDate { get; set; }

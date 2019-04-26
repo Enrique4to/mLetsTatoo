@@ -2,6 +2,7 @@
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using mLetsTatoo.Droid.Controls;
 using Plugin.CurrentActivity;
 using Plugin.Permissions;
 
@@ -28,6 +29,7 @@ namespace mLetsTatoo.Droid
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            NControls.Init();
             LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(

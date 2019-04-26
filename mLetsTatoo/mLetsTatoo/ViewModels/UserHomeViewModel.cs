@@ -37,11 +37,11 @@
         private ObservableCollection<CitasItemViewModel> citas;
         private ObservableCollection<T_trabajos> trabajos;
 
-        private T_clientes cliente;
-        private T_usuarios user;
-        private T_tecnicos tecnico;
-        private T_trabajos trabajo;
-        private T_trabajocitas cita;
+        public ClientesCollection cliente;
+        public T_usuarios user;
+        public TecnicosCollection tecnico;
+        public T_trabajos trabajo;
+        public T_trabajocitas cita;
 
         private string file;
         public string filter;
@@ -65,21 +65,12 @@
         public List<T_empresas> EmpresaList { get; set; }
         public List<T_tecnicos> TecnicoList { get; set; }
         public List<T_trabajocitas> CitaList { get; set; }
+        public List<EmpresasCollection> EmpresaUserList { get; set; }
 
-        public T_clientes Cliente
-        {
-            get { return this.cliente; }
-            set { SetValue(ref this.cliente, value); }
-        }
         public T_usuarios User
         {
             get { return this.user; }
             set { SetValue(ref this.user, value); }
-        }
-        public T_tecnicos Tecnico
-        {
-            get { return this.tecnico; }
-            set { SetValue(ref this.tecnico, value); }
         }
         public T_trabajos Trabajo
         {
@@ -141,7 +132,7 @@
         }
         #endregion
         #region Constructors
-        public UserHomeViewModel(T_usuarios user, T_clientes cliente)
+        public UserHomeViewModel(T_usuarios user, ClientesCollection cliente)
         {
             this.user = user;
             this.cliente = cliente;
@@ -202,18 +193,18 @@
             this.IsRefreshing = true;
             this.IsRunning = true;
 
-            if (this.user.F_Perfil != null)
-            {
-                string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "UserIcon.png");
-                File.WriteAllBytes(fileName, this.user.F_Perfil);
-                this.Image = new Image();
-                this.ImageSource = FileImageSource.FromFile(fileName);
-            }
-            else
-            {
-                this.ByteImage = this.apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
-                this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
-            }
+            //if (this.user.F_Perfil != null)
+            //{
+            //    string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "UserIcon.png");
+            //    File.WriteAllBytes(fileName, this.user.F_Perfil);
+            //    this.Image = new Image();
+            //    this.ImageSource = FileImageSource.FromFile(fileName);
+            //}
+            //else
+            //{
+            //    this.ByteImage = this.apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
+            //    this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
+            //}
 
             MainViewModel.GetInstance().UserPage = new UserViewModel(this.user, this.cliente);
 
@@ -254,26 +245,26 @@
                     "OK");
                 return;
             }
-            this.EmpresaList = (List<T_empresas>)response.Result;
 
+            this.EmpresaList = (List<T_empresas>)response.Result;
+            this.RefreshEmpresaList();
 
             this.IsRefreshing = false;
             this.IsRunning = false;
 
-            this.RefreshEmpresaList();
         }
         public void RefreshEmpresaList()
         {
-            if(string.IsNullOrEmpty(this.filterEmpresa))
+            var userList = MainViewModel.GetInstance().Login.ListUsuarios;
+            if (string.IsNullOrEmpty(this.filterEmpresa))
             {
                 var empresaSelected = this.EmpresaList.Select(e => new EmpresaItemViewModel
                 {
-
-                        Bloqueo = e.Bloqueo,
-                        Id_Empresa = e.Id_Empresa,
-                        Nombre = e.Nombre,
-                        Id_Usuario = e.Id_Usuario,
-                    
+                    Bloqueo = e.Bloqueo,
+                    Id_Empresa = e.Id_Empresa,
+                    Nombre = e.Nombre,
+                    Id_Usuario = e.Id_Usuario,
+                    F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == e.Id_Usuario).F_Perfil
                 });
 
                 this.Empresas = new ObservableCollection<EmpresaItemViewModel>(
@@ -283,11 +274,11 @@
             {
                 var empresaSelected = this.EmpresaList.Select(e => new EmpresaItemViewModel
                 {
-
-                        Bloqueo = e.Bloqueo,
-                        Id_Empresa = e.Id_Empresa,
-                        Nombre = e.Nombre,
-                        Id_Usuario = e.Id_Usuario,
+                    Bloqueo = e.Bloqueo,
+                    Id_Empresa = e.Id_Empresa,
+                    Nombre = e.Nombre,
+                    Id_Usuario = e.Id_Usuario,
+                    F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == e.Id_Usuario).F_Perfil
 
                 }).Where(e => e.Nombre.ToLower().Contains(this.filterEmpresa.ToLower())).ToList();
 
@@ -335,9 +326,10 @@
         }
         public void RefreshTecnicoList()
         {
+            var userList = MainViewModel.GetInstance().Login.ListUsuarios;
             if (string.IsNullOrEmpty(this.filterTecnico))
             {
-                var userList = MainViewModel.GetInstance().Login.ListUsuarios;
+
                 var tecnico = this.TecnicoList.Select(t => new TecnicoItemViewModel
                 {
                     Apellido1 = t.Apellido1,
@@ -349,7 +341,9 @@
                     Id_Tecnico = t.Id_Tecnico,
                     Id_Usuario = t.Id_Usuario,
                     Nombre = t.Nombre,
-                }).Where(t => userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)).ToList(); ;
+                    F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == t.Id_Usuario).F_Perfil
+
+                }).Where(t => userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)).ToList();
                 this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
             }
             else
@@ -364,10 +358,12 @@
                     Id_Local = t.Id_Local,
                     Id_Tecnico = t.Id_Tecnico,
                     Nombre = t.Nombre,
+                    F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == t.Id_Usuario).F_Perfil
 
-                }).Where(t => t.Nombre.ToLower().Contains(this.filterTecnico.ToLower()) 
+                }).Where(t => userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)
+                && (t.Nombre.ToLower().Contains(this.filterTecnico.ToLower()) 
                 || t.Apodo.ToLower().Contains(this.filterTecnico.ToLower())
-                || t.Apellido1.ToLower().Contains(this.filterTecnico.ToLower())).ToList();
+                || t.Apellido1.ToLower().Contains(this.filterTecnico.ToLower()))).ToList();
                 this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
             }
 

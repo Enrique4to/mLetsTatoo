@@ -12,7 +12,7 @@
         [Required]
         public int Tipo_Usuario { get; set; }
         [Required]
-        public int Id_De { get; set; }
+        public int Id_Usuario { get; set; }
         [Required]
         public int Id_Local { get; set; }
         [Required]

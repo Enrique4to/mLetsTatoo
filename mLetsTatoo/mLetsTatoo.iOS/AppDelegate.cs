@@ -10,6 +10,7 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using mLetsTatoo.iOS.Controls;
 
 namespace mLetsTatoo.iOS
 {
@@ -35,6 +36,7 @@ namespace mLetsTatoo.iOS
             SfPickerRenderer.Init();
             LoadApplication(new App());
             Rg.Plugins.Popup.Popup.Init();
+            NControls.Init();
             return base.FinishedLaunching(app, options);
         }
     }

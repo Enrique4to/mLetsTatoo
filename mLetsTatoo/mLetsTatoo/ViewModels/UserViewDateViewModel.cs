@@ -40,16 +40,16 @@
         private TimeSpan appointmentTime;
 
         private T_trabajocitas cita;
-        private T_usuarios user;
-        private T_clientes cliente;
+        public T_usuarios user;
+        private ClientesCollection cliente;
         private T_trabajos trabajo;
-        private T_tecnicos tecnico;
+        private TecnicosCollection tecnico;
         private T_locales local;
         private T_empresas empresa;
         private T_estado estado;
         private T_ciudad ciudad;
         private T_postal postal;
-        public T_trabajonota notaSelected;
+        public TrabajoNotaCollection notaSelected;
         public T_citaimagenes image;
 
         private ObservableCollection<NotasItemViewModel> notas;
@@ -72,7 +72,6 @@
             get { return this.isButtonEnabled; }
             set { SetValue(ref this.isButtonEnabled, value); }
         }
-
         public string Address
         {
             get { return this.address; }
@@ -141,7 +140,7 @@
         #endregion
 
         #region Constructors
-        public UserViewDateViewModel(T_trabajocitas cita, T_usuarios user, T_clientes cliente)
+        public UserViewDateViewModel(T_trabajocitas cita, T_usuarios user, ClientesCollection cliente)
         {
             this.cita = cita;
             this.user = user;
@@ -157,6 +156,7 @@
             this.IsRefreshing = false;
         }
         #endregion
+
         #region Commands
         public ICommand AddNewCommentCommand
         {
@@ -190,6 +190,7 @@
             }
         }
         #endregion
+
         #region Methods
         public async Task LoadInfo()
         {
@@ -237,7 +238,22 @@
                     "OK");
                 return;
             }
-            this.tecnico = (T_tecnicos)response.Result;
+            var tecnicoTemp = (T_tecnicos)response.Result;
+            var userList = MainViewModel.GetInstance().Login.ListUsuarios;
+
+            this.tecnico = new TecnicosCollection
+            {
+                Id_Empresa = tecnicoTemp.Id_Empresa,
+                Apellido1 = tecnicoTemp.Apellido1,
+                Apellido2 = tecnicoTemp.Apellido2,
+                Apodo = tecnicoTemp.Apodo,
+                Carrera = tecnicoTemp.Carrera,
+                Id_Local = tecnicoTemp.Id_Local,
+                Id_Tecnico = tecnicoTemp.Id_Tecnico,
+                Id_Usuario = tecnicoTemp.Id_Usuario,
+                Nombre = tecnicoTemp.Nombre,
+                F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == tecnicoTemp.Id_Usuario).F_Perfil,
+            };
 
             //------------------------Cargar Datos de Local ------------------------//
 
@@ -376,37 +392,23 @@
 
         public void RefreshListNotas()
         {
+            var userList = MainViewModel.GetInstance().Login.ListUsuarios;
             var nota = this.NotaList.Select(c => new NotasItemViewModel
             {
                 Id_Cita = c.Id_Cita,
                 Id_Trabajo = c.Id_Trabajo,
-                Id_De = c.Id_De,
+                Id_Usuario = c.Id_Usuario,
                 Tipo_Usuario = c.Tipo_Usuario,
                 F_nota = c.F_nota,
                 Id_Local = c.Id_Local,
                 Id_Nota = c.Id_Nota,
                 Nota = c.Nota,
                 Nombre_Post = c.Nombre_Post,
+                F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == c.Id_Usuario).F_Perfil
 
             }).Where(c => c.Id_Cita == this.cita.Id_Cita).ToList();
 
             this.Notas = new ObservableCollection<NotasItemViewModel>(nota.OrderByDescending(c => c.F_nota));
-        }
-        public void SelectedNota()
-        {
-            if (this.notaSelected != null)
-            {
-                if (this.user.Tipo == this.notaSelected.Tipo_Usuario)
-                {
-                    IsButtonEnabled = true;
-                    IsVisible = true;
-                }
-                else
-                {
-                    IsButtonEnabled = false;
-                    IsVisible = false;
-                }
-            }
         }
         public void GoToAddCommandPopup()
         {
