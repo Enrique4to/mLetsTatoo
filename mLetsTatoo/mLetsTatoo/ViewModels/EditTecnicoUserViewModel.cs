@@ -4,15 +4,16 @@
     using System.Linq;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
-    using Helpers;
+    using mLetsTatoo.Helpers;
+    using mLetsTatoo.Popups.ViewModel;
+    using mLetsTatoo.Popups.Views;
+    using mLetsTatoo.Views;
     using Models;
-    using Popups.ViewModel;
-    using Popups.Views;
     using Rg.Plugins.Popup.Extensions;
     using Services;
     using Xamarin.Forms;
 
-    public class EditUserViewModel : BaseViewModel
+    public class EditTecnicoUserViewModel : BaseViewModel
     {
         #region Services
         private ApiService apiService;
@@ -20,7 +21,7 @@
 
         #region Attributes
         private INavigation Navigation;
-        private ClientesCollection cliente;
+        private TecnicosCollection tecnico;
         private T_usuarios user;
         private bool isActPass;
         private bool isActEmail;
@@ -31,10 +32,10 @@
         public string CurrentPassword { get; set; }
         public string ConfirmPassword { get; set; }
         public string NewPassword { get; set; }
-        public ClientesCollection Cliente
+        public TecnicosCollection Tecnico
         {
-            get { return this.cliente; }
-            set { SetValue(ref this.cliente, value); }
+            get { return this.tecnico; }
+            set { SetValue(ref this.tecnico, value); }
         }
         public T_usuarios User
         {
@@ -59,10 +60,10 @@
         #endregion
 
         #region Contructors
-        public EditUserViewModel(ClientesCollection cliente, T_usuarios user)
+        public EditTecnicoUserViewModel(TecnicosCollection tecnico, T_usuarios user)
         {
             this.apiService = new ApiService();
-            this.cliente = cliente;
+            this.tecnico = tecnico;
             this.user = user;
         }
         #endregion
@@ -96,7 +97,7 @@
                         "Ok");
                     return;
                 }
-                if (this.user.Pass == this.CurrentPassword)
+                if (this.user.Pass != this.CurrentPassword)
                 {
                     await Application.Current.MainPage.DisplayAlert(
                         Languages.Error,
@@ -120,7 +121,7 @@
                         "Ok");
                     return;
                 }
-                if (this.NewPassword!=this.ConfirmPassword)
+                if (this.NewPassword != this.ConfirmPassword)
                 {
                     await Application.Current.MainPage.DisplayAlert(
                         Languages.Error,
@@ -147,7 +148,7 @@
             //-------------- Change Personal --------------//
             if (this.IsActEmail == true)
             {
-                if (string.IsNullOrEmpty(this.cliente.Nombre))
+                if (string.IsNullOrEmpty(this.Tecnico.Nombre))
                 {
                     await Application.Current.MainPage.DisplayAlert(
                         Languages.Error,
@@ -155,31 +156,12 @@
                         "Ok");
                     return;
                 }
-                if (string.IsNullOrEmpty(this.cliente.Apellido))
+                if (string.IsNullOrEmpty(this.Tecnico.Apellido1))
                 {
                     await Application.Current.MainPage.DisplayAlert(
                         Languages.Error,
                         Languages.LastnameError,
                         "Ok");
-                    return;
-                }
-                var cliente_phone = int.Parse(this.cliente.Telefono);
-                if (cliente_phone > 0)
-                {
-                    await Application.Current.MainPage.DisplayAlert(
-                        Languages.Error,
-                        Languages.PhoneError,
-                        "Ok");
-                    return;
-                }
-                DateTime now = DateTime.Today;
-                int age = now.Year - this.cliente.F_Nac.Year;
-                if (age < 18)
-                {
-                    await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.AgeError,
-                    "Ok");
                     return;
                 }
 
@@ -195,7 +177,7 @@
 
                 await Application.Current.MainPage.Navigation.PopPopupAsync();
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
                     "OK");
@@ -210,13 +192,13 @@
                 Confirmado = this.user.Confirmado,
                 Pass = this.NewPassword,
                 Tipo = this.user.Tipo,
-                Ucorreo = this.cliente.Correo,
+                Ucorreo = this.User.Ucorreo,
                 Usuario = this.user.Usuario,
                 F_Perfil= this.user.F_Perfil,
             };
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_usuariosController"].ToString();
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_usuariosController"].ToString();
 
             this.apiService = new ApiService();
 
@@ -232,7 +214,7 @@
 
                 await Application.Current.MainPage.Navigation.PopPopupAsync();
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
@@ -246,68 +228,70 @@
                 MainViewModel.GetInstance().Login.ListUsuarios.Remove(oldUser);
             }
             MainViewModel.GetInstance().Login.ListUsuarios.Add(newUser);
+            //this.user = (T_usuarios)response.Result;
 
-            urlApi = App.Current.Resources["UrlAPI"].ToString();
-            prefix = App.Current.Resources["UrlPrefix"].ToString();
-            controller = App.Current.Resources["UrlT_clientesController"].ToString();
+            urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            controller = Application.Current.Resources["UrlT_tecnicosController"].ToString();
+
+            var tecnicoTemp = new T_tecnicos
+            {
+                Id_Empresa = this.tecnico.Id_Empresa,
+                Apellido1 = this.tecnico.Apellido1,
+                Apellido2 = this.tecnico.Apellido2,
+                Apodo = this.tecnico.Apodo,
+                Carrera = this.tecnico.Carrera,
+                Id_Local = this.tecnico.Id_Local,
+                Id_Tecnico = this.tecnico.Id_Tecnico,
+                Id_Usuario = this.tecnico.Id_Usuario,
+                Nombre = this.tecnico.Nombre,
+            };
 
             this.apiService = new ApiService();
-
-            var clienteTemp = new T_clientes
-            {
-                Apellido = this.cliente.Apellido,
-                Bloqueo = this.cliente.Bloqueo,
-                Correo = this.cliente.Correo,
-                F_Nac = this.cliente.F_Nac,
-                Id_Cliente = this.cliente.Id_Cliente,
-                Id_Usuario = this.cliente.Id_Usuario,
-                Nombre = this.cliente.Nombre,
-                Telefono = this.cliente.Telefono,
-            };
 
             response = await this.apiService.Put
                 (urlApi,
                 prefix,
                 controller,
-                clienteTemp,
-                clienteTemp.Id_Cliente);
+                tecnicoTemp,
+                tecnicoTemp.Id_Tecnico);
 
             if (!response.IsSuccess)
             {
-
                 await Application.Current.MainPage.Navigation.PopPopupAsync();
 
-                await App.Current.MainPage.DisplayAlert(
+                await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
                 return;
             }
 
-            clienteTemp = (T_clientes)response.Result;
+            tecnicoTemp = (T_tecnicos)response.Result;
 
-            var oldCliente = MainViewModel.GetInstance().Login.ClienteList.Where(c => c.Id_Cliente == this.cliente.Id_Cliente).FirstOrDefault();
-            if (oldCliente != null)
+            var oldTecnico = MainViewModel.GetInstance().Login.TecnicoList.Where(c => c.Id_Tecnico == this.tecnico.Id_Tecnico).FirstOrDefault();
+            if (oldTecnico != null)
             {
-                MainViewModel.GetInstance().Login.ClienteList.Remove(oldCliente);
+                MainViewModel.GetInstance().Login.TecnicoList.Remove(oldTecnico);
             }
 
-            var newCliente = new ClientesCollection
+            var newTecnico = new TecnicosCollection
             {
-                Apellido = clienteTemp.Apellido,
-                Bloqueo = clienteTemp.Bloqueo,
-                Correo = clienteTemp.Correo,
-                F_Nac = clienteTemp.F_Nac,
-                Id_Cliente = clienteTemp.Id_Cliente,
-                Id_Usuario = clienteTemp.Id_Usuario,
-                Nombre = clienteTemp.Nombre,
-                Telefono = clienteTemp.Telefono,
-                F_Perfil = MainViewModel.GetInstance().Login.ListUsuarios.FirstOrDefault(u => u.Id_usuario == clienteTemp.Id_Usuario).F_Perfil,
+                Id_Empresa = tecnicoTemp.Id_Empresa,
+                Apellido1 = tecnicoTemp.Apellido1,
+                Apellido2 = tecnicoTemp.Apellido2,
+                Apodo = tecnicoTemp.Apodo,
+                Carrera = tecnicoTemp.Carrera,
+                Id_Local = tecnicoTemp.Id_Local,
+                Id_Tecnico = tecnicoTemp.Id_Tecnico,
+                Id_Usuario = tecnicoTemp.Id_Usuario,
+                Nombre = tecnicoTemp.Nombre,
+                F_Perfil = MainViewModel.GetInstance().Login.ListUsuarios.FirstOrDefault(u => u.Id_usuario == tecnicoTemp.Id_Usuario).F_Perfil,
             };
 
-            MainViewModel.GetInstance().Login.ClienteList.Add(newCliente);
+            MainViewModel.GetInstance().Login.TecnicoList.Add(newTecnico);
 
-            MainViewModel.GetInstance().UserPage = new UserViewModel(this.user, this.cliente);
+            MainViewModel.GetInstance().TecnicoProfile = new TecnicoProfileViewModel(this.user, this.tecnico);
             await Application.Current.MainPage.Navigation.PopModalAsync();
 
             await Application.Current.MainPage.Navigation.PopPopupAsync();

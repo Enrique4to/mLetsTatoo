@@ -8,9 +8,10 @@
     xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
     x:Class="mLetsTatoo.Views.TecnicoEditFeaturesPage">
     <ContentPage.Content>
-        <ScrollView>
+        <ScrollView
+            VerticalScrollBarVisibility="Always">
             <StackLayout
-                BindingContext="{Binding TecnicoFeatures}"
+                BindingContext="{Binding TecnicoEditFeatures}"
                 Padding="15">
                 <Label
                     FontAttributes="Bold"
@@ -45,7 +46,7 @@
                             Keyboard="Numeric"
                             Placeholder="{i18n:Translate Height}"
                             PlaceholderColor="Gray"
-                            Text="{Binding Height1, Mode=TwoWay}"                        
+                            Text="{Binding FSE.Alto, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <control:CustomEntry 
@@ -60,7 +61,7 @@
                             Keyboard="Numeric"
                             Placeholder="{i18n:Translate Width}"
                             PlaceholderColor="Gray"
-                            Text="{Binding Width1, Mode=TwoWay}"                        
+                            Text="{Binding FSE.Ancho, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <StackLayout
@@ -134,7 +135,7 @@
                             IsCurvedCornersEnabled="True"
                             Keyboard="Numeric"
                             PlaceholderColor="Gray"
-                            Text="{Binding Cost1, Mode=TwoWay}"                        
+                            Text="{Binding FSE.Total_Aprox, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <control:CustomEntry 
@@ -148,14 +149,14 @@
                             IsCurvedCornersEnabled="True"
                             Keyboard="Numeric"
                             PlaceholderColor="Gray"
-                            Text="{Binding Advance1, Mode=TwoWay}"                        
+                            Text="{Binding FSE.Costo_Cita, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <Image                            
                             Grid.Column="3"
                             Grid.Row="2"
                             HorizontalOptions="End"
-                            Source="Image.png"
+                            Source="{Binding FSE.Imagen_Ejemplo, Converter={StaticResource ByteArrayToImage}}"
                             VerticalOptions="Center"
                             WidthRequest="25"
                             x:Name="Image1">
@@ -183,7 +184,8 @@
                                 HeightRequest="25"
                                 HorizontalTextAlignment="Center"
                                 IsCurvedCornersEnabled="True"
-                                Text="{Binding EstimatedTime, Mode=TwoWay}"                        
+                                PropertyChanged="ConvertTime"
+                                Text="{Binding FSE.Tiempo, Mode=TwoWay}"                        
                                 TextColor="LightGray"
                                 VerticalOptions="Center"
                                 WidthRequest="135"
@@ -219,7 +221,7 @@
                             IsCurvedCornersEnabled="True"
                             Keyboard="Numeric"
                             PlaceholderColor="Gray"
-                            Text="{Binding Cost2, Mode=TwoWay}"                        
+                            Text="{Binding FSM.Total_Aprox, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <control:CustomEntry 
@@ -233,14 +235,14 @@
                             IsCurvedCornersEnabled="True"
                             Keyboard="Numeric"
                             PlaceholderColor="Gray"
-                            Text="{Binding Advance2, Mode=TwoWay}"                        
+                            Text="{Binding FSM.Costo_Cita, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <Image                            
                             Grid.Column="3"
                             Grid.Row="4"
                             HorizontalOptions="End"
-                            Source="Image.png"
+                            Source="{Binding FSM.Imagen_Ejemplo, Converter={StaticResource ByteArrayToImage}}"
                             VerticalOptions="Center"
                             WidthRequest="25"
                             x:Name="Image2">
@@ -268,7 +270,8 @@
                                 HeightRequest="25"
                                 HorizontalTextAlignment="Center"
                                 IsCurvedCornersEnabled="True"
-                                Text="{Binding EstimatedTime, Mode=TwoWay}"                        
+                                PropertyChanged="ConvertTime"
+                                Text="{Binding FSM.Tiempo, Mode=TwoWay}"                        
                                 TextColor="LightGray"
                                 VerticalOptions="Center"
                                 WidthRequest="135"
@@ -304,7 +307,7 @@
                             IsCurvedCornersEnabled="True"
                             Keyboard="Numeric"
                             PlaceholderColor="Gray"
-                            Text="{Binding Cost3, Mode=TwoWay}"                        
+                            Text="{Binding FSH.Total_Aprox, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <control:CustomEntry 
@@ -318,14 +321,14 @@
                             IsCurvedCornersEnabled="True"
                             Keyboard="Numeric"
                             PlaceholderColor="Gray"
-                            Text="{Binding Advance3, Mode=TwoWay}"                        
+                            Text="{Binding FSH.Costo_Cita, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <Image                            
                             Grid.Column="3"
                             Grid.Row="6"
                             HorizontalOptions="End"
-                            Source="Image.png"
+                            Source="{Binding FSH.Imagen_Ejemplo, Converter={StaticResource ByteArrayToImage}}"
                             VerticalOptions="Center"
                             WidthRequest="25"
                             x:Name="Image3">
@@ -353,7 +356,8 @@
                                 HeightRequest="25"
                                 HorizontalTextAlignment="Center"
                                 IsCurvedCornersEnabled="True"
-                                Text="{Binding EstimatedTime, Mode=TwoWay}"                        
+                                PropertyChanged="ConvertTime"
+                                Text="{Binding FSH.Tiempo, Mode=TwoWay}"                        
                                 TextColor="LightGray"
                                 VerticalOptions="Center"
                                 WidthRequest="135"
@@ -393,7 +397,7 @@
                             Keyboard="Numeric"
                             Placeholder="{i18n:Translate Height}"
                             PlaceholderColor="Gray"
-                            Text="{Binding Height2, Mode=TwoWay}"                        
+                            Text="{Binding FME.Alto, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <control:CustomEntry 
@@ -408,7 +412,7 @@
                             Keyboard="Numeric"
                             Placeholder="{i18n:Translate Width}"
                             PlaceholderColor="Gray"
-                            Text="{Binding Width2, Mode=TwoWay}"                        
+                            Text="{Binding FME.Ancho, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <StackLayout
@@ -473,7 +477,7 @@
                             IsCurvedCornersEnabled="True"
                             Keyboard="Numeric"
                             PlaceholderColor="Gray"
-                            Text="{Binding Cost4, Mode=TwoWay}"                        
+                            Text="{Binding FME.Total_Aprox, Mode=TwoWay}"                        
                             TextColor="LightGray"/>
                         <control:CustomEntry 
                             BorderColor="Gray"
@@ -486,7 +490,7 @@
                             IsCurvedCornersEnabled="True"
                             Keyboard="Numeric"
                             PlaceholderColor="Gray"
-                            Text="{Binding Advance4, Mode=TwoWay}"                        
+                            Text="{Binding FME.Costo_Cita, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"
                             WidthRequest="50"/>
@@ -494,7 +498,7 @@
                             Grid.Column="3"
                             Grid.Row="2"
                             HorizontalOptions="End"
-                            Source="Image.png"
+                            Source="{Binding FME.Imagen_Ejemplo, Converter={StaticResource ByteArrayToImage}}"
                             VerticalOptions="Center"
                             WidthRequest="25"
                             x:Name="Image4">
@@ -522,7 +526,8 @@
                                 HeightRequest="25"
                                 HorizontalTextAlignment="Center"
                                 IsCurvedCornersEnabled="True"
-                                Text="{Binding EstimatedTime, Mode=TwoWay}"                        
+                                PropertyChanged="ConvertTime"
+                                Text="{Binding FME.Tiempo, Mode=TwoWay}"                        
                                 TextColor="LightGray"
                                 VerticalOptions="Center"
                                 WidthRequest="135"
@@ -564,7 +569,7 @@
                             IsCurvedCornersEnabled="True"
                             Keyboard="Numeric"
                             PlaceholderColor="Gray"
-                            Text="{Binding Cost5, Mode=TwoWay}"                        
+                            Text="{Binding FMM.Total_Aprox, Mode=TwoWay}"                        
                             TextColor="LightGray"/>
                         <control:CustomEntry 
                             BorderColor="Gray"
@@ -577,14 +582,14 @@
                             IsCurvedCornersEnabled="True"
                             Keyboard="Numeric"
                             PlaceholderColor="Gray"
-                            Text="{Binding Advance5, Mode=TwoWay}"                        
+                            Text="{Binding FMM.Costo_Cita, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <Image                            
                             Grid.Column="3"
                             Grid.Row="4"
                             HorizontalOptions="End"
-                            Source="Image.png"
+                            Source="{Binding FMM.Imagen_Ejemplo, Converter={StaticResource ByteArrayToImage}}"
                             VerticalOptions="Center"
                             WidthRequest="25"
                             x:Name="Image5">
@@ -612,7 +617,8 @@
                                 HeightRequest="25"
                                 HorizontalTextAlignment="Center"
                                 IsCurvedCornersEnabled="True"
-                                Text="{Binding EstimatedTime, Mode=TwoWay}"                        
+                                PropertyChanged="ConvertTime"
+                                Text="{Binding FMM.Tiempo, Mode=TwoWay}"                        
                                 TextColor="LightGray"
                                 VerticalOptions="Center"
                                 WidthRequest="135"
@@ -648,7 +654,7 @@
                             IsCurvedCornersEnabled="True"
                             Keyboard="Numeric"
                             PlaceholderColor="Gray"
-                            Text="{Binding Cost6, Mode=TwoWay}"                        
+                            Text="{Binding FMH.Total_Aprox, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <control:CustomEntry 
@@ -662,14 +668,14 @@
                             IsCurvedCornersEnabled="True"
                             Keyboard="Numeric"
                             PlaceholderColor="Gray"
-                            Text="{Binding Advance6, Mode=TwoWay}"                        
+                            Text="{Binding FMH.Costo_Cita, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <Image                            
                             Grid.Column="3"
                             Grid.Row="6"
                             HorizontalOptions="End"
-                            Source="Image.png"
+                            Source="{Binding FMH.Imagen_Ejemplo, Converter={StaticResource ByteArrayToImage}}"
                             VerticalOptions="Center"
                             WidthRequest="25"
                             x:Name="Image6">
@@ -697,7 +703,8 @@
                                 HeightRequest="25"
                                 HorizontalTextAlignment="Center"
                                 IsCurvedCornersEnabled="True"
-                                Text="{Binding EstimatedTime, Mode=TwoWay}"                        
+                                PropertyChanged="ConvertTime"
+                                Text="{Binding FMH.Tiempo, Mode=TwoWay}"                        
                                 TextColor="LightGray"
                                 VerticalOptions="Center"
                                 WidthRequest="135"
@@ -735,7 +742,7 @@
                             Keyboard="Numeric"
                             Placeholder="{i18n:Translate Height}"
                             PlaceholderColor="Gray"
-                            Text="{Binding Height3, Mode=TwoWay}"                        
+                            Text="{Binding FBE.Alto, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <control:CustomEntry 
@@ -750,7 +757,7 @@
                             Keyboard="Numeric"
                             Placeholder="{i18n:Translate Width}"
                             PlaceholderColor="Gray"
-                            Text="{Binding Width3, Mode=TwoWay}"                        
+                            Text="{Binding FBE.Ancho, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <StackLayout
@@ -815,7 +822,7 @@
                             IsCurvedCornersEnabled="True"
                             Keyboard="Numeric"
                             PlaceholderColor="Gray"
-                            Text="{Binding Cost7, Mode=TwoWay}"                        
+                            Text="{Binding FBE.Total_Aprox, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <control:CustomEntry 
@@ -829,14 +836,14 @@
                             IsCurvedCornersEnabled="True"
                             Keyboard="Numeric"
                             PlaceholderColor="Gray"
-                            Text="{Binding Advance7, Mode=TwoWay}"                        
+                            Text="{Binding FBE.Costo_Cita, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <Image                            
                             Grid.Column="3"
                             Grid.Row="2"
                             HorizontalOptions="End"
-                            Source="Image.png"
+                            Source="{Binding FBE.Imagen_Ejemplo, Converter={StaticResource ByteArrayToImage}}"
                             VerticalOptions="Center"
                             WidthRequest="25"
                             x:Name="Image7">
@@ -864,7 +871,8 @@
                                 HeightRequest="25"
                                 HorizontalTextAlignment="Center"
                                 IsCurvedCornersEnabled="True"
-                                Text="{Binding EstimatedTime, Mode=TwoWay}"                        
+                                PropertyChanged="ConvertTime"
+                                Text="{Binding FBE.Tiempo, Mode=TwoWay}"                        
                                 TextColor="LightGray"
                                 VerticalOptions="Center"
                                 WidthRequest="135"
@@ -900,7 +908,7 @@
                             IsCurvedCornersEnabled="True"
                             Keyboard="Numeric"
                             PlaceholderColor="Gray"
-                            Text="{Binding Cost8, Mode=TwoWay}"                        
+                            Text="{Binding FBM.Total_Aprox, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <control:CustomEntry 
@@ -914,14 +922,14 @@
                             IsCurvedCornersEnabled="True"
                             Keyboard="Numeric"
                             PlaceholderColor="Gray"
-                            Text="{Binding Advance8, Mode=TwoWay}"                        
+                            Text="{Binding FBM.Costo_Cita, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <Image                            
                             Grid.Column="3"
                             Grid.Row="4"
                             HorizontalOptions="End"
-                            Source="Image.png"
+                            Source="{Binding FBM.Imagen_Ejemplo, Converter={StaticResource ByteArrayToImage}}"
                             VerticalOptions="Center"
                             WidthRequest="25"
                             x:Name="Image8">
@@ -949,7 +957,8 @@
                                 HeightRequest="25"
                                 HorizontalTextAlignment="Center"
                                 IsCurvedCornersEnabled="True"
-                                Text="{Binding EstimatedTime, Mode=TwoWay}"                        
+                                PropertyChanged="ConvertTime"
+                                Text="{Binding FBM.Tiempo, Mode=TwoWay}"                        
                                 TextColor="LightGray"
                                 VerticalOptions="Center"
                                 WidthRequest="135"
@@ -985,7 +994,7 @@
                             IsCurvedCornersEnabled="True"
                             Keyboard="Numeric"
                             PlaceholderColor="Gray"
-                            Text="{Binding Cost9, Mode=TwoWay}"                        
+                            Text="{Binding FBH.Total_Aprox, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <control:CustomEntry 
@@ -999,14 +1008,14 @@
                             IsCurvedCornersEnabled="True"
                             Keyboard="Numeric"
                             PlaceholderColor="Gray"
-                            Text="{Binding Advance9, Mode=TwoWay}"                        
+                            Text="{Binding FBH.Costo_Cita, Mode=TwoWay}"                        
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
                         <Image                            
                             Grid.Column="3"
                             Grid.Row="6"
                             HorizontalOptions="End"
-                            Source="Image.png"
+                            Source="{Binding FBH.Imagen_Ejemplo, Converter={StaticResource ByteArrayToImage}}"
                             VerticalOptions="Center"
                             WidthRequest="25"
                             x:Name="Image9">
@@ -1034,7 +1043,8 @@
                                 HeightRequest="25"
                                 HorizontalTextAlignment="Center"
                                 IsCurvedCornersEnabled="True"
-                                Text="{Binding EstimatedTime, Mode=TwoWay}"                        
+                                PropertyChanged="ConvertTime"
+                                Text="{Binding FBH.Tiempo, Mode=TwoWay}"                        
                                 TextColor="LightGray"
                                 VerticalOptions="Center"
                                 WidthRequest="135"
@@ -1053,12 +1063,12 @@
                     <Button
                         BackgroundColor="Gray"
                         BorderRadius="23"
-                        Command="{Binding NextCommand}"
+                        Command="{Binding SaveCommand}"
                         FontAttributes="Bold"
                         FontSize="20"
                         HeightRequest="46"
                         IsEnabled="{Binding IsEnabled}"
-                        Text="{i18n:Translate Done}"
+                        Text="{i18n:Translate Save}"
                         TextColor="Black"/>
                 </StackLayout>
             </StackLayout>

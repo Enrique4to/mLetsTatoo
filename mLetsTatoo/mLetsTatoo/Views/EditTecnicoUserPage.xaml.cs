@@ -1,25 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-namespace mLetsTatoo.Views
+﻿namespace mLetsTatoo.Views
 {
-	public partial class EditUserPage : ContentPage
+    using Xamarin.Forms;
+    public partial class EditTecnicoUserPage : ContentPage
 	{
-		public EditUserPage ()
-        {
-            InitializeComponent();
+        public EditTecnicoUserPage ()
+		{
+			InitializeComponent ();
             this.EnabledButton();
         }
         private void SwPass_Toggled(object sender, ToggledEventArgs e)
         {
             StackPass.IsEnabled = e.Value;
-            if (e.Value == true)
+            if (e.Value==true)
             {
                 StackPass.Opacity = 1;
             }
@@ -57,9 +49,9 @@ namespace mLetsTatoo.Views
         }
         private void EnabledButton()
         {
-            if (StackPersonal.IsEnabled == true || StackPass.IsEnabled == true || StackEmail.IsEnabled == true)
+            if(StackPersonal.IsEnabled == true || StackPass.IsEnabled == true || StackEmail.IsEnabled == true)
                 this.SaveBtn.IsEnabled = true;
-
+           
             else
                 this.SaveBtn.IsEnabled = false;
         }

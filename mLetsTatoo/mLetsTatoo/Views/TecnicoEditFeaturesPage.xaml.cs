@@ -6,6 +6,9 @@
     using Plugin.Media.Abstractions;
     using System;
     using Xamarin.Forms;
+    using Models;
+    using System.IO;
+
     public partial class TecnicoEditFeaturesPage : ContentPage
     {
         #region Attributes
@@ -59,7 +62,7 @@
                         PhotoSize = PhotoSize.Small,
                     });
             }
-
+            byte[] ByteImage = null;
             if (this.file != null)
             {
                 imageSender.Source = ImageSource.FromStream(() =>
@@ -68,48 +71,48 @@
                     return stream;
                 });
             }
-            if(imageSender == this.Image1)
+            ByteImage = FileHelper.ReadFully(this.file.GetStream());
+
+            if (imageSender == this.Image1)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.file1 = this.file;
+                MainViewModel.GetInstance().TecnicoEditFeatures.FSE.Imagen_Ejemplo = ByteImage;
             }
             else if (imageSender == this.Image2)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.file2 = this.file;
+                MainViewModel.GetInstance().TecnicoEditFeatures.FSM.Imagen_Ejemplo = ByteImage;
             }
             else if (imageSender == this.Image3)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.file3 = this.file;
+                MainViewModel.GetInstance().TecnicoEditFeatures.FSH.Imagen_Ejemplo = ByteImage;
             }
             else if (imageSender == this.Image4)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.file4 = this.file;
+                MainViewModel.GetInstance().TecnicoEditFeatures.FME.Imagen_Ejemplo = ByteImage;
             }
             else if (imageSender == this.Image5)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.file5 = this.file;
+                MainViewModel.GetInstance().TecnicoEditFeatures.FMM.Imagen_Ejemplo = ByteImage;
             }
             else if (imageSender == this.Image6)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.file6 = this.file;
+                MainViewModel.GetInstance().TecnicoEditFeatures.FMH.Imagen_Ejemplo = ByteImage;
             }
             else if (imageSender == this.Image7)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.file7 = this.file;
+                MainViewModel.GetInstance().TecnicoEditFeatures.FBE.Imagen_Ejemplo = ByteImage;
             }
             else if (imageSender == this.Image8)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.file8 = this.file;
+                MainViewModel.GetInstance().TecnicoEditFeatures.FBM.Imagen_Ejemplo = ByteImage;
             }
             else if (imageSender == this.Image9)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.file9 = this.file;
+                MainViewModel.GetInstance().TecnicoEditFeatures.FBH.Imagen_Ejemplo = ByteImage;
             }
         }
         public async void OnTapGestureRecognizerLabel(object sender, EventArgs e)
         {
-
             var timeSender = (Label)sender;
-            await CrossMedia.Current.Initialize();
             var source = await Application.Current.MainPage.DisplayActionSheet(
                 Languages.SelectEstimatedTime,
                 Languages.Cancel,
@@ -164,43 +167,122 @@
             }
             if (timeSender == this.Time1)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.time1 = this.time;
+                MainViewModel.GetInstance().TecnicoEditFeatures.FSE.Tiempo = this.time;
             }
             else if (timeSender == this.Time2)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.time2 = this.time;
+                MainViewModel.GetInstance().TecnicoEditFeatures.FSM.Tiempo = this.time;
             }
             else if (timeSender == this.Time3)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.time3 = this.time;
+                MainViewModel.GetInstance().TecnicoEditFeatures.FSH.Tiempo = this.time;
             }
             else if (timeSender == this.Time4)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.time4 = this.time;
+                MainViewModel.GetInstance().TecnicoEditFeatures.FME.Tiempo = this.time;
             }
             else if (timeSender == this.Time5)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.time5 = this.time;
+                MainViewModel.GetInstance().TecnicoEditFeatures.FMM.Tiempo = this.time;
             }
             else if (timeSender == this.Time6)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.time6 = this.time;
+                MainViewModel.GetInstance().TecnicoEditFeatures.FMH.Tiempo = this.time;
             }
             else if (timeSender == this.Time7)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.time7 = this.time;
+                MainViewModel.GetInstance().TecnicoEditFeatures.FBE.Tiempo = this.time;
             }
             else if (timeSender == this.Time8)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.time8 = this.time;
+                MainViewModel.GetInstance().TecnicoEditFeatures.FBM.Tiempo = this.time;
             }
             else if (timeSender == this.Time9)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.time9 = this.time;
+                MainViewModel.GetInstance().TecnicoEditFeatures.FBH.Tiempo = this.time;
+            }
+        }
+        private void ConvertTime(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            var c = (Label)sender;
+            if (c.Text == "30")
+            {
+                c.Text = "30 mins";
+            }
+            else if (c.Text == "60")
+            {
+                c.Text = "1 hr";
+            }
+            else if (c.Text == "90")
+            {
+                c.Text = "1 hr 30 mins";
+            }
+            else if (c.Text == "120")
+            {
+                c.Text = "2 hrs";
+            }
+            else if (c.Text == "150")
+            {
+                c.Text = "2 hrs 30 mins";
+            }
+            else if (c.Text == "180")
+            {
+                c.Text = "3 hrs";
             }
         }
 
         #endregion
+
+        private void ImageChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            var imageSender = (Image)sender;
+            byte[] ByteImage = null;
+            if (imageSender == this.Image1)
+            {
+                ByteImage = MainViewModel.GetInstance().TecnicoEditFeatures.FSE.Imagen_Ejemplo;
+                imageSender.Source = ImageSource.FromStream(() => new MemoryStream(ByteImage));
+            }
+            else if (imageSender == this.Image2)
+            {
+                ByteImage = MainViewModel.GetInstance().TecnicoEditFeatures.FSM.Imagen_Ejemplo;
+                imageSender.Source = ImageSource.FromStream(() => new MemoryStream(ByteImage));
+            }
+            else if (imageSender == this.Image3)
+            {
+                ByteImage = MainViewModel.GetInstance().TecnicoEditFeatures.FSH.Imagen_Ejemplo;
+                imageSender.Source = ImageSource.FromStream(() => new MemoryStream(ByteImage));
+            }
+            else if (imageSender == this.Image4)
+            {
+                ByteImage = MainViewModel.GetInstance().TecnicoEditFeatures.FME.Imagen_Ejemplo;
+                imageSender.Source = ImageSource.FromStream(() => new MemoryStream(ByteImage));
+            }
+            else if (imageSender == this.Image5)
+            {
+                ByteImage = MainViewModel.GetInstance().TecnicoEditFeatures.FMM.Imagen_Ejemplo;
+                imageSender.Source = ImageSource.FromStream(() => new MemoryStream(ByteImage));
+            }
+            else if (imageSender == this.Image6)
+            {
+                ByteImage = MainViewModel.GetInstance().TecnicoEditFeatures.FMH.Imagen_Ejemplo;
+                imageSender.Source = ImageSource.FromStream(() => new MemoryStream(ByteImage));
+            }
+            else if (imageSender == this.Image7)
+            {
+                ByteImage = MainViewModel.GetInstance().TecnicoEditFeatures.FBE.Imagen_Ejemplo;
+                imageSender.Source = ImageSource.FromStream(() => new MemoryStream(ByteImage));
+            }
+            else if (imageSender == this.Image8)
+            {
+                ByteImage = MainViewModel.GetInstance().TecnicoEditFeatures.FBM.Imagen_Ejemplo;
+                imageSender.Source = ImageSource.FromStream(() => new MemoryStream(ByteImage));
+            }
+            else if (imageSender == this.Image9)
+            {
+                ByteImage = MainViewModel.GetInstance().TecnicoEditFeatures.FBH.Imagen_Ejemplo;
+                imageSender.Source = ImageSource.FromStream(() => new MemoryStream(ByteImage));
+            }
+        }
     }
 
 

@@ -13,6 +13,7 @@ namespace mLetsTatoo.ViewModels
         public RegisterAccountViewModel Register { get; set; }
         public UserViewModel UserPage { get; set; }
         public EditUserViewModel EditUser { get; set; }
+        public EditTecnicoUserViewModel EditTecnicoUser { get; set; }
         public TecnicoViewModel Tecnico { get; set; }
         public LocalViewModel LocalPage { get; set; }
         public NewDateViewModel NewDate { get; set; }
@@ -29,6 +30,7 @@ namespace mLetsTatoo.ViewModels
         #region PopupViewModels
         public AddCommentPopupViewModel AddCommentPopup { get; set; }
         public EditCommentPopupViewModel EditCommentPopup { get; set; }
+        public ActivityIndicatorPopupViewModel ActivityIndicatorPopup { get; set; }
 
         #endregion
 

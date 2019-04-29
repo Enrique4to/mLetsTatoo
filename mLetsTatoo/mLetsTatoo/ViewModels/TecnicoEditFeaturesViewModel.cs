@@ -1,18 +1,18 @@
-﻿
-
-namespace mLetsTatoo.ViewModels
+﻿namespace mLetsTatoo.ViewModels
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
-    using Models;
     using Helpers;
-    using Plugin.Media.Abstractions;
-    using Services;
-    using Xamarin.Forms;
     using mLetsTatoo.CustomPages;
     using mLetsTatoo.Views;
+    using Models;
+    using Popups.ViewModel;
+    using Popups.Views;
+    using Rg.Plugins.Popup.Extensions;
+    using Services;
+    using Xamarin.Forms;
 
     public class TecnicoEditFeaturesViewModel : BaseViewModel
     {
@@ -21,194 +21,79 @@ namespace mLetsTatoo.ViewModels
         #endregion
 
         #region Attributes
-        public int time1;
-        public int time2;
-        public int time3;
-        public int time4;
-        public int time5;
-        public int time6;
-        public int time7;
-        public int time8;
-        public int time9;
-
-        private decimal cost;
-        private decimal advance;
-        private decimal height;
-        private decimal width;
-
-        private string cost1;
-        private string cost2;
-        private string cost3;
-        private string cost4;
-        private string cost5;
-        private string cost6;
-        private string cost7;
-        private string cost8;
-        private string cost9;
-
-        private string advance1;
-        private string advance2;
-        private string advance3;
-        private string advance4;
-        private string advance5;
-        private string advance6;
-        private string advance7;
-        private string advance8;
-        private string advance9;
-
-        private string height1;
-        private string height2;
-        private string height3;
-
-        private string width1;
-        private string width2;
-        private string width3;
+        private INavigation Navigation;
 
         private T_usuarios user;
         private TecnicosCollection tecnico;
-        private T_teccaract feature;
+
+        private T_teccaract fSE;
+        private T_teccaract fSM;
+        private T_teccaract fSH;
+
+        private T_teccaract fME;
+        private T_teccaract fMM;
+        private T_teccaract fMH;
+
+        private T_teccaract fBE;
+        private T_teccaract fBM;
+        private T_teccaract fBH;
 
         private bool isEnabled;
         private bool isRunning;
 
-        private byte[] byteImage;
-
-        public MediaFile file1;
-        public MediaFile file2;
-        public MediaFile file3;
-        public MediaFile file4;
-        public MediaFile file5;
-        public MediaFile file6;
-        public MediaFile file7;
-        public MediaFile file8;
-        public MediaFile file9;
-
         #endregion
 
         #region Properties
-        public string Cost1
+        public List<T_teccaract> ListFeature { get; set; }
+
+        public T_teccaract FSE
         {
-            get { return this.cost1; }
-            set { SetValue(ref this.cost1, value); }
+            get { return this.fSE; }
+            set { SetValue(ref this.fSE, value); }
         }
-        public string Cost2
+        public T_teccaract FSM
         {
-            get { return this.cost2; }
-            set { SetValue(ref this.cost2, value); }
+            get { return this.fSM; }
+            set { SetValue(ref this.fSM, value); }
         }
-        public string Cost3
+        public T_teccaract FSH
         {
-            get { return this.cost3; }
-            set { SetValue(ref this.cost3, value); }
-        }
-        public string Cost4
-        {
-            get { return this.cost4; }
-            set { SetValue(ref this.cost4, value); }
-        }
-        public string Cost5
-        {
-            get { return this.cost5; }
-            set { SetValue(ref this.cost5, value); }
-        }
-        public string Cost6
-        {
-            get { return this.cost6; }
-            set { SetValue(ref this.cost6, value); }
-        }
-        public string Cost7
-        {
-            get { return this.cost7; }
-            set { SetValue(ref this.cost7, value); }
-        }
-        public string Cost8
-        {
-            get { return this.cost8; }
-            set { SetValue(ref this.cost8, value); }
-        }
-        public string Cost9
-        {
-            get { return this.cost9; }
-            set { SetValue(ref this.cost9, value); }
+            get { return this.fSH; }
+            set { SetValue(ref this.fSH, value); }
         }
 
-        public string Advance1
+        public T_teccaract FME
         {
-            get { return this.advance1; }
-            set { SetValue(ref this.advance1, value); }
+            get { return this.fME; }
+            set { SetValue(ref this.fME, value); }
         }
-        public string Advance2
+        public T_teccaract FMM
         {
-            get { return this.advance2; }
-            set { SetValue(ref this.advance2, value); }
+            get { return this.fMM; }
+            set { SetValue(ref this.fMM, value); }
         }
-        public string Advance3
+        public T_teccaract FMH
         {
-            get { return this.advance3; }
-            set { SetValue(ref this.advance3, value); }
-        }
-        public string Advance4
-        {
-            get { return this.advance4; }
-            set { SetValue(ref this.advance4, value); }
-        }
-        public string Advance5
-        {
-            get { return this.advance5; }
-            set { SetValue(ref this.advance5, value); }
-        }
-        public string Advance6
-        {
-            get { return this.advance6; }
-            set { SetValue(ref this.advance6, value); }
-        }
-        public string Advance7
-        {
-            get { return this.advance7; }
-            set { SetValue(ref this.advance7, value); }
-        }
-        public string Advance8
-        {
-            get { return this.advance8; }
-            set { SetValue(ref this.advance8, value); }
-        }
-        public string Advance9
-        {
-            get { return this.advance9; }
-            set { SetValue(ref this.advance9, value); }
+            get { return this.fMH; }
+            set { SetValue(ref this.fMH, value); }
         }
 
-        public string Height1
+        public T_teccaract FBE
         {
-            get { return this.height1; }
-            set { SetValue(ref this.height1, value); }
+            get { return this.fBE; }
+            set { SetValue(ref this.fBE, value); }
         }
-        public string Height2
+        public T_teccaract FBM
         {
-            get { return this.height2; }
-            set { SetValue(ref this.height2, value); }
+            get { return this.fBM; }
+            set { SetValue(ref this.fBM, value); }
         }
-        public string Height3
+        public T_teccaract FBH
         {
-            get { return this.height3; }
-            set { SetValue(ref this.height3, value); }
+            get { return this.fBH; }
+            set { SetValue(ref this.fBH, value); }
         }
 
-        public string Width1
-        {
-            get { return this.width1; }
-            set { SetValue(ref this.width1, value); }
-        }
-        public string Width2
-        {
-            get { return this.width2; }
-            set { SetValue(ref this.width2, value); }
-        }
-        public string Width3
-        {
-            get { return this.width3; }
-            set { SetValue(ref this.width3, value); }
-        }
 
         public bool IsEnabled
         {
@@ -220,88 +105,42 @@ namespace mLetsTatoo.ViewModels
                 get { return this.isRunning; }
                 set { SetValue(ref this.isRunning, value); }
         }
-
-        //public byte[] ByteImage
-        //{
-        //    get { return this.byteImage; }
-        //    set { SetValue(ref this.byteImage, value); }
-        //}
-
         #endregion
 
         #region Constructors
         public TecnicoEditFeaturesViewModel(T_usuarios user, TecnicosCollection tecnico)
         {
-            Application.Current.MainPage.DisplayAlert(
-                Languages.Notice,
-                Languages.CompleteFeatures,
-                "Ok");
             this.tecnico = tecnico;
             this.user = user;
             this.apiService = new ApiService();
+            this.LoadFeatures();
             IsRunning = false;
             IsEnabled = true;
         }
         #endregion
 
         #region Commands
-        public ICommand NextCommand
+        public ICommand SaveCommand
         {
             get
             {
-                return new RelayCommand(SaveAndNext);
+                return new RelayCommand(SaveFeatures);
             }
         }
         #endregion
 
         #region Merhods
 
-        private async void SaveAndNext()
+        private async void SaveFeatures()
         {
-            this.IsRunning = true;
-            this.IsEnabled = false;
-
-            if (string.IsNullOrEmpty(this.cost1) 
-                || string.IsNullOrEmpty(this.cost2)
-                || string.IsNullOrEmpty(this.cost3)
-                || string.IsNullOrEmpty(this.cost4)
-                || string.IsNullOrEmpty(this.cost5)
-                || string.IsNullOrEmpty(this.cost6)
-                || string.IsNullOrEmpty(this.cost7)
-                || string.IsNullOrEmpty(this.cost8)
-                || string.IsNullOrEmpty(this.cost9))
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.CostError,
-                    "Ok");
-                return;
-            }
-
-            if (string.IsNullOrEmpty(this.advance1) 
-                || string.IsNullOrEmpty(this.advance2)
-                || string.IsNullOrEmpty(this.advance3)
-                || string.IsNullOrEmpty(this.advance4)
-                || string.IsNullOrEmpty(this.advance5)
-                || string.IsNullOrEmpty(this.advance6)
-                || string.IsNullOrEmpty(this.advance7)
-                || string.IsNullOrEmpty(this.advance8)
-                || string.IsNullOrEmpty(this.advance9))
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.AdvanceError,
-                    "Ok");
-                return;
-            }
+            MainViewModel.GetInstance().ActivityIndicatorPopup = new ActivityIndicatorPopupViewModel();
+            MainViewModel.GetInstance().ActivityIndicatorPopup.IsRunning = true;
+            await Navigation.PushPopupAsync(new ActivityIndicatorPopupPage());
 
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
@@ -310,91 +149,31 @@ namespace mLetsTatoo.ViewModels
             }
 
             #region Small
-            if (string.IsNullOrEmpty(this.height1) || string.IsNullOrEmpty(this.Width1))
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.SizeError,
-                    "Ok");
-                return;
-            }
-
-            this.height = decimal.Parse(this.height1);
-            this.width = decimal.Parse(this.width1);
-            if (this.height < 0 || this.width < 0)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.NegativeError,
-                    "OK");
-                return;
-            }
 
             #region Save SmallEasy
 
-            byte[] ByteImage1 = null;
-            if (this.file1 == null)
+            this.fSE = new T_teccaract
             {
-                IsRunning = false;
-                IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.ExampleImageError,
-                    "Ok");
-                return;
-            }
-            ByteImage1 = FileHelper.ReadFully(this.file1.GetStream());
-
-            this.cost = decimal.Parse(this.cost1);
-            this.advance = decimal.Parse(this.advance1);
-            if (this.cost < 0 || this.advance < 0)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.NegativeError,
-                    "OK");
-                return;
-            }
-
-            if (this.time1 < 0 || this.time1 == null)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.EstimatedTimeError,
-                    "OK");
-                return;
-            }
-
-            this.feature = new T_teccaract
-            {
-                Id_Tecnico = this.tecnico.Id_Tecnico,
-                Caract = "SmallEasy",
-                Total_Aprox = this.cost,
-                Costo_Cita = this.advance,
-                Imagen_Ejemplo = ByteImage1,
-                Alto = this.height,
-                Ancho = this.width,
-                Tiempo = this.time1,
+                Id_Tecnico = this.FSE.Id_Tecnico,
+                Id_Caract = this.FSE.Id_Caract,
+                Alto = this.FSE.Alto,
+                Ancho= this.FSE.Ancho,
+                Caract = this.FSE.Caract,
+                Costo_Cita = this.FSE.Costo_Cita,
+                Imagen_Ejemplo = this.FSE.Imagen_Ejemplo,
+                Tiempo = this.FSE.Tiempo,
+                Total_Aprox = this.FSE.Total_Aprox,
             };
 
             var urlApi = Application.Current.Resources["UrlAPI"].ToString();
             var prefix = Application.Current.Resources["UrlPrefix"].ToString();
             var controller = Application.Current.Resources["UrlT_teccaractController"].ToString();
 
-            var response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
+            var response = await this.apiService.Put(urlApi, prefix, controller, this.fSE, this.FSE.Id_Caract);
 
             if (!response.IsSuccess)
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
 
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
@@ -402,64 +181,37 @@ namespace mLetsTatoo.ViewModels
                 "OK");
                 return;
             }
+            var NewCaract = (T_teccaract)response.Result;
+
+            var oldCaract = this.ListFeature.Where(c => c.Id_Caract == this.fSE.Id_Caract).FirstOrDefault();
+            if (oldCaract != null)
+            {
+                this.ListFeature.Remove(oldCaract);
+            }
+            this.ListFeature.Add(NewCaract);
             #endregion
 
             #region Save SmallMedium
-
-            byte[] ByteImage2 = null;
-            if (this.file2 == null)
+            this.fSM = new T_teccaract
             {
-                IsRunning = false;
-                IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.ExampleImageError,
-                    "Ok");
-                return;
-            }
-            ByteImage2 = FileHelper.ReadFully(this.file2.GetStream());
-
-            this.apiService = new ApiService();
-            this.cost = decimal.Parse(this.cost2);
-            this.advance = decimal.Parse(this.advance2);
-            if (this.cost < 0 || this.advance < 0)
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.NegativeError,
-                    "OK");
-                return;
-            }
-
-            if (this.time2 < 0 || this.time2 == null)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.EstimatedTimeError,
-                    "OK");
-                return;
-            }
-
-            this.feature = new T_teccaract
-            {
-                Id_Tecnico = this.tecnico.Id_Tecnico,
-                Caract = "SmallMedium",
-                Total_Aprox = this.cost,
-                Costo_Cita = this.advance,
-                Imagen_Ejemplo = ByteImage2,
-                Alto = this.height,
-                Ancho = this.width,
-                Tiempo = this.time2,
+                Id_Tecnico = this.FSM.Id_Tecnico,
+                Id_Caract = this.FSM.Id_Caract,
+                Alto = this.FSM.Alto,
+                Ancho = this.FSM.Ancho,
+                Caract = this.FSM.Caract,
+                Costo_Cita = this.FSM.Costo_Cita,
+                Imagen_Ejemplo = this.FSM.Imagen_Ejemplo,
+                Tiempo = this.FSM.Tiempo,
+                Total_Aprox = this.FSM.Total_Aprox,
             };
 
-            response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
+            controller = Application.Current.Resources["UrlT_teccaractController"].ToString();
+
+            response = await this.apiService.Put(urlApi, prefix, controller, this.fSM, this.FSM.Id_Caract);
 
             if (!response.IsSuccess)
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
 
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
@@ -467,65 +219,37 @@ namespace mLetsTatoo.ViewModels
                 "OK");
                 return;
             }
+            NewCaract = (T_teccaract)response.Result;
+
+            oldCaract = this.ListFeature.Where(c => c.Id_Caract == this.fSM.Id_Caract).FirstOrDefault();
+            if (oldCaract != null)
+            {
+                this.ListFeature.Remove(oldCaract);
+            }
+            this.ListFeature.Add(NewCaract);
             #endregion
 
             #region Save SmallHard
-
-            byte[] ByteImage3 = null;
-            if (this.file3 == null)
+            this.fSH = new T_teccaract
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.ExampleImageError,
-                    "Ok");
-                return;
-            }
-            ByteImage3 = FileHelper.ReadFully(this.file3.GetStream());
-
-            this.cost = decimal.Parse(this.cost3);
-            this.advance = decimal.Parse(this.advance3);
-            if (this.cost < 0 || this.advance < 0)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.NegativeError,
-                    "OK");
-                return;
-            }
-
-            if (this.time3 < 0 || this.time3 == null)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.EstimatedTimeError,
-                    "OK");
-                return;
-            }
-
-            this.feature = new T_teccaract
-            {
-                Id_Tecnico = this.tecnico.Id_Tecnico,
-                Caract = "SmallHard",
-                Total_Aprox = this.cost,
-                Costo_Cita = this.advance,
-                Imagen_Ejemplo = ByteImage3,
-                Alto = this.height,
-                Ancho = this.width,
-                Tiempo = this.time3,
+                Id_Tecnico = this.FSH.Id_Tecnico,
+                Id_Caract = this.FSH.Id_Caract,
+                Alto = this.FSH.Alto,
+                Ancho = this.FSH.Ancho,
+                Caract = this.FSH.Caract,
+                Costo_Cita = this.FSH.Costo_Cita,
+                Imagen_Ejemplo = this.FSH.Imagen_Ejemplo,
+                Tiempo = this.FSH.Tiempo,
+                Total_Aprox = this.FSH.Total_Aprox,
             };
 
-            response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
+            controller = Application.Current.Resources["UrlT_teccaractController"].ToString();
+
+            response = await this.apiService.Put(urlApi, prefix, controller, this.fSH, this.FSH.Id_Caract);
 
             if (!response.IsSuccess)
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
 
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
@@ -533,89 +257,40 @@ namespace mLetsTatoo.ViewModels
                 "OK");
                 return;
             }
+            NewCaract = (T_teccaract)response.Result;
+
+            oldCaract = this.ListFeature.Where(c => c.Id_Caract == this.FSH.Id_Caract).FirstOrDefault();
+            if (oldCaract != null)
+            {
+                this.ListFeature.Remove(oldCaract);
+            }
+            this.ListFeature.Add(NewCaract);
             #endregion
 
             #endregion
 
             #region MediumSize
-            if (string.IsNullOrEmpty(height2) || string.IsNullOrEmpty(Width2))
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.SizeError,
-                    "Ok");
-                return;
-            }
-
-            this.height = decimal.Parse(this.height2);
-            this.width = decimal.Parse(this.width2);
-            if (this.height < 0 || this.width < 0)
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.NegativeError,
-                    "OK");
-                return;
-            }
             #region Save MediumEasy
-
-            byte[] ByteImage4 = null;
-            if (this.file4 == null)
+            this.fME = new T_teccaract
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.ExampleImageError,
-                    "Ok");
-                return;
-            }
-            ByteImage4 = FileHelper.ReadFully(this.file4.GetStream());
-
-            this.cost = decimal.Parse(this.cost4);
-            this.advance = decimal.Parse(this.advance4);
-            if (this.cost < 0 || this.advance < 0)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.NegativeError,
-                    "OK");
-                return;
-            }
-
-            if (this.time4< 0 || this.time4 == null)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.EstimatedTimeError,
-                    "OK");
-                return;
-            }
-
-            this.feature = new T_teccaract
-            {
-                Id_Tecnico = this.tecnico.Id_Tecnico,
-                Caract = "MediumEasy",
-                Total_Aprox = this.cost,
-                Costo_Cita = this.advance,
-                Imagen_Ejemplo = ByteImage4,
-                Alto = this.height,
-                Ancho = this.width,
-                Tiempo = this.time4,
+                Id_Tecnico = this.FME.Id_Tecnico,
+                Id_Caract = this.FME.Id_Caract,
+                Alto = this.FME.Alto,
+                Ancho = this.FME.Ancho,
+                Caract = this.FME.Caract,
+                Costo_Cita = this.FME.Costo_Cita,
+                Imagen_Ejemplo = this.FME.Imagen_Ejemplo,
+                Tiempo = this.FME.Tiempo,
+                Total_Aprox = this.FME.Total_Aprox,
             };
 
-            response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
+            controller = Application.Current.Resources["UrlT_teccaractController"].ToString();
+
+            response = await this.apiService.Put(urlApi, prefix, controller, this.fME, this.FME.Id_Caract);
 
             if (!response.IsSuccess)
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
 
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
@@ -623,65 +298,37 @@ namespace mLetsTatoo.ViewModels
                 "OK");
                 return;
             }
+            NewCaract = (T_teccaract)response.Result;
+
+            oldCaract = this.ListFeature.Where(c => c.Id_Caract == this.FME.Id_Caract).FirstOrDefault();
+            if (oldCaract != null)
+            {
+                this.ListFeature.Remove(oldCaract);
+            }
+            this.ListFeature.Add(NewCaract);
             #endregion
 
             #region Save MediumMedium
-
-            byte[] ByteImage5 = null;
-            if (this.file5 == null)
+            this.fMM = new T_teccaract
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.ExampleImageError,
-                    "Ok");
-                return;
-            }
-            ByteImage5 = FileHelper.ReadFully(this.file5.GetStream());
-
-            this.cost = decimal.Parse(this.cost5);
-            this.advance = decimal.Parse(this.advance5);
-            if (this.cost < 0 || this.advance < 0)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.NegativeError,
-                    "OK");
-                return;
-            }
-
-            if (this.time5 < 0 || this.time5 == null)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.EstimatedTimeError,
-                    "OK");
-                return;
-            }
-
-            this.feature = new T_teccaract
-            {
-                Id_Tecnico = this.tecnico.Id_Tecnico,
-                Caract = "MediumMedium",
-                Total_Aprox = this.cost,
-                Costo_Cita = this.advance,
-                Imagen_Ejemplo = ByteImage5,
-                Alto = this.height,
-                Ancho = this.width,
-                Tiempo = time5,
+                Id_Tecnico = this.FMM.Id_Tecnico,
+                Id_Caract = this.FMM.Id_Caract,
+                Alto = this.FMM.Alto,
+                Ancho = this.FMM.Ancho,
+                Caract = this.FMM.Caract,
+                Costo_Cita = this.FMM.Costo_Cita,
+                Imagen_Ejemplo = this.FMM.Imagen_Ejemplo,
+                Tiempo = this.FMM.Tiempo,
+                Total_Aprox = this.FMM.Total_Aprox,
             };
 
-            response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
+            controller = Application.Current.Resources["UrlT_teccaractController"].ToString();
+
+            response = await this.apiService.Put(urlApi, prefix, controller, this.fMM, this.FMM.Id_Caract);
 
             if (!response.IsSuccess)
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
 
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
@@ -689,65 +336,37 @@ namespace mLetsTatoo.ViewModels
                 "OK");
                 return;
             }
+            NewCaract = (T_teccaract)response.Result;
+
+            oldCaract = this.ListFeature.Where(c => c.Id_Caract == this.FMM.Id_Caract).FirstOrDefault();
+            if (oldCaract != null)
+            {
+                this.ListFeature.Remove(oldCaract);
+            }
+            this.ListFeature.Add(NewCaract);
             #endregion
 
             #region Save MediumHard
-
-            byte[] ByteImage6 = null;
-            if (this.file6 == null)
+            this.fMH = new T_teccaract
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.ExampleImageError,
-                    "Ok");
-                return;
-            }
-            ByteImage6 = FileHelper.ReadFully(this.file6.GetStream());
-
-            this.cost = decimal.Parse(this.cost6);
-            this.advance = decimal.Parse(this.advance6);
-            if (this.cost < 0 || this.advance < 0)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.NegativeError,
-                    "OK");
-                return;
-            }
-
-            if (this.time6 < 0 || this.time6 == null)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.EstimatedTimeError,
-                    "OK");
-                return;
-            }
-
-            this.feature = new T_teccaract
-            {
-                Id_Tecnico = this.tecnico.Id_Tecnico,
-                Caract = "MediumHard",
-                Total_Aprox = this.cost,
-                Costo_Cita = this.advance,
-                Imagen_Ejemplo = ByteImage6,
-                Alto = this.height,
-                Ancho = this.width,
-                Tiempo = this.time6
+                Id_Tecnico = this.FMH.Id_Tecnico,
+                Id_Caract = this.FMH.Id_Caract,
+                Alto = this.FMH.Alto,
+                Ancho = this.FMH.Ancho,
+                Caract = this.FMH.Caract,
+                Costo_Cita = this.FMH.Costo_Cita,
+                Imagen_Ejemplo = this.FMH.Imagen_Ejemplo,
+                Tiempo = this.FMH.Tiempo,
+                Total_Aprox = this.FMH.Total_Aprox,
             };
 
-            response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
+            controller = Application.Current.Resources["UrlT_teccaractController"].ToString();
+
+            response = await this.apiService.Put(urlApi, prefix, controller, this.fMH, this.FMH.Id_Caract);
 
             if (!response.IsSuccess)
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
 
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
@@ -755,88 +374,41 @@ namespace mLetsTatoo.ViewModels
                 "OK");
                 return;
             }
+            NewCaract = (T_teccaract)response.Result;
+
+            oldCaract = this.ListFeature.Where(c => c.Id_Caract == this.FMH.Id_Caract).FirstOrDefault();
+            if (oldCaract != null)
+            {
+                this.ListFeature.Remove(oldCaract);
+            }
+            this.ListFeature.Add(NewCaract);
             #endregion
 
             #endregion
 
             #region BigSize
-            if (string.IsNullOrEmpty(height3) || string.IsNullOrEmpty(Width3))
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.SizeError,
-                    "Ok");
-                return;
-            }
 
-            this.height = decimal.Parse(this.height3);
-            this.width = decimal.Parse(this.width3);
-            if (this.height < 0 || this.width < 0)
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.NegativeError,
-                    "OK");
-                return;
-            }
             #region Save BigEasy
-
-            byte[] ByteImage7 = null;
-            if (this.file7 == null)
+            this.fBE = new T_teccaract
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.ExampleImageError,
-                    "Ok");
-                return;
-            }
-            ByteImage7 = FileHelper.ReadFully(this.file7.GetStream());
-
-            this.cost = decimal.Parse(this.cost7);
-            this.advance = decimal.Parse(this.advance7);
-            if (this.cost < 0 || this.advance < 0)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.NegativeError,
-                    "OK");
-                return;
-            }
-
-            if (this.time7 < 0 || this.time7 == null)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.EstimatedTimeError,
-                    "OK");
-                return;
-            }
-
-            this.feature = new T_teccaract
-            {
-                Id_Tecnico = this.tecnico.Id_Tecnico,
-                Caract = "BigEasy",
-                Total_Aprox = this.cost,
-                Costo_Cita = this.advance,
-                Imagen_Ejemplo = ByteImage7,
-                Alto = this.height,
-                Ancho = this.width,
-                Tiempo = this.time7,
+                Id_Tecnico = this.FBE.Id_Tecnico,
+                Id_Caract = this.FBE.Id_Caract,
+                Alto = this.FBE.Alto,
+                Ancho = this.FBE.Ancho,
+                Caract = this.FBE.Caract,
+                Costo_Cita = this.FBE.Costo_Cita,
+                Imagen_Ejemplo = this.FBE.Imagen_Ejemplo,
+                Tiempo = this.FBE.Tiempo,
+                Total_Aprox = this.FBE.Total_Aprox,
             };
-            response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
+
+            controller = Application.Current.Resources["UrlT_teccaractController"].ToString();
+
+            response = await this.apiService.Put(urlApi, prefix, controller, this.fBE, this.FBE.Id_Caract);
 
             if (!response.IsSuccess)
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
 
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
@@ -844,64 +416,37 @@ namespace mLetsTatoo.ViewModels
                 "OK");
                 return;
             }
+            NewCaract = (T_teccaract)response.Result;
+
+            oldCaract = this.ListFeature.Where(c => c.Id_Caract == this.FBE.Id_Caract).FirstOrDefault();
+            if (oldCaract != null)
+            {
+                this.ListFeature.Remove(oldCaract);
+            }
+            this.ListFeature.Add(NewCaract);
             #endregion
 
             #region Save BigMedium
-
-            byte[] ByteImage8 = null;
-            if (this.file8 == null)
+            this.fBM = new T_teccaract
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.ExampleImageError,
-                    "Ok");
-                return;
-            }
-            ByteImage8 = FileHelper.ReadFully(this.file8.GetStream());
-
-            this.cost = decimal.Parse(this.cost8);
-            this.advance = decimal.Parse(this.advance8);
-            if (this.cost < 0 || this.advance < 0)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.NegativeError,
-                    "OK");
-                return;
-            }
-
-            if (this.time8 < 0 || this.time8 == null)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.EstimatedTimeError,
-                    "OK");
-                return;
-            }
-
-            this.feature = new T_teccaract
-            {
-                Id_Tecnico = this.tecnico.Id_Tecnico,
-                Caract = "BigMedium",
-                Total_Aprox = this.cost,
-                Costo_Cita = this.advance,
-                Imagen_Ejemplo = ByteImage8,
-                Alto = this.height,
-                Ancho = this.width,
-                Tiempo = this.time8,
+                Id_Tecnico = this.FBM.Id_Tecnico,
+                Id_Caract = this.FBM.Id_Caract,
+                Alto = this.FBM.Alto,
+                Ancho = this.FBM.Ancho,
+                Caract = this.FBM.Caract,
+                Costo_Cita = this.FBM.Costo_Cita,
+                Imagen_Ejemplo = this.FBM.Imagen_Ejemplo,
+                Tiempo = this.FBM.Tiempo,
+                Total_Aprox = this.FBM.Total_Aprox,
             };
-            response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
+
+            controller = Application.Current.Resources["UrlT_teccaractController"].ToString();
+
+            response = await this.apiService.Put(urlApi, prefix, controller, this.fBM, this.FBM.Id_Caract);
 
             if (!response.IsSuccess)
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
 
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
@@ -909,65 +454,37 @@ namespace mLetsTatoo.ViewModels
                 "OK");
                 return;
             }
+            NewCaract = (T_teccaract)response.Result;
+
+            oldCaract = this.ListFeature.Where(c => c.Id_Caract == this.FBM.Id_Caract).FirstOrDefault();
+            if (oldCaract != null)
+            {
+                this.ListFeature.Remove(oldCaract);
+            }
+            this.ListFeature.Add(NewCaract);
             #endregion
 
             #region Save BigHard
-
-            byte[] ByteImage9 = null;
-            if (this.file9 == null)
+            this.fBH = new T_teccaract
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.ExampleImageError,
-                    "Ok");
-                return;
-            }
-            ByteImage9 = FileHelper.ReadFully(this.file9.GetStream());
-
-            this.cost = decimal.Parse(this.cost9);
-            this.advance = decimal.Parse(this.advance9);
-            if (this.cost < 0 || this.advance < 0)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.NegativeError,
-                    "OK");
-                return;
-            }
-
-            if (this.time9 < 0 || this.time9 == null)
-            {
-                this.IsRunning = false;
-                this.IsEnabled = true;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.EstimatedTimeError,
-                    "OK");
-                return;
-            }
-
-            this.feature = new T_teccaract
-            {
-                Id_Tecnico = this.tecnico.Id_Tecnico,
-                Caract = "BigHard",
-                Total_Aprox = this.cost,
-                Costo_Cita = this.advance,
-                Imagen_Ejemplo = ByteImage9,
-                Alto = this.height,
-                Ancho = this.width,
-                Tiempo = this.time9,
+                Id_Tecnico = this.FBH.Id_Tecnico,
+                Id_Caract = this.FBH.Id_Caract,
+                Alto = this.FBH.Alto,
+                Ancho = this.FBH.Ancho,
+                Caract = this.FBH.Caract,
+                Costo_Cita = this.FBH.Costo_Cita,
+                Imagen_Ejemplo = this.FBH.Imagen_Ejemplo,
+                Tiempo = this.FBH.Tiempo,
+                Total_Aprox = this.FBH.Total_Aprox,
             };
 
-            response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
+            controller = Application.Current.Resources["UrlT_teccaractController"].ToString();
+
+            response = await this.apiService.Put(urlApi, prefix, controller, this.fBH, this.FBH.Id_Caract);
 
             if (!response.IsSuccess)
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
 
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
@@ -975,19 +492,67 @@ namespace mLetsTatoo.ViewModels
                 "OK");
                 return;
             }
-            #endregion 
+            NewCaract = (T_teccaract)response.Result;
+
+            oldCaract = this.ListFeature.Where(c => c.Id_Caract == this.FBH.Id_Caract).FirstOrDefault();
+            if (oldCaract != null)
+            {
+                this.ListFeature.Remove(oldCaract);
+            }
+            this.ListFeature.Add(NewCaract);
+            #endregion
             #endregion
 
-            this.IsRunning = false;
-            this.IsEnabled = true;
-
             await Application.Current.MainPage.Navigation.PopModalAsync();
-            MainViewModel.GetInstance().TecnicoHome = new TecnicoHomeViewModel(user, tecnico);
-            Application.Current.MainPage = new SNavigationPage(new TecnicoHomePage())
+            await Application.Current.MainPage.Navigation.PopPopupAsync();
+        }
+
+        public async void LoadFeatures()
+        {
+            this.IsRunning = true;
+
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
             {
-                BarBackgroundColor = Color.FromRgb(20, 20, 20),
-                BarTextColor = Color.FromRgb(200, 200, 200),
-            };
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_teccaractController"].ToString();
+
+            var response = await this.apiService.GetList<T_teccaract>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+            this.ListFeature = (List<T_teccaract>)response.Result;
+
+            this.ListFeature = this.ListFeature.Where(f => f.Id_Tecnico == this.tecnico.Id_Tecnico).ToList();
+
+            this.FSE = this.ListFeature.Single(f => f.Caract == "SmallEasy");
+            this.FSM = this.ListFeature.Single(f => f.Caract == "SmallMedium");
+            this.FSH = this.ListFeature.Single(f => f.Caract == "SmallHard");
+            this.FME = this.ListFeature.Single(f => f.Caract == "MediumEasy");
+            this.FMM = this.ListFeature.Single(f => f.Caract == "MediumMedium");
+            this.FMH = this.ListFeature.Single(f => f.Caract == "MediumHard");
+            this.FBE = this.ListFeature.Single(f => f.Caract == "BigEasy");
+            this.FBM = this.ListFeature.Single(f => f.Caract == "BigMedium");
+            this.FBH = this.ListFeature.Single(f => f.Caract == "BigHard");
+
+
+            await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoEditFeaturesPage());
+            await Application.Current.MainPage.Navigation.PopPopupAsync();
         }
         #endregion
     }

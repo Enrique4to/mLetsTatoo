@@ -11,10 +11,7 @@ namespace mLetsTatoo.Views
 {
 	public partial class UserPage : ContentPage
 	{
-		public UserPage ()
-		{
-			InitializeComponent ();
-		}
+
         protected override void OnAppearing()
         {
             base.OnAppearing();

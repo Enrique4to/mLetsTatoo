@@ -69,7 +69,7 @@ namespace mLetsTatoo.API.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(t_clientes);
         }
 
         // POST: api/T_clientes

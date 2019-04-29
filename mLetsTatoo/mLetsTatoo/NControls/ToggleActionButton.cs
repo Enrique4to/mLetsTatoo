@@ -71,6 +71,7 @@
                 {
                     _orgIcon = ButtonIcon;
                     ButtonIcon = FontAwesomeLabel.FAPlus;
+                    ButtonIconLabel.FontSize = 18;
                     ButtonIconLabel.RotateTo(585, 140, Easing.CubicInOut);
                 }
 

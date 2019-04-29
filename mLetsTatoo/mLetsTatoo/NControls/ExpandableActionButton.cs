@@ -6,6 +6,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Threading.Tasks;
+    using System.Windows.Input;
 
     /// <summary>
     /// Expand direction.
@@ -17,7 +18,7 @@
         Left,
         Right
     }
-    
+
     /// <summary>
     /// Expandable action button.
     /// </summary>
@@ -44,6 +45,7 @@
         /// The layout.
         /// </summary>
         private readonly RelativeLayout _buttonsLayout;
+        private double _buttonWhere;
 
         /// <summary>
         /// The buttons.
@@ -59,7 +61,7 @@
         public ExpandableActionButton()
         {
             // Set direction
-            Direction = ExpandDirection.Up;
+            Direction = ExpandDirection.Down;
 
             // Layout
             Content = new RelativeLayout();
@@ -67,7 +69,8 @@
             // Main button
             _mainButton = new ToggleActionButton
             {
-                ButtonIcon = FontAwesomeLabel.FADotCircleO,
+                ButtonIcon = FontAwesomeLabel.FACog,
+                ButtonIconColor = Color.Black,
             };
 
             // Create buttons layout
@@ -76,16 +79,17 @@
 
             AddButtonToLayout(_mainButton, Content as RelativeLayout);
 
-            _mainButton.PropertyChanged += async (object sender, System.ComponentModel.PropertyChangedEventArgs e) => {
+            _mainButton.PropertyChanged += async  (object sender, System.ComponentModel.PropertyChangedEventArgs e)  => {
                 if (e.PropertyName == ToggleActionButton.IsToggledProperty.PropertyName)
                 {
                     // Show/Hide buttons
                     if (_mainButton.IsToggled)
-                        await ShowButtonsAsync();
+                        await this.ShowButtonsAsync();
                     else
-                        await HideButtonsAsync();
+                        await this.HideButtonsAsync();
                 }
-            };
+            };            
+
         }
 
         #region Private Members
@@ -104,7 +108,8 @@
             foreach (var button in Buttons)
             {
                 button.Opacity = 0.0;
-                button.Command = new Command(async () => {
+                button.HideCommand = new Command(async () =>
+                {
 
                     if (!_isShowingSubmenu)
                         return;
@@ -138,15 +143,21 @@
                    new Rectangle(layout.Width - layout.Height, 0, layout.Height, layout.Height) :
                // Right
                new Rectangle(0, 0, layout.Height, layout.Height)
-
             );
-
+            if (Direction == ExpandDirection.Up)
+                _buttonWhere = -(ButtonPadding + _mainButton.Height);
+            if (Direction == ExpandDirection.Down)
+                _buttonWhere = (ButtonPadding + _mainButton.Height);
+            if (Direction == ExpandDirection.Left)
+                _buttonWhere = -(ButtonPadding + _mainButton.Width);
+            if (Direction == ExpandDirection.Right)
+                _buttonWhere = (ButtonPadding + _mainButton.Width);
         }
 
         /// <summary>
         /// Hides the buttons.
         /// </summary>
-        private async Task HideButtonsAsync()
+        public async Task HideButtonsAsync()
         {
             if (!_isShowingSubmenu)
                 return;
@@ -157,24 +168,19 @@
             foreach (var button in Buttons)
             {
                 button.HasShadow = false;
+                tasks.Add(button.FadeTo(0.0, 350, Easing.CubicInOut));
                 tasks.Add(button.TranslateTo(0.0, 0.0, easing: Easing.CubicInOut));
             }
 
             await Task.WhenAll(tasks);
 
             tasks.Clear();
-            foreach (var button in Buttons)
-            {
-                tasks.Add(button.FadeTo(0.0, 350, Easing.CubicInOut));
-            }
-
-            await Task.WhenAll(tasks);
         }
 
         /// <summary>
         /// Shows the buttons.
         /// </summary>
-        private async Task ShowButtonsAsync()
+        public async Task ShowButtonsAsync()
         {
             AddButtons();
 
@@ -193,9 +199,9 @@
                     button.Command.CanExecute(button.CommandParameter) == false))
                     continue;
 
-                button.HasShadow = true;
+                button.HasShadow = false;
                 tasks.Add(button.FadeTo(1.0, 50));
-                tasks.Add(button.TranslateTo(0.0, -(ButtonPadding + _mainButton.Height) * c++, easing: Easing.SpringIn));
+                tasks.Add(button.TranslateTo(0.0, _buttonWhere * c++, easing: Easing.SpringIn));
             }
 
             await Task.WhenAll(tasks);

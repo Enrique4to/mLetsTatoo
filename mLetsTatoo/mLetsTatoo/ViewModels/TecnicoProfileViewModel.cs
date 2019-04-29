@@ -1,6 +1,5 @@
 ﻿namespace mLetsTatoo.ViewModels
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -10,9 +9,13 @@
     using Models;
     using Plugin.Media;
     using Plugin.Media.Abstractions;
+    using Popups.ViewModel;
+    using Popups.Views;
+    using Rg.Plugins.Popup.Extensions;
     using Services;
     using Views;
     using Xamarin.Forms;
+
     public class TecnicoProfileViewModel : BaseViewModel
     {
         #region Services
@@ -20,6 +23,8 @@
 
         #endregion
         #region Attributes
+        private INavigation Navigation;
+
         private string nombreCompleto;
 
         private byte[] byteImage;
@@ -66,6 +71,7 @@
             set { SetValue(ref this.nombreCompleto, value); }
         }
         #endregion
+
         #region Constructors
         public TecnicoProfileViewModel(T_usuarios user, TecnicosCollection tecnico)
         {
@@ -77,6 +83,7 @@
             this.LoadUser();
         }
         #endregion
+
         #region Commands
         public ICommand ChangeImageCommand
         {
@@ -89,10 +96,23 @@
         {
             get
             {
-                return new RelayCommand(EditUser);
+                return new RelayCommand(GoToEditUser);
             }
         }
-
+        public ICommand EditFeaturesCommand
+        {
+            get
+            {
+                return new RelayCommand(GoToEditFeatures);
+            }
+        }
+        public ICommand SignOutCommand
+        {
+            get
+            {
+                return new RelayCommand(SignOut);
+            }
+        }
         #endregion
         #region Methods
         public void LoadUser()
@@ -218,10 +238,22 @@
             MainViewModel.GetInstance().Login.ListUsuarios.Add(NewUser);
             this.IsRunning = false;
         }
-        private async void EditUser()
+        private async void GoToEditUser()
         {
-            //MainViewModel.GetInstance().EditUser = new EditUserViewModel(this.tecnico, this.user);
-            //await Application.Current.MainPage.Navigation.PushModalAsync(new EditUserPage());
+            MainViewModel.GetInstance().EditTecnicoUser = new EditTecnicoUserViewModel(this.tecnico, this.user);
+
+            await Application.Current.MainPage.Navigation.PushModalAsync(new EditTecnicoUserPage());
+        }
+        private async void GoToEditFeatures()
+        {
+            MainViewModel.GetInstance().ActivityIndicatorPopup = new ActivityIndicatorPopupViewModel();
+            MainViewModel.GetInstance().ActivityIndicatorPopup.IsRunning = true;
+            await Navigation.PushPopupAsync(new ActivityIndicatorPopupPage());
+
+            MainViewModel.GetInstance().TecnicoEditFeatures = new TecnicoEditFeaturesViewModel(this.user, this.tecnico);
+        }
+        private void SignOut()
+        {
         }
         #endregion
     }

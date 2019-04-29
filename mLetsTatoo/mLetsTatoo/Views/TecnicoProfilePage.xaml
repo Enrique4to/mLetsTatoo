@@ -6,7 +6,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
     xmlns:control="clr-namespace:mLetsTatoo.Controls"
-    x:Class="mLetsTatoo.Views.TecnicoProfilePage">
+    x:Class="mLetsTatoo.Views.TecnicoProfilePage"
+    x:Name="Root">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout
@@ -53,16 +54,6 @@
                                 Text="{Binding NombreCompleto, Mode=TwoWay}"
                                 TextColor="LightGray"
                                 HorizontalTextAlignment="Center"/>
-
-
-                            <!--<ImageButton
-                                BackgroundColor="Transparent"
-                                Command="{Binding EditTecnicoCommand}"
-                                Grid.Column="2"
-                                Grid.Row="0"
-                                Source ="Settings"
-                                WidthRequest="15"
-                                VerticalOptions="StartAndExpand"/>-->
                         </Grid>
                     </StackLayout>
                     <StackLayout
@@ -72,28 +63,28 @@
                         <RelativeLayout
                             x:Name="layout">
                             <control:ExpandableActionButton
-                                ButtonColor="Transparent"
-                                Rotation="180"
+                                ButtonColor="#c8c8c8"
+                                HeightRequest="140"
                                 WidthRequest="35"
                                 x:Name="abex">
                                 <control:ExpandableActionButton.Buttons>
                                     <control:ActionButton
-                                        ButtonColor="Transparent"
-                                        HasShadow="False"
-                                        Scale=".9"/>
+                                        ButtonColor="#c8c8c8"
+                                        ButtonIcon= "{x:Static control:FontAwesomeLabel.FAUser}"
+                                        ButtonIconColor="Black"
+                                        Command="{Binding EditUserCommand}"
+                                        Scale=".8"/>
                                     <control:ActionButton
-                                        ButtonColor="Transparent"
-                                        HasShadow="False"
-                                        Scale=".9"/>
+                                        ButtonColor="#c8c8c8"
+                                        ButtonIcon= "{x:Static control:FontAwesomeLabel.FACogs}"
+                                        ButtonIconColor="Black"
+                                        Command="{Binding EditFeaturesCommand}"
+                                        Scale=".8"/>
                                     <control:ActionButton
-                                        ButtonColor="Transparent"
-                                        HasShadow="False"
-                                        Scale=".9"/>
-                                    <control:ActionButton
-                                        ButtonColor="Transparent"
-                                        ButtonIcon=""
-                                        HasShadow="False"
-                                        Scale=".9"/>
+                                        ButtonColor="#c8c8c8"
+                                        ButtonIcon= "{x:Static control:FontAwesomeLabel.FASignOut}"
+                                        ButtonIconColor="Black"
+                                        Scale=".8"/>
                                 </control:ExpandableActionButton.Buttons>
                             </control:ExpandableActionButton>
                         </RelativeLayout>

@@ -37,6 +37,8 @@
         /// </summary>
         protected readonly FontAwesomeLabel ButtonIconLabel;
 
+
+
         #endregion
 
         /// <summary>
@@ -54,6 +56,7 @@
                     rect.Inflate(new NGraphics.Size(-4));
                     rect.Y += 4;
 
+#pragma warning disable CS0618 // Type or member is obsolete
                     Device.OnPlatform(
 
                         //iOS
@@ -72,6 +75,7 @@
 
                         null
                     );
+#pragma warning restore CS0618 // Type or member is obsolete
                 },
             };
 
@@ -102,6 +106,7 @@
         }
 
         #region Properties
+
 
         /// <summary>
         /// The command property.
@@ -134,6 +139,28 @@
             }
         }
 
+        public static BindableProperty HideCommandProperty =
+            BindableProperty.Create(nameof(HideCommand), typeof(ICommand), typeof(ActionButton), null,
+        BindingMode.TwoWay, null, (bindable, oldValue, newValue) => {
+            var ctrl = (ActionButton)bindable;
+            ctrl.HideCommand = (ICommand)newValue;
+        });
+        public ICommand HideCommand
+        {
+            get { return (ICommand)GetValue(HideCommandProperty); }
+            set
+            {
+
+                if (HideCommand != null)
+                    HideCommand.CanExecuteChanged -= HandleCanExecuteChanged;
+
+                SetValue(HideCommandProperty, value);
+
+                if (HideCommand != null)
+                    HideCommand.CanExecuteChanged += HandleCanExecuteChanged;
+
+            }
+        }
         /// <summary>
         /// The command parameter property.
         /// </summary>
@@ -360,6 +387,10 @@
 
             if (Command != null && Command.CanExecute(CommandParameter))
                 Command.Execute(CommandParameter);
+
+            if (HideCommand != null)
+                HideCommand.Execute(null);
+
 
             ButtonElement.ScaleTo(1.0, 140, Easing.CubicInOut);
 
