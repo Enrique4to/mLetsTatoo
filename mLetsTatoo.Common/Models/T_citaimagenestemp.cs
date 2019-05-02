@@ -14,7 +14,7 @@
             set;
         }
         [Required]
-        public int Id_Notatemp { get; set; }
+        public int Id_Trabajotemp { get; set; }
         #endregion
     }
 }

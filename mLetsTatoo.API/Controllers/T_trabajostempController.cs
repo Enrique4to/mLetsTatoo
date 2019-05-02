@@ -64,7 +64,7 @@
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(t_trabajostemp);
         }
 
         // POST: api/T_trabajostemp

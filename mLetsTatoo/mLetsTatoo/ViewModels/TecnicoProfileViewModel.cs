@@ -20,8 +20,8 @@
     {
         #region Services
         private ApiService apiService;
-
         #endregion
+
         #region Attributes
         private INavigation Navigation;
 
@@ -79,7 +79,7 @@
             this.tecnico = tecnico;
             this.apiService = new ApiService();
             this.IsRefreshing = false;
-            this.NombreCompleto = $"{this.tecnico.Nombre} {this.tecnico.Apellido1}";
+            this.NombreCompleto = $"{this.tecnico.Nombre} {this.tecnico.Apellido}";
             this.LoadUser();
         }
         #endregion
@@ -246,9 +246,7 @@
         }
         private async void GoToEditFeatures()
         {
-            MainViewModel.GetInstance().ActivityIndicatorPopup = new ActivityIndicatorPopupViewModel();
-            MainViewModel.GetInstance().ActivityIndicatorPopup.IsRunning = true;
-            await Navigation.PushPopupAsync(new ActivityIndicatorPopupPage());
+            this.apiService.StartActivityPopup();
 
             MainViewModel.GetInstance().TecnicoEditFeatures = new TecnicoEditFeaturesViewModel(this.user, this.tecnico);
         }

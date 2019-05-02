@@ -186,7 +186,7 @@
                         IsCurvedCornersEnabled="True"
                         Placeholder="{i18n:Translate Lastname}"
                         PlaceholderColor="Gray"
-                        Text="{Binding Tecnico.Apellido1, Mode=TwoWay}"
+                        Text="{Binding Tecnico.Apellido, Mode=TwoWay}"
                         TextColor="LightGray"/>
                     <control:CustomEntry 
                         BorderColor="LightGray"

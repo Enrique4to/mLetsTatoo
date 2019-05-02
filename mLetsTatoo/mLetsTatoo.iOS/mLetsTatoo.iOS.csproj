@@ -324,5 +324,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\Settings.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BundleResource Include="Resources\SendMessage.png" />
+  </ItemGroup>
 </Project>

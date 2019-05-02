@@ -103,8 +103,8 @@
         #region Methods
         private void LoadTecnico()
         {
-            this.selectedArtist = $"{this.tecnico.Apodo} - {this.tecnico.Nombre} {this.tecnico.Apellido1}";
-            this.NombreCompleto = $"{this.tecnico.Nombre} {this.tecnico.Apellido1}";
+            this.selectedArtist = $"{this.tecnico.Apodo} - {this.tecnico.Nombre} {this.tecnico.Apellido}";
+            this.NombreCompleto = $"{this.tecnico.Nombre} {this.tecnico.Apellido}";
 
             if (this.tecnico.F_Perfil != null)
             {

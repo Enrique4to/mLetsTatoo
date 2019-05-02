@@ -531,4 +531,18 @@
   <data name="PhoneLenghtError" xml:space="preserve">
     <value>Your phone number must be 10 digits maximum!</value>
   </data>
+  <data name="Budget" xml:space="preserve">
+    <value>Budget</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="BudgetSentMessage" xml:space="preserve">
+    <value>Hi, how are you?
+I have sent you a budget with the estimated time duration of the art you want, please check it and if you are interested, you approve it to schedule the corresponding appointment.
+
+If you have any other questions, do not hesitate to send me another message.
+
+Thank you.</value>
+  </data>
 </root>

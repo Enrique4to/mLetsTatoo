@@ -95,11 +95,6 @@
                             x:Name="PersonalizedApp"/>
                     </radiobutton:SfRadioGroup>
                 </StackLayout>
-                <ActivityIndicator
-                    Color="LightGray"
-                    HeightRequest="20"
-                    IsRunning="{Binding IsRunning}"
-                    VerticalOptions="Start"/>
                 <StackLayout
                     IsVisible="True"
                     x:Name="QuickPage">
@@ -337,7 +332,48 @@
                     </StackLayout>
 
                 </StackLayout>
-                
+                <StackLayout
+                    HorizontalOptions="FillAndExpand"
+                    Orientation="Horizontal"
+                    IsVisible="False"
+                    x:Name="SizeStack">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        Text="{i18n:Translate Size}"
+                        TextColor="LightGray"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Start"
+                        VerticalOptions="Center"/>
+                    <control:CustomEntry 
+                        BorderColor="Gray"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HeightRequest="25"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        Keyboard="Numeric"
+                        Placeholder="{i18n:Translate Height}"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Height, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"/>
+                    <control:CustomEntry 
+                        BorderColor="Gray"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HeightRequest="25"
+                        HorizontalOptions="FillAndExpand"
+                        HorizontalTextAlignment="Center"
+                        IsCurvedCornersEnabled="True"
+                        Keyboard="Numeric"
+                        Placeholder="{i18n:Translate Width}"
+                        PlaceholderColor="Gray"
+                        Text="{Binding Width, Mode=TwoWay}"                        
+                        TextColor="LightGray"
+                        VerticalOptions="Center"/>
+                </StackLayout>
                 <Editor
                     HorizontalOptions="FillAndExpand"
                     Margin="20,0,25,10"

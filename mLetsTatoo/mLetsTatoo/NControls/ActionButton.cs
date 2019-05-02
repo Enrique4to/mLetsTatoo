@@ -95,7 +95,7 @@
                 VerticalTextAlignment = TextAlignment.Center,
                 TextColor = Color.White,
                 Text = FontAwesomeLabel.FAPlus,
-                FontSize = 14,
+                FontSize = 18,
             };
 
             layout.Children.Add(ButtonShadowElement);

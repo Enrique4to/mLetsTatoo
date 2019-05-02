@@ -116,6 +116,10 @@ namespace mLetsTatoo.ViewModels
                 return;
             }
             this.TecnicoList = (List<T_tecnicos>)response.Result;
+
+            var userList = MainViewModel.GetInstance().Login.ListUsuarios;
+            this.TecnicoList = this.TecnicoList.Where(t => userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)).ToList();
+
             this.IsRefreshing = false;
             this.IsRunning = false;
 
@@ -128,7 +132,7 @@ namespace mLetsTatoo.ViewModels
             {
                 var tecnico = this.TecnicoList.Select(t => new TecnicoItemViewModel
                 {
-                    Apellido1 = t.Apellido1,
+                    Apellido = t.Apellido,
                     Apellido2 = t.Apellido2,
                     Apodo = t.Apodo,
                     Carrera = t.Carrera,
@@ -138,14 +142,14 @@ namespace mLetsTatoo.ViewModels
                     Nombre = t.Nombre,
                     F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == t.Id_Usuario).F_Perfil
 
-                }).Where(t => userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)).ToList();
+                });
                 this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
             }
             else
             {
                 var tecnico = this.TecnicoList.Select(t => new TecnicoItemViewModel
                 {
-                    Apellido1 = t.Apellido1,
+                    Apellido = t.Apellido,
                     Apellido2 = t.Apellido2,
                     Apodo = t.Apodo,
                     Carrera = t.Carrera,
@@ -155,10 +159,9 @@ namespace mLetsTatoo.ViewModels
                     Nombre = t.Nombre,
                     F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == t.Id_Usuario).F_Perfil
 
-                }).Where(t => userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)
-                && (t.Nombre.ToLower().Contains(this.filter.ToLower())
+                }).Where(t => t.Nombre.ToLower().Contains(this.filter.ToLower())
                 || t.Apodo.ToLower().Contains(this.filter.ToLower())
-                || t.Apellido1.ToLower().Contains(this.filter.ToLower()))).ToList();
+                || t.Apellido.ToLower().Contains(this.filter.ToLower())).ToList();
 
                 this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
             }

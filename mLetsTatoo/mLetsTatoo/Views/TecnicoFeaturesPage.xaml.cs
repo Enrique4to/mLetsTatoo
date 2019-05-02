@@ -122,8 +122,7 @@
                 "3 hrs");
 
             if (source == Languages.Cancel)
-            {
-                this.file = null;
+            {               
                 return;
             }
 

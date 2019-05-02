@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Net.Http;
     using System.Reflection;
     using System.Text;
@@ -11,6 +11,10 @@
     using Helpers;
     using Newtonsoft.Json;
     using Plugin.Connectivity;
+    using Popups.ViewModel;
+    using Popups.Views;
+    using Rg.Plugins.Popup.Extensions;
+    using ViewModels;
     using Xamarin.Forms;
 
     public class ApiService
@@ -221,6 +225,20 @@
             }
         }
 
+        public async void StartActivityPopup()
+        {
+            MainViewModel.GetInstance().ActivityIndicatorPopup = new ActivityIndicatorPopupViewModel();
+            MainViewModel.GetInstance().ActivityIndicatorPopup.IsRunning = true;
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new ActivityIndicatorPopupPage());
+        }
+        public async void EndActivityPopup()
+        {
+            var daStack = Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopupStack.Count();
+            if (daStack > 0)
+            {
+                await Application.Current.MainPage.Navigation.PopAllPopupAsync();
+            }
+        }
 
         public byte[] GetImageFromFile(string fileName)
         {

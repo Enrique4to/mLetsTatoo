@@ -244,7 +244,7 @@
             this.tecnico = new TecnicosCollection
             {
                 Id_Empresa = tecnicoTemp.Id_Empresa,
-                Apellido1 = tecnicoTemp.Apellido1,
+                Apellido = tecnicoTemp.Apellido,
                 Apellido2 = tecnicoTemp.Apellido2,
                 Apodo = tecnicoTemp.Apodo,
                 Carrera = tecnicoTemp.Carrera,

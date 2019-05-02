@@ -16,5 +16,11 @@
         public decimal Total_Aprox { get; set; }
         [Required]
         public decimal Costo_Cita { get; set; }
+        [Required]
+        public decimal Alto { get; set; }
+        [Required]
+        public decimal Ancho { get; set; }
+        [Required]
+        public int Tiempo { get; set; }
     }
 }

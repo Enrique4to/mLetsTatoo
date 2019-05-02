@@ -82,6 +82,7 @@
             this.Pass = null;
         }
         #endregion
+
         #region Commands
         public ICommand InicioCommand
         {
@@ -100,11 +101,11 @@
 
         }
         #endregion
+
         #region Methods
         private async void Inicio()
         {
-            this.IsRunning = true;
-            this.IsEnabled = false;
+            this.apiService.StartActivityPopup();
             if (string.IsNullOrEmpty(this.Usuario))
             {
                 this.IsRunning = false;
@@ -117,8 +118,7 @@
             }
             if (string.IsNullOrEmpty(this.Pass))
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.IntroducirPasword,
@@ -129,8 +129,7 @@
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
@@ -145,8 +144,7 @@
             var response = await this.apiService.GetList<T_usuarios>(urlApi, prefix, controller);
             if (!response.IsSuccess)
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
@@ -161,8 +159,7 @@
             }
             else
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.ErrorUsuarioyPassword,
@@ -174,9 +171,7 @@
 
             if (this.user.Bloqueo == true)
             {
-                 
-                this.IsRunning = false;
-                this.IsEnabled = true;
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.AccountBloqued,
@@ -186,8 +181,7 @@
             }
             if (this.user.Tipo > 2)
             {
-                this.IsRunning = false;
-                this.IsEnabled = true;
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.ErrorTypeUser,
@@ -196,37 +190,65 @@
                 this.Usuario = string.Empty;
                 return;
             }
+            controller = Application.Current.Resources["UrlT_clientesController"].ToString();
+
+            response = await this.apiService.GetList<T_clientes>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+            var clienteList = (List<T_clientes>)response.Result;
+
+            this.ClienteList = clienteList.Select(c => new ClientesCollection
+            {
+                Id_Cliente = c.Id_Cliente,
+                Id_Usuario = c.Id_Usuario,
+                Apellido = c.Apellido,
+                Bloqueo = c.Bloqueo,
+                Correo = c.Correo,
+                F_Nac = c.F_Nac,
+                Nombre = c.Nombre,
+                Telefono = c.Telefono,
+                F_Perfil = this.ListUsuarios.FirstOrDefault(u => u.Id_usuario == c.Id_Usuario).F_Perfil,
+
+            }).ToList();
+
+            controller = Application.Current.Resources["UrlT_tecnicosController"].ToString();
+
+            response = await this.apiService.GetList<T_tecnicos>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+            var tecnicoList = (List<T_tecnicos>)response.Result;
+
+            this.TecnicoList = tecnicoList.Select(t => new TecnicosCollection
+            {
+                Apellido = t.Apellido,
+                Apellido2 = t.Apellido2,
+                Apodo = t.Apodo,
+                Carrera = t.Carrera,
+                Id_Empresa = t.Id_Empresa,
+                Id_Local = t.Id_Local,
+                Id_Tecnico = t.Id_Tecnico,
+                Id_Usuario = t.Id_Usuario,
+                Nombre = t.Nombre,
+                F_Perfil = this.ListUsuarios.FirstOrDefault(u => u.Id_usuario == t.Id_Usuario).F_Perfil
+
+            }).ToList();
+
             if (this.user.Tipo == 1)
             {
-                controller = Application.Current.Resources["UrlT_clientesController"].ToString();
-
-                response = await this.apiService.GetList<T_clientes>(urlApi, prefix, controller);
-                if (!response.IsSuccess)
-                {
-                    this.IsRunning = false;
-                    this.IsEnabled = true;
-                    await Application.Current.MainPage.DisplayAlert(
-                        Languages.Error,
-                        response.Message,
-                        "OK");
-                    return;
-                }
-                var clienteList = (List<T_clientes>)response.Result;
-
-                this.ClienteList = clienteList.Select(c => new ClientesCollection
-                {
-                    Id_Cliente = c.Id_Cliente,
-                    Id_Usuario = c.Id_Usuario,
-                    Apellido = c.Apellido,
-                    Bloqueo = c.Bloqueo,
-                    Correo = c.Correo,
-                    F_Nac = c.F_Nac,
-                    Nombre = c.Nombre,
-                    Telefono = c.Telefono,
-                    F_Perfil = this.ListUsuarios.FirstOrDefault(u => u.Id_usuario == c.Id_Usuario).F_Perfil,
-
-                }).ToList();
-
                 this.cliente = this.ClienteList.Single(c => c.Id_Usuario == this.user.Id_usuario);
 
                 MainViewModel.GetInstance().UserHome = new UserHomeViewModel(this.user, this.cliente);
@@ -241,39 +263,7 @@
             }
             if (this.user.Tipo == 2)
             {
-                controller = Application.Current.Resources["UrlT_tecnicosController"].ToString();
-
-                response = await this.apiService.GetList<T_tecnicos>(urlApi, prefix, controller);
-                if (!response.IsSuccess)
-                {
-                    this.IsRunning = false;
-                    this.IsEnabled = true;
-                    await Application.Current.MainPage.DisplayAlert(
-                        Languages.Error,
-                        response.Message,
-                        "OK");
-                    return;
-                }
-                var tecnicoList = (List<T_tecnicos>)response.Result;
-
-                this.TecnicoList = tecnicoList.Select(t => new TecnicosCollection
-                {
-                    Apellido1 = t.Apellido1,
-                    Apellido2 = t.Apellido2,
-                    Apodo = t.Apodo,
-                    Carrera = t.Carrera,
-                    Id_Empresa = t.Id_Empresa,
-                    Id_Local = t.Id_Local,
-                    Id_Tecnico = t.Id_Tecnico,
-                    Id_Usuario = t.Id_Usuario,
-                    Nombre = t.Nombre,
-                    F_Perfil = this.ListUsuarios.FirstOrDefault(u => u.Id_usuario == t.Id_Usuario).F_Perfil
-
-                }).ToList();
                 this.tecnico = this.TecnicoList.Single(c => c.Id_Usuario == this.user.Id_usuario);
-                this.Usuario = string.Empty;
-
-                this.Pass = string.Empty;
 
                 if(this.user.Confirmado == true)
                 {
@@ -289,10 +279,11 @@
                     MainViewModel.GetInstance().TecnicoConfirm = new TecnicoConfirmViewModel(this.user, this.tecnico);
                     await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoConfirmPage());
                 }
+
+                this.Usuario = string.Empty;
+                this.Pass = string.Empty;
             }
 
-            this.IsRunning = false;
-            this.IsEnabled = true;
         }
         private async void Registro()
         {

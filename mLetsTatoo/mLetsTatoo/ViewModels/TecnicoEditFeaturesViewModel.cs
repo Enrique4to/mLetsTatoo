@@ -552,7 +552,13 @@
 
 
             await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoEditFeaturesPage());
-            await Application.Current.MainPage.Navigation.PopPopupAsync();
+
+            var daStack = Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopupStack.Count();
+            if (daStack > 0)
+            {
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
+            }
+
         }
         #endregion
     }

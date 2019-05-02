@@ -156,7 +156,7 @@
                         "Ok");
                     return;
                 }
-                if (string.IsNullOrEmpty(this.Tecnico.Apellido1))
+                if (string.IsNullOrEmpty(this.Tecnico.Apellido))
                 {
                     await Application.Current.MainPage.DisplayAlert(
                         Languages.Error,
@@ -237,7 +237,7 @@
             var tecnicoTemp = new T_tecnicos
             {
                 Id_Empresa = this.tecnico.Id_Empresa,
-                Apellido1 = this.tecnico.Apellido1,
+                Apellido = this.tecnico.Apellido,
                 Apellido2 = this.tecnico.Apellido2,
                 Apodo = this.tecnico.Apodo,
                 Carrera = this.tecnico.Carrera,
@@ -278,7 +278,7 @@
             var newTecnico = new TecnicosCollection
             {
                 Id_Empresa = tecnicoTemp.Id_Empresa,
-                Apellido1 = tecnicoTemp.Apellido1,
+                Apellido = tecnicoTemp.Apellido,
                 Apellido2 = tecnicoTemp.Apellido2,
                 Apodo = tecnicoTemp.Apodo,
                 Carrera = tecnicoTemp.Carrera,

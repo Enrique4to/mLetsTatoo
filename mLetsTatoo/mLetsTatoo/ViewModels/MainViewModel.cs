@@ -25,6 +25,10 @@ namespace mLetsTatoo.ViewModels
         public UserViewDateViewModel UserViewDate { get; set; }
         public TecnicoViewJobViewModel TecnicoViewJob { get; set; }
         public TecnicoViewDateViewModel TecnicoViewDate { get; set; }
+        public TecnicoMessagesViewModel TecnicoMessages { get; set; }
+        public TecnicoMessageJobViewModel TecnicoMessageJob { get; set; }
+        public UserMessagesViewModel UserMessages { get; set; }
+        public UserMessageJobViewModel UserMessageJob { get; set; }
         #endregion
 
         #region PopupViewModels

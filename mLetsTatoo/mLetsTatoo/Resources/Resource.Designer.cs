@@ -295,6 +295,29 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Budget.
+        /// </summary>
+        internal static string Budget {
+            get {
+                return ResourceManager.GetString("Budget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hi, how are you?
+        ///I have sent you a budget with the estimated time duration of the art you want, please check it and if you are interested, you approve it to schedule the corresponding appointment.
+        ///
+        ///If you have any other questions, do not hesitate to send me another message.
+        ///
+        ///Thank you..
+        /// </summary>
+        internal static string BudgetSentMessage {
+            get {
+                return ResourceManager.GetString("BudgetSentMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         internal static string Cancel {
@@ -768,6 +791,15 @@ namespace mLetsTatoo.Resources {
         internal static string MediumSize {
             get {
                 return ResourceManager.GetString("MediumSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message.
+        /// </summary>
+        internal static string Message {
+            get {
+                return ResourceManager.GetString("Message", resourceCulture);
             }
         }
         

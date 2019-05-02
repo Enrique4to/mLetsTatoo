@@ -198,7 +198,7 @@
                         Grid.Row="4"
                         HeightRequest="40"
                         MinimumDate="1/1/1980"
-                        Placeholder="{Binding Cliente.F_Nac}"
+                        Placeholder="{i18n:Translate Birthdate}"
                         PlaceholderColor="Gray"
                         Date="{Binding Cliente.F_Nac, Mode=TwoWay}"
                         TextColor="LightGray"

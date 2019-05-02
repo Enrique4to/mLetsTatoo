@@ -24,8 +24,8 @@
         public TecnicoItemViewModel()
         {
             this.apiService = new ApiService();
-            this.user = MainViewModel.GetInstance().UserHome.user;
-            this.cliente = MainViewModel.GetInstance().UserHome.cliente;
+            this.user = MainViewModel.GetInstance().Login.user;
+            this.cliente = MainViewModel.GetInstance().Login.cliente;
         }
         #endregion
 
@@ -55,7 +55,9 @@
         }
         private async void TecnicoSelected()
         {
-            MainViewModel.GetInstance().NewDate = new NewDateViewModel(this, user, cliente);
+            //MainViewModel.GetInstance().NewDate = new NewDateViewModel(this, user, cliente);
+            MainViewModel.GetInstance().NewDate.tecnico = this;
+            MainViewModel.GetInstance().NewDate.SelectedArtist = $"Artista: {this.Apodo} - {this.Nombre} {this.Apellido}";
             await Application.Current.MainPage.Navigation.PopModalAsync();
         }
         #endregion

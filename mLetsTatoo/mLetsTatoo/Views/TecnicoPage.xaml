@@ -107,7 +107,7 @@
                             <Label
                                 FontAttributes="Bold"
                                 FontSize="20"
-                                Text="{Binding Tecnico.Apellido1, Mode=TwoWay}"
+                                Text="{Binding Tecnico.Apellido, Mode=TwoWay}"
                                 TextColor="LightGray"
                                 HorizontalTextAlignment="Center"/>
                         </StackLayout>

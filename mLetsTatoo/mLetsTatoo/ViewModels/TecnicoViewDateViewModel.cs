@@ -154,7 +154,7 @@
             Task.Run(async () => { await this.LoadNotas(); }).Wait();
             IsButtonEnabled = false;
             IsVisible = false;
-            this.IsRefreshing = false;
+            this.apiService.EndActivityPopup();
         }
         #endregion
 
@@ -199,7 +199,7 @@
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-                this.IsRefreshing = false;
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
@@ -216,7 +216,7 @@
             var response = await this.apiService.Get<T_clientes>(urlApi, prefix, controller, this.trabajo.Id_Cliente);
             if (!response.IsSuccess)
             {
-                this.IsRefreshing = false;
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
@@ -247,7 +247,7 @@
 
             if (!response.IsSuccess)
             {
-                this.IsRefreshing = false;
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
@@ -255,17 +255,13 @@
                 return;
             }
             this.image = (T_citaimagenes)response.Result;
-
-            this.IsRefreshing = false;
         }
         public async Task LoadNotas()
         {
-
-            this.IsRefreshing = true;
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-                this.IsRefreshing = false;
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
@@ -281,7 +277,7 @@
             var response = await this.apiService.GetList<T_trabajonota>(urlApi, prefix, controller);
             if (!response.IsSuccess)
             {
-                this.IsRefreshing = false;
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
@@ -291,8 +287,6 @@
             this.NotaList = (List<T_trabajonota>)response.Result;
 
             this.RefreshListNotas();
-
-            this.IsRefreshing = false;
         }
         public void RefreshListNotas()
         {
@@ -316,6 +310,7 @@
         }
         private async void DeleteComent()
         {
+            this.apiService.StartActivityPopup();
             var answer = await Application.Current.MainPage.DisplayAlert(
                 Languages.Notice,
                 Languages.DeleteComment,
@@ -326,11 +321,10 @@
                 return;
             }
 
-            this.IsRefreshing = true;
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-                this.IsRefreshing = false;
+                this.apiService.EndActivityPopup();
                 await App.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
@@ -346,7 +340,7 @@
 
             if (!response.IsSuccess)
             {
-                this.IsRefreshing = false;
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
@@ -363,7 +357,7 @@
             this.notaSelected = null;
             IsButtonEnabled = false;
             IsVisible = false;
-            this.IsRefreshing = false;
+            this.apiService.EndActivityPopup();
         }
 
         public void SelectedNota()

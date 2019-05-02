@@ -46,6 +46,7 @@ namespace mLetsTatoo.Droid
         {
             if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed))
             {
+                
             }
             else
             {

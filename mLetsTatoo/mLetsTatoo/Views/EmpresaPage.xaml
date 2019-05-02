@@ -142,7 +142,7 @@
                                                 FontAttributes="Bold"
                                                 FontSize="12"
                                                 HorizontalOptions="StartAndExpand"
-                                                Text="{Binding Apellido1}"
+                                                Text="{Binding Apellido}"
                                                 TextColor="LightGray"
                                                 VerticalTextAlignment="Start"/>
                                         </StackLayout>

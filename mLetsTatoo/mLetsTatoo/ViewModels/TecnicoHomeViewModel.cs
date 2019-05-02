@@ -1,17 +1,12 @@
 ﻿namespace mLetsTatoo.ViewModels
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.IO;
     using System.Linq;
-    using System.Reflection;
-    using System.Threading.Tasks;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Helpers;
     using Models;
-    using Plugin.Media.Abstractions;
     using Services;
     using Views;
     using Xamarin.Forms;
@@ -74,7 +69,6 @@
             set { SetValue(ref this.trabajos, value); }
         }
 
-
         public bool IsRunning
         {
             get { return this.isRunning; }
@@ -96,11 +90,8 @@
 
             this.LoadTecnico();
             this.LoadTrabajos();
-
-            this.IsRunning = false;
-            this.IsRefreshing = false;
-            this.TipoBusqueda = "All";
-
+            
+            this.TipoBusqueda = "All";            
         }
         #endregion
 
@@ -119,6 +110,8 @@
                 return new RelayCommand(LoadTrabajos);
             }
         }
+
+
         #endregion
 
         #region Methods
@@ -145,18 +138,15 @@
         }
         private async void LoadTrabajos()
         {
-            this.IsRefreshing = true;
-
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-                this.IsRefreshing = false;
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
                     "OK");
                 return;
-
             }
 
             var urlApi = Application.Current.Resources["UrlAPI"].ToString();
@@ -166,7 +156,7 @@
             var response = await this.apiService.GetList<T_trabajos>(urlApi, prefix, controller);
             if (!response.IsSuccess)
             {
-                this.IsRefreshing = true;
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
@@ -190,7 +180,7 @@
 
             this.Trabajos = new ObservableCollection<TrabajosItemViewModel>(trabajo.OrderBy(c => c.Id_Trabajo));
 
-            this.IsRefreshing = false;
+            this.apiService.EndActivityPopup();
         }
         public void Busqueda()
         {
@@ -200,6 +190,15 @@
             if (TipoBusqueda == "Citas")
             {
             }
+        }
+        public async void GoToMessagesPage()
+        {
+            this.apiService.StartActivityPopup();
+
+            MainViewModel.GetInstance().TecnicoMessages = new TecnicoMessagesViewModel(this.user, this.tecnico);
+            await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoMessagesPage());
+
+            //this.apiService.EndActivityPopup();
         }
         #endregion
     }

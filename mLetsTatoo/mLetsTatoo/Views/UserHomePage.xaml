@@ -12,18 +12,28 @@
     x:Class="mLetsTatoo.Views.UserHomePage"
     x:Name="Root">
     <page:SNavigationPage.NavContent>
-        <Grid
-            Margin="2,10,2,2">
-            <SearchBar
-                CancelButtonColor="Gray"
-                Placeholder="{i18n:Translate Search}" 
-                PlaceholderColor="Gray"
-                SearchCommand="{Binding SearchCommand, Source={x:Reference Root}}"
-                Text="{Binding Filter, Source={x:Reference Root}}"
-                TextColor="LightGray"
-                x:Name="Search"/>
-        </Grid>
-
+        <StackLayout
+            Orientation="Horizontal"
+            Padding="5">
+            <Grid
+                Margin="2,5,2,2"
+                VerticalOptions="Center">
+                <SearchBar
+                    CancelButtonColor="Gray"
+                    Placeholder="{i18n:Translate Search}" 
+                    PlaceholderColor="Gray"
+                    SearchCommand="{Binding SearchCommand, Source={x:Reference Root}}"
+                    Text="{Binding Filter, Source={x:Reference Root}}"
+                    TextColor="LightGray"
+                    x:Name="Search"/>
+            </Grid>
+            <control:ActionButton
+                ButtonColor="#c8c8c8"
+                ButtonIcon= "{x:Static control:FontAwesomeLabel.FAComments}"
+                ButtonIconColor="Black"
+                Command="{Binding MessagesCommand, Source={x:Reference Root}}"
+                VerticalOptions="Center"/>
+        </StackLayout>
     </page:SNavigationPage.NavContent>
     <TabbedPage.Children>
 
@@ -310,7 +320,7 @@
                                                     FontAttributes="Bold"
                                                     FontSize="12"
                                                     HorizontalOptions="StartAndExpand"
-                                                    Text="{Binding Apellido1}"
+                                                    Text="{Binding Apellido}"
                                                     TextColor="LightGray"
                                                     VerticalTextAlignment="Start"/>
                                             </StackLayout>

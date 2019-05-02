@@ -555,5 +555,17 @@
         {
             get { return Resource.PhoneLenghtError; }
         }
+        public static string Budget
+        {
+            get { return Resource.Budget; }
+        }
+        public static string Message
+        {
+            get { return Resource.Message; }
+        }
+        public static string BudgetSentMessage
+        {
+            get { return Resource.BudgetSentMessage; }
+        }
     }
 }

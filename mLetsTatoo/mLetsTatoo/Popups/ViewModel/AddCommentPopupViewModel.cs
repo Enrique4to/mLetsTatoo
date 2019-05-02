@@ -104,7 +104,7 @@
             }
             else if (this.user.Tipo == 2)
             {
-                var nombre_Post = $"{this.tecnico.Nombre} {this.tecnico.Apellido1} {"'"}{this.tecnico.Apodo}{"'"}";
+                var nombre_Post = $"{this.tecnico.Nombre} {this.tecnico.Apellido} {"'"}{this.tecnico.Apodo}{"'"}";
 
                  this.nota = new T_trabajonota
                  {

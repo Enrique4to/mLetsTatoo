@@ -1,5 +1,6 @@
 ﻿namespace mLetsTatoo.API.Controllers
 {
+    using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     using System.Linq;
@@ -64,13 +65,15 @@
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(t_trabajonotatemp);
         }
 
         // POST: api/T_trabajonotatemp
         [ResponseType(typeof(T_trabajonotatemp))]
         public async Task<IHttpActionResult> PostT_trabajonotatemp(T_trabajonotatemp t_trabajonotatemp)
         {
+            t_trabajonotatemp.F_nota = DateTime.Now.ToUniversalTime();
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

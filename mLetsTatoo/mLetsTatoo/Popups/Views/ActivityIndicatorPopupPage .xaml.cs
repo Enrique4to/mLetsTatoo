@@ -9,7 +9,9 @@ namespace mLetsTatoo.Popups.Views
 	{
 		public ActivityIndicatorPopupPage()
 		{
+            this.CloseWhenBackgroundIsClicked = false;
 			InitializeComponent ();
 		}
-	}
+
+    }
 }

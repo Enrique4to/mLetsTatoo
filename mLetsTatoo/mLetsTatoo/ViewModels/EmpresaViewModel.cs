@@ -163,7 +163,7 @@
             var userList = MainViewModel.GetInstance().Login.ListUsuarios;
             var tecnico = this.EmpresaTecnicoList.Select(t => new TecnicoItemViewModel
             {
-                Apellido1 = t.Apellido1,
+                Apellido = t.Apellido,
                 Apellido2 = t.Apellido2,
                 Apodo = t.Apodo,
                 Carrera = t.Carrera,

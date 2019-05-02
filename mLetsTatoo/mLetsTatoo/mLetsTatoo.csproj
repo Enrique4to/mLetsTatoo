@@ -75,6 +75,12 @@
     <Compile Update="Views\EditTecnicoUserPage.xaml.cs">
       <DependentUpon>EditTecnicoUserPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\UserMessagesPage.xaml.cs">
+      <DependentUpon>UserMessagesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TecnicoMessagesPage.xaml.cs">
+      <DependentUpon>TecnicoMessagesPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\NewDatePage.xaml.cs">
       <DependentUpon>NewDatePage.xaml</DependentUpon>
     </Compile>
@@ -86,6 +92,12 @@
     </Compile>
     <Compile Update="Views\TecnicoFeaturesPage.xaml.cs">
       <DependentUpon>TecnicoFeaturesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\UserMessajeJobPage.xaml.cs">
+      <DependentUpon>UserMessajeJobPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TecnicoMessajeJobPage.xaml.cs">
+      <DependentUpon>TecnicoMessajeJobPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\UserHomePage.xaml.cs">
       <DependentUpon>UserHomePage.xaml</DependentUpon>
@@ -105,6 +117,9 @@
     <EmbeddedResource Update="Resources\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\TecnicoMessagesPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\NewDatePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>

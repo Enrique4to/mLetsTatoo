@@ -135,6 +135,8 @@
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\TecnicosCollection.cs" />
     <Compile Include="Models\TrabajoNotaCollection.cs" />
+    <Compile Include="Models\TrabajonotaTempCollection.cs" />
+    <Compile Include="Models\TrabajosTempCollection.cs" />
     <Compile Include="Models\T_citaimagenes.cs" />
     <Compile Include="Models\T_citaimagenestemp.cs" />
     <Compile Include="Models\T_ciudad.cs" />

@@ -80,6 +80,13 @@
                 return new RelayCommand(Busqueda);
             }
         }
+        public ICommand MessagesCommand
+        {
+            get
+            {
+                return new RelayCommand(MainViewModel.GetInstance().TecnicoHome.GoToMessagesPage);
+            }
+        }
         #endregion
 
         #region Methods

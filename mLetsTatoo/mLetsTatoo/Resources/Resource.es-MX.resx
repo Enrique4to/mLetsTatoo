@@ -531,4 +531,19 @@
   <data name="PhoneLenghtError" xml:space="preserve">
     <value>¡Tu número de teléfono debe tener un máximo de 10 dígitos!</value>
   </data>
+  <data name="Budget" xml:space="preserve">
+    <value>Presupuesto</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Mensaje</value>
+  </data>
+  <data name="BudgetSentMessage" xml:space="preserve">
+    <value>
+¿Hola! Cómo estás?
+Le he enviado un presupuesto con la duración estimada del arte que desea, verifíquelo y, si está interesado, lo aprueba para programar la cita correspondiente.
+
+Si tiene alguna otra pregunta, no dude en enviarme otro mensaje.
+
+Gracias.</value>
+  </data>
 </root>

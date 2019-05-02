@@ -145,6 +145,8 @@
 
             this.IsRefreshing = false;
             this.TipoBusqueda = "All";
+
+            this.apiService.EndActivityPopup();
         }
 
         #endregion
@@ -190,43 +192,19 @@
         #region Methods
         private void LoadCliente()
         {
-            this.IsRefreshing = true;
-            this.IsRunning = true;
-
-            //if (this.user.F_Perfil != null)
-            //{
-            //    string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "UserIcon.png");
-            //    File.WriteAllBytes(fileName, this.user.F_Perfil);
-            //    this.Image = new Image();
-            //    this.ImageSource = FileImageSource.FromFile(fileName);
-            //}
-            //else
-            //{
-            //    this.ByteImage = this.apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
-            //    this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
-            //}
-
             MainViewModel.GetInstance().UserPage = new UserViewModel(this.user, this.cliente);
-
-            this.IsRefreshing = false;
-            this.IsRunning = false;
         }
         private async void LoadEmpresas()
         {
-            this.IsRefreshing = true;
-            this.IsRunning = true;
-
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-                this.IsRunning = false;
-                this.IsRefreshing = false;
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
                     "OK");
                 return;
-
             }
 
             var urlApi = Application.Current.Resources["UrlAPI"].ToString();
@@ -237,8 +215,7 @@
 
             if (!response.IsSuccess)
             {
-                this.IsRunning = false;
-                this.IsRefreshing = false;
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
@@ -248,10 +225,6 @@
 
             this.EmpresaList = (List<T_empresas>)response.Result;
             this.RefreshEmpresaList();
-
-            this.IsRefreshing = false;
-            this.IsRunning = false;
-
         }
         public void RefreshEmpresaList()
         {
@@ -288,14 +261,11 @@
         }
         private async void LoadTecnicos()
         {
-            this.IsRefreshing = true;
-            this.IsRunning = true;
 
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-                this.IsRefreshing = false;
-                this.IsRunning = false;
+                this.apiService.EndActivityPopup();
                 await App.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
@@ -319,8 +289,8 @@
                 return;
             }
             this.TecnicoList = (List<T_tecnicos>)response.Result;
-            this.IsRefreshing = false;
-            this.IsRunning = false;
+            var userList = MainViewModel.GetInstance().Login.ListUsuarios;
+            this.TecnicoList = this.TecnicoList.Where(t => userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)).ToList();
 
             this.RefreshTecnicoList();
         }
@@ -332,7 +302,7 @@
 
                 var tecnico = this.TecnicoList.Select(t => new TecnicoItemViewModel
                 {
-                    Apellido1 = t.Apellido1,
+                    Apellido = t.Apellido,
                     Apellido2 = t.Apellido2,
                     Apodo = t.Apodo,
                     Carrera = t.Carrera,
@@ -343,14 +313,14 @@
                     Nombre = t.Nombre,
                     F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == t.Id_Usuario).F_Perfil
 
-                }).Where(t => userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)).ToList();
+                });
                 this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
             }
             else
             {
                 var tecnico = this.TecnicoList.Select(t => new TecnicoItemViewModel
                 {
-                    Apellido1 = t.Apellido1,
+                    Apellido = t.Apellido,
                     Apellido2 = t.Apellido2,
                     Apodo = t.Apodo,
                     Carrera = t.Carrera,
@@ -360,22 +330,18 @@
                     Nombre = t.Nombre,
                     F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == t.Id_Usuario).F_Perfil
 
-                }).Where(t => userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)
-                && (t.Nombre.ToLower().Contains(this.filterTecnico.ToLower()) 
+                }).Where(t => t.Nombre.ToLower().Contains(this.filterTecnico.ToLower()) 
                 || t.Apodo.ToLower().Contains(this.filterTecnico.ToLower())
-                || t.Apellido1.ToLower().Contains(this.filterTecnico.ToLower()))).ToList();
+                || t.Apellido.ToLower().Contains(this.filterTecnico.ToLower())).ToList();
                 this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
             }
-
         }
         private async void LoadCitas()
         {
-            this.IsRefreshing = true;
-
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-                this.IsRefreshing = false;
+                this.apiService.EndActivityPopup();
                 await App.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
@@ -391,7 +357,7 @@
             var response = await this.apiService.GetList<T_trabajocitas>(urlApi, prefix, controller);
             if (!response.IsSuccess)
             {
-                this.IsRefreshing = true;
+                this.apiService.EndActivityPopup();
                 await App.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     response.Message,
@@ -402,7 +368,6 @@
             this.CitaList = list.Where(c => c.Id_Cliente == this.cliente.Id_Cliente).ToList();
 
             this.RefreshCitaList();
-            this.IsRefreshing = false;
         }
         public void RefreshCitaList()
         {
@@ -423,7 +388,6 @@
 
             this.Citas = new ObservableCollection<CitasItemViewModel>(cita.OrderByDescending(c => c.F_Inicio));
         }
-
         public void Busqueda()
         {
             if (TipoBusqueda == "All")
@@ -445,8 +409,18 @@
         }
         private async void GoToCitasPage()
         {
+            this.apiService.StartActivityPopup();
             MainViewModel.GetInstance().NewDate = new NewDateViewModel(tecnico, user, cliente);
             await Application.Current.MainPage.Navigation.PushModalAsync(new NewDatePage());
+        }
+        public async void GoToMessagesPage()
+        {
+            this.apiService.StartActivityPopup();
+
+            MainViewModel.GetInstance().UserMessages = new UserMessagesViewModel(this.user, this.cliente);
+            await Application.Current.MainPage.Navigation.PushModalAsync(new UserMessagesPage());
+
+            //this.apiService.EndActivityPopup();
         }
         #endregion
     }

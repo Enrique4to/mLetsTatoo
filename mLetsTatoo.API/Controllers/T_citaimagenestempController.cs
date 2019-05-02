@@ -66,7 +66,7 @@ namespace mLetsTatoo.API.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(t_citaimagenestemp);
         }
 
         // POST: api/T_citaimagenestemp
