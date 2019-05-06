@@ -30,6 +30,8 @@
             <x:String x:Key="UrlT_trabajonotatempController">/T_trabajonotatemp</x:String>
             <x:String x:Key="UrlT_citaimagenestempController">/T_citaimagenestemp</x:String>
             <x:String x:Key="UrlT_localimagenesController">/T_localimagenes</x:String>
+            <x:String x:Key="UrlT_localhorariosController">/T_localhorarios</x:String>
+            <x:String x:Key="UrlT_tecnicohorariosController">/T_tecnicohorarios</x:String>
             
         </ResourceDictionary>
 

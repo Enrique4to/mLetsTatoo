@@ -82,11 +82,14 @@
     <Reference Include="Syncfusion.Buttons.XForms, Version=17.1451.0.40, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Syncfusion.Xamarin.Buttons.17.1.0.40\lib\netstandard1.0\Syncfusion.Buttons.XForms.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Core.XForms, Version=17.1451.0.40, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Syncfusion.Xamarin.Core.17.1.0.40\lib\netstandard1.0\Syncfusion.Core.XForms.dll</HintPath>
+    <Reference Include="Syncfusion.Core.XForms, Version=17.1451.0.43, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Xamarin.Core.17.1.0.43\lib\netstandard1.0\Syncfusion.Core.XForms.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.Licensing, Version=17.1460.0.40, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Syncfusion.Licensing.17.1.0.40\lib\net46\Syncfusion.Licensing.dll</HintPath>
+    <Reference Include="Syncfusion.Licensing, Version=17.1460.0.43, Culture=neutral, PublicKeyToken=632609b4d040f6b4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Licensing.17.1.0.43\lib\net46\Syncfusion.Licensing.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfCalendar.XForms, Version=17.1451.0.43, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Syncfusion.Xamarin.SfCalendar.17.1.0.43\lib\netstandard1.0\Syncfusion.SfCalendar.XForms.dll</HintPath>
     </Reference>
     <Reference Include="Syncfusion.SfCarousel.XForms, Version=17.1451.0.40, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Syncfusion.Xamarin.SfCarousel.17.1.0.40\lib\netstandard1.0\Syncfusion.SfCarousel.XForms.dll</HintPath>

@@ -22,11 +22,11 @@
     </pages:PopupPage.Animation>
     <ContentPage.Content>
         <Frame
-            BackgroundColor="DimGray"
+            BackgroundColor="White"
             HasShadow="True"
             CornerRadius="10"
             Margin="20,0,20,0"
-            Opacity=".95"
+            Opacity=".8"
             VerticalOptions="Center">
             <StackLayout
                 BindingContext="{Binding AddCommentPopup}"
@@ -37,7 +37,7 @@
                     HorizontalOptions="Center"
                     HorizontalTextAlignment="Center"
                     Text="{i18n:Translate AddComment}"
-                    TextColor="LightGray"
+                    TextColor="Black"
                     VerticalOptions="Start"/>
                 <Editor
                     AutoSize="TextChanges"                    
@@ -45,7 +45,7 @@
                     HorizontalOptions="FillAndExpand"
                     Margin="5"
                     Text="{Binding AddNota}"
-                    TextColor="LightGray"
+                    TextColor="Black"
                     VerticalOptions="StartAndExpand"
                     x:Name="Comment"/>
                 <Image

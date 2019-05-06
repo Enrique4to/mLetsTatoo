@@ -222,7 +222,7 @@ namespace mLetsTatoo.ViewModels
                 Ancho = this.trabajo.Ancho,
                 Tiempo = int.Parse(this.Time),                
             };
-            var response = await this.apiService.Put(urlApi, prefix, controller, this.notaTemp, this.trabajoTemp.Id_Trabajotemp);
+            var response = await this.apiService.Put(urlApi, prefix, controller, this.trabajoTemp, this.trabajoTemp.Id_Trabajotemp);
 
             if (!response.IsSuccess)
             {

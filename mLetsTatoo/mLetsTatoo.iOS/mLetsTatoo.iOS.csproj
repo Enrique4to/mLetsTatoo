@@ -177,6 +177,9 @@
     <PackageReference Include="Syncfusion.Xamarin.Buttons">
       <Version>17.1.0.40</Version>
     </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfCalendar">
+      <Version>17.1.0.43</Version>
+    </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfCalendar.IOS">
       <Version>17.1.0.40</Version>
     </PackageReference>
@@ -326,5 +329,11 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\SendMessage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Next.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Previous.png" />
   </ItemGroup>
 </Project>

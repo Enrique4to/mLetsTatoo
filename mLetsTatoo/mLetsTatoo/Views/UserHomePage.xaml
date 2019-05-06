@@ -3,7 +3,8 @@
     BackgroundColor="Black"
     BindingContext="{Binding Main, Source={StaticResource Locator}}"
     xmlns="http://xamarin.com/schemas/2014/forms"
-    xmlns:schedule="clr-namespace:Syncfusion.SfSchedule.XForms;assembly=Syncfusion.SfSchedule.XForms"
+xmlns:schedule="clr-namespace:Syncfusion.SfSchedule.XForms;assembly=Syncfusion.SfSchedule.XForms"
+    xmlns:calendar="clr-namespace:Syncfusion.SfCalendar.XForms;assembly=Syncfusion.SfCalendar.XForms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
     xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
@@ -45,7 +46,18 @@
             Padding="5">
             </StackLayout>
         </ContentPage>
-
+        <ContentPage
+            Icon="CitasUns.png"
+            x:Name="Citas2">
+            <StackLayout
+            BindingContext="{Binding UserHome}"
+            Padding="5">
+                <schedule:SfSchedule 
+                    CellTappedCommand="{Binding NewAppointmentCommand}"
+                    ScheduleView ="WeekView">
+                </schedule:SfSchedule>
+            </StackLayout>
+        </ContentPage>
         <ContentPage
             Icon="CitasUns.png"
             x:Name="Citas">
@@ -167,7 +179,7 @@
                         <Image.GestureRecognizers>
                             <TapGestureRecognizer Command ="{Binding NewAppointmentCommand}"/>
                         </Image.GestureRecognizers>
-                        
+
                     </Image>
                 </Grid>
             </StackLayout>

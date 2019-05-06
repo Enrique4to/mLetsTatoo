@@ -53,12 +53,12 @@
             MainViewModel.GetInstance().NewDate = new NewDateViewModel(this, user, cliente);
             await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoPage());
         }
-        private async void TecnicoSelected()
+        private void TecnicoSelected()
         {
             //MainViewModel.GetInstance().NewDate = new NewDateViewModel(this, user, cliente);
-            MainViewModel.GetInstance().NewDate.tecnico = this;
-            MainViewModel.GetInstance().NewDate.SelectedArtist = $"Artista: {this.Apodo} - {this.Nombre} {this.Apellido}";
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+            MainViewModel.GetInstance().NewAppointmentPopup.tecnico = this;
+            //MainViewModel.GetInstance().NewDate.SelectedArtist = $"Artista: {this.Apodo} - {this.Nombre} {this.Apellido}";
+            //await Application.Current.MainPage.Navigation.PopModalAsync();
         }
         #endregion
     }

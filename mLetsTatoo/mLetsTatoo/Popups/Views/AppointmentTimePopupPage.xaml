@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    BindingContext="{Binding Main, Source={StaticResource Locator}}"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:schedule="clr-namespace:Syncfusion.SfSchedule.XForms;assembly=Syncfusion.SfSchedule.XForms"
+    x:Class="mLetsTatoo.Popups.Views.AppointmentTimePopupPage">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="300"
+            DurationOut="200"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="true"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8"/>
+    </pages:PopupPage.Animation>
+    <ContentPage.Content>
+        <Frame
+            BackgroundColor="White"
+            HasShadow="True"
+            CornerRadius="10"
+            Opacity=".95"
+            Margin="20,5,20,5"
+            VerticalOptions="Center">
+            <StackLayout
+                BindingContext="{Binding NewAppointmentPopup}"
+                Padding="5">
+                <StackLayout
+                    VerticalOptions="StartAndExpand"
+                    Padding="0,5,0,5">
+                    <schedule:SfSchedule
+                        CellTappedCommand="{Binding SelectedTimeCommand}"
+                        DataSource="{Binding Citas}"
+                        HeightRequest="500"
+                        MoveToDate="{Binding SelectedDate, Mode=TwoWay}"
+                        TimeInterval="30"
+                        TimeIntervalHeight="30"
+                        ScheduleView ="DayView"
+                        SelectedDate="{Binding SelectedTime, Mode=TwoWay}">
+                        <schedule:SfSchedule.AppointmentMapping>
+                            <schedule:ScheduleAppointmentMapping
+			                    SubjectMapping="Asunto" 
+                                ColorMapping="Color"
+			                    StartTimeMapping="F_Inicio"
+			                    EndTimeMapping="F_Fin">
+                            </schedule:ScheduleAppointmentMapping>
+                        </schedule:SfSchedule.AppointmentMapping>
+                        <schedule:SfSchedule.DayViewSettings>
+                            <!--setting working hours properties -->
+                            <schedule:DayViewSettings
+                                NonWorkingHoursTimeSlotBorderColor="Black"
+                                NonWorkingHoursTimeSlotColor="Black"                                
+                                WorkStartHour="{Binding WorkInTime, Mode=TwoWay}"
+                                WorkEndHour="{Binding WorkOutTime, Mode=TwoWay}">
+                                <schedule:DayViewSettings.DayLabelSettings>
+                                    <schedule:DayLabelSettings
+                                        TimeFormat="hh:mm"/>
+                                </schedule:DayViewSettings.DayLabelSettings>
+                                <schedule:DayViewSettings.NonAccessibleBlocks>
+                                    <schedule:NonAccessibleBlock 
+					                     StartTime="{Binding EatOutTime, Mode=TwoWay}"
+					                     EndTime="{Binding EatInTime, Mode=TwoWay}" 
+					                     Text="Comida" 
+					                     Color="Black"/>
+                                </schedule:DayViewSettings.NonAccessibleBlocks>
+                            </schedule:DayViewSettings>                            
+                        </schedule:SfSchedule.DayViewSettings>
+                    </schedule:SfSchedule>
+                </StackLayout>
+                <StackLayout
+                    Orientation="Horizontal"
+                    VerticalOptions="EndAndExpand">
+                    <Frame
+                        BackgroundColor="Transparent"
+                        BorderColor="Black"
+                        HasShadow="True"
+                        HorizontalOptions="StartAndExpand"
+                        CornerRadius="10"
+                        Padding="2"
+                        VerticalOptions="End">
+                        <Image
+                            HorizontalOptions="CenterAndExpand"
+                            Margin="2"
+                            Source="Previous.png"
+                            VerticalOptions="CenterAndExpand"
+                            WidthRequest="20"/>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CancelCommand}"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                    <Frame
+                        BackgroundColor="Transparent"
+                        BorderColor="Black"
+                        HasShadow="True"
+                        HorizontalOptions="EndAndExpand"
+                        CornerRadius="10"
+                        Padding="2"
+                        VerticalOptions="Center">
+                        <Image
+                            HorizontalOptions="CenterAndExpand"
+                            Margin="2"
+                            Source="Next.png"
+                            VerticalOptions="CenterAndExpand"
+                            WidthRequest="20"/>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NextCommand}"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </StackLayout>
+            </StackLayout>
+        </Frame>
+    </ContentPage.Content>
+</pages:PopupPage>

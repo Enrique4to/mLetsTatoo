@@ -11,24 +11,6 @@
         public decimal advance;
         public bool pageVisible;
         #endregion
-        public decimal Cost
-        {
-            get { return cost; }
-            set
-            {
-                cost = value;
-                OnPropertyChanged(nameof(Cost)); // Notify that there was a change on this property
-            }
-        }
-        public decimal Advance
-        {
-            get { return advance; }
-            set
-            {
-                advance = value;
-                OnPropertyChanged(nameof(Advance)); // Notify that there was a change on this property
-            }
-        }
 
         public NewDatePage ()
         {

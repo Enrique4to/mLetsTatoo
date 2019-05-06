@@ -335,21 +335,13 @@
         {
             get { return Resource.SelectedArtistError; }
         }
-        public static string DateError
+        public static string TimeError
         {
-            get { return Resource.DateError; }
+            get { return Resource.TimeError; }
         }
         public static string DescribeArtError
         {
             get { return Resource.DescribeArtError; }
-        }
-        public static string ApproximateCost
-        {
-            get { return Resource.ApproximateCost; }
-        }
-        public static string AppointmentCost
-        {
-            get { return Resource.AppointmentCost; }
         }
         public static string IntroduceActivationCode
         {
@@ -566,6 +558,22 @@
         public static string BudgetSentMessage
         {
             get { return Resource.BudgetSentMessage; }
+        }
+        public static string AppointmentType
+        {
+            get { return Resource.AppointmentType; }
+        }
+        public static string QuickDetails
+        {
+            get { return Resource.QuickDetails; }
+        }
+        public static string PersonalizedDetails
+        {
+            get { return Resource.PersonalizedDetails; }
+        }
+        public static string ScheduleError
+        {
+            get { return Resource.ScheduleError; }
         }
     }
 }

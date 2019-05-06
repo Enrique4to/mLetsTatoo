@@ -17,7 +17,6 @@ namespace mLetsTatoo.ViewModels
         public TecnicoViewModel Tecnico { get; set; }
         public LocalViewModel LocalPage { get; set; }
         public NewDateViewModel NewDate { get; set; }
-        public SearchViewModel Search { get; set; }
         public TecnicoProfileViewModel TecnicoProfile { get; set; }
         public TecnicoConfirmViewModel TecnicoConfirm { get; set; }
         public TecnicoFeaturesViewModel TecnicoFeatures { get; set; }
@@ -35,6 +34,7 @@ namespace mLetsTatoo.ViewModels
         public AddCommentPopupViewModel AddCommentPopup { get; set; }
         public EditCommentPopupViewModel EditCommentPopup { get; set; }
         public ActivityIndicatorPopupViewModel ActivityIndicatorPopup { get; set; }
+        public NewAppointmentPopupViewModel NewAppointmentPopup { get; set; }
 
         #endregion
 

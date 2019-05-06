@@ -25,7 +25,7 @@
         #region Constructors
         public ActivityIndicatorPopupViewModel()
         {
-            this.IsRunning = false;
+            this.IsRunning = true;
             this.IsEnabled = false;
         }
         #endregion

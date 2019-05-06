@@ -1693,6 +1693,18 @@ namespace mLetsTatoo.Droid
 			global::Syncfusion.Buttons.XForms.Android.Resource.Styleable.SfSegmentedControl_segmentedWidth = global::mLetsTatoo.Droid.Resource.Styleable.SfSegmentedControl_segmentedWidth;
 			global::Syncfusion.XForms.Android.Core.Resource.Drawable.inputlayout_togglecollapseicon = global::mLetsTatoo.Droid.Resource.Drawable.inputlayout_togglecollapseicon;
 			global::Syncfusion.XForms.Android.Core.Resource.Drawable.inputlayout_togglevisibleicon = global::mLetsTatoo.Droid.Resource.Drawable.inputlayout_togglevisibleicon;
+			global::Syncfusion.SfCalendar.XForms.Droid.Resource.Dimension.activity_horizontal_margin = global::mLetsTatoo.Droid.Resource.Dimension.activity_horizontal_margin;
+			global::Syncfusion.SfCalendar.XForms.Droid.Resource.Dimension.activity_vertical_margin = global::mLetsTatoo.Droid.Resource.Dimension.activity_vertical_margin;
+			global::Syncfusion.SfCalendar.XForms.Droid.Resource.Dimension.date_text_size = global::mLetsTatoo.Droid.Resource.Dimension.date_text_size;
+			global::Syncfusion.SfCalendar.XForms.Droid.Resource.Dimension.date_text_tab_size = global::mLetsTatoo.Droid.Resource.Dimension.date_text_tab_size;
+			global::Syncfusion.SfCalendar.XForms.Droid.Resource.Dimension.month_row_size = global::mLetsTatoo.Droid.Resource.Dimension.month_row_size;
+			global::Syncfusion.SfCalendar.XForms.Droid.Resource.Dimension.month_row_tab_size = global::mLetsTatoo.Droid.Resource.Dimension.month_row_tab_size;
+			global::Syncfusion.SfCalendar.XForms.Droid.Resource.Dimension.month_text_size = global::mLetsTatoo.Droid.Resource.Dimension.month_text_size;
+			global::Syncfusion.SfCalendar.XForms.Droid.Resource.Dimension.month_text_tab_size = global::mLetsTatoo.Droid.Resource.Dimension.month_text_tab_size;
+			global::Syncfusion.SfCalendar.XForms.Droid.Resource.Drawable.inputlayout_togglecollapseicon = global::mLetsTatoo.Droid.Resource.Drawable.inputlayout_togglecollapseicon;
+			global::Syncfusion.SfCalendar.XForms.Droid.Resource.Drawable.inputlayout_togglevisibleicon = global::mLetsTatoo.Droid.Resource.Drawable.inputlayout_togglevisibleicon;
+			global::Syncfusion.SfCalendar.XForms.Droid.Resource.String.sfcalendar_inlineviewalldaytext = global::mLetsTatoo.Droid.Resource.String.sfcalendar_inlineviewalldaytext;
+			global::Syncfusion.SfCalendar.XForms.Droid.Resource.String.sfcalendar_inlineviewnoappointmenttext = global::mLetsTatoo.Droid.Resource.String.sfcalendar_inlineviewnoappointmenttext;
 			global::Com.Syncfusion.Carousel.Resource.Animator.lb_guidedactions_item_pressed = global::mLetsTatoo.Droid.Resource.Animator.lb_guidedactions_item_pressed;
 			global::Com.Syncfusion.Carousel.Resource.Animator.lb_guidedactions_item_unpressed = global::mLetsTatoo.Droid.Resource.Animator.lb_guidedactions_item_unpressed;
 			global::Com.Syncfusion.Carousel.Resource.Animator.lb_guidedstep_slide_down = global::mLetsTatoo.Droid.Resource.Animator.lb_guidedstep_slide_down;
@@ -8863,6 +8875,12 @@ namespace mLetsTatoo.Droid
 			// aapt resource value: 0x7f0b0012
 			public const int abc_text_size_title_material_toolbar = 2131427346;
 			
+			// aapt resource value: 0x7f0b01d5
+			public const int activity_horizontal_margin = 2131427797;
+			
+			// aapt resource value: 0x7f0b01d6
+			public const int activity_vertical_margin = 2131427798;
+			
 			// aapt resource value: 0x7f0b01bd
 			public const int browser_actions_context_menu_max_width = 2131427773;
 			
@@ -8898,6 +8916,12 @@ namespace mLetsTatoo.Droid
 			
 			// aapt resource value: 0x7f0b01c9
 			public const int compat_notification_large_icon_max_width = 2131427785;
+			
+			// aapt resource value: 0x7f0b01d7
+			public const int date_text_size = 2131427799;
+			
+			// aapt resource value: 0x7f0b01d8
+			public const int date_text_tab_size = 2131427800;
 			
 			// aapt resource value: 0x7f0b0169
 			public const int design_appbar_elevation = 2131427689;
@@ -9031,8 +9055,8 @@ namespace mLetsTatoo.Droid
 			// aapt resource value: 0x7f0b018c
 			public const int design_textinput_caption_translate_y = 2131427724;
 			
-			// aapt resource value: 0x7f0b01d5
-			public const int disabledAlpha = 2131427797;
+			// aapt resource value: 0x7f0b01dd
+			public const int disabledAlpha = 2131427805;
 			
 			// aapt resource value: 0x7f0b005a
 			public const int disabled_alpha_material_dark = 2131427418;
@@ -9793,6 +9817,18 @@ namespace mLetsTatoo.Droid
 			// aapt resource value: 0x7f0b0158
 			public const int lb_vertical_grid_padding_bottom = 2131427672;
 			
+			// aapt resource value: 0x7f0b01db
+			public const int month_row_size = 2131427803;
+			
+			// aapt resource value: 0x7f0b01dc
+			public const int month_row_tab_size = 2131427804;
+			
+			// aapt resource value: 0x7f0b01d9
+			public const int month_text_size = 2131427801;
+			
+			// aapt resource value: 0x7f0b01da
+			public const int month_text_tab_size = 2131427802;
+			
 			// aapt resource value: 0x7f0b0006
 			public const int mr_controller_volume_group_list_item_height = 2131427334;
 			
@@ -10331,26 +10367,26 @@ namespace mLetsTatoo.Droid
 			// aapt resource value: 0x7f020059
 			public const int avd_hide_password = 2130837593;
 			
-			// aapt resource value: 0x7f02019b
-			public const int avd_hide_password_1 = 2130837915;
-			
-			// aapt resource value: 0x7f02019c
-			public const int avd_hide_password_2 = 2130837916;
-			
 			// aapt resource value: 0x7f02019d
-			public const int avd_hide_password_3 = 2130837917;
+			public const int avd_hide_password_1 = 2130837917;
+			
+			// aapt resource value: 0x7f02019e
+			public const int avd_hide_password_2 = 2130837918;
+			
+			// aapt resource value: 0x7f02019f
+			public const int avd_hide_password_3 = 2130837919;
 			
 			// aapt resource value: 0x7f02005a
 			public const int avd_show_password = 2130837594;
 			
-			// aapt resource value: 0x7f02019e
-			public const int avd_show_password_1 = 2130837918;
-			
-			// aapt resource value: 0x7f02019f
-			public const int avd_show_password_2 = 2130837919;
-			
 			// aapt resource value: 0x7f0201a0
-			public const int avd_show_password_3 = 2130837920;
+			public const int avd_show_password_1 = 2130837920;
+			
+			// aapt resource value: 0x7f0201a1
+			public const int avd_show_password_2 = 2130837921;
+			
+			// aapt resource value: 0x7f0201a2
+			public const int avd_show_password_3 = 2130837922;
 			
 			// aapt resource value: 0x7f02005b
 			public const int Balance = 2130837595;
@@ -11235,82 +11271,88 @@ namespace mLetsTatoo.Droid
 			public const int NewsFeedUns = 2130837888;
 			
 			// aapt resource value: 0x7f020181
-			public const int Notificacion = 2130837889;
+			public const int Next = 2130837889;
 			
 			// aapt resource value: 0x7f020182
-			public const int NotificacionUns = 2130837890;
+			public const int Notificacion = 2130837890;
 			
 			// aapt resource value: 0x7f020183
-			public const int notification_action_background = 2130837891;
+			public const int NotificacionUns = 2130837891;
 			
 			// aapt resource value: 0x7f020184
-			public const int notification_bg = 2130837892;
+			public const int notification_action_background = 2130837892;
 			
 			// aapt resource value: 0x7f020185
-			public const int notification_bg_low = 2130837893;
+			public const int notification_bg = 2130837893;
 			
 			// aapt resource value: 0x7f020186
-			public const int notification_bg_low_normal = 2130837894;
+			public const int notification_bg_low = 2130837894;
 			
 			// aapt resource value: 0x7f020187
-			public const int notification_bg_low_pressed = 2130837895;
+			public const int notification_bg_low_normal = 2130837895;
 			
 			// aapt resource value: 0x7f020188
-			public const int notification_bg_normal = 2130837896;
+			public const int notification_bg_low_pressed = 2130837896;
 			
 			// aapt resource value: 0x7f020189
-			public const int notification_bg_normal_pressed = 2130837897;
+			public const int notification_bg_normal = 2130837897;
 			
 			// aapt resource value: 0x7f02018a
-			public const int notification_icon_background = 2130837898;
-			
-			// aapt resource value: 0x7f020199
-			public const int notification_template_icon_bg = 2130837913;
-			
-			// aapt resource value: 0x7f02019a
-			public const int notification_template_icon_low_bg = 2130837914;
+			public const int notification_bg_normal_pressed = 2130837898;
 			
 			// aapt resource value: 0x7f02018b
-			public const int notification_tile_bg = 2130837899;
+			public const int notification_icon_background = 2130837899;
+			
+			// aapt resource value: 0x7f02019b
+			public const int notification_template_icon_bg = 2130837915;
+			
+			// aapt resource value: 0x7f02019c
+			public const int notification_template_icon_low_bg = 2130837916;
 			
 			// aapt resource value: 0x7f02018c
-			public const int notify_panel_notification_icon_bg = 2130837900;
+			public const int notification_tile_bg = 2130837900;
 			
 			// aapt resource value: 0x7f02018d
-			public const int NoUserPic = 2130837901;
+			public const int notify_panel_notification_icon_bg = 2130837901;
 			
 			// aapt resource value: 0x7f02018e
-			public const int NoUserPicUns = 2130837902;
+			public const int NoUserPic = 2130837902;
 			
 			// aapt resource value: 0x7f02018f
-			public const int Options = 2130837903;
+			public const int NoUserPicUns = 2130837903;
 			
 			// aapt resource value: 0x7f020190
-			public const int OptionsUns = 2130837904;
+			public const int Options = 2130837904;
 			
 			// aapt resource value: 0x7f020191
-			public const int Recurrence = 2130837905;
+			public const int OptionsUns = 2130837905;
 			
 			// aapt resource value: 0x7f020192
-			public const int Search = 2130837906;
+			public const int Previous = 2130837906;
 			
 			// aapt resource value: 0x7f020193
-			public const int SendMessage = 2130837907;
+			public const int Recurrence = 2130837907;
 			
 			// aapt resource value: 0x7f020194
-			public const int Settings = 2130837908;
+			public const int Search = 2130837908;
 			
 			// aapt resource value: 0x7f020195
-			public const int Tattoo = 2130837909;
+			public const int SendMessage = 2130837909;
 			
 			// aapt resource value: 0x7f020196
-			public const int TattooUns = 2130837910;
+			public const int Settings = 2130837910;
 			
 			// aapt resource value: 0x7f020197
-			public const int tooltip_frame_dark = 2130837911;
+			public const int Tattoo = 2130837911;
 			
 			// aapt resource value: 0x7f020198
-			public const int tooltip_frame_light = 2130837912;
+			public const int TattooUns = 2130837912;
+			
+			// aapt resource value: 0x7f020199
+			public const int tooltip_frame_dark = 2130837913;
+			
+			// aapt resource value: 0x7f02019a
+			public const int tooltip_frame_light = 2130837914;
 			
 			static Drawable()
 			{
@@ -13764,6 +13806,12 @@ namespace mLetsTatoo.Droid
 			
 			// aapt resource value: 0x7f0d0033
 			public const int search_menu_title = 2131558451;
+			
+			// aapt resource value: 0x7f0d007a
+			public const int sfcalendar_inlineviewalldaytext = 2131558522;
+			
+			// aapt resource value: 0x7f0d0079
+			public const int sfcalendar_inlineviewnoappointmenttext = 2131558521;
 			
 			// aapt resource value: 0x7f0d0074
 			public const int status_bar_notification_info_overflow = 2131558516;

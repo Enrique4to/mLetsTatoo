@@ -22,12 +22,14 @@
         #endregion
 
         #region Properties
+        public Color Color { get; set; }
         #endregion
 
         #region Constructors
         public CitasItemViewModel()
         {
             this.apiService = new ApiService();
+            this.Color = Color.Red;
         }
 
         #endregion

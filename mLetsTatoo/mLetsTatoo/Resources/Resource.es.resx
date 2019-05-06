@@ -363,17 +363,11 @@
   <data name="SelectedArtistError" xml:space="preserve">
     <value>¡Es necesario que selecciones el artista que quieres que realice tu arte!</value>
   </data>
-  <data name="DateError" xml:space="preserve">
-    <value>¡La fecha no puede ser anterior a hoy!</value>
+  <data name="TimeError" xml:space="preserve">
+    <value>Debes seleccionar la hora de la cita.</value>
   </data>
   <data name="DescribeArtError" xml:space="preserve">
     <value>¡Necesitas ingresar una descripción del arte que quieres!</value>
-  </data>
-  <data name="AppointmentCost" xml:space="preserve">
-    <value>El anticipo para tu cita es :</value>
-  </data>
-  <data name="ApproximateCost" xml:space="preserve">
-    <value>El costo total aproximado de tu arte es :</value>
   </data>
   <data name="IntroduceActivationCode" xml:space="preserve">
     <value>¡Introduce tu código de activación!</value>
@@ -428,9 +422,6 @@
   </data>
   <data name="SizeError" xml:space="preserve">
     <value>¡Debes introducir los valores de tamaño para continuar!</value>
-  </data>
-  <data name="MaximunSize" xml:space="preserve">
-    <value>La medida máxima seleccionada para tu arte es:</value>
   </data>
   <data name="EstimatedTime" xml:space="preserve">
     <value>Duración estimada:</value>
@@ -545,5 +536,23 @@ Le he enviado un presupuesto con la duración estimada del arte que desea, verif
 Si tiene alguna otra pregunta, no dude en enviarme otro mensaje.
 
 Gracias.</value>
+  </data>
+  <data name="AppointmentType" xml:space="preserve">
+    <value>Selecciona el tipo de cita que deseas.</value>
+  </data>
+  <data name="QuickDetails" xml:space="preserve">
+    <value>Cita Rápida: Podrá seleccionar de entre una serie de opciones que el artista ha predefinido con tamaño, complejidad y costo de arte.</value>
+  </data>
+  <data name="PersonalizedDetails" xml:space="preserve">
+    <value>Cita Personalizada: Podrá hacerle saber al artista de forma personalizada, el tipo, tamaño y complejidad del arte que desea, sabiendo que no se agendará una cita hasta que el artista le haga un presupuesto y usted lo acepte.</value>
+  </data>
+  <data name="ScheduleError" xml:space="preserve">
+    <value>La cita no se puede programar a la hora seleccionada.
+Siga las siguientes instrucciones:
+- La cita no se puede mezclar con otras citas o horarios de comidas.
+- La cita debe ser programada entre las horas de trabajo del artista.</value>
+  </data>
+  <data name="MaximunSize" xml:space="preserve">
+    <value>Tamaño máximo</value>
   </data>
 </root>

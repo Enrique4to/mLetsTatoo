@@ -160,20 +160,20 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The advance for your appointment is:.
-        /// </summary>
-        internal static string AppointmentCost {
-            get {
-                return ResourceManager.GetString("AppointmentCost", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Schedule your appointment!.
         /// </summary>
         internal static string AppointmentSchedule {
             get {
                 return ResourceManager.GetString("AppointmentSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the type of appointment you want..
+        /// </summary>
+        internal static string AppointmentType {
+            get {
+                return ResourceManager.GetString("AppointmentType", resourceCulture);
             }
         }
         
@@ -201,15 +201,6 @@ namespace mLetsTatoo.Resources {
         internal static string AppointmentWho {
             get {
                 return ResourceManager.GetString("AppointmentWho", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The approximate total cost of your art is:.
-        /// </summary>
-        internal static string ApproximateCost {
-            get {
-                return ResourceManager.GetString("ApproximateCost", resourceCulture);
             }
         }
         
@@ -440,15 +431,6 @@ namespace mLetsTatoo.Resources {
         internal static string Date {
             get {
                 return ResourceManager.GetString("Date", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The date can not be earlier than today!.
-        /// </summary>
-        internal static string DateError {
-            get {
-                return ResourceManager.GetString("DateError", resourceCulture);
             }
         }
         
@@ -768,7 +750,7 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The maximum measure selected for your art is:.
+        ///   Looks up a localized string similar to Maximum size.
         /// </summary>
         internal static string MaximunSize {
             get {
@@ -966,6 +948,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Personalized Quote: You can let the artist know in a personalized way, the type, size and complexity of the art you want, knowing that you will not schedule an appointment until the artist makes a budget and you accept it..
+        /// </summary>
+        internal static string PersonalizedDetails {
+            get {
+                return ResourceManager.GetString("PersonalizedDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Phone:.
         /// </summary>
         internal static string Phone {
@@ -1007,6 +998,15 @@ namespace mLetsTatoo.Resources {
         internal static string QuickAppointment {
             get {
                 return ResourceManager.GetString("QuickAppointment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick Appointment: You can select from a series of options that the artist has predefined with size, complexity and cost of art..
+        /// </summary>
+        internal static string QuickDetails {
+            get {
+                return ResourceManager.GetString("QuickDetails", resourceCulture);
             }
         }
         
@@ -1070,6 +1070,18 @@ namespace mLetsTatoo.Resources {
         internal static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The appointment can not be scheduled at the time you selected.
+        ///Follow the following instructions:
+        ///- The appointment can not be mixed with other appointments or meal times.
+        ///- The appointment must be scheduled between the artist&apos;s working hours..
+        /// </summary>
+        internal static string ScheduleError {
+            get {
+                return ResourceManager.GetString("ScheduleError", resourceCulture);
             }
         }
         
@@ -1223,6 +1235,15 @@ namespace mLetsTatoo.Resources {
         internal static string Time {
             get {
                 return ResourceManager.GetString("Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must select the time of the appointment..
+        /// </summary>
+        internal static string TimeError {
+            get {
+                return ResourceManager.GetString("TimeError", resourceCulture);
             }
         }
         

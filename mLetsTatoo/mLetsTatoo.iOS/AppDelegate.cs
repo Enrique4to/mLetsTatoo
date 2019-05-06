@@ -1,3 +1,4 @@
+using Syncfusion.SfCalendar.XForms.iOS;
 using Syncfusion.SfCarousel.XForms.iOS;
 
 
@@ -30,6 +31,7 @@ namespace mLetsTatoo.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+            SfCalendarRenderer.Init();
             SfCarouselRenderer.Init();
             SfRadioButtonRenderer.Init();
             SfScheduleRenderer.Init();

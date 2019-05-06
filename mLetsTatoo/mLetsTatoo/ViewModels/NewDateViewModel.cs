@@ -270,8 +270,8 @@
         #region Methods
         private async void GoToSearch()
         {
-            MainViewModel.GetInstance().Search = new SearchViewModel();
-            await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPage());
+            //MainViewModel.GetInstance().Search = new SearchTecnicoPopupViewModel();
+            //await Application.Current.MainPage.Navigation.PushModalAsync(new SearchPage());
         }
         private void SaveDate()
         {
@@ -442,7 +442,7 @@
             {
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
-                Languages.DateError,
+                Languages.TimeError,
                 "Ok");
                 return;
             }
@@ -699,8 +699,8 @@
                 this.ImageSource2 = ImageSource.FromStream(() => new MemoryStream(this.feature.Imagen_Ejemplo));
             }
             this.HeightWidth = $"{Languages.MaximunSize} {this.feature.Alto} cm X {this.feature.Ancho} cm";
-            this.AppCost = $"{Languages.ApproximateCost} {this.feature.Total_Aprox.ToString("C2")}";
-            this.AppAdvance = $"{Languages.AppointmentCost} {this.feature.Costo_Cita.ToString("C2")}";
+            this.AppCost = $"{Languages.Cost}: {this.feature.Total_Aprox.ToString("C2")}";
+            this.AppAdvance = $"{Languages.Advance}: {this.feature.Costo_Cita.ToString("C2")}";
             
             this.apiService.EndActivityPopup();
         }

@@ -38,6 +38,7 @@
     <PackageReference Include="NGraphics" Version="0.6.0-beta1" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.1.5.188" />
     <PackageReference Include="Syncfusion.Xamarin.Buttons" Version="17.1.0.40" />
+    <PackageReference Include="Syncfusion.Xamarin.SfCalendar" Version="17.1.0.43" />
     <PackageReference Include="Syncfusion.Xamarin.SfCarousel" Version="17.1.0.40" />
     <PackageReference Include="Syncfusion.Xamarin.SfPicker" Version="17.1.0.40" />
     <PackageReference Include="Syncfusion.Xamarin.SfSchedule" Version="17.1.0.40" />
@@ -63,6 +64,24 @@
   <ItemGroup>
     <Compile Update="Popups\Views\ActivityIndicatorPopupPage .xaml.cs">
       <DependentUpon>ActivityIndicatorPopupPage .xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Popups\Views\AppointmentDescriptionPopupPage.xaml.cs">
+      <DependentUpon>AppointmentDescriptionPopupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Popups\Views\AppointmentTimePopupPage.xaml.cs">
+      <DependentUpon>AppointmentTimePopupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Popups\Views\AppointmentCalendarPopupPage.xaml.cs">
+      <DependentUpon>AppointmentCalendarPopupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Popups\Views\TypeAppointmentPopupPage.xaml.cs">
+      <DependentUpon>TypeAppointmentPopupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Popups\Views\AppointmentFeaturesPopupPage.xaml.cs">
+      <DependentUpon>AppointmentFeaturesPopupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Popups\Views\SearchTecnicoPopupPage.xaml.cs">
+      <DependentUpon>SearchTecnicoPopupPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Popups\Views\EditCommentPopupPage.xaml.cs">
       <DependentUpon>EditCommentPopupPage.xaml</DependentUpon>

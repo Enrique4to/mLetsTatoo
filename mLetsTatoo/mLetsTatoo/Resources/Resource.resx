@@ -343,17 +343,11 @@
   <data name="SelectedArtistError" xml:space="preserve">
     <value>You need to select the artist you want to make your art!</value>
   </data>
-  <data name="DateError" xml:space="preserve">
-    <value>The date can not be earlier than today!</value>
+  <data name="TimeError" xml:space="preserve">
+    <value>You must select the time of the appointment.</value>
   </data>
   <data name="DescribeArtError" xml:space="preserve">
     <value>You need to enter a description of the art you want!</value>
-  </data>
-  <data name="ApproximateCost" xml:space="preserve">
-    <value>The approximate total cost of your art is:</value>
-  </data>
-  <data name="AppointmentCost" xml:space="preserve">
-    <value>The advance for your appointment is:</value>
   </data>
   <data name="IntroduceActivationCode" xml:space="preserve">
     <value>Introduce your activation code!</value>
@@ -410,7 +404,7 @@
     <value>You must enter the size values ​​to continue!</value>
   </data>
   <data name="MaximunSize" xml:space="preserve">
-    <value>The maximum measure selected for your art is:</value>
+    <value>Maximum size</value>
   </data>
   <data name="EstimatedTime" xml:space="preserve">
     <value>Estimated duration time:</value>
@@ -524,5 +518,20 @@ I have sent you a budget with the estimated time duration of the art you want, p
 If you have any other questions, do not hesitate to send me another message.
 
 Thank you.</value>
+  </data>
+  <data name="AppointmentType" xml:space="preserve">
+    <value>Select the type of appointment you want.</value>
+  </data>
+  <data name="QuickDetails" xml:space="preserve">
+    <value>Quick Appointment: You can select from a series of options that the artist has predefined with size, complexity and cost of art.</value>
+  </data>
+  <data name="PersonalizedDetails" xml:space="preserve">
+    <value>Personalized Quote: You can let the artist know in a personalized way, the type, size and complexity of the art you want, knowing that you will not schedule an appointment until the artist makes a budget and you accept it.</value>
+  </data>
+  <data name="ScheduleError" xml:space="preserve">
+    <value>The appointment can not be scheduled at the time you selected.
+Follow the following instructions:
+- The appointment can not be mixed with other appointments or meal times.
+- The appointment must be scheduled between the artist's working hours.</value>
   </data>
 </root>

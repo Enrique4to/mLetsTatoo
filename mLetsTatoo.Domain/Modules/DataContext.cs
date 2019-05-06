@@ -60,5 +60,7 @@
         public System.Data.Entity.DbSet<mLetsTatoo.Models.T_trabajonotatemp> T_trabajonotatemp { get; set; }
 
         public System.Data.Entity.DbSet<mLetsTatoo.Models.T_trabajostemp> T_trabajostemp { get; set; }
+
+        public System.Data.Entity.DbSet<mLetsTatoo.Models.T_tecnicohorarios> T_tecnicohorarios { get; set; }
     }
 }
