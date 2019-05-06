@@ -684,6 +684,7 @@
                     {
                         await Application.Current.MainPage.Navigation.PopPopupAsync();
                         this.thisPage = "Description";
+                        await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentDescriptionPopupPage());
                         break;
                     }
 
@@ -721,7 +722,7 @@
                 case "Description":
 
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
-                    this.thisPage = "Description";
+                    this.thisPage = "Details";
                     await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentDescriptionPopupPage());
                     break;
             }
@@ -771,6 +772,29 @@
                     this.SelectedDate = DateTime.Now;
                     await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentCalendarPopupPage());
                     break;
+
+                case "Description":
+
+                    if (this.typeAppointment == true)
+                    {
+                        await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        this.describeArt = null;
+                        this.artImageSource = null;
+                        this.file = null;
+                        this.thisPage = "Time";
+                        await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentTimePopupPage());
+                        break;
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        this.describeArt = null;
+                        this.artImageSource = null;
+                        this.file = null;
+                        this.thisPage = "Type";
+                        await Application.Current.MainPage.Navigation.PushPopupAsync(new TypeAppointmentPopupPage());
+                        break;
+                    }
             }
         }
         #endregion
