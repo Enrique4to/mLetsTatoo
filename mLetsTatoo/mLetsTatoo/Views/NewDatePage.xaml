@@ -335,8 +335,7 @@
                 <StackLayout
                     HorizontalOptions="FillAndExpand"
                     Orientation="Horizontal"
-                    IsVisible="False"
-                    x:Name="SizeStack">
+                    IsVisible="{Binding IsVisible}">
                     <Label
                         FontAttributes="Bold"
                         FontSize="16"

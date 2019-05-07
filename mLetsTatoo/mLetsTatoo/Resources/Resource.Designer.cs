@@ -160,6 +160,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Details of your appointment..
+        /// </summary>
+        internal static string AppointmentDetails {
+            get {
+                return ResourceManager.GetString("AppointmentDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Schedule your appointment!.
         /// </summary>
         internal static string AppointmentSchedule {

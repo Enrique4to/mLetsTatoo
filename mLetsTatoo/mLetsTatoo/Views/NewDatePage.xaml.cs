@@ -31,7 +31,6 @@
                 {
                     MainViewModel.GetInstance().NewDate.pageVisible = true;
                     this.pageVisible = true;
-                    this.SizeStack.IsVisible = false;
                     this.QuickPage.IsVisible = true;
                     this.QuickApp.TextColor = Color.LightGray;
                     this.PersonalizedApp.TextColor = Color.Gray;
@@ -40,7 +39,6 @@
                 {
                     MainViewModel.GetInstance().NewDate.pageVisible = false;
                     this.pageVisible = false;
-                    this.SizeStack.IsVisible = true;
                     this.QuickPage.IsVisible = false;
                     this.PersonalizedApp.TextColor = Color.LightGray;
                     this.QuickApp.TextColor = Color.Gray;

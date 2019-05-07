@@ -336,4 +336,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\Previous.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Check.png" />
+  </ItemGroup>
 </Project>

@@ -554,4 +554,7 @@ Follow the following instructions:
   <data name="MaximunSize" xml:space="preserve">
     <value>Maximum size</value>
   </data>
+  <data name="AppointmentDetails" xml:space="preserve">
+    <value>Details of your appointment.</value>
+  </data>
 </root>

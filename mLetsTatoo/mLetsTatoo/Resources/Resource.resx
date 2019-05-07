@@ -534,4 +534,7 @@ Follow the following instructions:
 - The appointment can not be mixed with other appointments or meal times.
 - The appointment must be scheduled between the artist's working hours.</value>
   </data>
+  <data name="AppointmentDetails" xml:space="preserve">
+    <value>Details of your appointment.</value>
+  </data>
 </root>

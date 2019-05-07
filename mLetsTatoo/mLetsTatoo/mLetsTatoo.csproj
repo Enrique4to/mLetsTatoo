@@ -68,6 +68,9 @@
     <Compile Update="Popups\Views\AppointmentDescriptionPopupPage.xaml.cs">
       <DependentUpon>AppointmentDescriptionPopupPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Popups\Views\AppointmentDetailsPopupPage.xaml.cs">
+      <DependentUpon>AppointmentDetailsPopupPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Popups\Views\AppointmentTimePopupPage.xaml.cs">
       <DependentUpon>AppointmentTimePopupPage.xaml</DependentUpon>
     </Compile>

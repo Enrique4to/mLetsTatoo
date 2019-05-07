@@ -555,4 +555,7 @@ Siga las siguientes instrucciones:
   <data name="MaximunSize" xml:space="preserve">
     <value>Tamaño máximo</value>
   </data>
+  <data name="AppointmentDetails" xml:space="preserve">
+    <value>Detalles de tu cita.</value>
+  </data>
 </root>

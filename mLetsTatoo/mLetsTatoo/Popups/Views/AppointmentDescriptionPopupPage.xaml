@@ -47,6 +47,48 @@ xmlns:schedule="clr-namespace:Syncfusion.SfSchedule.XForms;assembly=Syncfusion.S
                         VerticalOptions="StartAndExpand"
                         WidthRequest="250"/>
                     <StackLayout
+                        HorizontalOptions="FillAndExpand"
+                        Orientation="Horizontal"
+                        Padding="0,10,0,0"
+                        IsVisible="{Binding IsVisible}">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="{i18n:Translate Size}"
+                            TextColor="Black"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="Start"
+                            VerticalOptions="Center"/>
+                        <control:CustomEntry 
+                            BorderColor="Gray"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            HeightRequest="25"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="Center"
+                            IsCurvedCornersEnabled="True"
+                            Keyboard="Numeric"
+                            Placeholder="{i18n:Translate Height}"
+                            PlaceholderColor="DimGray"
+                            Text="{Binding Height, Mode=TwoWay}"                        
+                            TextColor="Black"
+                            VerticalOptions="Center"/>
+                        <control:CustomEntry 
+                            BorderColor="Gray"
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            HeightRequest="25"
+                            HorizontalOptions="FillAndExpand"
+                            HorizontalTextAlignment="Center"
+                            IsCurvedCornersEnabled="True"
+                            Keyboard="Numeric"
+                            Placeholder="{i18n:Translate Width}"
+                            PlaceholderColor="DimGray"
+                            Text="{Binding Width, Mode=TwoWay}"                        
+                            TextColor="Black"
+                            VerticalOptions="Center"/>
+                    </StackLayout>
+                    <StackLayout
                         Padding="5,10,5,5"
                         VerticalOptions="StartAndExpand">
                         <StackLayout
