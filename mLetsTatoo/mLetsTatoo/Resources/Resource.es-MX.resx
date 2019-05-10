@@ -529,11 +529,10 @@
     <value>Mensaje</value>
   </data>
   <data name="BudgetSentMessage" xml:space="preserve">
-    <value>
-¿Hola! Cómo estás?
+    <value>¿Hola! Cómo estás?
 Le he enviado un presupuesto con la duración estimada del arte que desea, verifíquelo y, si está interesado, lo aprueba para programar la cita correspondiente.
 
-Si tiene alguna otra pregunta, no dude en enviarme otro mensaje.
+Abre este mensaje para verlo.
 
 Gracias.</value>
   </data>
@@ -557,5 +556,68 @@ Siga las siguientes instrucciones:
   </data>
   <data name="AppointmentDetails" xml:space="preserve">
     <value>Detalles de tu cita.</value>
+  </data>
+  <data name="ArtError" xml:space="preserve">
+    <value>Debes seleccionar una imagen de tu art.</value>
+  </data>
+  <data name="ChangeDate" xml:space="preserve">
+    <value>Reagendar</value>
+  </data>
+  <data name="TheDateChanged" xml:space="preserve">
+    <value>La fecha de la cita</value>
+  </data>
+  <data name="HasBeenChanged" xml:space="preserve">
+    <value>ha sido cambiado de</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>a</value>
+  </data>
+  <data name="WillBeChanged" xml:space="preserve">
+    <value>será cambiada de</value>
+  </data>
+  <data name="CustomerAccept" xml:space="preserve">
+    <value>cuando el cliente acepte el cambio.</value>
+  </data>
+  <data name="ChangeDateAlert" xml:space="preserve">
+    <value>¿Estás seguro que quieres cambiar la fecha de esta cita?</value>
+  </data>
+  <data name="ChangeDateTecMessage" xml:space="preserve">
+    <value>¿Hola! Cómo estás?
+Quiero reagendar esta cita, si te parece bien.
+
+Abre este mensaje para ver la nueva fecha y hora que te propongo.
+
+Si no tienes oportunidad en la fecha que te propongo, te invito a que canceles esta cita y vuelavas a crear otra.
+
+Gracias.</value>
+  </data>
+  <data name="TheNewDate" xml:space="preserve">
+    <value>La nueva fecha es</value>
+  </data>
+  <data name="ChangeDateWantAccept" xml:space="preserve">
+    <value>¿Deseas aceptarla?</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="CancelDate" xml:space="preserve">
+    <value>¡Cancelar Esta Cita!</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Comentarios...</value>
+  </data>
+  <data name="CancelDateMessage" xml:space="preserve">
+    <value>Estás por cancelar la cita que tenías programada para realizar tu arte.
+
+Antes de que procedas, debes saber lo siguiente:
+
+1.- El anticipo que ya habías pagado, se te regresará en cuenta LetsTattoo, el cual podrás utilizarlo sólo para realizar la creación de una nueva cita.
+2.- El anticipo se descontará en parcialidades si el valor del nuevo anticipo es menor al recuperado.
+En caso de que sea igual, se descontará en su totalidad. 
+Del mismo modo, si resulta que el nuevo anticipo es mayor al recuperado, deberás realizar el depósito del valor restante al nuevo anticipo.
+3. El anticipo también lo podrás traspasar como regalo a cualquiera de tus amigos, teniendo en cuenta que debe ser el valor total del anticipo.
+
+¿Deseas continuar?
+</value>
   </data>
 </root>

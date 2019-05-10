@@ -4,8 +4,13 @@
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Linq;
+    using System.Windows.Input;
+    using GalaSoft.MvvmLight.Command;
     using mLetsTatoo.Helpers;
+    using mLetsTatoo.Popups.ViewModel;
+    using mLetsTatoo.Popups.Views;
     using Models;
+    using Rg.Plugins.Popup.Extensions;
     using Services;
     using Xamarin.Forms;
 
@@ -26,13 +31,19 @@
         public T_usuarios user;
         public TecnicosCollection tecnico;
 
-        private ObservableCollection<T_localimagenes> imagenes;
+        public List<T_tecimagenes> tecnicoImagList;
+
+        private ObservableCollection<T_tecimagenes> imagenes;
 
 
         #endregion
 
         #region Properties
-        public List<T_localimagenes> LocalImagList { get; set; }
+        public List<T_tecimagenes> TecnicoImagList
+        {
+            get { return this.tecnicoImagList; }
+            set { SetValue(ref this.tecnicoImagList, value); }
+        }
 
         public ClientesCollection Cliente
         {
@@ -78,7 +89,7 @@
             set { SetValue(ref this.selectedArtist, value); }
         }
 
-        public ObservableCollection<T_localimagenes> Imagenes
+        public ObservableCollection<T_tecimagenes> Imagenes
         {
             get { return this.imagenes; }
             set { SetValue(ref this.imagenes, value); }
@@ -93,14 +104,29 @@
             this.tecnico = tecnico;
             this.apiService = new ApiService();
             this.LoadTecnico();
-            this.LoadImagenes();
         }
         #endregion
 
         #region Commands
+        public ICommand NewAppointmentCommand
+        {
+            get
+            {
+                return new RelayCommand(GoToCitasPage);
+            }
+        }
         #endregion
-        
+
         #region Methods
+
+        private async void GoToCitasPage()
+        {
+            MainViewModel.GetInstance().NewAppointmentPopup = new NewAppointmentPopupViewModel(this.cliente);
+            MainViewModel.GetInstance().NewAppointmentPopup.fromTecnitoPage = true;
+            MainViewModel.GetInstance().NewAppointmentPopup.tecnico = this.tecnico;
+            MainViewModel.GetInstance().NewAppointmentPopup.thisPage = "Type";
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new TypeAppointmentPopupPage());
+        }
         private void LoadTecnico()
         {
             this.selectedArtist = $"{this.tecnico.Apodo} - {this.tecnico.Nombre} {this.tecnico.Apellido}";
@@ -117,51 +143,18 @@
                 this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
             }
         }
-        private async void LoadImagenes()
+        public void LoadImagenes()
         {
-            this.IsRunning = true;
-
-            var connection = await this.apiService.CheckConnection();
-            if (!connection.IsSuccess)
-            {
-                this.IsRunning = false;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    connection.Message,
-                    "OK");
-                return;
-
-            }
-
-            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
-            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
-            var controller = Application.Current.Resources["UrlT_localimagenesController"].ToString();
-
-            var response = await this.apiService.GetList<T_localimagenes>(urlApi, prefix, controller);
-
-            if (!response.IsSuccess)
-            {
-                this.IsRunning = false;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-            this.LocalImagList = (List<T_localimagenes>)response.Result;
-
-            var localImagSelected = this.LocalImagList.Select(li => new T_localimagenes
+            var tecnicoImagSelected = this.TecnicoImagList.Select(li => new T_tecimagenes
             {
                 Id_Imagen = li.Id_Imagen,
-                Id_Local = li.Id_Local,
+                Id_Tecnico = li.Id_Tecnico,
                 Imagen = li.Imagen,
                 Descripcion = li.Descripcion,
 
-            }).Where(li => li.Id_Local == this.tecnico.Id_Local).ToList();
-            this.Imagenes = new ObservableCollection<T_localimagenes>(localImagSelected.OrderBy(li => li.Id_Imagen));
+            }).Where(li => li.Id_Tecnico == this.tecnico.Id_Tecnico).ToList();
 
-            this.IsRunning = false;
-
+            this.Imagenes = new ObservableCollection<T_tecimagenes>(tecnicoImagSelected.OrderBy(li => li.Id_Imagen));
         }
 
         #endregion

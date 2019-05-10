@@ -22,7 +22,6 @@
                 this.NewsFeedStack.Icon = "NewsFeedUns.png";
                 this.ImagesStack.Icon = "ImagesUns.png";
                 this.ProfileStack.Icon = "NoUserPicUns.png";
-                this.NewDateStack.Icon = "CitasUns.png";
 
                 switch (i)
                 {
@@ -34,9 +33,6 @@
                         break;
                     case 2:
                         this.ProfileStack.Icon = "NoUserPic.png";
-                        break;
-                    case 3:
-                        this.NewDateStack.Icon = "Citas.png";
                         break;
                 }
             };

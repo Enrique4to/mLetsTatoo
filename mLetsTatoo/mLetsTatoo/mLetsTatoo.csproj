@@ -62,6 +62,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Popups\Views\CancelDatePopupPage.xaml.cs">
+      <DependentUpon>CancelDatePopupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Popups\Views\ChangeDatePopupPage.xaml.cs">
+      <DependentUpon>ChangeDatePopupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Popups\Views\BudgetDetailsPopupPage.xaml.cs">
+      <DependentUpon>BudgetDetailsPopupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Popups\Views\StartPopupPage.xaml.cs">
+      <DependentUpon>StartPopupPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Popups\Views\ActivityIndicatorPopupPage .xaml.cs">
       <DependentUpon>ActivityIndicatorPopupPage .xaml</DependentUpon>
     </Compile>
@@ -96,6 +108,9 @@
     </Compile>
     <Compile Update="Views\EditTecnicoUserPage.xaml.cs">
       <DependentUpon>EditTecnicoUserPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\StartPage.xaml.cs">
+      <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\UserMessagesPage.xaml.cs">
       <DependentUpon>UserMessagesPage.xaml</DependentUpon>

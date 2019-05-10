@@ -22,6 +22,10 @@
         public decimal Alto { get; set; }
         [Required]
         public int Tiempo { get; set; }
+        [Required]
+        public bool Completo { get; set; }
+        [Required]
+        public bool Cancelado { get; set; }
 
 
     }

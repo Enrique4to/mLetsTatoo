@@ -74,6 +74,7 @@
                 Nombre_Post = this.nota.Nombre_Post,
                 Nota = this.nota.Nota,
                 Tipo_Usuario = this.nota.Tipo_Usuario,
+                Cambio_Fecha = this.nota.Cambio_Fecha,
             };
             var urlApi = App.Current.Resources["UrlAPI"].ToString();
             var prefix = App.Current.Resources["UrlPrefix"].ToString();

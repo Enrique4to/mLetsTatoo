@@ -35,11 +35,12 @@
         private string subTotal;
         private string advance;
         private string total;
+        public string hourStart;
+        public string dateStart;
 
-        private DateTime appointmentDate;
-        private TimeSpan appointmentTime;
-
-        private T_trabajocitas cita;
+        private DateTime Date;
+        
+        public T_trabajocitas cita;
         public T_usuarios user;
         private ClientesCollection cliente;
         private T_trabajos trabajo;
@@ -103,20 +104,15 @@
             get { return this.total; }
             set { SetValue(ref this.total, value); }
         }
-
-        public DateTime MinDate { get; set; }
-        public DateTime AppointmentDate
+        public string HourStart
         {
-            get { return this.appointmentDate; }
-            set { SetValue(ref this.appointmentDate, value); }
+            get { return this.hourStart; }
+            set { SetValue(ref this.hourStart, value); }
         }
-        public TimeSpan AppointmentTime
+        public string DateStart
         {
-            get { return this.appointmentTime; }
-            set
-            {
-                SetValue(ref this.appointmentTime, value);
-            }
+            get { return this.dateStart; }
+            set { SetValue(ref this.dateStart, value); }
         }
 
         public List<T_trabajonota> NotaList { get; set; }
@@ -147,13 +143,13 @@
             this.tecnico = tecnico;
             this.trabajo = trabajo;
             this.apiService = new ApiService();
-            this.MinDate = DateTime.Now.ToLocalTime();
-            this.AppointmentDate = this.cita.F_Inicio.ToLocalTime();
-            this.AppointmentTime = this.cita.H_Inicio;
+            this.Date = new DateTime(this.cita.F_Inicio.Year, this.cita.F_Inicio.Month, this.cita.F_Inicio.Day, this.cita.H_Inicio.Hours, this.cita.H_Inicio.Minutes, this.cita.H_Inicio.Seconds);
+            this.DateStart = this.Date.ToString("dd MMM yyyy");
+            this.HourStart = this.Date.ToString("h:mm tt");
             Task.Run(async () => { await this.LoadInfo(); }).Wait();
             Task.Run(async () => { await this.LoadNotas(); }).Wait();
-            IsButtonEnabled = false;
-            IsVisible = false;
+            this.IsButtonEnabled = false;
+            this.IsVisible = false;
             this.apiService.EndActivityPopup();
         }
         #endregion
@@ -173,8 +169,6 @@
                 return new RelayCommand(GoToEditCommentPopup);
             }
         }
-
-
         public ICommand DeleteCommentCommand
         {
             get
@@ -182,7 +176,6 @@
                 return new RelayCommand(DeleteComent);
             }
         }
-
         public ICommand RefreshNotasCommand
         {
             get
@@ -190,6 +183,14 @@
                 return new RelayCommand(RefreshListNotas);
             }
         }
+        public ICommand ChangeDateCommand
+        {
+            get
+            {
+                return new RelayCommand(ChangeDate);
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -302,11 +303,88 @@
                 Id_Nota = c.Id_Nota,
                 Nota = c.Nota,
                 Nombre_Post = c.Nombre_Post,
-                F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == c.Id_Usuario).F_Perfil
+                Cambio_Fecha = c.Cambio_Fecha,
+                
+                F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == c.Id_Usuario).F_Perfil,
 
             }).Where(c => c.Id_Cita == this.cita.Id_Cita).ToList();
 
             this.Notas = new ObservableCollection<NotasItemViewModel>(nota.OrderByDescending(c => c.F_nota));
+        }
+        private async void ChangeDate()
+        {
+            bool answer = await Application.Current.MainPage.DisplayAlert(
+                Languages.ChangeDate,
+                Languages.ChangeDateAlert,
+                Languages.Yes,
+                "No");
+
+            if(answer)
+            {
+                MainViewModel.GetInstance().NewAppointmentPopup = new NewAppointmentPopupViewModel(this.cliente);
+                MainViewModel.GetInstance().NewAppointmentPopup.feature = new T_teccaract
+                {
+                    Alto = this.trabajo.Alto,
+                    Ancho = this.trabajo.Ancho,
+                    Tiempo = this.trabajo.Tiempo,
+                };
+                MainViewModel.GetInstance().NewAppointmentPopup.changeDate = true;
+                MainViewModel.GetInstance().NewAppointmentPopup.tecnico = this.tecnico;
+                MainViewModel.GetInstance().NewAppointmentPopup.thisPage = "Calendar";
+                await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentCalendarPopupPage());
+            }
+            else
+            {
+                return;
+            }
+        }
+        public async void SendMessage()
+        {
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_trabajonotaController"].ToString();
+
+            var nombre_Post = $"{this.tecnico.Nombre} {this.tecnico.Apellido} {"'"}{this.tecnico.Apodo}{"'"}";
+
+            var nota = new T_trabajonota
+            {
+                Id_Trabajo = this.trabajo.Id_Trabajo,
+                Tipo_Usuario = 2,
+                Id_Usuario = this.tecnico.Id_Usuario,
+                Id_Local = this.tecnico.Id_Local,
+                Nota = Languages.ChangeDateTecMessage,
+                Nombre_Post = nombre_Post,
+                F_nota = DateTime.Now,
+                Id_Cita = this.cita.Id_Cita,
+                Cambio_Fecha = true,
+            };
+            var response = await this.apiService.Post(urlApi, prefix, controller, nota);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            var newNota = (T_trabajonota)response.Result;
+
+            this.NotaList.Add(newNota);
+            this.RefreshListNotas();
         }
         private async void DeleteComent()
         {

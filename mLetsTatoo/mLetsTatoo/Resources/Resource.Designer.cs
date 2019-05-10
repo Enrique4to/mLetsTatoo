@@ -223,6 +223,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You must select an image of your art..
+        /// </summary>
+        internal static string ArtError {
+            get {
+                return ResourceManager.GetString("ArtError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Artist.
         /// </summary>
         internal static string Artist {
@@ -307,7 +316,7 @@ namespace mLetsTatoo.Resources {
         ///   Looks up a localized string similar to Hi, how are you?
         ///I have sent you a budget with the estimated time duration of the art you want, please check it and if you are interested, you approve it to schedule the corresponding appointment.
         ///
-        ///If you have any other questions, do not hesitate to send me another message.
+        ///Open this message to see the budget.
         ///
         ///Thank you..
         /// </summary>
@@ -323,6 +332,74 @@ namespace mLetsTatoo.Resources {
         internal static string Cancel {
             get {
                 return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel this appointment!.
+        /// </summary>
+        internal static string CancelDate {
+            get {
+                return ResourceManager.GetString("CancelDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are about to cancel the appointment that you had scheduled to make your art.
+        ///
+        ///Before you proceed, you should know the following:
+        ///
+        ///1.- The advance that you have already paid, will be returned to LetsTattoo account, which you can use just to make the creation of a new appointment.
+        ///2.- The advance will be discounted in partialities if the value of the new advance is less than the recovered.
+        ///In case it is the same, it will be discounted in full.
+        ///In the same way, if it turns out that the new advance i [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CancelDateMessage {
+            get {
+                return ResourceManager.GetString("CancelDateMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Date.
+        /// </summary>
+        internal static string ChangeDate {
+            get {
+                return ResourceManager.GetString("ChangeDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to change the date of this appointment?.
+        /// </summary>
+        internal static string ChangeDateAlert {
+            get {
+                return ResourceManager.GetString("ChangeDateAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hello! How are you?
+        ///I want to reschedule this appointment, if it seems good to you.
+        ///
+        ///Open this message to see the new date and time that I propose.
+        ///
+        ///If you do not have an opportunity on the date I am proposing, I invite you to cancel this appointment and to create another one.
+        ///
+        ///Thank you..
+        /// </summary>
+        internal static string ChangeDateTecMessage {
+            get {
+                return ResourceManager.GetString("ChangeDateTecMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you accept it?.
+        /// </summary>
+        internal static string ChangeDateWantAccept {
+            get {
+                return ResourceManager.GetString("ChangeDateWantAccept", resourceCulture);
             }
         }
         
@@ -350,6 +427,15 @@ namespace mLetsTatoo.Resources {
         internal static string ChangePersonal {
             get {
                 return ResourceManager.GetString("ChangePersonal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comments....
+        /// </summary>
+        internal static string Comments {
+            get {
+                return ResourceManager.GetString("Comments", resourceCulture);
             }
         }
         
@@ -422,6 +508,15 @@ namespace mLetsTatoo.Resources {
         internal static string CurrentPasswordError {
             get {
                 return ResourceManager.GetString("CurrentPasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to when the customer accept the change..
+        /// </summary>
+        internal static string CustomerAccept {
+            get {
+                return ResourceManager.GetString("CustomerAccept", resourceCulture);
             }
         }
         
@@ -647,6 +742,15 @@ namespace mLetsTatoo.Resources {
         internal static string Hard {
             get {
                 return ResourceManager.GetString("Hard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to has been changed from.
+        /// </summary>
+        internal static string HasBeenChanged {
+            get {
+                return ResourceManager.GetString("HasBeenChanged", resourceCulture);
             }
         }
         
@@ -1239,6 +1343,24 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Date of the appointment.
+        /// </summary>
+        internal static string TheDateChanged {
+            get {
+                return ResourceManager.GetString("TheDateChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The new date is.
+        /// </summary>
+        internal static string TheNewDate {
+            get {
+                return ResourceManager.GetString("TheNewDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Time.
         /// </summary>
         internal static string Time {
@@ -1253,6 +1375,24 @@ namespace mLetsTatoo.Resources {
         internal static string TimeError {
             get {
                 return ResourceManager.GetString("TimeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to to.
+        /// </summary>
+        internal static string To {
+            get {
+                return ResourceManager.GetString("To", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total.
+        /// </summary>
+        internal static string Total {
+            get {
+                return ResourceManager.GetString("Total", resourceCulture);
             }
         }
         
@@ -1325,6 +1465,15 @@ namespace mLetsTatoo.Resources {
         internal static string Width {
             get {
                 return ResourceManager.GetString("Width", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to will be changed from.
+        /// </summary>
+        internal static string WillBeChanged {
+            get {
+                return ResourceManager.GetString("WillBeChanged", resourceCulture);
             }
         }
         

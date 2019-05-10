@@ -4,7 +4,6 @@
     BindingContext="{Binding Main, Source={StaticResource Locator}}"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:carousel="clr-namespace:Syncfusion.SfCarousel.XForms;assembly=Syncfusion.SfCarousel.XForms"
-    xmlns:ListCollection="clr-namespace:System.Collections.Generic;assembly=mscorlib"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
     xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
@@ -24,22 +23,30 @@
     <ContentPage
         Icon="ImagesUns.png"
         x:Name="ImagesStack">
+        <ContentPage.Resources>
+            <ResourceDictionary>
+                <DataTemplate x:Key="itemTemplate">
+                    <Image Source="{Binding Imagen, Converter={StaticResource ByteArrayToImage}}" Aspect="AspectFit"/>
+                </DataTemplate>
+            </ResourceDictionary>
+        </ContentPage.Resources>
         <ContentPage.Content>
-            <ScrollView>
-                <StackLayout>
-                    <carousel:SfCarousel                        
-                        BackgroundColor="LightGray"
-                        DataSource="{Binding Imagenes}"
-                        HeightRequest="300"
-                        ItemSpacing="10"
-                        Offset="30"
-                        RotationAngle="90"
-                        SelectedItemOffset="5"
-                        ViewMode="Linear"
-                        WidthRequest="200">
-                    </carousel:SfCarousel>
+                <StackLayout
+                    BindingContext="{Binding Tecnico}"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="FillAndExpand">
+                <carousel:SfCarousel
+                    DataSource="{Binding TecnicoImagList}"
+                    ItemTemplate="{StaticResource itemTemplate}"
+                    ItemWidth="300"
+                    Offset="20"
+                    RotationAngle="45"
+                    ScaleOffset="0.7"
+                    SelectedIndex="1"
+                    SelectedItemOffset="-20"
+                    VerticalOptions="CenterAndExpand"
+                    WidthRequest="400"/>
                 </StackLayout>
-            </ScrollView>
         </ContentPage.Content>
 
     </ContentPage>
@@ -48,90 +55,98 @@
         Icon="NoUserPic.png"
         x:Name="ProfileStack">
         <ScrollView>
-            <StackLayout>
-                <Grid>
+            <StackLayout
+                BindingContext="{Binding Tecnico}"
+                Padding="5">
+                <Grid
+                    VerticalOptions="FillAndExpand">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <control:CircleImage
-                        BindingContext="{Binding Tecnico}"
-                        Aspect="AspectFill"
+                    <StackLayout
                         HorizontalOptions="CenterAndExpand"
                         Opacity=".6"
-                        Source="{Binding ByteImage, Converter={StaticResource ByteArrayToImage}}"
-                        VerticalOptions="Start">
-                        <control:CircleImage.WidthRequest>
-                            <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="Android, iOS">150</On>
-                            </OnPlatform>
-                        </control:CircleImage.WidthRequest>
-                        <control:CircleImage.HeightRequest>
-                            <OnPlatform x:TypeArguments="x:Double">
-                                <On Platform="Android, iOS">150</On>
-                            </OnPlatform>
-                        </control:CircleImage.HeightRequest>
-                    </control:CircleImage>
-                    <Grid
-                        BindingContext="{Binding Tecnico}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="26"
-                            Grid.Column="1"
-                            Grid.Row="0"
-                            Text="{Binding Tecnico.Apodo, Mode=TwoWay}"
-                            TextColor="LightGray"
+                        VerticalOptions="StartAndExpand">
+                        <control:CircleImage
+                            Aspect="AspectFill"
                             HorizontalOptions="CenterAndExpand"
-                            HorizontalTextAlignment="Center"
-                            VerticalOptions="End"/>
-                        <StackLayout
-                            Grid.Column="1"
-                            Grid.Row="4"
-                            HorizontalOptions="CenterAndExpand"
-                            VerticalOptions="Center"
-                            Orientation="Horizontal">
+                            Source="{Binding ByteImage, Converter={StaticResource ByteArrayToImage}}"
+                            VerticalOptions="StartAndExpand">
+                            <control:CircleImage.WidthRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="Android, iOS">150</On>
+                                </OnPlatform>
+                            </control:CircleImage.WidthRequest>
+                            <control:CircleImage.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="Android, iOS">150</On>
+                                </OnPlatform>
+                            </control:CircleImage.HeightRequest>
+                        </control:CircleImage>
+                    </StackLayout>
+                    <StackLayout>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
                             <Label
                                 FontAttributes="Bold"
-                                FontSize="20"
-                                Text="{Binding Tecnico.Nombre, Mode=TwoWay}"
+                                FontSize="26"
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Text="{Binding Tecnico.Apodo, Mode=TwoWay}"
                                 TextColor="LightGray"
-                                HorizontalTextAlignment="Center"/>
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                VerticalOptions="End"/>
+                            <StackLayout
+                                Grid.Column="1"
+                                Grid.Row="4"
+                                HorizontalOptions="CenterAndExpand"
+                                VerticalOptions="Center"
+                                Orientation="Horizontal">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="20"
+                                    Text="{Binding Tecnico.Nombre, Mode=TwoWay}"
+                                    TextColor="LightGray"
+                                    HorizontalTextAlignment="Center"/>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="20"
+                                    Text="{Binding Tecnico.Apellido, Mode=TwoWay}"
+                                    TextColor="LightGray"
+                                    HorizontalTextAlignment="Center"/>
+                            </StackLayout>
                             <Label
+                                Grid.Column="1"
+                                Grid.Row="5"
                                 FontAttributes="Bold"
-                                FontSize="20"
-                                Text="{Binding Tecnico.Apellido, Mode=TwoWay}"
+                                FontSize="14"
+                                Text="{Binding Tecnico.Carrera}"
                                 TextColor="LightGray"
-                                HorizontalTextAlignment="Center"/>
-                        </StackLayout>
-                        <Label
-                            Grid.Column="1"
-                            Grid.Row="5"
-                            FontAttributes="Bold"
-                            FontSize="14"
-                            Text="{Binding Tecnico.Carrera}"
-                            TextColor="LightGray"
-                            HorizontalOptions="CenterAndExpand"
-                            HorizontalTextAlignment="Center"
-                            VerticalOptions="Start"/>
-                    </Grid>
+                                HorizontalOptions="CenterAndExpand"
+                                HorizontalTextAlignment="Center"
+                                VerticalOptions="Start"/>
+                        </Grid>
+                    </StackLayout>
+                    <Image
+                        HorizontalOptions="EndAndExpand"
+                        Source="NewAppointment.png"
+                        VerticalOptions="EndAndExpand">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command ="{Binding NewAppointmentCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
                 </Grid>
-
             </StackLayout>
         </ScrollView>
     </ContentPage>
-    
-    <views:NewDatePage
-        BindingContext="{Binding NewDate}"
-        Icon="CitasUns.png"
-        x:Name="NewDateStack">
-    </views:NewDatePage>
 
 </TabbedPage>

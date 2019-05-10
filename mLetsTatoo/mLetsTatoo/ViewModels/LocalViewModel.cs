@@ -70,7 +70,7 @@
             this.empresa = empresa;
             this.apiService = new ApiService();
             Task.Run(async () => { await this.LoadInfo(); }).Wait();
-            this.LoadTecnicos();
+            this.RefreshTecnicoList();
             this.IsRefreshing = false;
             this.IsRunning = false;
         }
@@ -81,7 +81,7 @@
         {
             get
             {
-                return new RelayCommand(LoadTecnicos);
+                return new RelayCommand(RefreshTecnicoList);
             }
         }
         #endregion
@@ -168,49 +168,10 @@
                 this.IsRunning = false;
             }
         }
-        private async void LoadTecnicos()
-        {
-            this.IsRefreshing = true;
-            this.IsRunning = true;
-
-            var connection = await this.apiService.CheckConnection();
-            if (!connection.IsSuccess)
-            {
-                this.IsRefreshing = false;
-                this.IsRunning = false;
-                await App.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    connection.Message,
-                    "OK");
-                return;
-
-            }
-
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_tecnicosController"].ToString();
-
-            var response = await this.apiService.GetList<T_tecnicos>(urlApi, prefix, controller);
-            if (!response.IsSuccess)
-            {
-                this.IsRefreshing = false;
-                this.IsRunning = false;
-                await App.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-
-            this.LocalTecnicoList = (List<T_tecnicos>)response.Result;
-            this.RefreshTecnicoList();
-            this.IsRefreshing = false;
-            this.IsRunning = false;
-        }
         public void RefreshTecnicoList()
         {
             var userList = MainViewModel.GetInstance().Login.ListUsuarios;
-            var tecnico = this.LocalTecnicoList.Select(t => new TecnicoItemViewModel
+            var tecnico = MainViewModel.GetInstance().Login.TecnicoList.Select(t => new TecnicoItemViewModel
             {
                 Apellido = t.Apellido,
                 Apellido2 = t.Apellido2,
@@ -221,7 +182,7 @@
                 Id_Tecnico = t.Id_Tecnico,
                 Id_Usuario = t.Id_Usuario,
                 Nombre = t.Nombre,
-                F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == t.Id_Usuario).F_Perfil
+                F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == t.Id_Usuario).F_Perfil                
 
             }).Where(t => t.Id_Local == this.local.Id_Local && userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)).ToList();
             this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));

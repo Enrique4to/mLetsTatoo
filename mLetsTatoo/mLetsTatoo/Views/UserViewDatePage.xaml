@@ -19,229 +19,277 @@
                     BindingContext="{Binding UserViewDate}"
                     Padding="5"
                     VerticalOptions="StartAndExpand">
+                    
                     <StackLayout
-                        HorizontalOptions="EndAndExpand"
-                        Orientation="Horizontal"
-                        Padding="0,10,10,0"
-                        VerticalOptions="Start">
-                        <Label
-                            FontSize="20"
-                            HorizontalTextAlignment="End"
-                            Text="{i18n:Translate Appointment}"
-                            TextColor="LightGray"
-                            VerticalTextAlignment="End"/>
-                        <Label
-                            FontSize="16"
-                            HorizontalTextAlignment="End"
-                            Text="#"
-                            TextColor="LightGray"
-                            VerticalTextAlignment="End"/>
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="16"
-                            HorizontalTextAlignment="End"
-                            Text="{Binding Cita.Id_Cita}"
-                            TextColor="LightGray"
-                            VerticalTextAlignment="End"/>
-                    </StackLayout>
-                    <StackLayout
-                        HorizontalOptions="StartAndExpand"
+                        HorizontalOptions="CenterAndExpand"
                         Orientation="Horizontal"
                         Padding="10"
-                        VerticalOptions="Start">
+                        VerticalOptions="StartAndExpand">
                         <control:CustomLabel
                             BorderColor="Gray"
                             FontAttributes="Bold"
-                            FontSize="16"
+                            FontSize="13"
+                            HorizontalOptions="CenterAndExpand"
                             HorizontalTextAlignment="Center"
                             IsCurvedCornersEnabled="True"
                             Margin="10,0,0,0"
                             Text="{Binding Cita.Asunto}"
                             TextColor="LightGray"/>
                     </StackLayout>
+                    
                     <StackLayout
-                        HorizontalOptions="CenterAndExpand"
+                        HorizontalOptions="EndAndExpand"
                         Orientation="Horizontal"
-                        Padding="5"
-                        VerticalOptions="Start">
+                        Padding="0,0,20,0"
+                        VerticalOptions="StartAndExpand">
                         <Label
-                            FontSize="16"
+                            FontSize="13"
                             HorizontalTextAlignment="End"
                             Text="{i18n:Translate Date}"
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
-                        <StackLayout
-                            IsEnabled="False">
-                            <DatePicker
-                                Date="{Binding AppointmentDate, Mode=TwoWay}"
-                                FontAttributes="Bold"
-                                FontSize="16"
-                                Format="dd MMM yyyy"
-                                HorizontalOptions="Start"
-                                TextColor="LightGray"
-                                VerticalOptions="Center"/>
-                        </StackLayout>
                         <Label
-                            FontSize="16"
+                            FontAttributes="Bold"
+                            FontSize="13"
+                            HorizontalTextAlignment="End"
+                            TextColor="LightGray"
+                            Text="{Binding DateStart, Mode=TwoWay}"
+                            VerticalOptions="Center"/>
+                        <Label
+                            FontSize="13"
                             HorizontalTextAlignment="End"
                             Text="{i18n:Translate Hour}"
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
-                        <StackLayout
-                                IsEnabled="False">
-                            <TimePicker
-                                Format="h:mm tt"
-                                FontAttributes="Bold"
-                                FontSize="16"
-                                HorizontalOptions="StartAndExpand"
-                                TextColor="LightGray"
-                                Time="{Binding AppointmentTime, Mode=TwoWay}"
-                                VerticalOptions="Center"/>
-                        </StackLayout>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="13"
+                            HorizontalTextAlignment="End"
+                            TextColor="LightGray"
+                            Text="{Binding HourStart, Mode=TwoWay}"
+                            VerticalOptions="Center"/>
                     </StackLayout>
-                    <Label
-                        FontAttributes="Bold"
-                        FontSize="16"
-                        HorizontalTextAlignment="Start"
-                        Margin="10,10,0,0"
-                        Text="{i18n:Translate AppointmentWhere}"
-                        TextColor="LightGray"
-                        VerticalOptions="Center"/>
-                    <control:CustomLabel
-                        FontAttributes="Bold"
-                        FontSize="16"
-                        HorizontalTextAlignment="Center"
-                        Margin="5,0,0,0"
-                        Text="{Binding Studio}"
-                        TextColor="LightGray"/>
-                    <Label
-                        FontSize="14"
-                        HorizontalTextAlignment="Start"
-                        Margin="5,0,0,0"
-                        Text="{Binding Address}"
-                        TextColor="Gray"/>
-                    <Label
-                        FontSize="14"
-                        HorizontalTextAlignment="Start"
-                        Margin="5,10,0,0"
-                        Text="{Binding Reference}"
-                        TextColor="Gray"/>
+                    
                     <StackLayout
-                        HorizontalOptions="EndAndExpand"
-                        Padding="5,20,0,10"
-                        VerticalOptions="Start">
-                        <Grid
-                            Padding="0,0,0,15">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <control:CustomLabel
-                                FontAttributes="Bold"
-                                FontSize="16"
-                                Grid.Column="1"
-                                Grid.Row="0"
-                                HorizontalTextAlignment="End"
-                                Margin="5,0,0,0"
-                                Text="{Binding SubTotal}"
-                                TextColor="DimGray"/>
-                            <control:CustomLabel
-                                FontAttributes="Bold"
-                                FontSize="16"
+                        HorizontalOptions="CenterAndExpand"
+                        Padding="0,10,0,0"
+                        VerticalOptions="StartAndExpand">
+                        <control:CustomLabel
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            HorizontalOptions="CenterAndExpand"
+                            HorizontalTextAlignment="Center"
+                            Margin="5,0,0,0"
+                            Text="{Binding Studio}"
+                            TextColor="LightGray"/>
+
+                        <Frame
+                            BackgroundColor="White"
+                            HasShadow="True"
+                            CornerRadius="10"
+                            Margin="20,0,20,0"
+                            VerticalOptions="Center"
+                            Padding="10">
+                            <StackLayout
+                                HorizontalOptions="Center">
+                                <Label
+                                    FontSize="14"
+                                    HorizontalTextAlignment="Start"
+                                    Margin="5,0,0,0"
+                                    Text="{Binding Address}"
+                                    TextColor="Black"/>
+                                <Label
+                                    FontSize="14"
+                                    HorizontalTextAlignment="Start"
+                                    Margin="5,10,0,0"
+                                    Text="{Binding Reference}"
+                                    TextColor="Black"/>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+
+                    <StackLayout
+                        HorizontalOptions="CenterAndExpand"
+                        Padding="0,10"
+                        VerticalOptions="StartAndExpand">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            HorizontalTextAlignment="Center"
+                            Margin="10,10,0,0"
+                            Text="{i18n:Translate YourArt}"
+                            TextColor="LightGray"
+                            VerticalOptions="Center"/>
+                        <Image
+                            Aspect="AspectFit"
+                            HeightRequest="280"
+                            HorizontalOptions="Center"
+                            Margin="10,0"
+                            MinimumHeightRequest="100"
+                            Source="{Binding Image.Imagen, Converter={StaticResource ByteArrayToImage}}"
+                            VerticalOptions="Start"/>
+                    </StackLayout>
+                    <Frame
+                        BackgroundColor="White"
+                        HasShadow="True"
+                        HorizontalOptions="CenterAndExpand"
+                        CornerRadius="10"
+                        Margin="50,0,50,0"
+                        VerticalOptions="EndAndExpand"
+                        Padding="3">
+                        <StackLayout
+                            HorizontalOptions="Center"
+                            VerticalOptions="StartAndExpand">
+                            <StackLayout
+                                HorizontalOptions="End"
+                                Orientation="Horizontal">
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="18"
+                                    HorizontalOptions="End"
+                                    HorizontalTextAlignment="End"
+                                    Margin="5,0,0,0"
+                                    Text="{Binding SubTotal}"
+                                    TextColor="Black"/>
+                                <Image
+                                    HorizontalOptions="End"
+                                    Source="ChevronRight"
+                                    VerticalOptions="Center"
+                                    WidthRequest="20"
+                                    x:Name="Chevron"/>
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="HideAndShow"/>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                            <StackLayout
+                                IsVisible="False"
+                                Padding="0,10"
+                                x:Name="Details">
+                                <StackLayout>
+                                    <Label
+                                        FontSize="16"
+                                        Grid.Column="1"
+                                        Grid.Row="1"
+                                        HorizontalTextAlignment="End"
+                                        Margin="5,0,10,0"
+                                        Text="{Binding Advance}"
+                                        TextColor="Black"/>
+                                    <Label
+                                        FontSize="16"
+                                        Grid.Column="1"
+                                        Grid.Row="2"
+                                        HorizontalTextAlignment="End"
+                                        Margin="5,0,10,0"
+                                        Text="{Binding Total}"
+                                        TextColor="Black"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                    <StackLayout
+                        HorizontalOptions="CenterAndExpand"
+                        IsVisible="False"
+                        Padding="0,10"
+                        VerticalOptions="EndAndExpand"
+                        x:Name="Cancel">
+                        <Frame
+                            BackgroundColor="White"
+                            BorderColor="Black"
+                            CornerRadius="10"
+                            HasShadow="True"
+                            Margin="20,0,20,0"
+                            VerticalOptions="Center"
+                            Padding="20,5,20,5">
+                            <Label
+                                FontSize="12"
                                 Grid.Column="1"
                                 Grid.Row="1"
-                                HorizontalTextAlignment="End"
-                                Margin="5,0,0,0"
-                                Text="{Binding Advance}"
-                                TextColor="DimGray"/>
-                            <control:CustomLabel
-                                FontAttributes="Bold"
-                                FontSize="16"
-                                Grid.Column="1"
-                                Grid.Row="2"
-                                HorizontalTextAlignment="End"
-                                Margin="5,0,0,0"
-                                Text="{Binding Total}"
-                                TextColor="LightGray"/>
-                        </Grid>
+                                HorizontalTextAlignment="Center"
+                                Text="{i18n:Translate CancelDate}"
+                                TextColor="Black"/>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="GoToCancelPopupPage"/>
+                            </Frame.GestureRecognizers>
+                        </Frame>
                     </StackLayout>
-                    <Label
-                        FontAttributes="Bold"
-                        FontSize="16"
-                        HorizontalTextAlignment="Center"
-                        Margin="10,10,0,0"
-                        Text="{i18n:Translate YourArt}"
-                        TextColor="LightGray"
-                        VerticalOptions="Center"/>
-                    <Image
-                        Aspect="AspectFit"
-                        HeightRequest="400"
-                        HorizontalOptions="Center"
-                        Margin="10,0,10,0"
-                        MinimumHeightRequest="100"
-                        Source="{Binding Image.Imagen, Converter={StaticResource ByteArrayToImage}}"
-                        VerticalOptions="Start"/>
                 </StackLayout>
                 <StackLayout
                     BindingContext="{Binding UserViewDate}"
                     Padding="5"
-                    VerticalOptions="StartAndExpand">
+                    VerticalOptions="FillAndExpand">
                     <StackLayout
-                        HorizontalOptions="EndAndExpand"
+                        HorizontalOptions="FillAndExpand"
                         Orientation="Horizontal">
-                        <Image
-                            Aspect="AspectFit"
-                            HeightRequest="30"
+                        <Label
+                            FontSize="15"
+                            HorizontalOptions="StartAndExpand"
+                            HorizontalTextAlignment="Start"
+                            Margin="15,0,0,0"
+                            Text="{i18n:Translate Comments}"
+                            TextColor="LightGray"
+                            VerticalTextAlignment="End"/>
+
+                        <StackLayout
                             HorizontalOptions="End"
-                            IsEnabled="{Binding IsButtonEnabled}"
-                            IsVisible="{Binding IsVisible}"
-                            Margin="0,8,0,8"
-                            Source="EditComment.png"
-                            VerticalOptions="Center">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding EditCommentCommand}"/>
-                            </Image.GestureRecognizers>
-                        </Image>
-                        <Image                            
-                            Aspect="AspectFit"
-                            HeightRequest="30"
-                            HorizontalOptions="End"
-                            IsEnabled="{Binding IsButtonEnabled}"
-                            IsVisible="{Binding IsVisible}"
-                            Margin="0,8,0,8"
-                            Source="DeleteComment.png"
-                            VerticalOptions="Center">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding DeleteCommentCommand}"/>
-                            </Image.GestureRecognizers>
-                        </Image>
-                        <Image
-                            Aspect="AspectFit"
-                            HeightRequest="30"
-                            HorizontalOptions="End"
-                            Margin="0,8,0,8"
-                            Source="AddComment.png"
-                            VerticalOptions="Center">
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding AddNewCommentCommand}"/>
-                            </Image.GestureRecognizers>
-                        </Image>
+                            Orientation="Horizontal">
+                            <Image
+                                Aspect="AspectFit"
+                                HeightRequest="30"
+                                HorizontalOptions="End"
+                                IsEnabled="{Binding IsButtonEnabled}"
+                                IsVisible="{Binding IsVisible}"
+                                Margin="0,8,0,8"
+                                Source="EditComment.png"
+                                VerticalOptions="Center">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding EditCommentCommand}"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <Image                            
+                                Aspect="AspectFit"
+                                HeightRequest="30"
+                                HorizontalOptions="End"
+                                IsEnabled="{Binding IsButtonEnabled}"
+                                IsVisible="{Binding IsVisible}"
+                                Margin="0,8,0,8"
+                                Source="DeleteComment.png"
+                                VerticalOptions="Center">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding DeleteCommentCommand}"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <Image
+                                Aspect="AspectFit"
+                                HeightRequest="30"
+                                HorizontalOptions="End"
+                                Margin="0,8,0,8"
+                                Source="AddComment.png"
+                                VerticalOptions="Center">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding AddNewCommentCommand}"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </StackLayout>
                     </StackLayout>
                     <ListView                    
                         HasUnevenRows="True"
+                        HorizontalOptions="FillAndExpand"
                         IsPullToRefreshEnabled="True"
                         IsRefreshing="{Binding IsRefreshing}"                    
                         ItemsSource="{Binding Notas}"
                         SeparatorColor="DimGray"
-                        RefreshCommand="{Binding RefreshNotasCommand}">
+                        RefreshCommand="{Binding RefreshNotasCommand}"
+                        VerticalOptions="EndAndExpand">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <StackLayout
-                                            Padding="0,2,0,2">
+                                    <Frame
+                                        BackgroundColor="White"
+                                        HasShadow="True"
+                                        CornerRadius="10"
+                                        Margin="1"
+                                        VerticalOptions="Center"
+                                        Padding="2">
                                         <Grid>
                                             <Grid.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding SelectedNotaCommand}" Tapped="OnGridSelect"/>
@@ -284,13 +332,13 @@
                                                         HorizontalTextAlignment="Start"
                                                             VerticalTextAlignment="End"
                                                         Text="{Binding Nombre_Post}"                                                        
-                                                        TextColor="LightGray"/>
+                                                        TextColor="Black"/>
                                                     <Label
                                                         FontSize="12"
                                                         HorizontalTextAlignment="Start"
                                                         Margin="10,0,0,0"
                                                         Text="{Binding F_nota, StringFormat=' {0:dd MMM yyyy}'}"
-                                                        TextColor="DimGray"
+                                                        TextColor="Black"
                                                         VerticalTextAlignment="Start"/>
                                                 </StackLayout>
                                             </StackLayout>
@@ -302,9 +350,9 @@
                                                 VerticalTextAlignment="Start"
                                                 Margin="20,0,20,0"
                                                 Text="{Binding Nota}"
-                                                TextColor="Gray"/>
+                                                TextColor="Black"/>
                                         </Grid>
-                                    </StackLayout>
+                                    </Frame>
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>

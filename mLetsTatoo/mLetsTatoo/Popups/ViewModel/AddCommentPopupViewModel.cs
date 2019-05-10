@@ -84,6 +84,7 @@
                     Id_Cita = this.cita.Id_Cita,
                     Nota = this.AddNota,
                     Nombre_Post = nombre_Post,
+                    Cambio_Fecha = false,
                 };
                 var response = await this.apiService.Post(urlApi, prefix, controller, this.nota);
 
@@ -115,6 +116,7 @@
                     Id_Cita = this.cita.Id_Cita,
                     Nota = this.AddNota,
                     Nombre_Post = nombre_Post,
+                    Cambio_Fecha = false,
                 };
                 var response = await this.apiService.Post(urlApi, prefix, controller, this.nota);
 

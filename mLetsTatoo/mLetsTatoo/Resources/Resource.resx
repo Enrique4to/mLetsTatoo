@@ -515,7 +515,7 @@
     <value>Hi, how are you?
 I have sent you a budget with the estimated time duration of the art you want, please check it and if you are interested, you approve it to schedule the corresponding appointment.
 
-If you have any other questions, do not hesitate to send me another message.
+Open this message to see the budget.
 
 Thank you.</value>
   </data>
@@ -536,5 +536,67 @@ Follow the following instructions:
   </data>
   <data name="AppointmentDetails" xml:space="preserve">
     <value>Details of your appointment.</value>
+  </data>
+  <data name="ArtError" xml:space="preserve">
+    <value>You must select an image of your art.</value>
+  </data>
+  <data name="ChangeDate" xml:space="preserve">
+    <value>Change Date</value>
+  </data>
+  <data name="TheDateChanged" xml:space="preserve">
+    <value>The Date of the appointment</value>
+  </data>
+  <data name="HasBeenChanged" xml:space="preserve">
+    <value>has been changed from</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>to</value>
+  </data>
+  <data name="WillBeChanged" xml:space="preserve">
+    <value>will be changed from</value>
+  </data>
+  <data name="CustomerAccept" xml:space="preserve">
+    <value>when the customer accept the change.</value>
+  </data>
+  <data name="ChangeDateAlert" xml:space="preserve">
+    <value>Are you sure you want to change the date of this appointment?</value>
+  </data>
+  <data name="ChangeDateTecMessage" xml:space="preserve">
+    <value>Hello! How are you?
+I want to reschedule this appointment, if it seems good to you.
+
+Open this message to see the new date and time that I propose.
+
+If you do not have an opportunity on the date I am proposing, I invite you to cancel this appointment and to create another one.
+
+Thank you.</value>
+  </data>
+  <data name="TheNewDate" xml:space="preserve">
+    <value>The new date is</value>
+  </data>
+  <data name="ChangeDateWantAccept" xml:space="preserve">
+    <value>Do you accept it?</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="CancelDate" xml:space="preserve">
+    <value>Cancel this appointment!</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Comments...</value>
+  </data>
+  <data name="CancelDateMessage" xml:space="preserve">
+    <value>You are about to cancel the appointment that you had scheduled to make your art.
+
+Before you proceed, you should know the following:
+
+1.- The advance that you have already paid, will be returned to LetsTattoo account, which you can use just to make the creation of a new appointment.
+2.- The advance will be discounted in partialities if the value of the new advance is less than the recovered.
+In case it is the same, it will be discounted in full.
+In the same way, if it turns out that the new advance is greater than the one recovered, you will have to make the deposit of the remaining value to the new advance.
+3. The advance can also be transferred as a gift to any of your friends, bearing in mind that it must be the total value of the advance.
+
+Do you want to continue?</value>
   </data>
 </root>

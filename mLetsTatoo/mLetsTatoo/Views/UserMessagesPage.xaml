@@ -23,7 +23,7 @@
                         <DataTemplate>
                             <ViewCell>
                                 <StackLayout
-                                            Padding="0,2,0,2">
+                                    Padding="0,2,0,2">
                                     <Grid>
                                         <Grid.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding MessageJobPageCommand}" Tapped="OnGridSelect"/>
@@ -73,7 +73,7 @@
                                                     FontAttributes="Bold"
                                                     FontSize="14"
                                                     HorizontalTextAlignment="Start"
-                                                        VerticalTextAlignment="End"
+                                                    VerticalTextAlignment="End"
                                                     Text="{Binding Apellido}"                                                        
                                                     TextColor="LightGray"/>
                                                 </StackLayout>

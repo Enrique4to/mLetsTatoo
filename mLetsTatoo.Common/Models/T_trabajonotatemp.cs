@@ -20,5 +20,6 @@
         public DateTime F_nota { get; set; }
         [Required]
         public string Nombre_Post { get; set; }
+        public bool Propuesta { get; set; }
     }
 }

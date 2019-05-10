@@ -30,8 +30,9 @@
                     Message = Languages.ErrorConfigInternet,
                 };
             }
+
             var isReachable = await CrossConnectivity.Current.IsRemoteReachable(
-                "https://mletstattooapi.azurewebsites.net");
+                "https://mletstattooapi.azurewebsites.net/");
 
             if (!isReachable)
             {

@@ -1,5 +1,7 @@
 ﻿namespace mLetsTatoo.Views
 {
+    using Popups.Views;
+    using Rg.Plugins.Popup.Extensions;
     using System;
     using ViewModels;
     using Xamarin.Forms;
@@ -8,7 +10,6 @@
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class UserViewDatePage : ContentPage
     {
-
         public UserViewDatePage ()
 		{
 			InitializeComponent ();
@@ -24,6 +25,25 @@
             var button = (Grid)s;
             button.BackgroundColor = Color.DimGray;
             _grid = button;
+        }
+
+        private void HideAndShow(object sender, EventArgs e)
+        {
+            if(this.Details.IsVisible != true)
+            {
+                this.Details.IsVisible = true;
+                this.Cancel.IsVisible = true;
+                this.Chevron.RotateTo(90, 60);
+                return;
+            }
+            this.Details.IsVisible = false;
+            this.Cancel.IsVisible = false;
+            this.Chevron.RotateTo(0, 60);
+        }
+
+        private async void GoToCancelPopupPage(object sender, EventArgs e)
+        {
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new CancelDatePopupPage());
         }
     }
 }

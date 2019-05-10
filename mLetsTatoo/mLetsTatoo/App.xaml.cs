@@ -1,20 +1,13 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-namespace mLetsTatoo
+﻿namespace mLetsTatoo
 {
+    using Xamarin.Forms;
     using Views;
     public partial class App : Application
     {
         public App()
         {
             InitializeComponent();
-
-            MainPage = new NavigationPage(new LoginPage())
-            {
-                BarBackgroundColor = Color.FromRgb(20, 20, 20),
-                BarTextColor = Color.FromRgb(200, 200, 200),
-            };
+            MainPage = new StartPage();
         }
 
         protected override void OnStart()

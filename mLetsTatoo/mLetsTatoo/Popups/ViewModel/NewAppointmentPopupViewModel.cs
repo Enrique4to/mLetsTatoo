@@ -26,7 +26,8 @@
         #region Attributes
         public DateTime selectedDate;
         public DateTime selectedTime;
-        public TimeSpan hourStart;
+        public string hourStart;
+        public string dateStart;
 
         private TimeSpan workIn;
         private TimeSpan workOut;
@@ -42,6 +43,11 @@
         private bool hardChecked;
         private bool isRefreshing;
         private bool isVisible;
+        private bool isVisible2;
+
+        public bool fromTecnitoPage;
+        public bool PresupuestoPage;
+        public bool changeDate;
 
         public decimal cost;
         public decimal advance;
@@ -57,7 +63,12 @@
         private string describeArt;
         public string height;
         public string width;
-        
+
+        private string address;
+        private string studio;
+        private string reference;
+        private string artist;
+
         private string subject;
 
         public string workInTime;
@@ -74,6 +85,11 @@
         public TecnicosCollection tecnico;
         public ClientesCollection cliente;
         private CitasItemViewModel newCita;
+        private T_locales local;
+        private T_empresas empresa;
+        private T_estado estado;
+        private T_ciudad ciudad;
+        private T_postal postal;
 
         private ObservableCollection<TecnicoItemViewModel> tecnicos;
         private ObservableCollection<CitasItemViewModel> citas;
@@ -90,10 +106,15 @@
             get { return this.selectedTime; }
             set { SetValue(ref this.selectedTime, value); }
         }
-        public TimeSpan HourStart
+        public string HourStart
         {
             get { return this.hourStart; }
             set { SetValue(ref this.hourStart, value); }
+        }
+        public string DateStart
+        {
+            get { return this.dateStart; }
+            set { SetValue(ref this.dateStart, value); }
         }
 
 
@@ -111,6 +132,11 @@
         {
             get { return this.isVisible; }
             set { SetValue(ref this.isVisible, value); }
+        }
+        public bool IsVisible2
+        {
+            get { return this.isVisible2; }
+            set { SetValue(ref this.isVisible2, value); }
         }
         public bool SmallChecked
         {
@@ -213,7 +239,28 @@
             get { return this.width; }
             set { SetValue(ref this.width, value); }
         }
-        
+
+        public string Address
+        {
+            get { return this.address; }
+            set { SetValue(ref this.address, value); }
+        }
+        public string Studio
+        {
+            get { return this.studio; }
+            set { SetValue(ref this.studio, value); }
+        }
+        public string Reference
+        {
+            get { return this.reference; }
+            set { SetValue(ref this.reference, value); }
+        }
+        public string Artist
+        {
+            get { return this.artist; }
+            set { SetValue(ref this.artist, value); }
+        }
+
         public string Subject
         {
             get { return this.subject; }
@@ -251,6 +298,7 @@
 
         public List<TecnicosCollection> TecnicoList { get; set; }
         public List<CitasItemViewModel> CitaList { get; set; }
+        public List<NotasTempItemViewModel> TrabajoNotaList { get; set; }
 
         public ObservableCollection<TecnicoItemViewModel> Tecnicos
         {
@@ -270,6 +318,8 @@
             this.cliente = cliente;
             this.apiService = new ApiService();            
             this.RefreshTecnicoList();
+            this.PresupuestoPage = false;
+            this.changeDate = false;
             this.IsRefreshing = false;
             this.IsVisible = false;
         }
@@ -360,7 +410,7 @@
         }
         public void LoadFeatures(object sender)
         {           
-            var list = MainViewModel.GetInstance().UserHome.ListFeature.Where(f => f.Id_Tecnico == this.tecnico.Id_Tecnico).ToList();
+            var list = MainViewModel.GetInstance().UserHome.FeaturesList.Where(f => f.Id_Tecnico == this.tecnico.Id_Tecnico).ToList();
 
             if (SmallChecked == true && EasyChecked == true)
             {
@@ -417,19 +467,29 @@
             {
                 this.FeatureImageSource = ImageSource.FromStream(() => new MemoryStream(this.feature.Imagen_Ejemplo));
             }
+
             string tempTime = null;
-            if (this.feature.Tiempo == 30)
-                tempTime = "30 mins.";
-            if (this.feature.Tiempo == 60)
-                tempTime = "1 hr.";
-            if (this.feature.Tiempo == 90)
-                tempTime = "1.5 hrs.";
-            if (this.feature.Tiempo == 120)
-                tempTime = "2 hrs.";
-            if (this.feature.Tiempo == 150)
-                tempTime = "2.5 hrs.";
-            if (this.feature.Tiempo == 180)
-                tempTime = "3 hrs.";
+            switch (this.feature.Tiempo)
+            {
+                case 30:
+                    tempTime = "30 mins.";
+                    break;
+                case 60:
+                    tempTime = "1 hr.";
+                    break;
+                case 90:
+                    tempTime = "1.5 hrs.";
+                    break;
+                case 120:
+                    tempTime = "2 hrs.";
+                    break;
+                case 150:
+                    tempTime = "2.5 hrs.";
+                    break;
+                case 180:
+                    tempTime = "3 hrs.";
+                    break;
+            }
 
             this.HeightWidth = $"{Languages.MaximunSize}: {this.feature.Alto} cm X {this.feature.Ancho} cm";
             this.AppCost = $"{Languages.Cost}: {this.feature.Total_Aprox.ToString("C2")}";
@@ -438,21 +498,44 @@
         }
         public void LoadCitas()
         {
-            this.CitaList = MainViewModel.GetInstance().UserHome.CitaList.Select(c => new CitasItemViewModel
+            if(changeDate == true)
             {
-                Id_Cita = c.Id_Cita,
-                Id_Trabajo = c.Id_Trabajo,
-                Id_Cliente = c.Id_Cliente,
-                Id_Tatuador = c.Id_Tatuador,
-                F_Inicio = new DateTime(c.F_Inicio.Year, c.F_Inicio.Month, c.F_Inicio.Day, c.H_Inicio.Hours, c.H_Inicio.Minutes, c.H_Inicio.Seconds),
-                H_Inicio = c.H_Inicio,
-                F_Fin = new DateTime(c.F_Fin.Year, c.F_Fin.Month, c.F_Fin.Day, c.H_Fin.Hours, c.H_Fin.Minutes, c.H_Fin.Seconds),
-                H_Fin = c.H_Fin,
-                Asunto = c.Asunto,
-                Completa = c.Completa,
-                Color = Color.Red,
+                this.CitaList = MainViewModel.GetInstance().TecnicoHome.CitasList.Select(c => new CitasItemViewModel
+                {
+                    Id_Cita = c.Id_Cita,
+                    Id_Trabajo = c.Id_Trabajo,
+                    Id_Cliente = c.Id_Cliente,
+                    Id_Tatuador = c.Id_Tatuador,
+                    F_Inicio = new DateTime(c.F_Inicio.Year, c.F_Inicio.Month, c.F_Inicio.Day, c.H_Inicio.Hours, c.H_Inicio.Minutes, c.H_Inicio.Seconds),
+                    H_Inicio = c.H_Inicio,
+                    F_Fin = new DateTime(c.F_Fin.Year, c.F_Fin.Month, c.F_Fin.Day, c.H_Fin.Hours, c.H_Fin.Minutes, c.H_Fin.Seconds),
+                    H_Fin = c.H_Fin,
+                    Asunto = c.Asunto,
+                    Completa = c.Completa,
+                    ColorText = c.ColorText,
+                    Color = Color.FromHex(c.ColorText),
 
-            }).Where(c => c.Completa == false && c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
+                }).Where(c => c.Completa == false && c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
+            }
+            else
+            { 
+                this.CitaList = MainViewModel.GetInstance().UserHome.CitaList.Select(c => new CitasItemViewModel
+                {
+                    Id_Cita = c.Id_Cita,
+                    Id_Trabajo = c.Id_Trabajo,
+                    Id_Cliente = c.Id_Cliente,
+                    Id_Tatuador = c.Id_Tatuador,
+                    F_Inicio = new DateTime(c.F_Inicio.Year, c.F_Inicio.Month, c.F_Inicio.Day, c.H_Inicio.Hours, c.H_Inicio.Minutes, c.H_Inicio.Seconds),
+                    H_Inicio = c.H_Inicio,
+                    F_Fin = new DateTime(c.F_Fin.Year, c.F_Fin.Month, c.F_Fin.Day, c.H_Fin.Hours, c.H_Fin.Minutes, c.H_Fin.Seconds),
+                    H_Fin = c.H_Fin,
+                    Asunto = c.Asunto,
+                    Completa = c.Completa,
+                    ColorText = c.ColorText,
+                    Color = Color.FromHex(c.ColorText),
+
+                }).Where(c => c.Completa == false && c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
+            }
 
             this.Citas = new ObservableCollection<CitasItemViewModel>(this.CitaList.OrderByDescending(c => c.F_Inicio));
         }
@@ -460,7 +543,14 @@
         {
             if (newCita != null)
             {
-                MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
+                if(changeDate == true)
+                {
+                    MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
+                }
+                else
+                {
+                    MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
+                }
                 this.newCita = null;
                 this.LoadCitas();
             }
@@ -471,25 +561,87 @@
             var tempStartDate = new DateTime(SelectedTime.Year, SelectedTime.Month, SelectedTime.Day, 0, 0, 0);
             var tempEndDate = new DateTime(SelectedTime.Year, SelectedTime.Month, SelectedTime.Day, 23, 59, 59);
             var tempCitaList = this.CitaList.Where(c => c.F_Inicio.Ticks > tempStartDate.Ticks && c.F_Inicio.Ticks < tempEndDate.Ticks).ToList();
-
-            foreach(var cita in tempCitaList)
+            var lastCita = new T_trabajocitas();
+            if (tempCitaList.Count > 0)
             {
                 for (int i = 0; i <= times; i++)
                 {
-                    if (tempTime.Ticks >= cita.H_Inicio.Ticks && tempTime.Ticks < cita.H_Fin.Ticks)
+                    foreach (var cita in tempCitaList)
                     {
-                        await Application.Current.MainPage.DisplayAlert(
-                            Languages.Error,
-                            Languages.ScheduleError,
-                            "OK");
+                        if (tempTime.Ticks >= cita.H_Inicio.Ticks && tempTime.Ticks < cita.H_Fin.Ticks)
+                        {
+                            await Application.Current.MainPage.DisplayAlert(
+                                Languages.Error,
+                                Languages.ScheduleError,
+                                "OK");
+                            if (newCita != null)
+                            {
+                                if (changeDate == true)
+                                {
+                                    MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
+                                }
+                                else
+                                {
+                                    MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
+                                }
+                                this.newCita = null;
+                                this.LoadCitas();
+                            }
+                            return;
+                        }
+                    }
+                    if (tempTime.Ticks < this.workIn.Ticks || tempTime.Ticks >= this.workOut.Ticks)
+                        {
+                            await Application.Current.MainPage.DisplayAlert(
+                                Languages.Error,
+                                Languages.ScheduleError,
+                                "OK");
                         if (newCita != null)
                         {
-                            MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
+                            if (changeDate == true)
+                            {
+                                MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
+                            }
+                            else
+                            {
+                                MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
+                            }
                             this.newCita = null;
                             this.LoadCitas();
                         }
                         return;
                     }
+                    if (tempTime.Ticks >= this.eatOut.Ticks && tempTime.Ticks < this.eatIn.Ticks)
+                    {
+                            await Application.Current.MainPage.DisplayAlert(
+                                Languages.Error,
+                                Languages.ScheduleError,
+                                "OK");
+                        if (newCita != null)
+                        {
+                            if (changeDate == true)
+                            {
+                                MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
+                            }
+                            else
+                            {
+                                MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
+                            }
+                            this.newCita = null;
+                            this.LoadCitas();
+                        }
+                        return;
+                    }
+
+                        TempDate = TempDate.AddMinutes(30.00);
+                        tempTime = new TimeSpan(TempDate.Hour, TempDate.Minute, TempDate.Second);
+                    
+                }
+            }
+            else if(tempCitaList.Count <= 0)
+            {
+                for (int i = 0; i <= times; i++)
+                {
                     if (tempTime.Ticks < this.workIn.Ticks || tempTime.Ticks >= this.workOut.Ticks)
                     {
                         await Application.Current.MainPage.DisplayAlert(
@@ -498,7 +650,14 @@
                             "OK");
                         if (newCita != null)
                         {
-                            MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
+                            if (changeDate == true)
+                            {
+                                MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
+                            }
+                            else
+                            {
+                                MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
+                            }
                             this.newCita = null;
                             this.LoadCitas();
                         }
@@ -512,7 +671,14 @@
                             "OK");
                         if (newCita != null)
                         {
-                            MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
+                            if (changeDate == true)
+                            {
+                                MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
+                            }
+                            else
+                            {
+                                MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
+                            }
                             this.newCita = null;
                             this.LoadCitas();
                         }
@@ -522,16 +688,33 @@
                     TempDate = TempDate.AddMinutes(30.00);
                     tempTime = new TimeSpan(TempDate.Hour, TempDate.Minute, TempDate.Second);
                 }
-            }
-            
-            var lastCita = MainViewModel.GetInstance().UserHome.CitaList.Last();
-            var newEndDate = SelectedTime.AddMinutes(this.feature.Tiempo);
+            }            
 
-            this.subject = $"{Languages.Tattoo}, {this.feature.Alto} cm X {this.feature.Ancho} cm, {Languages.Complexity} {this.complexity}";
+            var newEndDate = SelectedTime.AddMinutes(this.feature.Tiempo);
+            var color = Color.Green;
+            int red = (int)(color.R * 255);
+            int green = (int)(color.G * 255);
+            int blue = (int)(color.B * 255);
+            string hex = String.Format("#{0:X2}{1:X2}{2:X2}", red, green, blue);
+
+            if(this.PresupuestoPage == true)
+            {
+                this.subject = $"{Languages.Tattoo} {Languages.Personalized}, {this.feature.Alto} cm X {this.feature.Ancho} cm.";
+            }
+            else
+            {
+                if(this.changeDate == false)
+                {
+                    this.subject = $"{Languages.Tattoo}, {this.feature.Alto} cm X {this.feature.Ancho} cm, {Languages.Complexity} {this.complexity}.";
+                }
+                else
+                {
+                    this.subject = $"{Languages.Tattoo}, {this.feature.Alto} cm X {this.feature.Ancho} cm.";
+                }
+            }
+
             this.newCita = new CitasItemViewModel
             {
-                Id_Cita = lastCita.Id_Cita + 1,
-                Id_Trabajo = lastCita.Id_Trabajo,
                 Id_Cliente = this.cliente.Id_Cliente,
                 Id_Tatuador = this.tecnico.Id_Tecnico,
                 F_Inicio = new DateTime(SelectedTime.Year, SelectedTime.Month, SelectedTime.Day, SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second),
@@ -540,21 +723,46 @@
                 H_Fin = new TimeSpan(newEndDate.Hour, newEndDate.Minute, newEndDate.Second),
                 Asunto = this.subject,
                 Completa = false,
-                Color = Color.Green,
+                ColorText = hex,
+                Color = Color.FromHex(hex),
             };
 
             if (newCita != null)
             {
-                MainViewModel.GetInstance().UserHome.CitaList.Remove(newCita);
+                if (changeDate == true)
+                {
+                    MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
+                }
+                else
+                {
+                    MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
+                }
             }
 
-            MainViewModel.GetInstance().UserHome.CitaList.Add(newCita);
-            this.hourStart = new TimeSpan(SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second);
+            if (changeDate == true)
+            {
+                MainViewModel.GetInstance().TecnicoHome.CitasList.Add(newCita);
+            }
+            else
+            {
+                MainViewModel.GetInstance().UserHome.CitaList.Add(newCita);
+            }
+            this.hourStart = SelectedTime.ToString("h:mm tt");
+            this.dateStart = SelectedTime.ToString("dd MMM yyyy");
             this.LoadCitas();
         }
         public void LoadHorarios()
         {
-            var horario = MainViewModel.GetInstance().UserHome.ListHorariosTecnicos.Single(h => h.Id_Tecnico == this.tecnico.Id_Tecnico);
+            var horario = new T_tecnicohorarios();
+
+            if(changeDate == true)
+            {
+                horario = MainViewModel.GetInstance().TecnicoHome.ListHorariosTecnicos.Single(h => h.Id_Tecnico == this.tecnico.Id_Tecnico);
+            }
+            else
+            {
+                horario = MainViewModel.GetInstance().UserHome.ListHorariosTecnicos.Single(h => h.Id_Tecnico == this.tecnico.Id_Tecnico);
+            }
             if(SelectedDate.DayOfWeek == DayOfWeek.Monday
                 || SelectedDate.DayOfWeek == DayOfWeek.Tuesday
                 || SelectedDate.DayOfWeek == DayOfWeek.Wednesday
@@ -689,7 +897,7 @@
                 });
             }
         }
-        private async void SavePersonalDate()
+        private async void SavePersonal()
         {
             this.apiService.StartActivityPopup();
             var connection = await this.apiService.CheckConnection();
@@ -743,6 +951,7 @@
                 Nota = this.DescribeArt,
                 F_nota = this.SelectedTime,
                 Nombre_Post = $"{this.cliente.Nombre} {this.cliente.Apellido}",
+                Propuesta = false,
             };
 
             controller = Application.Current.Resources["UrlT_trabajonotatempController"].ToString();
@@ -761,21 +970,9 @@
             }
             notatemp = (T_trabajonotatemp)response.Result;
 
-            byte[] ByteImage = null;
-            if (this.file == null)
-            {
-                this.apiService.EndActivityPopup();
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.ExampleImageError,
-                    "Ok");
-                return;
-            }
-            ByteImage = FileHelper.ReadFully(this.file.GetStream());
-
             var notaImagentemp = new T_citaimagenestemp
             {
-                Imagen = ByteImage,
+                Imagen = FileHelper.ReadFully(this.file.GetStream()),
                 Id_Trabajotemp = trabajotemp.Id_Trabajotemp,
 
             };
@@ -793,7 +990,6 @@
                 "OK");
                 return;
             }
-            await Application.Current.MainPage.Navigation.PopModalAsync();
             this.apiService.EndActivityPopup();
 
             var message = $"{Languages.TempJobMessageSent} {this.tecnico.Nombre} '{this.tecnico.Apodo}' {this.tecnico.Apellido}.{'\n'}{'\n'} {Languages.TempJobAnswerMessage}.";
@@ -807,6 +1003,7 @@
         private async void SaveQuickDate()
         {
             this.apiService.StartActivityPopup();
+
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
@@ -829,6 +1026,170 @@
                 Alto = this.feature.Alto,
                 Ancho = this.feature.Ancho,
                 Tiempo = this.feature.Tiempo,
+                Completo = false,
+                Cancelado = false,
+            };
+
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_trabajosController"].ToString();
+
+            var response = await this.apiService.Post(urlApi, prefix, controller, trabajo);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            trabajo = (T_trabajos)response.Result;
+
+            var color = Color.DarkRed;
+            int red = (int)(color.R * 255);
+            int green = (int)(color.G * 255);
+            int blue = (int)(color.B * 255);
+            string hex = String.Format("#{0:X2}{1:X2}{2:X2}", red, green, blue);
+            var newEndDate = SelectedTime.AddMinutes(this.feature.Tiempo);
+
+            var cita = new T_trabajocitas
+            {
+                Id_Trabajo = trabajo.Id_Trabajo,
+                Id_Cliente = this.cliente.Id_Cliente,
+                Id_Tatuador = this.tecnico.Id_Tecnico,
+                F_Inicio = new DateTime(SelectedTime.Year, SelectedTime.Month, SelectedTime.Day, SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second),
+                H_Inicio = new TimeSpan(SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second),
+                F_Fin = new DateTime(newEndDate.Year, newEndDate.Month, newEndDate.Day, newEndDate.Hour, newEndDate.Minute, newEndDate.Second),
+                H_Fin = new TimeSpan(newEndDate.Hour, newEndDate.Minute, newEndDate.Second),
+                Asunto = this.subject,
+                Completa = false,
+                ColorText = hex,
+            };
+
+            controller = Application.Current.Resources["UrlT_trabajocitasController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, cita);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            cita = (T_trabajocitas)response.Result;
+
+            var nombre_Post = $"{this.cliente.Nombre} {this.cliente.Apellido}";
+            var nota = new T_trabajonota
+            {
+                Id_Trabajo = trabajo.Id_Trabajo,
+                Tipo_Usuario = 1,
+                Id_Usuario = this.cliente.Id_Usuario,
+                Id_Local = this.tecnico.Id_Local,
+                Id_Cita = cita.Id_Cita,
+                Nota = this.DescribeArt,
+                Nombre_Post = nombre_Post,
+                F_nota = DateTime.Now.ToLocalTime(),
+                Cambio_Fecha = false,
+            };
+
+            controller = Application.Current.Resources["UrlT_trabajonotaController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, nota);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            nota = (T_trabajonota)response.Result;
+            
+            var notaImagen = new T_citaimagenes
+            {
+                Imagen = FileHelper.ReadFully(this.file.GetStream()),
+                Id_Trabajo = trabajo.Id_Trabajo,
+
+            };
+            controller = Application.Current.Resources["UrlT_citaimagenesController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, notaImagen);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            if (newCita != null)
+            {
+                MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
+                this.newCita = null;
+                this.LoadCitas();
+            }
+
+            MainViewModel.GetInstance().UserHome.CitaList.Add(cita);
+            MainViewModel.GetInstance().UserHome.RefreshCitaList();
+
+            this.apiService.EndActivityPopup();
+
+            string date = DateTime.Parse(cita.F_Inicio.ToString()).ToString("dd-MMM-yyyy");
+            string time = DateTime.Parse(cita.H_Inicio.ToString()).ToString("hh:mm tt");
+
+            var message = $"{Languages.YourAppointment} #{trabajo.Id_Trabajo} {Languages.HasBeenCreated}  {date}  {Languages.At}  {time} " +
+                $" {Languages.WithThe_Artist}  {this.tecnico.Nombre} '{this.tecnico.Apodo}' {this.tecnico.Apellido}.{'\n'}{'\n'} {Languages.TryToBe}.";
+
+            await Application.Current.MainPage.DisplayAlert
+                (Languages.Notice,
+                message,
+                "Ok"
+                );
+        }
+        private async void SavePersonalDate()
+        {
+            this.apiService.StartActivityPopup();
+            var trabajoTemp = MainViewModel.GetInstance().UserMessageJob.Trabajo;
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+
+            var trabajo = new T_trabajos
+            {
+                Id_Cliente = this.cliente.Id_Cliente,
+                Id_Tatuador = this.tecnico.Id_Tecnico,
+                Asunto = this.subject,
+                Id_Caract = null,
+                Total_Aprox = trabajoTemp.Total_Aprox,
+                Costo_Cita = trabajoTemp.Costo_Cita,
+                Alto = trabajoTemp.Alto,
+                Ancho = trabajoTemp.Ancho,
+                Tiempo = trabajoTemp.Tiempo,
+                Completo = false,
+                Cancelado = false,
             };
 
             var urlApi = Application.Current.Resources["UrlAPI"].ToString();
@@ -850,17 +1211,25 @@
 
             trabajo = (T_trabajos)response.Result;
             
+            var color = Color.DarkBlue;
+            int red = (int)(color.R * 255);
+            int green = (int)(color.G * 255);
+            int blue = (int)(color.B * 255);
+            string hex = String.Format("#{0:X2}{1:X2}{2:X2}", red, green, blue);
+            var newEndDate = SelectedTime.AddMinutes(this.feature.Tiempo);
+
             var cita = new T_trabajocitas
             {
                 Id_Trabajo = trabajo.Id_Trabajo,
                 Id_Cliente = this.cliente.Id_Cliente,
                 Id_Tatuador = this.tecnico.Id_Tecnico,
-                F_Inicio = this.newCita.F_Inicio,
-                F_Fin = this.newCita.F_Fin,
-                H_Inicio = this.newCita.H_Inicio,
-                H_Fin = this.newCita.H_Fin,
+                F_Inicio = new DateTime(SelectedTime.Year, SelectedTime.Month, SelectedTime.Day, SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second),
+                H_Inicio = new TimeSpan(SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second),
+                F_Fin = new DateTime(newEndDate.Year, newEndDate.Month, newEndDate.Day, newEndDate.Hour, newEndDate.Minute, newEndDate.Second),
+                H_Fin = new TimeSpan(newEndDate.Hour, newEndDate.Minute, newEndDate.Second),
                 Asunto = this.subject,
                 Completa = false,
+                ColorText = hex,
             };
 
             controller = Application.Current.Resources["UrlT_trabajocitasController"].ToString();
@@ -880,58 +1249,48 @@
 
             cita = (T_trabajocitas)response.Result;
 
-            if (newCita != null)
+            this.TrabajoNotaList = MainViewModel.GetInstance().UserMessageJob.TrabajoNotaListtemp;
+            var budgetNote = this.TrabajoNotaList.Where(n => n.Id_Notatemp == MainViewModel.GetInstance().UserMessageJob.notaSelected.Id_Notatemp).FirstOrDefault();
+            if(budgetNote != null)
             {
-                MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
-                this.newCita = null;
-                this.LoadCitas();
+                this.TrabajoNotaList.Remove(budgetNote);
             }
 
-            var nombre_Post = $"{this.cliente.Nombre} {this.cliente.Apellido}";
-            var nota = new T_trabajonota
+            foreach(var notaTemp in this.TrabajoNotaList)
             {
-                Id_Trabajo = trabajo.Id_Trabajo,
-                Tipo_Usuario = 1,
-                Id_Usuario = this.cliente.Id_Usuario,
-                Id_Local = this.tecnico.Id_Local,
-                Id_Cita = cita.Id_Cita,
-                Nota = this.DescribeArt,
-                Nombre_Post = nombre_Post,
-            };
+                var nota = new T_trabajonota
+                {
+                    Id_Trabajo = trabajo.Id_Trabajo,
+                    Tipo_Usuario = notaTemp.Tipo_Usuario,
+                    Id_Usuario = notaTemp.Id_Usuario,
+                    Id_Local = notaTemp.Id_Local,
+                    Id_Cita = cita.Id_Cita,
+                    Nota = notaTemp.Nota,
+                    Nombre_Post = notaTemp.Nombre_Post,
+                    F_nota = notaTemp.F_nota,
+                    Cambio_Fecha = false,
+                };
 
-            controller = Application.Current.Resources["UrlT_trabajonotaController"].ToString();
+                controller = Application.Current.Resources["UrlT_trabajonotaController"].ToString();
 
-            response = await this.apiService.Post(urlApi, prefix, controller, nota);
+                response = await this.apiService.Post(urlApi, prefix, controller, nota);
 
-            if (!response.IsSuccess)
-            {
-                this.apiService.EndActivityPopup();
+                if (!response.IsSuccess)
+                {
+                    this.apiService.EndActivityPopup();
 
-                await Application.Current.MainPage.DisplayAlert(
-                Languages.Error,
-                response.Message,
-                "OK");
-                return;
-            }
-            nota = (T_trabajonota)response.Result;
-
-            byte[] ByteImage = null;
-            if (this.file == null)
-            {
-                this.apiService.EndActivityPopup();
-                await Application.Current.MainPage.DisplayAlert(
+                    await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
-                    Languages.ExampleImageError,
-                    "Ok");
-                return;
+                    response.Message,
+                    "OK");
+                    return;
+                }
             }
-            ByteImage = FileHelper.ReadFully(this.file.GetStream());
-
+            this.TrabajoNotaList.Add(budgetNote);
             var notaImagen = new T_citaimagenes
             {
-                Imagen = ByteImage,
+                Imagen = trabajoTemp.Imagen,
                 Id_Trabajo = trabajo.Id_Trabajo,
-
             };
             controller = Application.Current.Resources["UrlT_citaimagenesController"].ToString();
 
@@ -947,11 +1306,78 @@
                 "OK");
                 return;
             }
+
+            var oldTrabajo = MainViewModel.GetInstance().UserMessages.TrabajosList.Where(t => t.Id_Trabajotemp == trabajoTemp.Id_Trabajotemp).FirstOrDefault();
+
+            controller = Application.Current.Resources["UrlT_trabajostempController"].ToString();
+
+            response = await this.apiService.Delete(urlApi, prefix, controller, oldTrabajo.Id_Trabajotemp);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            if (oldTrabajo != null)
+            {
+                MainViewModel.GetInstance().UserMessages.TrabajosList.Remove(oldTrabajo);
+            }
+
+            foreach (var notatemp in this.TrabajoNotaList)
+            {
+                var oldNotatemp = MainViewModel.GetInstance().UserMessages.TrabajoNotaList.Where(t => t.Id_Notatemp == notatemp.Id_Notatemp).FirstOrDefault();
+                controller = Application.Current.Resources["UrlT_trabajonotatempController"].ToString();
+
+                response = await this.apiService.Delete(urlApi, prefix, controller, oldNotatemp.Id_Notatemp);
+
+                if (!response.IsSuccess)
+                {
+                    this.apiService.EndActivityPopup();
+                    await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                    return;
+                }
+                if (oldNotatemp != null)
+                {
+                    MainViewModel.GetInstance().UserMessages.TrabajoNotaList.Remove(oldNotatemp);
+                }
+
+            }
+            var oldNotaImagentemp = MainViewModel.GetInstance().UserMessages.ImagesList.Where(t => t.Id_Trabajotemp == trabajoTemp.Id_Trabajotemp).FirstOrDefault();
+            
+            controller = Application.Current.Resources["UrlT_citaimagenestempController"].ToString();
+
+            response = await this.apiService.Delete(urlApi, prefix, controller, oldNotaImagentemp.Id_Imagentemp);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            if (oldNotaImagentemp != null)
+            {
+                MainViewModel.GetInstance().UserMessages.ImagesList.Remove(oldNotaImagentemp);
+            }
+
+            if (newCita != null)
+            {
+                MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
+                this.newCita = null;
+                this.LoadCitas();
+            }
+
             MainViewModel.GetInstance().UserHome.CitaList.Add(cita);
             MainViewModel.GetInstance().UserHome.RefreshCitaList();
-
-            await Application.Current.MainPage.Navigation.PopModalAsync();
-            this.apiService.EndActivityPopup();
 
             string date = DateTime.Parse(cita.F_Inicio.ToString()).ToString("dd-MMM-yyyy");
             string time = DateTime.Parse(cita.H_Inicio.ToString()).ToString("hh:mm tt");
@@ -959,11 +1385,122 @@
             var message = $"{Languages.YourAppointment} #{trabajo.Id_Trabajo} {Languages.HasBeenCreated}  {date}  {Languages.At}  {time} " +
                 $" {Languages.WithThe_Artist}  {this.tecnico.Nombre} '{this.tecnico.Apodo}' {this.tecnico.Apellido}.{'\n'}{'\n'} {Languages.TryToBe}.";
 
+            this.apiService.EndActivityPopup();
+
             await Application.Current.MainPage.DisplayAlert
                 (Languages.Notice,
                 message,
                 "Ok"
                 );
+
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+        }
+        private async void ChangeDate()
+        {
+            this.apiService.StartActivityPopup();
+
+            var cita = MainViewModel.GetInstance().TecnicoViewDate.cita;
+
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+
+            var nuevafecha = new T_nuevafecha
+            {
+                Id_Cita = cita.Id_Cita,
+                Nueva_Fecha = new DateTime(SelectedTime.Year, SelectedTime.Month, SelectedTime.Day, SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second),
+            };
+
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_nuevafechaController"].ToString();
+
+            var response = await this.apiService.Post(urlApi, prefix, controller, nuevafecha);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            if (newCita != null)
+            {
+                MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
+                this.newCita = null;
+                this.LoadCitas();
+            }
+            
+            this.apiService.EndActivityPopup();
+
+            string date = DateTime.Parse(nuevafecha.Nueva_Fecha.ToString()).ToString("dd-MMM-yyyy").ToUpper();
+            string time = DateTime.Parse(nuevafecha.Nueva_Fecha.ToString()).ToString("hh:mm tt").ToUpper();
+
+            var message = $"{Languages.TheDateChanged} #{cita.Id_Cita} {Languages.WillBeChanged}  {date}  {Languages.To}  {time}  {Languages.CustomerAccept}.";
+
+            await Application.Current.MainPage.DisplayAlert
+                (Languages.Notice,
+                message,
+                "Ok"
+                );
+
+            MainViewModel.GetInstance().TecnicoViewDate.SendMessage();
+
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+        }
+        private void LoadInfoLocal()
+        {
+            this.ciudad = MainViewModel.GetInstance().UserHome.CiudadesList.Single(c => c.Id == this.local.Id_Ciudad);
+            this.estado = MainViewModel.GetInstance().UserHome.EstadosList.Single(e => e.Id == this.local.Id_Estado);
+
+            this.reference = $"{Languages.Reference} {this.local.Referencia}";
+            this.studio = $"{this.empresa.Nombre} {Languages.BranchOffice} {this.local.Nombre}";
+            this.address = $"{this.local.Calle} {this.local.Numero}, {this.postal.Asentamiento} {this.postal.Colonia}, " +
+                $"C.P. {this.postal.Id.ToString()}, {this.ciudad.Ciudad}, {this.estado.Estado}.";
+            this.artist = $"{this.tecnico.Nombre} {this.tecnico.Apellido}";
+        }
+        private async void LoadPostal()
+        {
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+            var urlApi = App.Current.Resources["UrlAPI"].ToString();
+            var prefix = App.Current.Resources["UrlPrefix"].ToString();
+
+            //-----------------Cargar Datos Postal-----------------//
+
+            var controller = Application.Current.Resources["UrlT_postalController"].ToString();
+
+            var response = await this.apiService.Get<T_postal>(urlApi, prefix, controller, this.local.Id_Colonia);
+
+            if (!response.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+            this.postal = (T_postal)response.Result;
         }
 
         private async void GoToNextPopupPage()
@@ -988,24 +1525,26 @@
 
                 case "Type":
 
+                    await Application.Current.MainPage.Navigation.PopPopupAsync();
+                    this.empresa = MainViewModel.GetInstance().UserHome.EmpresaList.Single(e => e.Id_Empresa == this.tecnico.Id_Empresa);
+                    this.local = MainViewModel.GetInstance().UserHome.LocalesList.Single(l => l.Id_Local == this.tecnico.Id_Local);
+                    this.LoadPostal();
                     if (this.typeAppointment == true)
                     {
-                        await Application.Current.MainPage.Navigation.PopPopupAsync();
                         this.thisPage = "Feature";
                         this.smallChecked = true;
                         this.easyChecked = true;
+                        this.IsVisible = false;
+                        this.IsVisible2 = true;
                         await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentFeaturesPopupPage());
+
                         break;
                     }
                     else
                     {
-                        await Application.Current.MainPage.Navigation.PopPopupAsync();
-                        if (this.typeAppointment == false)
-                        {
-                            this.IsVisible = true;
-                        }
+                        this.IsVisible = true;
+                        this.IsVisible2 = false;
                         this.thisPage = "Description";
-
                         this.subject = $"{Languages.Tattoo} {this.cliente.Nombre} {this.cliente.Apellido}, {Languages.Personalized}";
                         await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentDescriptionPopupPage());
                         break;
@@ -1021,12 +1560,20 @@
                 case "Calendar":
 
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
+                    if (this.PresupuestoPage == true)
+                    {
+                        this.empresa = MainViewModel.GetInstance().UserHome.EmpresaList.Single(e => e.Id_Empresa == this.tecnico.Id_Empresa);
+                        this.local = MainViewModel.GetInstance().UserHome.LocalesList.Single(l => l.Id_Local == this.tecnico.Id_Local);
+                        this.LoadPostal();
+                        this.HeightWidth = $"{Languages.MaximunSize}: {this.feature.Alto} cm X {this.feature.Ancho} cm";
+                    }
                     this.LoadCitas();
                     this.LoadHorarios();
                     this.SelectedDate = this.selectedDate.AddHours(8);
                     this.thisPage = "Time";
                     await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentTimePopupPage());
                     break;
+
 
                 case "Time":
                     if (this.newCita == null)
@@ -1037,17 +1584,41 @@
                         "Ok");
                         break;
                     }
+                    if(this.PresupuestoPage == true)
+                    {
+                        await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        this.LoadInfoLocal();
+                        this.thisPage = "Details";
+                        await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentDetailsPopupPage());
+                        break;
+                    }
+                    if (this.changeDate == true)
+                    {
+                        await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        this.ChangeDate();
+                        break;
+                    }
+
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
                     this.thisPage = "Description";
                     await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentDescriptionPopupPage());
                     break;
 
                 case "Description":
+                    
                     if (string.IsNullOrEmpty(this.describeArt))
                     {
                         await Application.Current.MainPage.DisplayAlert(
                         Languages.Error,
                         Languages.DescribeArtError,
+                        "Ok");
+                        break;
+                    }
+                    if (this.ArtImageSource == null || this.file == null)
+                    {
+                        await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        Languages.ArtError,
                         "Ok");
                         break;
                     }
@@ -1061,26 +1632,28 @@
                             "Ok");
                             break;
                         }
+
+                        await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        this.SavePersonal();
+                        break;
                     }
+
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
+                    this.LoadInfoLocal();
                     this.thisPage = "Details";
                     await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentDetailsPopupPage());
                     break;
 
                 case "Details":
-
-                    if (this.typeAppointment == true)
+                    if(this.PresupuestoPage == true)
                     {
-                        this.SaveQuickDate();
                         await Application.Current.MainPage.Navigation.PopPopupAsync();
-                        break;
-                    }
-                    else
-                    {
                         this.SavePersonalDate();
-                        await Application.Current.MainPage.Navigation.PopPopupAsync();
                         break;
                     }
+                    await Application.Current.MainPage.Navigation.PopPopupAsync();
+                    this.SaveQuickDate();
+                    break;
             }
         }
         private async void Cancel()
@@ -1095,7 +1668,13 @@
                     break;
 
                 case "Type":
-
+                    if(!fromTecnitoPage == false)
+                    {
+                        this.tecnico = null;
+                        await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        this.thisPage = null;
+                        break;
+                    }
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
                     this.thisPage = "Search";
                     await Application.Current.MainPage.Navigation.PushPopupAsync(new SearchTecnicoPopupPage());
@@ -1109,7 +1688,17 @@
                     break;
 
                 case "Calendar":
-
+                    if(this.PresupuestoPage==true)
+                    {
+                        await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        MainViewModel.GetInstance().UserMessageJob.LoadBudget();
+                        break;
+                    }
+                    if (this.changeDate == true)
+                    {
+                        await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        break;
+                    }
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
                     this.thisPage = "Feature";
                     await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentFeaturesPopupPage());
@@ -1123,8 +1712,10 @@
                         MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
                         this.LoadCitas();
                     }
+                    this.newCita = null;
                     this.CitaList = null;
                     this.thisPage = "Calendar";
+                    this.selectedTime = DateTime.Now;
                     this.SelectedDate = DateTime.Now;
                     await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentCalendarPopupPage());
                     break;
@@ -1154,7 +1745,13 @@
                     }
 
                 case "Details":
-
+                    if(this.PresupuestoPage == true)
+                    {
+                        await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        this.thisPage = "Time";
+                        await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentTimePopupPage());
+                        break;
+                    }
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
                     this.thisPage = "Description";
                     await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentDescriptionPopupPage());

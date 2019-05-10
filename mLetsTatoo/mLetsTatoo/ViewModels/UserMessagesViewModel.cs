@@ -126,6 +126,7 @@
                 Total_Aprox = t.Total_Aprox,
                 Alto = t.Alto,
                 Ancho = t.Ancho,
+                Tiempo = t.Tiempo,
 
                 Nota = this.TrabajoNotaList.LastOrDefault(n => n.Id_Trabajotemp == t.Id_Trabajotemp).Nota,
                 F_nota = this.TrabajoNotaList.LastOrDefault(n => n.Id_Trabajotemp == t.Id_Trabajotemp).F_nota,

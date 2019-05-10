@@ -10,21 +10,12 @@
     using Xamarin.Forms;
     using Xamarin.Forms.Xaml;
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AppointmentDescriptionPopupPage : PopupPage
+	public partial class ChangeDatePopupPage : PopupPage
     {
         #region Constructors
-        public AppointmentDescriptionPopupPage()
+        public ChangeDatePopupPage()
         {
             InitializeComponent();
-
-            if (MainViewModel.GetInstance().NewAppointmentPopup.typeAppointment == true)
-            {
-                this.Next.Source = "Next.png";
-            }
-            else
-            {
-                this.Next.Source = "Check.png";
-            }
         }
         #endregion
 

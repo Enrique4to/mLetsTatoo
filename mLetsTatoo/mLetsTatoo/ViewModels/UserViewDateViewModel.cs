@@ -35,10 +35,11 @@
         private string subTotal;
         private string advance;
         private string total;
+        public string hourStart;
+        public string dateStart;
 
-        private DateTime appointmentDate;
-        private TimeSpan appointmentTime;
-
+        private DateTime Date;
+        
         private T_trabajocitas cita;
         public T_usuarios user;
         private ClientesCollection cliente;
@@ -49,6 +50,7 @@
         private T_estado estado;
         private T_ciudad ciudad;
         private T_postal postal;
+        private T_nuevafecha nuevaFecha;
         public TrabajoNotaCollection notaSelected;
         public T_citaimagenes image;
 
@@ -102,20 +104,15 @@
             get { return this.total; }
             set { SetValue(ref this.total, value); }
         }
-
-        public DateTime MinDate { get; set; }
-        public DateTime AppointmentDate
+        public string HourStart
         {
-            get { return this.appointmentDate; }
-            set { SetValue(ref this.appointmentDate, value); }
+            get { return this.hourStart; }
+            set { SetValue(ref this.hourStart, value); }
         }
-        public TimeSpan AppointmentTime
+        public string DateStart
         {
-            get { return this.appointmentTime; }
-            set
-            {
-                SetValue(ref this.appointmentTime, value);
-            }
+            get { return this.dateStart; }
+            set { SetValue(ref this.dateStart, value); }
         }
 
         public List<T_trabajonota> NotaList { get; set; }
@@ -129,6 +126,11 @@
         {
             get { return this.image; }
             set { SetValue(ref this.image, value); }
+        }
+        public T_trabajos Trabajo
+        {
+            get { return this.trabajo; }
+            set { SetValue(ref this.trabajo, value); }
         }
 
         public ObservableCollection<NotasItemViewModel> Notas
@@ -146,14 +148,22 @@
             this.user = user;
             this.cliente = cliente;
             this.apiService = new ApiService();
-            this.AppointmentDate = this.cita.F_Inicio;
-            this.AppointmentTime = this.cita.H_Inicio;
-            this.MinDate = DateTime.Now.ToLocalTime();
             Task.Run(async () => { await this.LoadInfo(); }).Wait();
             Task.Run(async () => { await this.LoadNotas(); }).Wait();
-            IsButtonEnabled = false;
-            IsVisible = false;
+            this.IsButtonEnabled = false;
+            this.IsVisible = false;
             this.IsRefreshing = false;
+            this.Date = new DateTime
+            (
+                this.cita.F_Inicio.Year,
+                this.cita.F_Inicio.Month,
+                this.cita.F_Inicio.Day,
+                this.cita.H_Inicio.Hours,
+                this.cita.H_Inicio.Minutes, 0
+            );
+
+            this.DateStart = this.Date.ToString("dd MMM yyyy");
+            this.HourStart = this.Date.ToString("h:mm tt");
         }
         #endregion
 
@@ -189,6 +199,29 @@
                 return new RelayCommand(RefreshListNotas);
             }
         }
+        public ICommand AcceptDateCommand
+        {
+            get
+            {
+                return new RelayCommand(ChangeDate);
+            }
+        }
+        public ICommand CancelCommand
+        {
+            get
+            {
+                return new RelayCommand(Cancel);
+            }
+        }
+        public ICommand CancelDateCommand
+        {
+            get
+            {
+                return new RelayCommand(CancelDate);
+            }
+        }
+
+
         #endregion
 
         #region Methods
@@ -220,7 +253,7 @@
             }
             this.trabajo = (T_trabajos)response.Result;
 
-            this.subTotal = $"{Languages.SubTotal} {this.trabajo.Total_Aprox.ToString("C2")}";
+            this.subTotal = $"{Languages.Total}: {this.trabajo.Total_Aprox.ToString("C2")}";
             this.advance = $"{Languages.Advance} {this.trabajo.Costo_Cita.ToString("C2")}";
             var tot = this.trabajo.Total_Aprox - this.trabajo.Costo_Cita;
             this.total = $"{Languages.Remaining} {tot.ToString("C2")}";
@@ -351,11 +384,16 @@
                 return;
             }
             this.image = (T_citaimagenes)response.Result;
+
+            //------------------------Cargar Datos de Cambios de Fecha ------------------------//
+            if (MainViewModel.GetInstance().UserHome.NuevaFechaList.Any(n => n.Id_Cita == this.cita.Id_Cita))
+            {
+                this.nuevaFecha = MainViewModel.GetInstance().UserHome.NuevaFechaList.Single(n => n.Id_Cita == this.cita.Id_Cita);
+            }
         }
         public async Task LoadNotas()
         {
 
-            this.IsRefreshing = true;
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
@@ -389,7 +427,6 @@
 
             this.IsRefreshing = false;
         }
-
         public void RefreshListNotas()
         {
             var userList = MainViewModel.GetInstance().Login.ListUsuarios;
@@ -404,11 +441,219 @@
                 Id_Nota = c.Id_Nota,
                 Nota = c.Nota,
                 Nombre_Post = c.Nombre_Post,
-                F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == c.Id_Usuario).F_Perfil
+                Cambio_Fecha = c.Cambio_Fecha,
+                F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == c.Id_Usuario).F_Perfil,                
 
             }).Where(c => c.Id_Cita == this.cita.Id_Cita).ToList();
 
             this.Notas = new ObservableCollection<NotasItemViewModel>(nota.OrderByDescending(c => c.F_nota));
+        }
+        public async void ChangeDate()
+        {
+            await Application.Current.MainPage.Navigation.PopPopupAsync();
+
+            this.apiService.StartActivityPopup();
+
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+
+            var newEndDate = nuevaFecha.Nueva_Fecha.AddMinutes(this.trabajo.Tiempo);
+            var newCita = new T_trabajocitas
+            {
+                Id_Cita = this.cita.Id_Cita,
+                Id_Trabajo = this.cita.Id_Trabajo,
+                Id_Cliente = this.cita.Id_Cliente,
+                Id_Tatuador = this.cita.Id_Tatuador,
+
+                F_Inicio = new DateTime
+                (
+                    nuevaFecha.Nueva_Fecha.Year, 
+                    nuevaFecha.Nueva_Fecha.Month, 
+                    nuevaFecha.Nueva_Fecha.Day, 
+                    nuevaFecha.Nueva_Fecha.Hour, 
+                    nuevaFecha.Nueva_Fecha.Minute, 
+                    nuevaFecha.Nueva_Fecha.Second
+                ),
+
+                H_Inicio = new TimeSpan
+                (
+                    nuevaFecha.Nueva_Fecha.Hour,
+                    nuevaFecha.Nueva_Fecha.Minute,
+                    nuevaFecha.Nueva_Fecha.Second
+                ),
+
+                F_Fin = new DateTime
+                (
+                    newEndDate.Year, 
+                    newEndDate.Month, 
+                    newEndDate.Day, 
+                    newEndDate.Hour, 
+                    newEndDate.Minute, 
+                    newEndDate.Second
+                ),
+
+                H_Fin = new TimeSpan
+                (
+                    newEndDate.Hour,
+                    newEndDate.Minute,
+                    newEndDate.Second
+                ),
+
+                Asunto = this.cita.Asunto,
+                Completa = this.cita.Completa,
+                ColorText = this.cita.ColorText,
+            };
+
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_trabajocitasController"].ToString();
+
+            var response = await this.apiService.Put(urlApi, prefix, controller, newCita,this.cita.Id_Cita);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            var citaAccepted = (T_trabajocitas)response.Result;
+
+            var oldNuevaFecha = MainViewModel.GetInstance().UserHome.NuevaFechaList.Where(t => t.Id_Cita == this.cita.Id_Cita).FirstOrDefault();
+
+            controller = Application.Current.Resources["UrlT_nuevafechaController"].ToString();
+
+            response = await this.apiService.Delete(urlApi, prefix, controller, oldNuevaFecha.Id_Cita);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRefreshing = false;
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            if (oldNuevaFecha != null)
+            {
+                MainViewModel.GetInstance().UserHome.NuevaFechaList.Remove(oldNuevaFecha);
+            }
+
+            var oldnota = this.NotaList.Where(t => t.Id_Cita == this.cita.Id_Cita && t.Cambio_Fecha == true).FirstOrDefault();
+            controller = Application.Current.Resources["UrlT_trabajonotaController"].ToString();
+
+            response = await this.apiService.Delete(urlApi, prefix, controller, oldnota.Id_Nota);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRefreshing = false;
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            if (oldnota != null)
+            {
+                this.NotaList.Remove(oldnota);
+            }
+
+            var oldCita = MainViewModel.GetInstance().UserHome.CitaList.Where(c => c.Id_Cita == this.cita.Id_Cita).FirstOrDefault();
+
+            if (oldCita != null)
+            {                
+                MainViewModel.GetInstance().UserHome.CitaList.Remove(oldCita);
+            }
+
+            MainViewModel.GetInstance().UserHome.CitaList.Add(citaAccepted);
+            MainViewModel.GetInstance().UserHome.RefreshCitaList();
+
+            this.apiService.EndActivityPopup();
+
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+        }
+        private async void Cancel()
+        {
+            await Application.Current.MainPage.Navigation.PopPopupAsync();
+        }
+        private async void CancelDate()
+        {
+            await Application.Current.MainPage.Navigation.PopPopupAsync();
+
+            this.apiService.StartActivityPopup();
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+            var newTrabajo = new T_trabajos
+            {
+                Alto = this.trabajo.Alto,
+                Ancho = this.trabajo.Ancho,
+                Asunto = this.trabajo.Asunto,
+                Cancelado = true,
+                Completo = this.trabajo.Completo,
+                Costo_Cita = this.trabajo.Costo_Cita,
+                Id_Caract = this.trabajo.Id_Caract,
+                Id_Cliente = this.trabajo.Id_Cliente,
+                Id_Tatuador = this.trabajo.Id_Tatuador,
+                Id_Trabajo = this.trabajo.Id_Trabajo,
+                Tiempo = this.trabajo.Tiempo,
+                Total_Aprox = this.trabajo.Total_Aprox,
+            };
+
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_trabajosController"].ToString();
+
+            var response = await this.apiService.Put(urlApi, prefix, controller, newTrabajo, this.trabajo.Id_Trabajo);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            var newAddedTrabajo = (T_trabajos)response.Result;
+
+            var oldTrabajo = MainViewModel.GetInstance().UserHome.TrabajosList.Where(c => c.Id_Trabajo == this.cita.Id_Trabajo).FirstOrDefault();
+
+            if (oldTrabajo != null)
+            {
+                MainViewModel.GetInstance().UserHome.TrabajosList.Remove(oldTrabajo);
+            }
+
+            MainViewModel.GetInstance().UserHome.TrabajosList.Add(newAddedTrabajo);
+
+            MainViewModel.GetInstance().UserHome.RefreshCitaList();
+
+            this.apiService.EndActivityPopup();
+
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+
         }
         public void GoToAddCommandPopup()
         {

@@ -78,7 +78,7 @@
                         VerticalTextAlignment="Start"/>
                 </StackLayout>
             </Grid>
-            <StackLayout
+            <!--<StackLayout
                 HorizontalOptions="EndAndExpand"
                 Orientation="Horizontal">
                 <Image
@@ -107,7 +107,7 @@
                         <TapGestureRecognizer Command="{Binding DeleteCommentCommand}"/>
                     </Image.GestureRecognizers>
                 </Image>
-            </StackLayout>
+            </StackLayout>-->
             <ListView                    
                 HasUnevenRows="True"
                 IsPullToRefreshEnabled="True"
@@ -123,9 +123,9 @@
                             <StackLayout
                                 Padding="0,2,0,4">
                                 <Grid>
-                                    <!--<Grid.GestureRecognizers>
+                                    <Grid.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding SelectedNotaCommand}" Tapped="OnGridSelect"/>
-                                    </Grid.GestureRecognizers>-->
+                                    </Grid.GestureRecognizers>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="Auto"/>

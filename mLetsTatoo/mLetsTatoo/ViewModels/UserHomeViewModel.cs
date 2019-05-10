@@ -10,6 +10,7 @@
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Helpers;
+    using mLetsTatoo.CustomPages;
     using mLetsTatoo.Popups.ViewModel;
     using mLetsTatoo.Popups.Views;
     using Models;
@@ -66,12 +67,17 @@
         public string NomUsuario { get; set; }
 
         public List<T_empresas> EmpresaList { get; set; }
-        public List<T_tecnicos> TecnicoList { get; set; }
+        public List<TecnicosCollection> TecnicoList { get; set; }
         public List<T_trabajocitas> CitaList { get; set; }
         public List<T_trabajocitas> CteCitaList { get; set; }
-        public List<T_teccaract> ListFeature { get; set; }
+        public List<T_teccaract> FeaturesList { get; set; }
+        public List<T_trabajos> TrabajosList { get; set; }
+        public List<T_locales> LocalesList { get; set; }
+        public List<T_ciudad> CiudadesList { get; set; }
+        public List<T_estado> EstadosList { get; set; }
         public List<T_tecnicohorarios> ListHorariosTecnicos { get; set; }
         public List<EmpresasCollection> EmpresaUserList { get; set; }
+        public List<T_nuevafecha> NuevaFechaList { get; set; }
 
         public T_usuarios User
         {
@@ -145,17 +151,11 @@
             this.cliente = cliente;
             this.NomUsuario = user.Usuario;
             this.apiService = new ApiService();
-            this.LoadCliente();
-            this.LoadEmpresas();
-            this.LoadTecnicos();
-            this.LoadCitas();
-            this.LoadFeatures();
-            this.LoadHorariosTecnicos();
+            this.LoadLists();
 
             this.IsRefreshing = false;
             this.TipoBusqueda = "All";
 
-            this.apiService.EndActivityPopup();
         }
 
         #endregion
@@ -199,44 +199,27 @@
         #endregion
 
         #region Methods
-        private void LoadCliente()
+        private void LoadLists()
         {
             MainViewModel.GetInstance().UserPage = new UserViewModel(this.user, this.cliente);
-        }
-        private async void LoadEmpresas()
-        {
-            var connection = await this.apiService.CheckConnection();
-            if (!connection.IsSuccess)
-            {
-                this.apiService.EndActivityPopup();
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    connection.Message,
-                    "OK");
-                return;
-            }
 
-            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
-            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
-            var controller = Application.Current.Resources["UrlT_empresasController"].ToString();
+            this.NuevaFechaList = MainViewModel.GetInstance().Login.NuevaFechaList;
+            this.CitaList = MainViewModel.GetInstance().Login.CitaList;
+            this.LocalesList = MainViewModel.GetInstance().Login.LocalesList;
+            this.EstadosList = MainViewModel.GetInstance().Login.EstadosList;
+            this.CiudadesList = MainViewModel.GetInstance().Login.CiudadesList;
+            this.FeaturesList = MainViewModel.GetInstance().Login.FeaturesList;
+            this.ListHorariosTecnicos = MainViewModel.GetInstance().Login.ListHorariosTecnicos;
 
-            var response = await this.apiService.GetList<T_empresas>(urlApi, prefix, controller);
-
-            if (!response.IsSuccess)
-            {
-                this.apiService.EndActivityPopup();
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-
-            this.EmpresaList = (List<T_empresas>)response.Result;
             this.RefreshEmpresaList();
+            this.RefreshTecnicoList();
+            this.RefreshCitaList();
+
+            this.apiService.EndActivityPopup();
         }
         public void RefreshEmpresaList()
         {
+            this.EmpresaList = MainViewModel.GetInstance().Login.EmpresaList;
             var userList = MainViewModel.GetInstance().Login.ListUsuarios;
             if (string.IsNullOrEmpty(this.filterEmpresa))
             {
@@ -268,44 +251,11 @@
                 empresaSelected.OrderBy(e => e.Nombre));
             }
         }
-        private async void LoadTecnicos()
-        {
-
-            var connection = await this.apiService.CheckConnection();
-            if (!connection.IsSuccess)
-            {
-                this.apiService.EndActivityPopup();
-                await App.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    connection.Message,
-                    "OK");
-                return;
-
-            }
-
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_tecnicosController"].ToString();
-
-            var response = await this.apiService.GetList<T_tecnicos>(urlApi, prefix, controller);
-            if (!response.IsSuccess)
-            {
-                this.IsRefreshing = false;
-                await App.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-            this.TecnicoList = (List<T_tecnicos>)response.Result;
-            var userList = MainViewModel.GetInstance().Login.ListUsuarios;
-            this.TecnicoList = this.TecnicoList.Where(t => userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)).ToList();
-
-            this.RefreshTecnicoList();
-        }
         public void RefreshTecnicoList()
         {
+            this.TecnicoList = MainViewModel.GetInstance().Login.TecnicoList;
             var userList = MainViewModel.GetInstance().Login.ListUsuarios;
+            this.TecnicoList = this.TecnicoList.Where(t => userList.Any(u => t.Id_Usuario == u.Id_usuario && u.Confirmado == true && u.Bloqueo == false)).ToList();
             if (string.IsNullOrEmpty(this.filterTecnico))
             {
 
@@ -345,41 +295,9 @@
                 this.Tecnicos = new ObservableCollection<TecnicoItemViewModel>(tecnico.OrderBy(t => t.Apodo));
             }
         }
-        private async void LoadCitas()
-        {
-            var connection = await this.apiService.CheckConnection();
-            if (!connection.IsSuccess)
-            {
-                this.apiService.EndActivityPopup();
-                await App.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    connection.Message,
-                    "OK");
-                return;
-
-            }
-
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_trabajocitasController"].ToString();
-
-            var response = await this.apiService.GetList<T_trabajocitas>(urlApi, prefix, controller);
-            if (!response.IsSuccess)
-            {
-                this.apiService.EndActivityPopup();
-                await App.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-            this.CitaList = (List<T_trabajocitas>)response.Result;
-            this.CteCitaList = this.CitaList.Where(c => c.Id_Cliente == this.cliente.Id_Cliente).ToList();
-
-            this.RefreshCitaList();
-        }
         public void RefreshCitaList()
         {
+            this.CteCitaList = this.CitaList.Where(c => c.Id_Cliente == this.cliente.Id_Cliente).ToList();
             var cita = this.CteCitaList.Select(c => new CitasItemViewModel
             {
                 Id_Cita = c.Id_Cita,
@@ -392,66 +310,15 @@
                 H_Fin = c.H_Fin,
                 Asunto = c.Asunto,
                 Completa = c.Completa,
+                ColorText = c.ColorText,
+                Color = Color.FromHex(c.ColorText),
+                Completado = this.TrabajosList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Completo,
+                Cancelado = this.TrabajosList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Cancelado,
 
-            }).Where(c => c.Completa == false).ToList();
+            }).Where(c => c.Completa == false && c.Cancelado == false).ToList();
 
             this.Citas = new ObservableCollection<CitasItemViewModel>(cita.OrderByDescending(c => c.F_Inicio));
-        }
-        private async void LoadFeatures()
-        {
-            var connection = await this.apiService.CheckConnection();
-            if (!connection.IsSuccess)
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    connection.Message,
-                    "OK");
-                return;
-            }
-
-            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
-            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
-            var controller = Application.Current.Resources["UrlT_teccaractController"].ToString();
-
-            var response = await this.apiService.GetList<T_teccaract>(urlApi, prefix, controller);
-            if (!response.IsSuccess)
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-
-            this.ListFeature = (List<T_teccaract>)response.Result;
-        }
-        private async void LoadHorariosTecnicos()
-        {
-            var connection = await this.apiService.CheckConnection();
-            if (!connection.IsSuccess)
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    connection.Message,
-                    "OK");
-                return;
-            }
-
-            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
-            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
-            var controller = Application.Current.Resources["UrlT_tecnicohorariosController"].ToString();
-
-            var response = await this.apiService.GetList<T_tecnicohorarios>(urlApi, prefix, controller);
-            if (!response.IsSuccess)
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-
-            this.ListHorariosTecnicos = (List<T_tecnicohorarios>)response.Result;
+            IsRefreshing = false;
         }
 
         public void Busqueda()
@@ -476,6 +343,7 @@
         private async void GoToCitasPage()
         {
             MainViewModel.GetInstance().NewAppointmentPopup= new NewAppointmentPopupViewModel(this.cliente);
+            MainViewModel.GetInstance().NewAppointmentPopup.fromTecnitoPage = false;
             MainViewModel.GetInstance().NewAppointmentPopup.thisPage = "Search";
             await Application.Current.MainPage.Navigation.PushPopupAsync(new SearchTecnicoPopupPage());
         }
@@ -485,8 +353,6 @@
 
             MainViewModel.GetInstance().UserMessages = new UserMessagesViewModel(this.user, this.cliente);
             await Application.Current.MainPage.Navigation.PushModalAsync(new UserMessagesPage());
-
-            //this.apiService.EndActivityPopup();
         }
         #endregion
     }

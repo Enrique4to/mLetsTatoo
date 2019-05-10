@@ -106,7 +106,8 @@
                             Margin="2"
                             Source="Next.png"
                             VerticalOptions="CenterAndExpand"
-                            WidthRequest="20"/>
+                            WidthRequest="20"
+                            x:Name="Next"/>
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding NextCommand}"/>
                         </Frame.GestureRecognizers>

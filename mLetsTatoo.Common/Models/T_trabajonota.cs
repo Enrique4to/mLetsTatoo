@@ -23,6 +23,7 @@
         public int Id_Cita { get; set; }
         [Required]
         public string Nombre_Post { get; set; }
+        public bool Cambio_Fecha { get; set; }
 
     }
 }

@@ -202,7 +202,7 @@
             }
         }
 
-        public List<T_teccaract> ListFeature { get; set; }
+        public List<T_teccaract> FeaturesList { get; set; }
         public List<T_trabajos> ListJob { get; set; }
         #endregion
 
@@ -642,53 +642,53 @@
             }
             var list = (List<T_teccaract>)response.Result;
 
-            this.ListFeature = list.Where(f => f.Id_Tecnico == this.tecnico.Id_Tecnico).ToList();
+            this.FeaturesList = list.Where(f => f.Id_Tecnico == this.tecnico.Id_Tecnico).ToList();
 
             if (smallChecked == true && easyChecked == true)
             {
-                this.feature = this.ListFeature.Single(f => f.Caract == "SmallEasy");
+                this.feature = this.FeaturesList.Single(f => f.Caract == "SmallEasy");
                 this.complexity = Languages.Easy;
             }
             else if (smallChecked == true && mediumComplexityChecked == true)
             {
-                this.feature = this.ListFeature.Single(f => f.Caract == "SmallMedium");
+                this.feature = this.FeaturesList.Single(f => f.Caract == "SmallMedium");
                 this.complexity = Languages.MediumComplexity;
             }
             else if (smallChecked == true && hardChecked == true)
             {
-                this.feature = this.ListFeature.Single(f => f.Caract == "SmallHard");
+                this.feature = this.FeaturesList.Single(f => f.Caract == "SmallHard");
                 this.complexity = Languages.Hard;
             }
 
             if (mediumSizeChecked == true && easyChecked == true)
             {
-                this.feature = this.ListFeature.Single(f => f.Caract == "MediumEasy");
+                this.feature = this.FeaturesList.Single(f => f.Caract == "MediumEasy");
                 this.complexity = Languages.Easy;
             }
             else if (mediumSizeChecked == true && mediumComplexityChecked == true)
             {
-                this.feature = this.ListFeature.Single(f => f.Caract == "MediumMedium");
+                this.feature = this.FeaturesList.Single(f => f.Caract == "MediumMedium");
                 this.complexity = Languages.MediumComplexity;
             }
             else if (mediumSizeChecked == true && hardChecked == true)
             {
-                this.feature = this.ListFeature.Single(f => f.Caract == "MediumHard");
+                this.feature = this.FeaturesList.Single(f => f.Caract == "MediumHard");
                 this.complexity = Languages.Hard;
             }
 
             if (bigChecked == true && easyChecked == true)
             {
-                this.feature = this.ListFeature.Single(f => f.Caract == "BigEasy");
+                this.feature = this.FeaturesList.Single(f => f.Caract == "BigEasy");
                 this.complexity = Languages.Easy;
             }
             else if (bigChecked == true && mediumComplexityChecked == true)
             {
-                this.feature = this.ListFeature.Single(f => f.Caract == "BigMedium");
+                this.feature = this.FeaturesList.Single(f => f.Caract == "BigMedium");
                 this.complexity = Languages.MediumComplexity;
             }
             else if (bigChecked == true && hardChecked == true)
             {
-                this.feature = this.ListFeature.Single(f => f.Caract == "BigHard");
+                this.feature = this.FeaturesList.Single(f => f.Caract == "BigHard");
                 this.complexity = Languages.Hard;
             }
 

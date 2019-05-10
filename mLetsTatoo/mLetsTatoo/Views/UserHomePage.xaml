@@ -46,18 +46,7 @@ xmlns:schedule="clr-namespace:Syncfusion.SfSchedule.XForms;assembly=Syncfusion.S
             Padding="5">
             </StackLayout>
         </ContentPage>
-        <ContentPage
-            Icon="CitasUns.png"
-            x:Name="Citas2">
-            <StackLayout
-            BindingContext="{Binding UserHome}"
-            Padding="5">
-                <schedule:SfSchedule 
-                    CellTappedCommand="{Binding NewAppointmentCommand}"
-                    ScheduleView ="WeekView">
-                </schedule:SfSchedule>
-            </StackLayout>
-        </ContentPage>
+        
         <ContentPage
             Icon="CitasUns.png"
             x:Name="Citas">

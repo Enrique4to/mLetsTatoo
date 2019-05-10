@@ -12,7 +12,7 @@
     x:Class="mLetsTatoo.Views.TecnicoViewDatePage">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout
+            <StackLayout 
                 Padding="5">
                 <StackLayout
                     BindingContext="{Binding TecnicoViewDate}"
@@ -44,63 +44,64 @@
                             VerticalTextAlignment="End"/>
                     </StackLayout>
                     <StackLayout
-                        HorizontalOptions="StartAndExpand"
+                        HorizontalOptions="CenterAndExpand"
                         Orientation="Horizontal"
-                        Padding="10"
+                        Padding="10,5,10,0"
                         VerticalOptions="Start">
                         <control:CustomLabel
-                            BorderColor="Gray"
+                            BorderColor="White"
                             FontAttributes="Bold"
-                            FontSize="16"
+                            FontSize="14"
                             HorizontalTextAlignment="Center"
                             IsCurvedCornersEnabled="True"
-                            Margin="10,0,0,0"
                             Text="{Binding Cita.Asunto}"
                             TextColor="LightGray"/>
                     </StackLayout>
                     <StackLayout
-                        HorizontalOptions="CenterAndExpand"
+                        HorizontalOptions="EndAndExpand"
                         Orientation="Horizontal"
-                        Padding="5"
-                        VerticalOptions="Start">
+                        VerticalOptions="StartAndExpand">
                         <Label
-                            FontSize="16"
+                            FontSize="13"
                             HorizontalTextAlignment="End"
                             Text="{i18n:Translate Date}"
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
-                        <StackLayout
-                            IsEnabled="False">
-                            <DatePicker
-                                Date="{Binding AppointmentDate, Mode=TwoWay}"
-                                FontAttributes="Bold"
-                                FontSize="16"
-                                Format="dd MMM yyyy"
-                                HorizontalOptions="Start"
-                                TextColor="LightGray"
-                                VerticalOptions="Center"/>
-                        </StackLayout>
                         <Label
-                            FontSize="16"
+                            FontAttributes="Bold"
+                            FontSize="13"
+                            HorizontalTextAlignment="End"
+                            TextColor="LightGray"
+                            Text="{Binding DateStart, Mode=TwoWay}"
+                            VerticalOptions="Center"/>
+                        <Label
+                            FontSize="13"
                             HorizontalTextAlignment="End"
                             Text="{i18n:Translate Hour}"
                             TextColor="LightGray"
                             VerticalOptions="Center"/>
-                        <StackLayout
-                                IsEnabled="False">
-                            <TimePicker
-                                Format="h:mm tt"
-                                FontAttributes="Bold"
-                                FontSize="16"
-                                HorizontalOptions="StartAndExpand"
-                                TextColor="LightGray"
-                                Time="{Binding AppointmentTime, Mode=TwoWay}"
-                                VerticalOptions="Center"/>
-                        </StackLayout>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="13"
+                            HorizontalTextAlignment="End"
+                            TextColor="LightGray"
+                            Text="{Binding HourStart, Mode=TwoWay}"
+                            VerticalOptions="Center"/>
+                        <Image
+                            Aspect="AspectFit"
+                            HeightRequest="30"
+                            HorizontalOptions="End"
+                            Margin ="10,0,0,0"
+                            Source="Citas.png"
+                            VerticalOptions="Center">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ChangeDateCommand}"/>
+                            </Image.GestureRecognizers>
+                        </Image>
                     </StackLayout>
                     <Label
                         FontAttributes="Bold"
-                        FontSize="16"
+                        FontSize="14"
                         HorizontalTextAlignment="Center"
                         Margin="10,10,0,0"
                         Text="{i18n:Translate CustomerArt}"
@@ -108,7 +109,7 @@
                         VerticalOptions="Center"/>
                     <Image
                         Aspect="AspectFit"
-                        HeightRequest="400"
+                        HeightRequest="280"
                         HorizontalOptions="Center"
                         Margin="10,0,10,0"
                         MinimumHeightRequest="100"
@@ -170,8 +171,13 @@
                         <ListView.ItemTemplate>                            
                             <DataTemplate>
                                 <ViewCell>
-                                    <StackLayout
-                                            Padding="0,2,0,2">
+                                    <Frame
+                                        BackgroundColor="White"
+                                        HasShadow="True"
+                                        CornerRadius="10"
+                                        Margin="1"
+                                        VerticalOptions="Center"
+                                        Padding="2">
                                         <Grid>
                                             <Grid.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding SelectedNotaCommand}" Tapped="OnGridSelect"/>
@@ -214,13 +220,13 @@
                                                         HorizontalTextAlignment="Start"
                                                             VerticalTextAlignment="End"
                                                         Text="{Binding Nombre_Post}"                                                        
-                                                        TextColor="LightGray"/>
+                                                        TextColor="Black"/>
                                                     <Label
                                                         FontSize="12"
                                                         HorizontalTextAlignment="Start"
                                                         Margin="10,0,0,0"
                                                         Text="{Binding F_nota, StringFormat=' {0:dd MMM yyyy}'}"
-                                                        TextColor="Gray"
+                                                        TextColor="DimGray"
                                                         VerticalTextAlignment="Start"/>
                                                 </StackLayout>
                                             </StackLayout>
@@ -232,9 +238,9 @@
                                                 VerticalTextAlignment="Start"
                                                 Margin="20,0,20,0"
                                                 Text="{Binding Nota}"
-                                                TextColor="Gray"/>
+                                                TextColor="Black"/>
                                         </Grid>
-                                    </StackLayout>
+                                    </Frame>
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>

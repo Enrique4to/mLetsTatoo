@@ -44,7 +44,7 @@
         #endregion
 
         #region Properties
-        public List<T_teccaract> ListFeature { get; set; }
+        public List<T_teccaract> FeaturesList { get; set; }
 
         public T_teccaract FSE
         {
@@ -183,12 +183,12 @@
             }
             var NewCaract = (T_teccaract)response.Result;
 
-            var oldCaract = this.ListFeature.Where(c => c.Id_Caract == this.fSE.Id_Caract).FirstOrDefault();
+            var oldCaract = this.FeaturesList.Where(c => c.Id_Caract == this.fSE.Id_Caract).FirstOrDefault();
             if (oldCaract != null)
             {
-                this.ListFeature.Remove(oldCaract);
+                this.FeaturesList.Remove(oldCaract);
             }
-            this.ListFeature.Add(NewCaract);
+            this.FeaturesList.Add(NewCaract);
             #endregion
 
             #region Save SmallMedium
@@ -221,12 +221,12 @@
             }
             NewCaract = (T_teccaract)response.Result;
 
-            oldCaract = this.ListFeature.Where(c => c.Id_Caract == this.fSM.Id_Caract).FirstOrDefault();
+            oldCaract = this.FeaturesList.Where(c => c.Id_Caract == this.fSM.Id_Caract).FirstOrDefault();
             if (oldCaract != null)
             {
-                this.ListFeature.Remove(oldCaract);
+                this.FeaturesList.Remove(oldCaract);
             }
-            this.ListFeature.Add(NewCaract);
+            this.FeaturesList.Add(NewCaract);
             #endregion
 
             #region Save SmallHard
@@ -259,12 +259,12 @@
             }
             NewCaract = (T_teccaract)response.Result;
 
-            oldCaract = this.ListFeature.Where(c => c.Id_Caract == this.FSH.Id_Caract).FirstOrDefault();
+            oldCaract = this.FeaturesList.Where(c => c.Id_Caract == this.FSH.Id_Caract).FirstOrDefault();
             if (oldCaract != null)
             {
-                this.ListFeature.Remove(oldCaract);
+                this.FeaturesList.Remove(oldCaract);
             }
-            this.ListFeature.Add(NewCaract);
+            this.FeaturesList.Add(NewCaract);
             #endregion
 
             #endregion
@@ -300,12 +300,12 @@
             }
             NewCaract = (T_teccaract)response.Result;
 
-            oldCaract = this.ListFeature.Where(c => c.Id_Caract == this.FME.Id_Caract).FirstOrDefault();
+            oldCaract = this.FeaturesList.Where(c => c.Id_Caract == this.FME.Id_Caract).FirstOrDefault();
             if (oldCaract != null)
             {
-                this.ListFeature.Remove(oldCaract);
+                this.FeaturesList.Remove(oldCaract);
             }
-            this.ListFeature.Add(NewCaract);
+            this.FeaturesList.Add(NewCaract);
             #endregion
 
             #region Save MediumMedium
@@ -338,12 +338,12 @@
             }
             NewCaract = (T_teccaract)response.Result;
 
-            oldCaract = this.ListFeature.Where(c => c.Id_Caract == this.FMM.Id_Caract).FirstOrDefault();
+            oldCaract = this.FeaturesList.Where(c => c.Id_Caract == this.FMM.Id_Caract).FirstOrDefault();
             if (oldCaract != null)
             {
-                this.ListFeature.Remove(oldCaract);
+                this.FeaturesList.Remove(oldCaract);
             }
-            this.ListFeature.Add(NewCaract);
+            this.FeaturesList.Add(NewCaract);
             #endregion
 
             #region Save MediumHard
@@ -376,12 +376,12 @@
             }
             NewCaract = (T_teccaract)response.Result;
 
-            oldCaract = this.ListFeature.Where(c => c.Id_Caract == this.FMH.Id_Caract).FirstOrDefault();
+            oldCaract = this.FeaturesList.Where(c => c.Id_Caract == this.FMH.Id_Caract).FirstOrDefault();
             if (oldCaract != null)
             {
-                this.ListFeature.Remove(oldCaract);
+                this.FeaturesList.Remove(oldCaract);
             }
-            this.ListFeature.Add(NewCaract);
+            this.FeaturesList.Add(NewCaract);
             #endregion
 
             #endregion
@@ -418,12 +418,12 @@
             }
             NewCaract = (T_teccaract)response.Result;
 
-            oldCaract = this.ListFeature.Where(c => c.Id_Caract == this.FBE.Id_Caract).FirstOrDefault();
+            oldCaract = this.FeaturesList.Where(c => c.Id_Caract == this.FBE.Id_Caract).FirstOrDefault();
             if (oldCaract != null)
             {
-                this.ListFeature.Remove(oldCaract);
+                this.FeaturesList.Remove(oldCaract);
             }
-            this.ListFeature.Add(NewCaract);
+            this.FeaturesList.Add(NewCaract);
             #endregion
 
             #region Save BigMedium
@@ -456,12 +456,12 @@
             }
             NewCaract = (T_teccaract)response.Result;
 
-            oldCaract = this.ListFeature.Where(c => c.Id_Caract == this.FBM.Id_Caract).FirstOrDefault();
+            oldCaract = this.FeaturesList.Where(c => c.Id_Caract == this.FBM.Id_Caract).FirstOrDefault();
             if (oldCaract != null)
             {
-                this.ListFeature.Remove(oldCaract);
+                this.FeaturesList.Remove(oldCaract);
             }
-            this.ListFeature.Add(NewCaract);
+            this.FeaturesList.Add(NewCaract);
             #endregion
 
             #region Save BigHard
@@ -494,12 +494,12 @@
             }
             NewCaract = (T_teccaract)response.Result;
 
-            oldCaract = this.ListFeature.Where(c => c.Id_Caract == this.FBH.Id_Caract).FirstOrDefault();
+            oldCaract = this.FeaturesList.Where(c => c.Id_Caract == this.FBH.Id_Caract).FirstOrDefault();
             if (oldCaract != null)
             {
-                this.ListFeature.Remove(oldCaract);
+                this.FeaturesList.Remove(oldCaract);
             }
-            this.ListFeature.Add(NewCaract);
+            this.FeaturesList.Add(NewCaract);
             #endregion
             #endregion
 
@@ -536,19 +536,19 @@
                     "OK");
                 return;
             }
-            this.ListFeature = (List<T_teccaract>)response.Result;
+            this.FeaturesList = (List<T_teccaract>)response.Result;
 
-            this.ListFeature = this.ListFeature.Where(f => f.Id_Tecnico == this.tecnico.Id_Tecnico).ToList();
+            this.FeaturesList = this.FeaturesList.Where(f => f.Id_Tecnico == this.tecnico.Id_Tecnico).ToList();
 
-            this.FSE = this.ListFeature.Single(f => f.Caract == "SmallEasy");
-            this.FSM = this.ListFeature.Single(f => f.Caract == "SmallMedium");
-            this.FSH = this.ListFeature.Single(f => f.Caract == "SmallHard");
-            this.FME = this.ListFeature.Single(f => f.Caract == "MediumEasy");
-            this.FMM = this.ListFeature.Single(f => f.Caract == "MediumMedium");
-            this.FMH = this.ListFeature.Single(f => f.Caract == "MediumHard");
-            this.FBE = this.ListFeature.Single(f => f.Caract == "BigEasy");
-            this.FBM = this.ListFeature.Single(f => f.Caract == "BigMedium");
-            this.FBH = this.ListFeature.Single(f => f.Caract == "BigHard");
+            this.FSE = this.FeaturesList.Single(f => f.Caract == "SmallEasy");
+            this.FSM = this.FeaturesList.Single(f => f.Caract == "SmallMedium");
+            this.FSH = this.FeaturesList.Single(f => f.Caract == "SmallHard");
+            this.FME = this.FeaturesList.Single(f => f.Caract == "MediumEasy");
+            this.FMM = this.FeaturesList.Single(f => f.Caract == "MediumMedium");
+            this.FMH = this.FeaturesList.Single(f => f.Caract == "MediumHard");
+            this.FBE = this.FeaturesList.Single(f => f.Caract == "BigEasy");
+            this.FBM = this.FeaturesList.Single(f => f.Caract == "BigMedium");
+            this.FBH = this.FeaturesList.Single(f => f.Caract == "BigHard");
 
 
             await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoEditFeaturesPage());

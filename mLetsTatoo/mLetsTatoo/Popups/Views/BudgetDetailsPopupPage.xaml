@@ -8,7 +8,7 @@
     xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
     xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:radiobutton="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
-    x:Class="mLetsTatoo.Popups.Views.AppointmentDetailsPopupPage">
+    x:Class="mLetsTatoo.Popups.Views.BudgetDetailsPopupPage">
     <pages:PopupPage.Animation>
         <animations:ScaleAnimation
             DurationIn="300"
@@ -30,7 +30,7 @@
             Margin="20,5,20,5"
             VerticalOptions="Center">
             <StackLayout
-                BindingContext="{Binding NewAppointmentPopup}"
+                BindingContext="{Binding UserMessageJob}"
                 Padding="5">
                 <StackLayout
                     VerticalOptions="StartAndExpand"
@@ -43,99 +43,24 @@
                         HorizontalTextAlignment="Center"
                         VerticalOptions="StartAndExpand"/>
                     <control:CustomLabel
-                        BorderColor="Gray"
-                        FontAttributes="Bold"
-                        FontSize="14"
-                        HorizontalTextAlignment="Center"
-                        IsCurvedCornersEnabled="True"
-                        Margin="10,5,0,0"
-                        Text="{Binding Subject}"
-                        TextColor="Black"/>
-                    <StackLayout
-                        HorizontalOptions="CenterAndExpand"
-                        Orientation="Horizontal"
-                        Padding="5"
-                        VerticalOptions="StartAndExpand">
-                        <Label
-                            FontSize="12"
-                            HorizontalTextAlignment="End"
-                            Text="{i18n:Translate Date}"
-                            TextColor="Black"
-                            VerticalOptions="Center"/>
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="12"
-                            HorizontalOptions="StartAndExpand"
-                            TextColor="Black"
-                            Text="{Binding DateStart, Mode=TwoWay}"
-                            VerticalOptions="Center"/>
-                        <Label
-                            FontSize="12"
-                            HorizontalTextAlignment="End"
-                            Text="{i18n:Translate Hour}"
-                            TextColor="Black"
-                            VerticalOptions="Center"/>
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="12"
-                            HorizontalOptions="StartAndExpand"
-                            TextColor="Black"
-                            Text="{Binding HourStart, Mode=TwoWay}"
-                            VerticalOptions="Center"/>
-                    </StackLayout>
-                    <StackLayout
-                        Padding="5"
-                        VerticalOptions="StartAndExpand">
-                        <Label
+                            BorderColor="Gray"
                             FontAttributes="Bold"
                             FontSize="14"
-                            HorizontalTextAlignment="Start"
-                            Margin="10,0,0,0"
-                            Text="{i18n:Translate AppointmentWhere}"
-                            TextColor="Black"
-                            VerticalOptions="Center"/>
-                        <control:CustomLabel
-                            FontAttributes="Bold"
-                            FontSize="13"
                             HorizontalTextAlignment="Center"
-                            Margin="5,0,0,0"
-                            Text="{Binding Studio}"
+                            IsCurvedCornersEnabled="True"
+                            Margin="10,5,0,0"
+                            Text="{Binding Trabajo.Asunto}"
                             TextColor="Black"/>
-                        <Label
-                            FontSize="12"
-                            HorizontalTextAlignment="Start"
-                            Margin="10,0,0,0"
-                            Text="{Binding Address}"
-                            TextColor="Black"/>
-                        <Label
-                            FontSize="12"
-                            HorizontalTextAlignment="Start"
-                            Margin="10,3,0,0"
-                            Text="{Binding Reference}"
-                            TextColor="Black"/>
-                    </StackLayout>
-                    <StackLayout
-                        Padding="5,5,5,12"
-                        Orientation="Horizontal"
-                        VerticalOptions="StartAndExpand">
-                        <Label
-                            FontAttributes="Bold"
-                            FontSize="13"
-                            HorizontalTextAlignment="Start"
-                            Margin="10,0,0,0"
-                            Text="{i18n:Translate Artist}"
-                            TextColor="Black"
-                            VerticalOptions="Center"/>
-                        <Label
-                            FontSize="12"
-                            HorizontalTextAlignment="Center"
-                            Margin="5,0,0,0"
-                            Text="{Binding Artist}"
-                            TextColor="Black"/>
-                    </StackLayout>
                     <StackLayout
                         Padding="2,0,2,12"
                         VerticalOptions="StartAndExpand">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="{i18n:Translate Budget}"
+                            TextColor="Black"
+                            HorizontalTextAlignment="Center"
+                            VerticalOptions="StartAndExpand"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
@@ -145,7 +70,7 @@
                             </Grid.RowDefinitions>
                             <Label
                                 FontAttributes="Bold"
-                                FontSize="12"
+                                FontSize="16"
                                 Grid.Row ="1"
                                 Text="{Binding AppCost}"
                                 TextColor="Black"
@@ -153,7 +78,7 @@
                                 VerticalTextAlignment="Center"/>
                             <Label
                                 FontAttributes="Bold"
-                                FontSize="12"
+                                FontSize="16"
                                 Grid.Row ="2"
                                 Text="{Binding AppAdvance}"
                                 TextColor="Black"
@@ -161,7 +86,7 @@
                                 VerticalTextAlignment="Center"/>
                             <Label
                                 FontAttributes="Bold"
-                                FontSize="12"
+                                FontSize="16"
                                 Grid.Row ="3"
                                 Text="{Binding AppDuration}"
                                 TextColor="Black"

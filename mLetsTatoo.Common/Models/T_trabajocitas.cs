@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 
 namespace mLetsTatoo.Models
 {
@@ -25,5 +26,7 @@ namespace mLetsTatoo.Models
         public int Id_Cliente { get; set; }
         [Required]
         public int Id_Tatuador { get; set; }
+        [Required]
+        public string ColorText { get; set; }
     }
 }

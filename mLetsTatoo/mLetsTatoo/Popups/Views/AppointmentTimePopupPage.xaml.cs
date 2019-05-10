@@ -16,6 +16,14 @@
         public AppointmentTimePopupPage()
         {
             InitializeComponent();
+            if (MainViewModel.GetInstance().NewAppointmentPopup.changeDate == true)
+            {
+                this.Next.Source = "Check.png";
+            }
+            else
+            {
+                this.Next.Source = "Next.png";
+            }
         }
         #endregion
 

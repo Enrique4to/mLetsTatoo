@@ -23,13 +23,14 @@
 
         #region Properties
         public Color Color { get; set; }
+        public bool Completado { get; set; }
+        public bool Cancelado { get; set; }
         #endregion
 
         #region Constructors
         public CitasItemViewModel()
         {
             this.apiService = new ApiService();
-            this.Color = Color.Red;
         }
 
         #endregion

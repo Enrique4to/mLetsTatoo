@@ -78,7 +78,6 @@ namespace mLetsTatoo.API.Controllers
         [ResponseType(typeof(T_trabajonota))]
         public async Task<IHttpActionResult> PostT_trabajonota(T_trabajonota t_trabajonota)
         {
-            t_trabajonota.F_nota = DateTime.Now.ToUniversalTime();
 
             if (!ModelState.IsValid)
             {

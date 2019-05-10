@@ -60,7 +60,6 @@ namespace mLetsTatoo.Views
                 MainViewModel.GetInstance().UserHome.TipoBusqueda = "All";
                 this.News.Icon = "NewsFeedUns.png";
                 this.Citas.Icon = "CitasUns.png";
-                this.Citas2.Icon = "CitasUns.png";
                 this.Locals.Icon = "LocalUns.png";
                 this.Artists.Icon = "TattooUns.png";
                 this.Notifications.Icon = "NotificacionUns.png";
@@ -73,29 +72,24 @@ namespace mLetsTatoo.Views
                         this.News.Icon = "NewsFeed.png";
                         break;
                     case 1:
-                        this.Citas2.Icon = "Citas2.png";
-                        this.Search.Placeholder = Languages.SearchAppointment;
-                        MainViewModel.GetInstance().UserHome.TipoBusqueda = "Citas2";
-                        break;
-                    case 2:
                         this.Citas.Icon = "Citas.png";
                         this.Search.Placeholder = Languages.SearchAppointment;
                         MainViewModel.GetInstance().UserHome.TipoBusqueda = "Citas";
                         break;
-                    case 3:
+                    case 2:
                         this.Locals.Icon = "Local.png";
                         this.Search.Placeholder = Languages.SearchStudios;
                         MainViewModel.GetInstance().UserHome.TipoBusqueda = "Studios";
                         break;
-                    case 4:
+                    case 3:
                         this.Artists.Icon = "Tattoo.png";
                         this.Search.Placeholder = Languages.SearchArtists;
                         MainViewModel.GetInstance().UserHome.TipoBusqueda = "Artists";
                         break;
-                    case 5:
+                    case 4:
                         this.Notifications.Icon = "Notificacion.png";
                         break;
-                    case 6:
+                    case 5:
                         this.UserOptions.Icon = "Options.png";
                         break;
                 }

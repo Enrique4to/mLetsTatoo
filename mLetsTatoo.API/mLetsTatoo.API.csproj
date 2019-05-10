@@ -302,6 +302,7 @@
     <Compile Include="Controllers\T_localhorariosController.cs" />
     <Compile Include="Controllers\T_localimagenesController.cs" />
     <Compile Include="Controllers\T_locatariosController.cs" />
+    <Compile Include="Controllers\T_nuevafechaController.cs" />
     <Compile Include="Controllers\T_postalController.cs" />
     <Compile Include="Controllers\T_propietariosController.cs" />
     <Compile Include="Controllers\T_redesController.cs" />

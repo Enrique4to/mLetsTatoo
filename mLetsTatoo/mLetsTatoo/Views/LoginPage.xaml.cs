@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
-
-namespace mLetsTatoo.Views
+﻿namespace mLetsTatoo.Views
 {
-	public partial class LoginPage : ContentPage
+    using mLetsTatoo.Popups.ViewModel;
+    using mLetsTatoo.Popups.Views;
+    using mLetsTatoo.ViewModels;
+    using Rg.Plugins.Popup.Extensions;
+
+    using Xamarin.Forms;
+    public partial class LoginPage : ContentPage
 	{
 		public LoginPage ()
         {
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("OTAxNjlAMzEzNzJlMzEyZTMwRjQwcisrVWozVTBVMStqRUJjaFY4ckJta3NqaWdRdkpjVzJHVm5NSkwzQT0=");
+            //Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("OTAxNjlAMzEzNzJlMzEyZTMwRjQwcisrVWozVTBVMStqRUJjaFY4ckJta3NqaWdRdkpjVzJHVm5NSkwzQT0=");
             InitializeComponent ();
-		}
+
+        }
 	}
 }

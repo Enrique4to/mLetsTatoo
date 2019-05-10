@@ -46,6 +46,7 @@
 
         public List<T_trabajos> TrabajoList { get; set; }
         public List<T_trabajocitas> CitasList { get; set; }
+        public List<T_tecnicohorarios> ListHorariosTecnicos { get; set; }
 
         public T_clientes Cliente
         {
@@ -120,20 +121,9 @@
         {
             this.IsRefreshing = true;
 
-            //if (this.tecnico.F_Perfil != null)
-            //{
-            //    string fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TecnicoIcon.png");
-            //    File.WriteAllBytes(fileName, this.tecnico.F_Perfil);
-            //    this.Image = new Image();
-            //    this.ImageSource = FileImageSource.FromFile(fileName);
-            //}
-            //else
-            //{
-            //    this.ByteImage = this.apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
-            //    this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
-            //}
-
             MainViewModel.GetInstance().TecnicoProfile = new TecnicoProfileViewModel(this.user, this.tecnico);
+            this.CitasList = MainViewModel.GetInstance().Login.CitaList;
+            this.ListHorariosTecnicos = MainViewModel.GetInstance().Login.ListHorariosTecnicos;
             this.IsRefreshing = false;
         }
         private async void LoadTrabajos()
@@ -175,6 +165,9 @@
                 Costo_Cita = c.Costo_Cita,
                 Total_Aprox = c.Total_Aprox,
                 Id_Caract = c.Id_Caract,
+                Alto = c.Alto,
+                Ancho = c.Ancho,
+                Tiempo = c.Tiempo,
 
             }).Where(c => c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
 

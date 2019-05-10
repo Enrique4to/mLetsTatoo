@@ -575,5 +575,66 @@
         {
             get { return Resource.ScheduleError; }
         }
+        public static string ArtError
+        {
+            get { return Resource.ArtError; }
+        }
+        public static string ChangeDate
+        {
+            get { return Resource.ChangeDate; }
+        }
+        public static string TheDateChanged
+        {
+            get { return Resource.TheDateChanged; }
+        }
+        public static string HasBeenChanged
+        {
+            get { return Resource.HasBeenChanged; }
+        }
+        public static string WillBeChanged
+        {
+            get { return Resource.WillBeChanged; }
+        }
+        public static string To
+        {
+            get { return Resource.To; }
+        }
+        public static string CustomerAccept
+        {
+            get { return Resource.CustomerAccept; }
+        }
+        public static string ChangeDateAlert
+        {
+            get { return Resource.ChangeDateAlert; }
+        }
+        public static string ChangeDateTecMessage
+        {
+            get { return Resource.ChangeDateTecMessage; }
+        }
+        public static string TheNewDate
+        {
+            get { return Resource.TheNewDate; }
+        }
+        public static string ChangeDateWantAccept
+        {
+            get { return Resource.ChangeDateWantAccept; }
+        }
+        public static string Total
+        {
+            get { return Resource.Total; }
+        }
+        public static string CancelDate
+        {
+            get { return Resource.CancelDate; }
+        }
+        public static string Comments
+        {
+            get { return Resource.Comments; }
+        }
+        public static string CancelDateMessage
+        {
+            get { return Resource.CancelDateMessage; }
+        }
+
     }
 }

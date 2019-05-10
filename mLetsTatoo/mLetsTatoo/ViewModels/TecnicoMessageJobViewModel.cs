@@ -33,12 +33,12 @@ namespace mLetsTatoo.ViewModels
         private TrabajosTempItemViewModel trabajo;
         private T_trabajonotatemp notaTemp;
         private T_trabajostemp trabajoTemp;
-        private TrabajonotaTempCollection nota;
 
         private ObservableCollection<NotasTempItemViewModel> notas;
 
         private bool isVisible;
         private bool isButtonEnabled;
+        private bool propuesta;
         #endregion
 
         #region Properties
@@ -96,6 +96,7 @@ namespace mLetsTatoo.ViewModels
             this.trabajo = trabajo;
             this.TrabajoNotaList = TrabajoNotaList;
             this.pageVisible = false;
+            this.propuesta = false;
             this.LoadListNotas();
 
             IsButtonEnabled = false;
@@ -156,6 +157,7 @@ namespace mLetsTatoo.ViewModels
                 Id_Local = this.tecnico.Id_Local,
                 Nota = this.Message,
                 Nombre_Post = nombre_Post,
+                Propuesta = this.propuesta,
             };
             var response = await this.apiService.Post(urlApi, prefix, controller, this.notaTemp);
 
@@ -171,27 +173,11 @@ namespace mLetsTatoo.ViewModels
 
             var newNota = (T_trabajonotatemp)response.Result;
 
-            this.nota = new TrabajonotaTempCollection
-            {
-                Id_Notatemp = newNota.Id_Notatemp,
-                Id_Trabajotemp = newNota.Id_Trabajotemp,
-                Id_Usuario = newNota.Id_Usuario,
-                Tipo_Usuario = newNota.Tipo_Usuario,
-                F_nota = newNota.F_nota,
-                Id_Local = newNota.Id_Local,
-                Nota = newNota.Nota,
-
-                Nombre = this.tecnico.Nombre,
-                Apellido = this.tecnico.Apellido,
-
-                F_Perfil = MainViewModel.GetInstance().Login.ListUsuarios.FirstOrDefault(u => u.Id_usuario == newNota.Id_Usuario).F_Perfil
-
-            };
-
             MainViewModel.GetInstance().TecnicoMessages.TrabajoNotaList.Add(newNota);
             MainViewModel.GetInstance().TecnicoMessages.RefreshTrabajosList();
             this.LoadListNotas();
             this.Message = null;
+            this.propuesta = false;
         }
         private async void SendBudget()
         {
@@ -245,6 +231,7 @@ namespace mLetsTatoo.ViewModels
             MainViewModel.GetInstance().TecnicoMessages.RefreshTrabajosList();
 
             this.Message = Languages.BudgetSentMessage;
+            this.propuesta = true;
             this.SendMessage();
         }
         public void LoadListNotas()

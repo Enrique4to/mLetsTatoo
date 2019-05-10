@@ -4,6 +4,8 @@
     using mLetsTatoo.Models;
     using mLetsTatoo.Services;
     using mLetsTatoo.Views;
+    using System.Linq;
+    using System.Threading.Tasks;
     using System.Windows.Input;
     using Xamarin.Forms;
 
@@ -11,15 +13,6 @@
     {
         #region Services
         private ApiService apiService;
-        #endregion
-
-        #region Attributes
-        private TecnicosCollection tecnico;
-        private T_usuarios user;
-        #endregion
-
-        #region Properties
-
         #endregion
 
         #region Constructors
@@ -30,10 +23,31 @@
         #endregion
 
         #region Commands
-
+        public ICommand SelectedNotaCommand
+        {
+            get
+            {
+                return new RelayCommand(SelectedNota);
+            }
+        }
         #endregion
 
         #region Methods
+        private void SelectedNota()
+        {
+            if (MainViewModel.GetInstance().UserMessageJob != null)
+            {
+                if (MainViewModel.GetInstance().UserMessageJob.user.Tipo != this.Tipo_Usuario)
+                {
+                    if(this.Propuesta == true)
+                    {
+                        MainViewModel.GetInstance().UserMessageJob.tecnico = MainViewModel.GetInstance().UserHome.Tecnicos.Single(t => t.Id_Usuario == this.Id_Usuario);
+                        MainViewModel.GetInstance().UserMessageJob.notaSelected = this;
+                        MainViewModel.GetInstance().UserMessageJob.LoadBudget();
+                    }
+                }
+            }
+        }
         #endregion
     }
 }

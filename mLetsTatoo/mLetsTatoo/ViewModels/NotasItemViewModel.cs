@@ -13,14 +13,12 @@
     using System.Threading.Tasks;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
+    using Rg.Plugins.Popup.Extensions;
+    using mLetsTatoo.Popups.Views;
 
     public class NotasItemViewModel : TrabajoNotaCollection
 
     {
-        #region MyRegion
-
-        #endregion
-
         #region Services
         private ApiService apiService;
         #endregion
@@ -50,7 +48,7 @@
         #endregion
 
         #region Methods
-        private void SelectedNota()
+        private async void SelectedNota()
         {
             if (MainViewModel.GetInstance().UserViewDate != null)
             { 
@@ -62,6 +60,11 @@
                 }
                 else
                 {
+                    if (this.Cambio_Fecha == true)
+                    {
+                        await Application.Current.MainPage.Navigation.PushPopupAsync(new ChangeDatePopupPage());
+                        return;
+                    }
                     MainViewModel.GetInstance().UserViewDate.IsButtonEnabled = false;
                     MainViewModel.GetInstance().UserViewDate.IsVisible = false;
                     MainViewModel.GetInstance().UserViewDate.notaSelected = null;

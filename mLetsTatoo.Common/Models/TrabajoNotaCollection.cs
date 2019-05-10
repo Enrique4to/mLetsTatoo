@@ -13,6 +13,7 @@
         public DateTime F_nota { get; set; }
         public int Id_Cita { get; set; }
         public string Nombre_Post { get; set; }
+        public bool Cambio_Fecha { get; set; }
         public byte[] F_Perfil { get; set; }
     }
 }

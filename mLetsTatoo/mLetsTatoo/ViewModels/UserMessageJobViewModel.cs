@@ -2,17 +2,19 @@
 
 namespace mLetsTatoo.ViewModels
 {
-    using GalaSoft.MvvmLight.Command;
-    using mLetsTatoo.Helpers;
-    using mLetsTatoo.Models;
-    using mLetsTatoo.Services;
-    using mLetsTatoo.Views;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Input;
+    using GalaSoft.MvvmLight.Command;
+    using Helpers;
+    using mLetsTatoo.Popups.ViewModel;
+    using Models;
+    using Popups.Views;
+    using Rg.Plugins.Popup.Extensions;
+    using Services;
     using Xamarin.Forms;
 
     public class UserMessageJobViewModel : BaseViewModel
@@ -23,22 +25,48 @@ namespace mLetsTatoo.ViewModels
 
         #region Attributes
         private string message;
-        public bool pageVisible;
+        private string appCost;
+        private string appAdvance;
+        private string appDuration;
 
         private ClientesCollection cliente;
-        private T_usuarios user;
+        public TecnicosCollection tecnico;
+        public T_usuarios user;
         private TrabajosTempItemViewModel trabajo;
         private T_trabajonotatemp notaTemp;
-        private TrabajonotaTempCollection nota;
+        public TrabajonotaTempCollection notaSelected;
 
         private ObservableCollection<NotasTempItemViewModel> notas;
 
         private bool isVisible;
         private bool isButtonEnabled;
+        public bool pageVisible;
         #endregion
 
         #region Properties
+        public string Message
+        {
+            get { return this.message; }
+            set { SetValue(ref this.message, value); }
+        }
+        public string AppCost
+        {
+            get { return this.appCost; }
+            set { SetValue(ref this.appCost, value); }
+        }
+        public string AppAdvance
+        {
+            get { return this.appAdvance; }
+            set { SetValue(ref this.appAdvance, value); }
+        }
+        public string AppDuration
+        {
+            get { return this.appDuration; }
+            set { SetValue(ref this.appDuration, value); }
+        }
+
         public List<T_trabajonotatemp> TrabajoNotaList { get; set; }
+        public List<NotasTempItemViewModel> TrabajoNotaListtemp { get; set; }
 
         public ObservableCollection<NotasTempItemViewModel> Notas
         {
@@ -51,11 +79,6 @@ namespace mLetsTatoo.ViewModels
             set { SetValue(ref this.trabajo, value); }
         }
 
-        public string Message
-        {
-            get { return this.message; }
-            set { SetValue(ref this.message, value); }
-        }
         public bool IsVisible
         {
             get { return this.isVisible; }
@@ -92,6 +115,22 @@ namespace mLetsTatoo.ViewModels
                 return new RelayCommand(SendMessage);
             }
         }
+        public ICommand NextCommand
+        {
+            get
+            {
+                return new RelayCommand(GoToNextPopupPage);
+            }
+        }
+
+        public ICommand CancelCommand
+        {
+            get
+            {
+                return new RelayCommand(Cancel);
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -137,23 +176,6 @@ namespace mLetsTatoo.ViewModels
 
             var newNota = (T_trabajonotatemp)response.Result;
 
-            this.nota = new TrabajonotaTempCollection
-            {
-                Id_Notatemp = newNota.Id_Notatemp,
-                Id_Trabajotemp = newNota.Id_Trabajotemp,
-                Id_Usuario = newNota.Id_Usuario,
-                Tipo_Usuario = newNota.Tipo_Usuario,
-                F_nota = newNota.F_nota,
-                Id_Local = newNota.Id_Local,
-                Nota = newNota.Nota,
-
-                Nombre = this.cliente.Nombre,
-                Apellido = this.cliente.Apellido,
-
-                F_Perfil = MainViewModel.GetInstance().Login.ListUsuarios.FirstOrDefault(u => u.Id_usuario == newNota.Id_Usuario).F_Perfil
-
-            };
-
             MainViewModel.GetInstance().UserMessages.TrabajoNotaList.Add(newNota);
             MainViewModel.GetInstance().UserMessages.RefreshTrabajosList();
             this.LoadListNotas();
@@ -173,6 +195,8 @@ namespace mLetsTatoo.ViewModels
                 F_nota = n.F_nota,
                 Id_Local = n.Id_Local,
                 Nota = n.Nota,
+                Propuesta = n.Propuesta,
+                Nombre_Post = n.Nombre_Post,
 
                 Nombre =
                     n.Tipo_Usuario == 1 ?
@@ -190,8 +214,66 @@ namespace mLetsTatoo.ViewModels
 
             }).Where(n => n.Id_Trabajotemp == this.trabajo.Id_Trabajotemp).ToList();
 
+            this.TrabajoNotaListtemp = nota;
+
             this.Notas = new ObservableCollection<NotasTempItemViewModel>(nota.OrderBy(n => n.F_nota));
         }
+        public void LoadBudget()
+        {
+            string tempTime = null;
+            switch (this.trabajo.Tiempo)
+            {
+                case 30:
+                    tempTime = "30 mins.";
+                    break;
+                case 60:
+                    tempTime = "1 hr.";
+                    break;
+                case 90:
+                    tempTime = "1.5 hrs.";
+                    break;
+                case 120:
+                    tempTime = "2 hrs.";
+                    break;
+                case 150:
+                    tempTime = "2.5 hrs.";
+                    break;
+                case 180:
+                    tempTime = "3 hrs.";
+                    break;
+            }
+
+            this.AppCost = $"{Languages.Cost}: {this.trabajo.Total_Aprox.ToString("C2")}";
+            this.AppAdvance = $"{Languages.Advance}: {this.trabajo.Costo_Cita.ToString("C2")}";
+            this.AppDuration = $"{Languages.EstimatedTime} {tempTime}";
+            Application.Current.MainPage.Navigation.PushPopupAsync(new BudgetDetailsPopupPage());
+        }
+
+        private async void GoToNextPopupPage()
+        {
+            MainViewModel.GetInstance().NewAppointmentPopup = new NewAppointmentPopupViewModel(this.cliente);
+            MainViewModel.GetInstance().NewAppointmentPopup.feature = new T_teccaract
+            {
+                Alto = this.trabajo.Alto,
+                Ancho = this.trabajo.Ancho,
+                Tiempo = this.trabajo.Tiempo,
+            };
+            MainViewModel.GetInstance().NewAppointmentPopup.PresupuestoPage = true;
+            MainViewModel.GetInstance().NewAppointmentPopup.tecnico = this.tecnico;
+            MainViewModel.GetInstance().NewAppointmentPopup.thisPage = "Calendar";
+            MainViewModel.GetInstance().NewAppointmentPopup.AppCost = this.AppCost;
+            MainViewModel.GetInstance().NewAppointmentPopup.AppAdvance = this.AppAdvance;
+            MainViewModel.GetInstance().NewAppointmentPopup.AppDuration = this.AppDuration;
+            await Application.Current.MainPage.Navigation.PopPopupAsync();
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentCalendarPopupPage());
+        }
+        private async void Cancel()
+        {
+            this.tecnico = null;
+            this.notaSelected = null;
+            await Application.Current.MainPage.Navigation.PopPopupAsync();
+        }
+
         #endregion
     }
 }

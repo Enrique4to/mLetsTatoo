@@ -7,6 +7,8 @@
     using Services;
     using Xamarin.Forms;
     using System.Collections.ObjectModel;
+    using mLetsTatoo.Helpers;
+    using System.Collections.Generic;
 
     public class TecnicoItemViewModel : TecnicosCollection
     {
@@ -50,15 +52,40 @@
         private async void GoToTecnicoPage()
         {
             MainViewModel.GetInstance().Tecnico = new TecnicoViewModel(this, user, cliente);
-            MainViewModel.GetInstance().NewDate = new NewDateViewModel(this, user, cliente);
+
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+
+            }
+
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_tecimagenesController"].ToString();
+
+            var response = await this.apiService.GetList<T_tecimagenes>(urlApi, prefix, controller);
+
+            if (!response.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+            MainViewModel.GetInstance().Tecnico.TecnicoImagList = (List<T_tecimagenes>)response.Result;
+
+            MainViewModel.GetInstance().Tecnico.LoadImagenes();
             await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoPage());
         }
         private void TecnicoSelected()
         {
-            //MainViewModel.GetInstance().NewDate = new NewDateViewModel(this, user, cliente);
             MainViewModel.GetInstance().NewAppointmentPopup.tecnico = this;
-            //MainViewModel.GetInstance().NewDate.SelectedArtist = $"Artista: {this.Apodo} - {this.Nombre} {this.Apellido}";
-            //await Application.Current.MainPage.Navigation.PopModalAsync();
         }
         #endregion
     }
