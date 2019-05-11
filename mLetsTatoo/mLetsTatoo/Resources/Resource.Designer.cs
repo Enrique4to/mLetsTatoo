@@ -431,6 +431,42 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check in time.
+        /// </summary>
+        internal static string CheckInTime {
+            get {
+                return ResourceManager.GetString("CheckInTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check in time to eat.
+        /// </summary>
+        internal static string CheckInTimeToEat {
+            get {
+                return ResourceManager.GetString("CheckInTimeToEat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check out time.
+        /// </summary>
+        internal static string CheckOutTime {
+            get {
+                return ResourceManager.GetString("CheckOutTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check out time to eat.
+        /// </summary>
+        internal static string CheckOutTimeToEat {
+            get {
+                return ResourceManager.GetString("CheckOutTimeToEat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Comments....
         /// </summary>
         internal static string Comments {
@@ -562,6 +598,15 @@ namespace mLetsTatoo.Resources {
         internal static string DescribeArtError {
             get {
                 return ResourceManager.GetString("DescribeArtError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sunday.
+        /// </summary>
+        internal static string Domingo {
+            get {
+                return ResourceManager.GetString("Domingo", resourceCulture);
             }
         }
         
@@ -719,11 +764,38 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fill all the features.
+        ///   Looks up a localized string similar to Enter the maximum values ​​for a big art size..
         /// </summary>
-        internal static string FillFeatures {
+        internal static string FillBigFeatures {
             get {
-                return ResourceManager.GetString("FillFeatures", resourceCulture);
+                return ResourceManager.GetString("FillBigFeatures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Now, for each complexity, fill in the following..
+        /// </summary>
+        internal static string FillComplexity {
+            get {
+                return ResourceManager.GetString("FillComplexity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter the maximum values ​​for a medium art size..
+        /// </summary>
+        internal static string FillMediumFeatures {
+            get {
+                return ResourceManager.GetString("FillMediumFeatures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter the maximum values ​​for a small art size..
+        /// </summary>
+        internal static string FillSmallFeatures {
+            get {
+                return ResourceManager.GetString("FillSmallFeatures", resourceCulture);
             }
         }
         
@@ -769,6 +841,24 @@ namespace mLetsTatoo.Resources {
         internal static string Height {
             get {
                 return ResourceManager.GetString("Height", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you have a meal schedule?.
+        /// </summary>
+        internal static string HorarioComida {
+            get {
+                return ResourceManager.GetString("HorarioComida", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must select at least one of the previous options..
+        /// </summary>
+        internal static string HorarioError {
+            get {
+                return ResourceManager.GetString("HorarioError", resourceCulture);
             }
         }
         
@@ -850,6 +940,15 @@ namespace mLetsTatoo.Resources {
         internal static string LastnameError {
             get {
                 return ResourceManager.GetString("LastnameError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monday to Fraiday.
+        /// </summary>
+        internal static string LunVie {
+            get {
+                return ResourceManager.GetString("LunVie", resourceCulture);
             }
         }
         
@@ -1178,6 +1277,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Saturday.
+        /// </summary>
+        internal static string Sabado {
+            get {
+                return ResourceManager.GetString("Sabado", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         internal static string Save {
@@ -1244,6 +1352,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Complete the fields for the Sunday schedule.
+        /// </summary>
+        internal static string SelectDomingo {
+            get {
+                return ResourceManager.GetString("SelectDomingo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You need to select the artist you want to make your art!.
         /// </summary>
         internal static string SelectedArtistError {
@@ -1258,6 +1375,33 @@ namespace mLetsTatoo.Resources {
         internal static string SelectEstimatedTime {
             get {
                 return ResourceManager.GetString("SelectEstimatedTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the days you work.
+        /// </summary>
+        internal static string SelectHorario {
+            get {
+                return ResourceManager.GetString("SelectHorario", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Complete the fields for the Monday to Friday schedule.
+        /// </summary>
+        internal static string SelectLunVie {
+            get {
+                return ResourceManager.GetString("SelectLunVie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Complete the fields for the Saturday schedule.
+        /// </summary>
+        internal static string SelectSabado {
+            get {
+                return ResourceManager.GetString("SelectSabado", resourceCulture);
             }
         }
         

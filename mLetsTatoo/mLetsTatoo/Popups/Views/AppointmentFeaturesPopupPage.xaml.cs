@@ -15,6 +15,7 @@
         #region Constructors
         public AppointmentFeaturesPopupPage()
         {
+            this.CloseWhenBackgroundIsClicked = false;
             InitializeComponent();
         }
         #endregion

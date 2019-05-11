@@ -15,6 +15,7 @@
         #region Constructors
         public ChangeDatePopupPage()
         {
+            this.CloseWhenBackgroundIsClicked = false;
             InitializeComponent();
         }
         #endregion

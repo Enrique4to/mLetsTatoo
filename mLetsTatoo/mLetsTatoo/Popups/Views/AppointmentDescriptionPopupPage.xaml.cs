@@ -15,6 +15,7 @@
         #region Constructors
         public AppointmentDescriptionPopupPage()
         {
+            this.CloseWhenBackgroundIsClicked = false;
             InitializeComponent();
 
             if (MainViewModel.GetInstance().NewAppointmentPopup.typeAppointment == true)

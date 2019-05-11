@@ -62,6 +62,33 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Popups\Views\ConfirmTecnico\ConfirmHorarioPopupPage.xaml.cs">
+      <DependentUpon>ConfirmHorarioPopupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Popups\Views\ConfirmTecnico\ConfirmActCodePopupPage.xaml.cs">
+      <DependentUpon>ConfirmActCodePopupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Popups\Views\ConfirmTecnico\ConfirmMediumPopupPage.xaml.cs">
+      <DependentUpon>ConfirmMediumPopupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Popups\Views\ConfirmTecnico\ConfirmBigPopupPage.xaml.cs">
+      <DependentUpon>ConfirmBigPopupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Popups\Views\ConfirmTecnico\ConfirmSmallPopupPage.xaml.cs">
+      <DependentUpon>ConfirmSmallPopupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Popups\Views\ConfirmTecnico\ConfirmSabadoPopupPage.xaml.cs">
+      <DependentUpon>ConfirmSabadoPopupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Popups\Views\ConfirmTecnico\ConfirmDomingoPopupPage.xaml.cs">
+      <DependentUpon>ConfirmDomingoPopupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Popups\Views\ConfirmTecnico\ConfirmLunViePopupPage.xaml.cs">
+      <DependentUpon>ConfirmLunViePopupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Popups\Views\ConfirmTecnico\ConfirmPasswordPopupPage.xaml.cs">
+      <DependentUpon>ConfirmPasswordPopupPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Popups\Views\CancelDatePopupPage.xaml.cs">
       <DependentUpon>CancelDatePopupPage.xaml</DependentUpon>
     </Compile>

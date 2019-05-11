@@ -105,7 +105,8 @@
         {
             get
             {
-                return new RelayCommand(Inicio);
+                //return new RelayCommand(Inicio);
+                return new RelayCommand(prueba);
             }
 
         }
@@ -498,6 +499,13 @@
             MainViewModel.GetInstance().Register = new RegisterAccountViewModel();
             await Application.Current.MainPage.Navigation.PushModalAsync(new RegisterAccountPage());
         }
+        public async void prueba()
+        {
+            MainViewModel.GetInstance().ConfirmTecnicoPopup = new ConfirmTecnicoPopupViewModel();
+            MainViewModel.GetInstance().ConfirmTecnicoPopup.page = "Password";
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new ConfirmPasswordPopupPage());
+        }
+
         #endregion
 
     }

@@ -36,6 +36,7 @@ namespace mLetsTatoo.ViewModels
         public ActivityIndicatorPopupViewModel ActivityIndicatorPopup { get; set; }
         public NewAppointmentPopupViewModel NewAppointmentPopup { get; set; }
         public StartPopupViewModel StartPopup { get; set; }
+        public ConfirmTecnicoPopupViewModel ConfirmTecnicoPopup { get; set; }
 
         #endregion
 

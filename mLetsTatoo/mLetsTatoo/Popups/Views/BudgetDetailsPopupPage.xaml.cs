@@ -15,6 +15,7 @@
         #region Constructors
         public BudgetDetailsPopupPage()
         {
+            this.CloseWhenBackgroundIsClicked = false;
             InitializeComponent();
         }
         #endregion

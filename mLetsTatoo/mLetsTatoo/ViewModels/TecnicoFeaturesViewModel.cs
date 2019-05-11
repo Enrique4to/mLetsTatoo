@@ -1,18 +1,14 @@
-﻿
-
-namespace mLetsTatoo.ViewModels
+﻿namespace mLetsTatoo.ViewModels
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Windows.Input;
+    using CustomPages;
     using GalaSoft.MvvmLight.Command;
-    using Models;
     using Helpers;
+    using Models;
     using Plugin.Media.Abstractions;
     using Services;
+    using Views;
     using Xamarin.Forms;
-    using mLetsTatoo.CustomPages;
-    using mLetsTatoo.Views;
 
     public class TecnicoFeaturesViewModel : BaseViewModel
     {
@@ -247,7 +243,6 @@ namespace mLetsTatoo.ViewModels
         #endregion
 
         #region Merhods
-
         private async void SaveAndNext()
         {
             this.IsRunning = true;

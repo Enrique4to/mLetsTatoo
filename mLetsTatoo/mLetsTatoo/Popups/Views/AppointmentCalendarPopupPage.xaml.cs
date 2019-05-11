@@ -15,6 +15,7 @@
         #region Constructors
         public AppointmentCalendarPopupPage()
         {
+            this.CloseWhenBackgroundIsClicked = false;
             InitializeComponent();
         }
         #endregion

@@ -42,16 +42,17 @@ namespace mLetsTatoo.Droid
                 permissions,
                 grantResults);
         }
-        public override void OnBackPressed()
-        {
-            if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed))
-            {
-                
-            }
-            else
-            {
-            }
-        }
+        //public override void OnBackPressed()
+        //{
+
+        //    //if (Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed))
+        //    //{
+
+        //    //}
+        //    //else
+        //    //{
+        //    //}
+        //}
     }
 
 }

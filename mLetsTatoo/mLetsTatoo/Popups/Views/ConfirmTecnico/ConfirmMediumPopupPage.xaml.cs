@@ -1,28 +1,32 @@
-﻿namespace mLetsTatoo.Views
+﻿
+
+namespace mLetsTatoo.Popups.Views
 {
-    using Helpers;
-    using ViewModels;
+    using mLetsTatoo.Helpers;
+    using mLetsTatoo.ViewModels;
     using Plugin.Media;
     using Plugin.Media.Abstractions;
+    using Rg.Plugins.Popup.Pages;
     using System;
     using Xamarin.Forms;
-    public partial class TecnicoFeaturesPage : ContentPage
-    {
+    using Xamarin.Forms.Xaml;
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class ConfirmMediumPopupPage : PopupPage
+	{
         #region Attributes
         private int time;
         private string stringtime;
         private MediaFile file;
         #endregion
 
-        #region Constructors
-        public TecnicoFeaturesPage()
+        public ConfirmMediumPopupPage()
         {
-            InitializeComponent();
-        }
-        #endregion
+            this.CloseWhenBackgroundIsClicked = false;
+            InitializeComponent ();
+		}
 
         #region Methods
-        public async void OnTapGestureRecognizerTapped(object sender, EventArgs e)
+        public async void GetImage(object sender, EventArgs e)
         {
 
             var imageSender = (Image)sender;
@@ -69,46 +73,21 @@
                 });
             }
 
-            if(imageSender == this.Image1)
+            if (imageSender == this.MEImage)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.file1 = this.file;
+                MainViewModel.GetInstance().ConfirmTecnicoPopup.file1 = this.file;
             }
-            else if (imageSender == this.Image2)
+            else if (imageSender == this.MMImage)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.file2 = this.file;
+                MainViewModel.GetInstance().ConfirmTecnicoPopup.file2 = this.file;
             }
-            else if (imageSender == this.Image3)
+            else if (imageSender == this.MHImage)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.file3 = this.file;
-            }
-            else if (imageSender == this.Image4)
-            {
-                MainViewModel.GetInstance().TecnicoFeatures.file4 = this.file;
-            }
-            else if (imageSender == this.Image5)
-            {
-                MainViewModel.GetInstance().TecnicoFeatures.file5 = this.file;
-            }
-            else if (imageSender == this.Image6)
-            {
-                MainViewModel.GetInstance().TecnicoFeatures.file6 = this.file;
-            }
-            else if (imageSender == this.Image7)
-            {
-                MainViewModel.GetInstance().TecnicoFeatures.file7 = this.file;
-            }
-            else if (imageSender == this.Image8)
-            {
-                MainViewModel.GetInstance().TecnicoFeatures.file8 = this.file;
-            }
-            else if (imageSender == this.Image9)
-            {
-                MainViewModel.GetInstance().TecnicoFeatures.file9 = this.file;
+                MainViewModel.GetInstance().ConfirmTecnicoPopup.file3 = this.file;
             }
         }
-        public async void OnTapGestureRecognizerLabel(object sender, EventArgs e)
+        public async void GetTime(object sender, EventArgs e)
         {
-
             var timeSender = (Label)sender;
             await CrossMedia.Current.Initialize();
             var source = await Application.Current.MainPage.DisplayActionSheet(
@@ -123,7 +102,7 @@
                 "3 hrs");
 
             if (source == Languages.Cancel)
-            {               
+            {
                 return;
             }
 
@@ -160,49 +139,22 @@
 
             if (!string.IsNullOrEmpty(stringtime))
             {
-                timeSender.Text = stringtime;
+                timeSender.Text = Languages.EstimatedTime;
             }
-            if (timeSender == this.Time1)
+            if (timeSender == this.METime)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.time1 = this.time;
+                MainViewModel.GetInstance().ConfirmTecnicoPopup.METime = this.time;
             }
-            else if (timeSender == this.Time2)
+            else if (timeSender == this.MMTime)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.time2 = this.time;
+                MainViewModel.GetInstance().ConfirmTecnicoPopup.MMTime = this.time;
             }
-            else if (timeSender == this.Time3)
+            else if (timeSender == this.MHTime)
             {
-                MainViewModel.GetInstance().TecnicoFeatures.time3 = this.time;
-            }
-            else if (timeSender == this.Time4)
-            {
-                MainViewModel.GetInstance().TecnicoFeatures.time4 = this.time;
-            }
-            else if (timeSender == this.Time5)
-            {
-                MainViewModel.GetInstance().TecnicoFeatures.time5 = this.time;
-            }
-            else if (timeSender == this.Time6)
-            {
-                MainViewModel.GetInstance().TecnicoFeatures.time6 = this.time;
-            }
-            else if (timeSender == this.Time7)
-            {
-                MainViewModel.GetInstance().TecnicoFeatures.time7 = this.time;
-            }
-            else if (timeSender == this.Time8)
-            {
-                MainViewModel.GetInstance().TecnicoFeatures.time8 = this.time;
-            }
-            else if (timeSender == this.Time9)
-            {
-                MainViewModel.GetInstance().TecnicoFeatures.time9 = this.time;
+                MainViewModel.GetInstance().ConfirmTecnicoPopup.MHTime = this.time;
             }
         }
 
         #endregion
     }
-
-
-
 }

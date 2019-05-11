@@ -10,10 +10,10 @@
 	{
 		public StartPage()
         {
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("OTAxNjlAMzEzNzJlMzEyZTMwRjQwcisrVWozVTBVMStqRUJjaFY4ckJta3NqaWdRdkpjVzJHVm5NSkwzQT0=");
+            //Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("OTAxNjlAMzEzNzJlMzEyZTMwRjQwcisrVWozVTBVMStqRUJjaFY4ckJta3NqaWdRdkpjVzJHVm5NSkwzQT0=");
             InitializeComponent ();
-
             MainViewModel.GetInstance().Login.LoadLists();
         }
+
 	}
 }

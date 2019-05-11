@@ -363,9 +363,9 @@
         {
             get { return Resource.CompleteFeatures; }
         }
-        public static string FillFeatures
+        public static string FillSmallFeatures
         {
-            get { return Resource.FillFeatures; }
+            get { return Resource.FillSmallFeatures; }
         }
         public static string Cost
         {
@@ -634,6 +634,62 @@
         public static string CancelDateMessage
         {
             get { return Resource.CancelDateMessage; }
+        }
+        public static string SelectHorario
+        {
+            get { return Resource.SelectHorario; }
+        }
+        public static string LunVie
+        {
+            get { return Resource.LunVie; }
+        }
+        public static string Sabado
+        {
+            get { return Resource.Sabado; }
+        }
+        public static string Domingo
+        {
+            get { return Resource.Domingo; }
+        }
+        public static string HorarioError
+        {
+            get { return Resource.HorarioError; }
+        }
+        public static string SelectLunVie
+        {
+            get { return Resource.SelectLunVie; }
+        }
+        public static string SelectSabado
+        {
+            get { return Resource.SelectSabado; }
+        }
+        public static string SelectDomingo
+        {
+            get { return Resource.SelectDomingo; }
+        }
+        public static string CheckInTime
+        {
+            get { return Resource.CheckInTime; }
+        }
+        public static string CheckOutTime
+        {
+            get { return Resource.CheckOutTime; }
+        }
+        public static string CheckInTimeToEat
+        {
+            get { return Resource.CheckInTimeToEat; }
+        }
+        public static string CheckOutTimeToEat
+        {
+            get { return Resource.CheckOutTimeToEat; }
+        }
+        public static string HorarioComida
+        {
+            get { return Resource.HorarioComida; }
+        }
+        public static string FillComplexity
+        {
+            get { return Resource.FillComplexity; }
         }
 
     }

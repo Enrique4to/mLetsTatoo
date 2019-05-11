@@ -30,6 +30,7 @@
         }
         public string ConfirmPassword { get; set; }
         public string NewPassword { get; set; }
+
         public bool IsRunning
         {
             get { return this.isRunning; }

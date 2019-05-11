@@ -10,7 +10,7 @@
 	{
 		public LoginPage ()
         {
-            //Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("OTAxNjlAMzEzNzJlMzEyZTMwRjQwcisrVWozVTBVMStqRUJjaFY4ckJta3NqaWdRdkpjVzJHVm5NSkwzQT0=");
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("OTAxNjlAMzEzNzJlMzEyZTMwRjQwcisrVWozVTBVMStqRUJjaFY4ckJta3NqaWdRdkpjVzJHVm5NSkwzQT0=");
             InitializeComponent ();
 
         }

@@ -15,6 +15,7 @@
         #region Constructors
         public AppointmentTimePopupPage()
         {
+            this.CloseWhenBackgroundIsClicked = false;
             InitializeComponent();
             if (MainViewModel.GetInstance().NewAppointmentPopup.changeDate == true)
             {

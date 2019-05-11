@@ -387,8 +387,8 @@
   <data name="CompleteFeatures" xml:space="preserve">
     <value>Now, it is necessary that you fill out the form with the pre-established Features for the art that the clients will select.</value>
   </data>
-  <data name="FillFeatures" xml:space="preserve">
-    <value>Fill all the features</value>
+  <data name="FillSmallFeatures" xml:space="preserve">
+    <value>Enter the maximum values ​​for a small art size.</value>
   </data>
   <data name="Advance" xml:space="preserve">
     <value>Advance</value>
@@ -618,5 +618,53 @@ In the same way, if it turns out that the new advance is greater than the one re
 3. The advance can also be transferred as a gift to any of your friends, bearing in mind that it must be the total value of the advance.
 
 Do you want to continue?</value>
+  </data>
+  <data name="SelectHorario" xml:space="preserve">
+    <value>Select the days you work</value>
+  </data>
+  <data name="LunVie" xml:space="preserve">
+    <value>Monday to Fraiday</value>
+  </data>
+  <data name="Sabado" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="Domingo" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="HorarioError" xml:space="preserve">
+    <value>You must select at least one of the previous options.</value>
+  </data>
+  <data name="SelectLunVie" xml:space="preserve">
+    <value>Complete the fields for the Monday to Friday schedule</value>
+  </data>
+  <data name="SelectSabado" xml:space="preserve">
+    <value>Complete the fields for the Saturday schedule</value>
+  </data>
+  <data name="SelectDomingo" xml:space="preserve">
+    <value>Complete the fields for the Sunday schedule</value>
+  </data>
+  <data name="CheckInTime" xml:space="preserve">
+    <value>Check in time</value>
+  </data>
+  <data name="CheckOutTime" xml:space="preserve">
+    <value>Check out time</value>
+  </data>
+  <data name="CheckInTimeToEat" xml:space="preserve">
+    <value>Check in time to eat</value>
+  </data>
+  <data name="CheckOutTimeToEat" xml:space="preserve">
+    <value>Check out time to eat</value>
+  </data>
+  <data name="HorarioComida" xml:space="preserve">
+    <value>Do you have a meal schedule?</value>
+  </data>
+  <data name="FillComplexity" xml:space="preserve">
+    <value>Now, for each complexity, fill in the following.</value>
+  </data>
+  <data name="FillBigFeatures" xml:space="preserve">
+    <value>Enter the maximum values ​​for a big art size.</value>
+  </data>
+  <data name="FillMediumFeatures" xml:space="preserve">
+    <value>Enter the maximum values ​​for a medium art size.</value>
   </data>
 </root>

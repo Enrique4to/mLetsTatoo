@@ -31,6 +31,7 @@
         #region Constructors
         public SearchTecnicoPopupPage()
         {
+            this.CloseWhenBackgroundIsClicked = false;
             InitializeComponent();
         } 
         #endregion

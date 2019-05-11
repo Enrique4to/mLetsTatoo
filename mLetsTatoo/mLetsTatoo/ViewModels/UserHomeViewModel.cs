@@ -204,6 +204,7 @@
             MainViewModel.GetInstance().UserPage = new UserViewModel(this.user, this.cliente);
 
             this.NuevaFechaList = MainViewModel.GetInstance().Login.NuevaFechaList;
+            this.TrabajosList = MainViewModel.GetInstance().Login.TrabajosList;
             this.CitaList = MainViewModel.GetInstance().Login.CitaList;
             this.LocalesList = MainViewModel.GetInstance().Login.LocalesList;
             this.EstadosList = MainViewModel.GetInstance().Login.EstadosList;

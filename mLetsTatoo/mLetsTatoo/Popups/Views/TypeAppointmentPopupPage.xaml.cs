@@ -21,6 +21,7 @@
         #region Constructors
         public TypeAppointmentPopupPage()
         {
+            this.CloseWhenBackgroundIsClicked = false;
             InitializeComponent();
             MainViewModel.GetInstance().NewAppointmentPopup.typeAppointment = true;
             this.Details.Text = Languages.QuickDetails;

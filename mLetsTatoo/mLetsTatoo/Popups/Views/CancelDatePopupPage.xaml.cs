@@ -15,6 +15,7 @@
         #region Constructors
         public CancelDatePopupPage()
         {
+            this.CloseWhenBackgroundIsClicked = false;
             InitializeComponent();
         }
         #endregion
