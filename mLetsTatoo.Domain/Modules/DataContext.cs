@@ -64,5 +64,13 @@
         public System.Data.Entity.DbSet<mLetsTatoo.Models.T_tecnicohorarios> T_tecnicohorarios { get; set; }
 
         public System.Data.Entity.DbSet<mLetsTatoo.Models.T_nuevafecha> T_nuevafecha { get; set; }
+
+        public System.Data.Entity.DbSet<mLetsTatoo.Models.T_publicaciones> T_publicaciones { get; set; }
+
+        public System.Data.Entity.DbSet<mLetsTatoo.Models.T_imgpublicacion> T_imgpublicacion { get; set; }
+
+        public System.Data.Entity.DbSet<mLetsTatooModels.T_comentpublicacion> T_comentpublicacion { get; set; }
+
+        public System.Data.Entity.DbSet<mLetsTatoo.Models.T_likepublicacion> T_likepublicacion { get; set; }
     }
 }

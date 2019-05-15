@@ -143,7 +143,7 @@ xmlns:checkbox="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Butt
                                         BackgroundColor="White"
                                         BorderColor="Black"
                                         CornerRadius="20"
-                                        Grid.Column="0"
+                                        Grid.Column="1"
                                         Grid.Row="1"
                                         HasShadow="True"
                                         HorizontalOptions="CenterAndExpand"
@@ -159,13 +159,15 @@ xmlns:checkbox="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Butt
                                             PlaceholderColor="DimGray"  
                                             Text="{Binding SECost, Mode=TwoWay}"                     
                                             TextColor="Black"
-                                            WidthRequest="70"/>
+                                            Unfocused="AddComision"
+                                            WidthRequest="70"
+                                            x:Name="ECost"/>
                                     </Frame>
                                     <Frame
                                         BackgroundColor="White"
                                         BorderColor="Black"
                                         CornerRadius="20"
-                                        Grid.Column="1"
+                                        Grid.Column="0"
                                         Grid.Row="1"
                                         HasShadow="True"
                                         HorizontalOptions="CenterAndExpand"
@@ -181,7 +183,9 @@ xmlns:checkbox="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Butt
                                             PlaceholderColor="DimGray"
                                             Text="{Binding SEAdvance, Mode=TwoWay}"
                                             TextColor="Black"
-                                            WidthRequest="70"/>
+                                            Unfocused="AddComision"
+                                            WidthRequest="70"
+                                            x:Name="EAdvance"/>
                                     </Frame>
                                     <control:CustomLabel 
                                         BorderColor="BLack"
@@ -252,7 +256,7 @@ xmlns:checkbox="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Butt
                                         BackgroundColor="White"
                                         BorderColor="Black"
                                         CornerRadius="20"
-                                        Grid.Column="0"
+                                        Grid.Column="1"
                                         Grid.Row="1"
                                         HasShadow="True"
                                         HorizontalOptions="CenterAndExpand"
@@ -268,13 +272,15 @@ xmlns:checkbox="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Butt
                                             PlaceholderColor="DimGray"  
                                             Text="{Binding SMCost, Mode=TwoWay}"                     
                                             TextColor="Black"
-                                            WidthRequest="70"/>
+                                            Unfocused="AddComision"
+                                            WidthRequest="70"
+                                            x:Name="MCost"/>
                                     </Frame>
                                     <Frame
                                         BackgroundColor="White"
                                         BorderColor="Black"
                                         CornerRadius="20"
-                                        Grid.Column="1"
+                                        Grid.Column="0"
                                         Grid.Row="1"
                                         HasShadow="True"
                                         HorizontalOptions="CenterAndExpand"
@@ -290,7 +296,9 @@ xmlns:checkbox="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Butt
                                             PlaceholderColor="DimGray"
                                             Text="{Binding SMAdvance, Mode=TwoWay}"
                                             TextColor="Black"
-                                            WidthRequest="70"/>
+                                            Unfocused="AddComision"
+                                            WidthRequest="70"
+                                            x:Name="MAdvance"/>
                                     </Frame>
                                     <control:CustomLabel 
                                         BorderColor="BLack"
@@ -361,7 +369,7 @@ xmlns:checkbox="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Butt
                                         BackgroundColor="White"
                                         BorderColor="Black"
                                         CornerRadius="20"
-                                        Grid.Column="0"
+                                        Grid.Column="1"
                                         Grid.Row="1"
                                         HasShadow="True"
                                         HorizontalOptions="CenterAndExpand"
@@ -377,13 +385,15 @@ xmlns:checkbox="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Butt
                                             PlaceholderColor="DimGray"  
                                             Text="{Binding SHCost, Mode=TwoWay}"                     
                                             TextColor="Black"
-                                            WidthRequest="70"/>
+                                            Unfocused="AddComision"
+                                            WidthRequest="70"
+                                            x:Name="HCost"/>
                                     </Frame>
                                     <Frame
                                         BackgroundColor="White"
                                         BorderColor="Black"
                                         CornerRadius="20"
-                                        Grid.Column="1"
+                                        Grid.Column="0"
                                         Grid.Row="1"
                                         HasShadow="True"
                                         HorizontalOptions="CenterAndExpand"
@@ -399,7 +409,9 @@ xmlns:checkbox="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Butt
                                             PlaceholderColor="DimGray"
                                             Text="{Binding SHAdvance, Mode=TwoWay}"
                                             TextColor="Black"
-                                            WidthRequest="70"/>
+                                            Unfocused="AddComision"
+                                            WidthRequest="70"
+                                            x:Name="HAdvance"/>
                                     </Frame>
                                     <control:CustomLabel 
                                         BorderColor="BLack"

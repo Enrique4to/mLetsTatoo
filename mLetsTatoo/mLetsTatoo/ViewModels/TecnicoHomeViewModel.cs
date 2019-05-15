@@ -7,6 +7,9 @@
     using GalaSoft.MvvmLight.Command;
     using Helpers;
     using Models;
+    using Popups.ViewModel;
+    using Popups.Views;
+    using Rg.Plugins.Popup.Extensions;
     using Services;
     using Views;
     using Xamarin.Forms;
@@ -111,7 +114,13 @@
                 return new RelayCommand(LoadTrabajos);
             }
         }
-
+        public ICommand NewPublicationCommand
+        {
+            get
+            {
+                return new RelayCommand(NewPublication);
+            }
+        }
 
         #endregion
 
@@ -168,8 +177,10 @@
                 Alto = c.Alto,
                 Ancho = c.Ancho,
                 Tiempo = c.Tiempo,
+                Cancelado = c.Cancelado,
+                Completo = c.Completo,
 
-            }).Where(c => c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
+            }).Where(c => c.Id_Tatuador == this.tecnico.Id_Tecnico && c.Cancelado == false).ToList();
 
             this.Trabajos = new ObservableCollection<TrabajosItemViewModel>(trabajo.OrderBy(c => c.Id_Trabajo));
 
@@ -192,6 +203,12 @@
             await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoMessagesPage());
 
             //this.apiService.EndActivityPopup();
+        }
+
+        private async void NewPublication()
+        {
+            MainViewModel.GetInstance().NewPublicationPopup = new NewPublicationPopupViewModel();
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new NewPublicationPopupPage());
         }
         #endregion
     }

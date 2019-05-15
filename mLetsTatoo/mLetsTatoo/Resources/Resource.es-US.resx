@@ -668,4 +668,34 @@ Del mismo modo, si resulta que el nuevo anticipo es mayor al recuperado, deberá
   <data name="FillMediumFeatures" xml:space="preserve">
     <value>Ingresa los valores máximos para un tamaño de arte mediano.</value>
   </data>
+  <data name="LunVieActError" xml:space="preserve">
+    <value>La local donde trabajas, tiene registrado que no abre en horario de lunes a viernes, si esto es incorrecto, habla con el administrador para que valide y modifique sus horarios de ser necesario.</value>
+  </data>
+  <data name="DomActError" xml:space="preserve">
+    <value>La local donde trabajas, tiene registrado que no abre en horario de domingo, si esto es incorrecto, habla con el administrador para que valide y modifique sus horarios de ser necesario.</value>
+  </data>
+  <data name="LVRangoHorarioError1" xml:space="preserve">
+    <value>La local donde trabajas, tiene registrado que el horario de trabajo de de lunes a viernes es de</value>
+  </data>
+  <data name="SabActError" xml:space="preserve">
+    <value>La local donde trabajas, tiene registrado que el horario de trabajo de del sábado es de</value>
+  </data>
+  <data name="RangoHorarioError" xml:space="preserve">
+    <value>Tu horario debe estar dentro de ese horario, verifica tus datos, gracias.</value>
+  </data>
+  <data name="DRangoHorarioError1" xml:space="preserve">
+    <value>La local donde trabajas, tiene registrado que el horario de trabajo de del domingo es de</value>
+  </data>
+  <data name="SRangoHorarioError1" xml:space="preserve">
+    <value>La local donde trabajas, tiene registrado que el horario de trabajo de del sábado es de</value>
+  </data>
+  <data name="RangoHorarioComidaError" xml:space="preserve">
+    <value>Tu horario para comer debe estar dentro de ese horario.</value>
+  </data>
+  <data name="FillFeatures" xml:space="preserve">
+    <value>¡Rellena los datos que quieras cambiar!</value>
+  </data>
+  <data name="AddPublication" xml:space="preserve">
+    <value>Agrega una publicación</value>
+  </data>
 </root>

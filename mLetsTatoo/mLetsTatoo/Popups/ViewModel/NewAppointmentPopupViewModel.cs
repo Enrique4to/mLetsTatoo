@@ -498,52 +498,103 @@
         }
         public void LoadCitas()
         {
-            if(changeDate == true)
+            if (changeDate == true)
             {
-                this.CitaList = MainViewModel.GetInstance().TecnicoHome.CitasList.Select(c => new CitasItemViewModel
+                var newTecnicoList = MainViewModel.GetInstance().TecnicoHome.TrabajoList.Where(t => t.Cancelado == false).ToList();
+                if (newTecnicoList.Count > 0 )
                 {
-                    Id_Cita = c.Id_Cita,
-                    Id_Trabajo = c.Id_Trabajo,
-                    Id_Cliente = c.Id_Cliente,
-                    Id_Tatuador = c.Id_Tatuador,
-                    F_Inicio = new DateTime(c.F_Inicio.Year, c.F_Inicio.Month, c.F_Inicio.Day, c.H_Inicio.Hours, c.H_Inicio.Minutes, c.H_Inicio.Seconds),
-                    H_Inicio = c.H_Inicio,
-                    F_Fin = new DateTime(c.F_Fin.Year, c.F_Fin.Month, c.F_Fin.Day, c.H_Fin.Hours, c.H_Fin.Minutes, c.H_Fin.Seconds),
-                    H_Fin = c.H_Fin,
-                    Asunto = c.Asunto,
-                    Completa = c.Completa,
-                    ColorText = c.ColorText,
-                    Color = Color.FromHex(c.ColorText),
+                    this.CitaList = MainViewModel.GetInstance().TecnicoHome.CitasList.Select(c => new CitasItemViewModel
+                    {
+                        Id_Cita = c.Id_Cita,
+                        Id_Trabajo = c.Id_Trabajo,
+                        Id_Cliente = c.Id_Cliente,
+                        Id_Tatuador = c.Id_Tatuador,
+                        F_Inicio = new DateTime(c.F_Inicio.Year, c.F_Inicio.Month, c.F_Inicio.Day, c.H_Inicio.Hours, c.H_Inicio.Minutes, c.H_Inicio.Seconds),
+                        H_Inicio = c.H_Inicio,
+                        F_Fin = new DateTime(c.F_Fin.Year, c.F_Fin.Month, c.F_Fin.Day, c.H_Fin.Hours, c.H_Fin.Minutes, c.H_Fin.Seconds),
+                        H_Fin = c.H_Fin,
+                        Asunto = c.Asunto,
+                        Completa = c.Completa,
+                        ColorText = c.ColorText,
+                        Color = Color.FromHex(c.ColorText),
+                        Completado = MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Completo,
+                        Cancelado = MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Cancelado,
 
-                }).Where(c => c.Completa == false && c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
+                    }).Where(c => c.Completa == false && c.Cancelado == false && c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
+                }
+                else
+                {
+                    this.CitaList = MainViewModel.GetInstance().TecnicoHome.CitasList.Select(c => new CitasItemViewModel
+                    {
+                        Id_Cita = c.Id_Cita,
+                        Id_Trabajo = c.Id_Trabajo,
+                        Id_Cliente = c.Id_Cliente,
+                        Id_Tatuador = c.Id_Tatuador,
+                        F_Inicio = new DateTime(c.F_Inicio.Year, c.F_Inicio.Month, c.F_Inicio.Day, c.H_Inicio.Hours, c.H_Inicio.Minutes, c.H_Inicio.Seconds),
+                        H_Inicio = c.H_Inicio,
+                        F_Fin = new DateTime(c.F_Fin.Year, c.F_Fin.Month, c.F_Fin.Day, c.H_Fin.Hours, c.H_Fin.Minutes, c.H_Fin.Seconds),
+                        H_Fin = c.H_Fin,
+                        Asunto = c.Asunto,
+                        Completa = c.Completa,
+                        ColorText = c.ColorText,
+                        Color = Color.FromHex(c.ColorText),
+
+                    }).Where(c => c.Completa == false && c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
+                }
             }
             else
-            { 
-                this.CitaList = MainViewModel.GetInstance().UserHome.CitaList.Select(c => new CitasItemViewModel
+            {
+                var newTecnicoList = MainViewModel.GetInstance().UserHome.TrabajosList.Where(t => t.Cancelado == false && t.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
+                if (newTecnicoList.Count > 0)
                 {
-                    Id_Cita = c.Id_Cita,
-                    Id_Trabajo = c.Id_Trabajo,
-                    Id_Cliente = c.Id_Cliente,
-                    Id_Tatuador = c.Id_Tatuador,
-                    F_Inicio = new DateTime(c.F_Inicio.Year, c.F_Inicio.Month, c.F_Inicio.Day, c.H_Inicio.Hours, c.H_Inicio.Minutes, c.H_Inicio.Seconds),
-                    H_Inicio = c.H_Inicio,
-                    F_Fin = new DateTime(c.F_Fin.Year, c.F_Fin.Month, c.F_Fin.Day, c.H_Fin.Hours, c.H_Fin.Minutes, c.H_Fin.Seconds),
-                    H_Fin = c.H_Fin,
-                    Asunto = c.Asunto,
-                    Completa = c.Completa,
-                    ColorText = c.ColorText,
-                    Color = Color.FromHex(c.ColorText),
+                    this.CitaList = MainViewModel.GetInstance().UserHome.CitaList.Select(c => new CitasItemViewModel
+                    {
+                        Id_Cita = c.Id_Cita,
+                        Id_Trabajo = c.Id_Trabajo,
+                        Id_Cliente = c.Id_Cliente,
+                        Id_Tatuador = c.Id_Tatuador,
+                        F_Inicio = new DateTime(c.F_Inicio.Year, c.F_Inicio.Month, c.F_Inicio.Day, c.H_Inicio.Hours, c.H_Inicio.Minutes, c.H_Inicio.Seconds),
+                        H_Inicio = c.H_Inicio,
+                        F_Fin = new DateTime(c.F_Fin.Year, c.F_Fin.Month, c.F_Fin.Day, c.H_Fin.Hours, c.H_Fin.Minutes, c.H_Fin.Seconds),
+                        H_Fin = c.H_Fin,
+                        Asunto = c.Asunto,
+                        Completa = c.Completa,
+                        ColorText = c.ColorText,
+                        Color = Color.FromHex(c.ColorText),
+                        Completado = MainViewModel.GetInstance().UserHome.TrabajosList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Completo,
+                        Cancelado = MainViewModel.GetInstance().UserHome.TrabajosList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Cancelado,
 
-                }).Where(c => c.Completa == false && c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
+                    }).Where(c => c.Completa == false && c.Cancelado == false && c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
+                }
+                else
+                {
+                    this.CitaList = MainViewModel.GetInstance().UserHome.CitaList.Select(c => new CitasItemViewModel
+                    {
+                        Id_Cita = c.Id_Cita,
+                        Id_Trabajo = c.Id_Trabajo,
+                        Id_Cliente = c.Id_Cliente,
+                        Id_Tatuador = c.Id_Tatuador,
+                        F_Inicio = new DateTime(c.F_Inicio.Year, c.F_Inicio.Month, c.F_Inicio.Day, c.H_Inicio.Hours, c.H_Inicio.Minutes, c.H_Inicio.Seconds),
+                        H_Inicio = c.H_Inicio,
+                        F_Fin = new DateTime(c.F_Fin.Year, c.F_Fin.Month, c.F_Fin.Day, c.H_Fin.Hours, c.H_Fin.Minutes, c.H_Fin.Seconds),
+                        H_Fin = c.H_Fin,
+                        Asunto = c.Asunto,
+                        Completa = c.Completa,
+                        ColorText = c.ColorText,
+                        Color = Color.FromHex(c.ColorText),
+
+                    }).Where(c => c.Completa == false && c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
+                }
             }
 
             this.Citas = new ObservableCollection<CitasItemViewModel>(this.CitaList.OrderByDescending(c => c.F_Inicio));
+            
         }
         private async void NewDateSelected()
         {
-            if (newCita != null)
+            if (this.newCita != null)
             {
-                if(changeDate == true)
+                if (changeDate == true)
                 {
                     MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
                 }
@@ -551,9 +602,11 @@
                 {
                     MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
                 }
-                this.newCita = null;
                 this.LoadCitas();
+                this.newCita = null;
             }
+
+
 
             var times = (feature.Tiempo / 30) - 1;
             var TempDate = new DateTime(SelectedTime.Year, SelectedTime.Month, SelectedTime.Day, SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second);
@@ -725,17 +778,25 @@
                 Completa = false,
                 ColorText = hex,
                 Color = Color.FromHex(hex),
+                Completado = false,
+                Cancelado = false,
+               
             };
-
             if (newCita != null)
             {
                 if (changeDate == true)
                 {
-                    MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
+                    if (MainViewModel.GetInstance().TecnicoHome.CitasList.Count > 0)
+                    {
+                        MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
+                    }
                 }
                 else
                 {
-                    MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
+                    if (MainViewModel.GetInstance().UserHome.CitaList.Count > 0)
+                    {
+                        MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
+                    }
                 }
             }
 
@@ -776,12 +837,12 @@
                     this.WorkOutTime = $"{horario.Hluvia.Hours.ToString()}.{horario.Hluvia.Minutes.ToString()}";
                     this.workOut = new TimeSpan(horario.Hluvia.Hours, horario.Hluvia.Minutes, 0);
 
-                    if (horario.Hcomida == true)
+                    if (horario.Hlvcomidaact == true)
                     {
-                        this.EatInTime = $"{horario.Hcomidade.Hours.ToString()}";
-                        this.eatIn = new TimeSpan(horario.Hcomidade.Hours, horario.Hcomidade.Minutes, 0);
-                        this.EatOutTime = $"{horario.Hcomidaa.Hours.ToString()}";
-                        this.eatOut = new TimeSpan(horario.Hcomidaa.Hours, horario.Hcomidaa.Minutes, 0);
+                        this.EatInTime = $"{horario.Hlvcomidade.Hours.ToString()}";
+                        this.eatIn = new TimeSpan(horario.Hlvcomidade.Hours, horario.Hlvcomidade.Minutes, 0);
+                        this.EatOutTime = $"{horario.Hlvcomidaa.Hours.ToString()}";
+                        this.eatOut = new TimeSpan(horario.Hlvcomidaa.Hours, horario.Hlvcomidaa.Minutes, 0);
                     }
                     else
                     {
@@ -804,12 +865,12 @@
                     this.WorkOutTime = $"{horario.Hsaba.Hours.ToString()}.{horario.Hsaba.Minutes.ToString()}";
                     this.workOut = new TimeSpan(horario.Hsaba.Hours, horario.Hsaba.Minutes, 0);
 
-                    if (horario.Hcomida == true)
+                    if (horario.Hscomidaact == true)
                     {
-                        this.EatInTime = $"{horario.Hcomidade.Hours.ToString()}";
-                        this.eatIn = new TimeSpan(horario.Hcomidade.Hours, horario.Hcomidade.Minutes, 0);
-                        this.EatOutTime = $"{horario.Hcomidaa.Hours.ToString()}";
-                        this.eatOut = new TimeSpan(horario.Hcomidaa.Hours, horario.Hcomidaa.Minutes, 0);
+                        this.EatInTime = $"{horario.Hscomidade.Hours.ToString()}";
+                        this.eatIn = new TimeSpan(horario.Hscomidade.Hours, horario.Hscomidade.Minutes, 0);
+                        this.EatOutTime = $"{horario.Hscomidaa.Hours.ToString()}";
+                        this.eatOut = new TimeSpan(horario.Hscomidaa.Hours, horario.Hscomidaa.Minutes, 0);
                     }
                     else
                     {
@@ -832,12 +893,12 @@
                     this.WorkOutTime = $"{horario.Hdoma.Hours.ToString()}.{horario.Hdoma.Minutes.ToString()}";
                     this.workOut = new TimeSpan(horario.Hdoma.Hours, horario.Hdoma.Minutes, 0);
 
-                    if (horario.Hcomida == true)
+                    if (horario.Hdcomidaact == true)
                     {
-                        this.EatInTime = $"{horario.Hcomidade.Hours.ToString()}";
-                        this.eatIn = new TimeSpan(horario.Hcomidade.Hours, horario.Hcomidade.Minutes, 0);
-                        this.EatOutTime = $"{horario.Hcomidaa.Hours.ToString()}";
-                        this.eatOut = new TimeSpan(horario.Hcomidaa.Hours, horario.Hcomidaa.Minutes, 0);
+                        this.EatInTime = $"{horario.Hdcomidade.Hours.ToString()}";
+                        this.eatIn = new TimeSpan(horario.Hdcomidade.Hours, horario.Hdcomidade.Minutes, 0);
+                        this.EatOutTime = $"{horario.Hdcomidaa.Hours.ToString()}";
+                        this.eatOut = new TimeSpan(horario.Hdcomidaa.Hours, horario.Hdcomidaa.Minutes, 0);
                     }
                     else
                     {
@@ -1048,6 +1109,7 @@
             }
 
             trabajo = (T_trabajos)response.Result;
+            MainViewModel.GetInstance().UserHome.TrabajosList.Add(trabajo);
 
             var color = Color.DarkRed;
             int red = (int)(color.R * 255);
@@ -1210,7 +1272,9 @@
             }
 
             trabajo = (T_trabajos)response.Result;
-            
+
+            MainViewModel.GetInstance().UserHome.TrabajosList.Add(trabajo);
+
             var color = Color.DarkBlue;
             int red = (int)(color.R * 255);
             int green = (int)(color.G * 255);

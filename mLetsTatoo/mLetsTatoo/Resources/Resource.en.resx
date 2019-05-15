@@ -667,4 +667,34 @@ Do you want to continue?</value>
   <data name="FillMediumFeatures" xml:space="preserve">
     <value>Enter the maximum values ​​for a medium art size.</value>
   </data>
+  <data name="LunVieActError" xml:space="preserve">
+    <value>The place where you work, has registered that does not open from Monday to Friday, if this is incorrect, talk to the administrator to validate and modify their schedules if necessary.</value>
+  </data>
+  <data name="DomActError" xml:space="preserve">
+    <value>The place where you work, has registered that does not open on Sunday, if this is incorrect, talk to the administrator to validate and modify their schedules if necessary.</value>
+  </data>
+  <data name="LVRangoHorarioError1" xml:space="preserve">
+    <value>The place where you work has registered that the working hours from Monday to Friday are from</value>
+  </data>
+  <data name="SabActError" xml:space="preserve">
+    <value>The place where you work, has registered that the work schedule of Saturday is</value>
+  </data>
+  <data name="RangoHorarioError" xml:space="preserve">
+    <value>Your schedule must be within that schedule, verify your data, thank you.</value>
+  </data>
+  <data name="DRangoHorarioError1" xml:space="preserve">
+    <value>The place where you work, has registered that the work schedule of Sunday is from</value>
+  </data>
+  <data name="SRangoHorarioError1" xml:space="preserve">
+    <value>The place where you work, has registered that the work schedule of Saturday is from</value>
+  </data>
+  <data name="RangoHorarioComidaError" xml:space="preserve">
+    <value>Your meal time should be within that time.</value>
+  </data>
+  <data name="FillFeatures" xml:space="preserve">
+    <value>Fill the data you want to change!</value>
+  </data>
+  <data name="AddPublication" xml:space="preserve">
+    <value>Add a publication</value>
+  </data>
 </root>

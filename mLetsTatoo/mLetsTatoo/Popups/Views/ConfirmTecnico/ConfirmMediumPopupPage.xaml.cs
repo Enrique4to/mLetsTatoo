@@ -17,6 +17,12 @@ namespace mLetsTatoo.Popups.Views
         private int time;
         private string stringtime;
         private MediaFile file;
+        private int ECostAddedComision;
+        private int EAdvanceAddedComision;
+        private int MCostAddedComision;
+        private int MAdvanceAddedComision;
+        private int HCostAddedComision;
+        private int HAdvanceAddedComision;
         #endregion
 
         public ConfirmMediumPopupPage()
@@ -75,15 +81,15 @@ namespace mLetsTatoo.Popups.Views
 
             if (imageSender == this.MEImage)
             {
-                MainViewModel.GetInstance().ConfirmTecnicoPopup.file1 = this.file;
+                MainViewModel.GetInstance().ConfirmTecnicoPopup.file4 = this.file;
             }
             else if (imageSender == this.MMImage)
             {
-                MainViewModel.GetInstance().ConfirmTecnicoPopup.file2 = this.file;
+                MainViewModel.GetInstance().ConfirmTecnicoPopup.file5 = this.file;
             }
             else if (imageSender == this.MHImage)
             {
-                MainViewModel.GetInstance().ConfirmTecnicoPopup.file3 = this.file;
+                MainViewModel.GetInstance().ConfirmTecnicoPopup.file6 = this.file;
             }
         }
         public async void GetTime(object sender, EventArgs e)
@@ -139,7 +145,7 @@ namespace mLetsTatoo.Popups.Views
 
             if (!string.IsNullOrEmpty(stringtime))
             {
-                timeSender.Text = Languages.EstimatedTime;
+                timeSender.Text = this.stringtime;
             }
             if (timeSender == this.METime)
             {
@@ -152,6 +158,86 @@ namespace mLetsTatoo.Popups.Views
             else if (timeSender == this.MHTime)
             {
                 MainViewModel.GetInstance().ConfirmTecnicoPopup.MHTime = this.time;
+            }
+        }
+        private void AddComision(object sender, FocusEventArgs e)
+        {
+            var entry = (Entry)sender;
+            if (!string.IsNullOrEmpty(entry.Text))
+            {
+                int a = int.Parse(entry.Text);
+
+                if (entry == this.ECost)
+                {
+                    if (a != ECostAddedComision)
+                    {
+                        if (e.IsFocused == false)
+                        {
+                            entry.Text = (a + 50).ToString();
+                            this.ECostAddedComision = a + 50;
+                        }
+                    }
+                }
+
+                if (entry == this.EAdvance)
+                {
+                    if (a != EAdvanceAddedComision)
+                    {
+                        if (e.IsFocused == false)
+                        {
+                            entry.Text = (a + 50).ToString();
+                            this.EAdvanceAddedComision = a + 50;
+                            this.ECost.Text = null;
+                        }
+                    }
+                }
+
+                if (entry == this.MCost)
+                {
+                    if (a != MCostAddedComision)
+                    {
+                        if (e.IsFocused == false)
+                        {
+                            entry.Text = (a + 50).ToString();
+                            this.MCostAddedComision = a + 50;
+                        }
+                    }
+                }
+                if (entry == this.MAdvance)
+                {
+                    if (a != MAdvanceAddedComision)
+                    {
+                        if (e.IsFocused == false)
+                        {
+                            entry.Text = (a + 50).ToString();
+                            this.MAdvanceAddedComision = a + 50;
+                            this.MCost.Text = null;
+                        }
+                    }
+                }
+                if (entry == this.HCost)
+                {
+                    if (a != HCostAddedComision)
+                    {
+                        if (e.IsFocused == false)
+                        {
+                            entry.Text = (a + 50).ToString();
+                            this.HCostAddedComision = a + 50;
+                        }
+                    }
+                }
+                if (entry == this.HAdvance)
+                {
+                    if (a != HAdvanceAddedComision)
+                    {
+                        if (e.IsFocused == false)
+                        {
+                            entry.Text = (a + 50).ToString();
+                            this.HAdvanceAddedComision = a + 50;
+                            this.HCost = null;
+                        }
+                    }
+                }
             }
         }
 

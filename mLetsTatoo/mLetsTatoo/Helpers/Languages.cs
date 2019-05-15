@@ -691,6 +691,45 @@
         {
             get { return Resource.FillComplexity; }
         }
-
+        public static string LunVieActError
+        {
+            get { return Resource.LunVieActError; }
+        }
+        public static string SabActError
+        {
+            get { return Resource.SabActError; }
+        }
+        public static string DomActError
+        {
+            get { return Resource.DomActError; }
+        }
+        public static string LVRangoHorarioError1
+        {
+            get { return Resource.LVRangoHorarioError1; }
+        }
+        public static string SRangoHorarioError1
+        {
+            get { return Resource.SRangoHorarioError1; }
+        }
+        public static string DRangoHorarioError1
+        {
+            get { return Resource.DRangoHorarioError1; }
+        }
+        public static string RangoHorarioError
+        {
+            get { return Resource.RangoHorarioError; }
+        }
+        public static string RangoHorarioComidaError
+        {
+            get { return Resource.RangoHorarioComidaError; }
+        }
+        public static string FillFeatures
+        {
+            get { return Resource.FillFeatures; }
+        }
+        public static string AddPublication
+        {
+            get { return Resource.AddPublication; }
+        }
     }
 }

@@ -6,11 +6,11 @@
     public class T_nuevafecha
     {
         #region Properties
-        [Required]
+        [Key]
         public int Id_nuevafecha { get; set; }
         [Required]
         public DateTime Nueva_Fecha { get; set; }
-        [Key]
+        [Required]
         public int Id_Cita { get; set; }
         #endregion
     }

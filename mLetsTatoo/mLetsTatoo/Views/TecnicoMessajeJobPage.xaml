@@ -239,7 +239,9 @@
                             PlaceholderColor="Gray"
                             Text="{Binding Anticipo, Mode=TwoWay}"                        
                             TextColor="LightGray"
-                            VerticalOptions="Center"/>
+                            Unfocused="AddComision"
+                            VerticalOptions="Center"
+                            x:Name="Advance"/>
                         <control:CustomEntry 
                             BorderColor="Gray"
                             FontAttributes="Bold"
@@ -253,14 +255,16 @@
                             PlaceholderColor="Gray"
                             Text="{Binding Total, Mode=TwoWay}"                        
                             TextColor="LightGray"
-                            VerticalOptions="Center"/>
+                            Unfocused="AddComision"
+                            VerticalOptions="Center"
+                            x:Name="Cost"/>
                         <Image
                             Aspect="AspectFit"
                             HeightRequest="30"
                             Source="SendMessage.png"
                             VerticalOptions="Center">
                             <Image.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding SendBudgetCommand}"/>
+                                <TapGestureRecognizer Command="{Binding SendBudgetCommand}" Tapped="SendBudget"/>
                             </Image.GestureRecognizers>
                         </Image>
                     </StackLayout>

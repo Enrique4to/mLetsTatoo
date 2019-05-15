@@ -163,8 +163,12 @@
                 Id_Tatuador = c.Id_Tatuador,
                 Id_Cita = c.Id_Cita,
                 Id_Trabajo = c.Id_Trabajo,
+                ColorText = c.ColorText,
+                Color = Color.FromHex(c.ColorText),
+                Completado = MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Completo,
+                Cancelado = MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Cancelado,
 
-            }).Where(c => c.Completa == false).ToList();
+            }).Where(c => c.Completa == false && c.Cancelado == false).ToList();
             this.Citas = new ObservableCollection<CitasItemViewModel>(cita.OrderBy(c => c.F_Inicio));
             this.IsRefreshing = false;
         }

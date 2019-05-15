@@ -294,8 +294,11 @@
     <Compile Include="Controllers\T_citaimagenestempController.cs" />
     <Compile Include="Controllers\T_ciudadController.cs" />
     <Compile Include="Controllers\T_clientesController.cs" />
+    <Compile Include="Controllers\T_comentpublicacionController.cs" />
     <Compile Include="Controllers\T_empresasController.cs" />
     <Compile Include="Controllers\T_estadoController.cs" />
+    <Compile Include="Controllers\T_imgpublicacionController.cs" />
+    <Compile Include="Controllers\T_likepublicacionController.cs" />
     <Compile Include="Controllers\T_localesController.cs" />
     <Compile Include="Controllers\T_localfacturasController.cs" />
     <Compile Include="Controllers\T_localhistoriaController.cs" />
@@ -305,6 +308,7 @@
     <Compile Include="Controllers\T_nuevafechaController.cs" />
     <Compile Include="Controllers\T_postalController.cs" />
     <Compile Include="Controllers\T_propietariosController.cs" />
+    <Compile Include="Controllers\T_publicacionesController.cs" />
     <Compile Include="Controllers\T_redesController.cs" />
     <Compile Include="Controllers\T_teccaractController.cs" />
     <Compile Include="Controllers\T_tecimagenesController.cs" />

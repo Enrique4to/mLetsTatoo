@@ -330,9 +330,9 @@
                                                         FontAttributes="Bold"
                                                         FontSize="14"
                                                         HorizontalTextAlignment="Start"
-                                                            VerticalTextAlignment="End"
                                                         Text="{Binding Nombre_Post}"                                                        
-                                                        TextColor="Black"/>
+                                                        TextColor="Black"
+                                                         VerticalTextAlignment="End"/>
                                                     <Label
                                                         FontSize="12"
                                                         HorizontalTextAlignment="Start"

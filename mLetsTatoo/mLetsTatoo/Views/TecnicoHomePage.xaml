@@ -42,6 +42,28 @@
             <StackLayout
             BindingContext="{Binding TecnicoHome}"
             Padding="5">
+                <Frame
+                    BackgroundColor="White"
+                    BorderColor="DimGray"
+                    CornerRadius="20"
+                    HasShadow="True"
+                    HorizontalOptions="CenterAndExpand"
+                    Margin="0,8"
+                    Padding="8,8"
+                    VerticalOptions="Center">
+                    <Label
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="{i18n:Translate AddPublication}"
+                        TextColor="Black"
+                        WidthRequest="280">
+                    </Label>
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NewPublicationCommand}"/>
+                    </Frame.GestureRecognizers>
+                </Frame>
             </StackLayout>
         </ContentPage>
 

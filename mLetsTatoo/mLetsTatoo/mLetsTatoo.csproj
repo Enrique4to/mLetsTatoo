@@ -62,6 +62,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Popups\Views\NewPublicationPopupPage.xaml.cs">
+      <DependentUpon>NewPublicationPopupPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Popups\Views\ConfirmTecnico\ConfirmHorarioPopupPage.xaml.cs">
       <DependentUpon>ConfirmHorarioPopupPage.xaml</DependentUpon>
     </Compile>
@@ -89,13 +92,13 @@
     <Compile Update="Popups\Views\ConfirmTecnico\ConfirmPasswordPopupPage.xaml.cs">
       <DependentUpon>ConfirmPasswordPopupPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Popups\Views\CancelDatePopupPage.xaml.cs">
+    <Compile Update="Popups\Views\NewAndEditDate\CancelDatePopupPage.xaml.cs">
       <DependentUpon>CancelDatePopupPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Popups\Views\ChangeDatePopupPage.xaml.cs">
+    <Compile Update="Popups\Views\NewAndEditDate\ChangeDatePopupPage.xaml.cs">
       <DependentUpon>ChangeDatePopupPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Popups\Views\BudgetDetailsPopupPage.xaml.cs">
+    <Compile Update="Popups\Views\NewAndEditDate\BudgetDetailsPopupPage.xaml.cs">
       <DependentUpon>BudgetDetailsPopupPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Popups\Views\StartPopupPage.xaml.cs">
@@ -104,25 +107,25 @@
     <Compile Update="Popups\Views\ActivityIndicatorPopupPage .xaml.cs">
       <DependentUpon>ActivityIndicatorPopupPage .xaml</DependentUpon>
     </Compile>
-    <Compile Update="Popups\Views\AppointmentDescriptionPopupPage.xaml.cs">
+    <Compile Update="Popups\Views\NewAndEditDate\AppointmentDescriptionPopupPage.xaml.cs">
       <DependentUpon>AppointmentDescriptionPopupPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Popups\Views\AppointmentDetailsPopupPage.xaml.cs">
+    <Compile Update="Popups\Views\NewAndEditDate\AppointmentDetailsPopupPage.xaml.cs">
       <DependentUpon>AppointmentDetailsPopupPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Popups\Views\AppointmentTimePopupPage.xaml.cs">
+    <Compile Update="Popups\Views\NewAndEditDate\AppointmentTimePopupPage.xaml.cs">
       <DependentUpon>AppointmentTimePopupPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Popups\Views\AppointmentCalendarPopupPage.xaml.cs">
+    <Compile Update="Popups\Views\NewAndEditDate\AppointmentCalendarPopupPage.xaml.cs">
       <DependentUpon>AppointmentCalendarPopupPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Popups\Views\TypeAppointmentPopupPage.xaml.cs">
+    <Compile Update="Popups\Views\NewAndEditDate\TypeAppointmentPopupPage.xaml.cs">
       <DependentUpon>TypeAppointmentPopupPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Popups\Views\AppointmentFeaturesPopupPage.xaml.cs">
+    <Compile Update="Popups\Views\NewAndEditDate\AppointmentFeaturesPopupPage.xaml.cs">
       <DependentUpon>AppointmentFeaturesPopupPage.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Popups\Views\SearchTecnicoPopupPage.xaml.cs">
+    <Compile Update="Popups\Views\NewAndEditDate\SearchTecnicoPopupPage.xaml.cs">
       <DependentUpon>SearchTecnicoPopupPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Popups\Views\EditCommentPopupPage.xaml.cs">

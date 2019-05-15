@@ -10,12 +10,18 @@
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class TecnicoMessajeJobPage : TabbedPage
     {
+        #region Attributes
         private int time;
         private string stringtime;
         public bool pageVisible;
+        private int CostAddedComision;
+        private int AdvanceAddedComision;
+        private Grid _grid;
+        #endregion
+        #region Constructors
         public TecnicoMessajeJobPage()
-		{
-			InitializeComponent ();
+        {
+            InitializeComponent();
             this.CurrentPage = this.Messages;
             this.Message.IsChecked = true;
             this.BarBackgroundColor = Color.FromRgb(20, 20, 20);
@@ -39,6 +45,8 @@
 
             };
         }
+        #endregion
+        #region Methods
         private void LoadPage(object sender, StateChangedEventArgs e)
         {
             if (e.IsChecked.HasValue && e.IsChecked.Value)
@@ -62,7 +70,6 @@
                 }
             }
         }
-        private Grid _grid;
         private void OnGridSelect(object s, EventArgs e)
         {
             if (_grid != null)
@@ -158,6 +165,45 @@
             {
                 c.Text = "3 hrs";
             }
+        }
+        private void AddComision(object sender, FocusEventArgs e)
+        {
+            var entry = (Entry)sender;
+            if (!string.IsNullOrEmpty(entry.Text))
+            {
+                int a = int.Parse(entry.Text);
+
+                if (entry == this.Cost)
+                {
+                    if (a != CostAddedComision)
+                    {
+                        if (e.IsFocused == false)
+                        {
+                            entry.Text = (a + 50).ToString();
+                            this.CostAddedComision = a + 50;
+                        }
+                    }
+                }
+
+                if (entry == this.Advance)
+                {
+                    if (a != AdvanceAddedComision)
+                    {
+                        if (e.IsFocused == false)
+                        {
+                            entry.Text = (a + 50).ToString();
+                            this.AdvanceAddedComision = a + 50;
+                            this.Cost.Text = null;
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
+
+        private void SendBudget(object sender, EventArgs e)
+        {
+            this.Message.IsChecked = true;
         }
     }
 }

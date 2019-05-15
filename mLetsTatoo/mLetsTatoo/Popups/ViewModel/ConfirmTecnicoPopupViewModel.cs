@@ -1,6 +1,8 @@
 ﻿namespace mLetsTatoo.Popups.ViewModel
 {
     using System;
+    using System.Linq;
+    using System.Threading.Tasks;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Helpers;
@@ -21,6 +23,7 @@
         #endregion
 
         #region Attributes
+        private bool next;
         private TecnicosCollection tecnico;
         private T_usuarios user;
 
@@ -50,8 +53,9 @@
         private TimeSpan dCheckIn;
         private TimeSpan dCheckInEat;
         private TimeSpan dCheckOut;
-        private TimeSpan dCheckOutEat; 
+        private TimeSpan dCheckOutEat;
         #endregion
+
 
         public string page;
         private string activationCode;
@@ -212,14 +216,14 @@
         #endregion
 
         #region Constructors
-        public ConfirmTecnicoPopupViewModel()
+        public ConfirmTecnicoPopupViewModel(T_usuarios user, TecnicosCollection tecnico)
         {
             this.apiService = new ApiService();
             this.NewPassword = null;
             this.ConfirmPassword = null;
             this.ActivationCode = null;
-            //this.tecnico = tecnico;
-            //this.user = user;
+            this.tecnico = tecnico;
+            this.user = user;
         }
         #endregion
         #region Commands
@@ -240,8 +244,9 @@
         }
         #endregion
         #region Methods
-        private async void ValidatePassword()
+        private void ValidatePassword()
         {
+            this.next = true;
             if (string.IsNullOrEmpty(this.NewPassword))
             {
                 this.NewPassword = user.Pass;
@@ -250,69 +255,309 @@
 
             if (this.NewPassword == this.user.Pass)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NewPasswordError,
                     "Ok");
+                this.next = false;
                 return;
             }
             if (string.IsNullOrEmpty(this.ConfirmPassword))
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.ConfirmPasswordError,
                     "Ok");
+                this.next = false;
                 return;
             }
             if (this.NewPassword != this.ConfirmPassword)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.MatchPasswordError,
                     "Ok");
+                this.next = false;
                 return;
             }
         }
-        private async void ValidateActCode()
+        private void ValidateActCode()
         {
+            this.next = true;
             //--------------Confirm Activation--------------//
 
             if (string.IsNullOrEmpty(this.ActivationCode))
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.ActivationCodeError,
                     "Ok");
+
+                this.next = false;
                 return;
             }
             var confirm = int.Parse(this.ActivationCode);
             if (confirm != this.user.Confirmacion)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.ActivationCodeError,
                     "Ok");
+
+                this.next = false;
                 return;
             }
         }
-        private async void ValidateSmall()
+        private void ValidateHorarios()
         {
+            var horarioLocal = MainViewModel.GetInstance().Login.ListHorariosLocales.Where(h => h.Id_Local == this.tecnico.Id_Local).FirstOrDefault();
+            this.next = true;
+            if (this.page == "LunVie")
+            {
+                var checkIn = new DateTime
+                (
+                    DateTime.Now.Year,
+                    DateTime.Now.Month,
+                    DateTime.Now.Day,
+                    horarioLocal.Hluvide.Hours,
+                    horarioLocal.Hluvide.Minutes,0
+                ).ToString("h:mm tt");
+
+                var checkOut = new DateTime
+                (
+                    DateTime.Now.Year,
+                    DateTime.Now.Month,
+                    DateTime.Now.Day,
+                    horarioLocal.Hluvia.Hours,
+                    horarioLocal.Hluvia.Minutes,0
+                ).ToString("h:mm tt");
+
+                if (this.LVCheckOut.Ticks <= horarioLocal.Hluvide.Ticks || this.LVCheckOut.Ticks > horarioLocal.Hluvia.Ticks
+                    || this.lvCheckIn.Ticks < horarioLocal.Hluvide.Ticks || this.LVCheckIn.Ticks >= horarioLocal.Hluvia.Ticks
+                    || this.LVCheckOut.Ticks == this.LVCheckIn.Ticks)
+                {
+                    var message = $"{Languages.LVRangoHorarioError1} {checkIn} {Languages.To} {checkOut}. {Languages.RangoHorarioError}.";
+                    Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        message,
+                        "Ok");
+                    this.next = false;
+                    return;
+                }
+                this.ValidateHorariosComida();
+
+            }
+
+            if (this.page == "Sabado")
+            {
+                var checkIn = new DateTime
+                (
+                    DateTime.Now.Year,
+                    DateTime.Now.Month,
+                    DateTime.Now.Day,
+                    horarioLocal.Hsabde.Hours,
+                    horarioLocal.Hsabde.Minutes,0
+                ).ToString("h:mm tt");
+
+                var checkOut = new DateTime
+                (
+                    DateTime.Now.Year,
+                    DateTime.Now.Month,
+                    DateTime.Now.Day,
+                    horarioLocal.Hsaba.Hours,
+                    horarioLocal.Hsaba.Minutes,0
+                ).ToString("h:mm tt");
+
+                if (this.SCheckIn.Ticks < horarioLocal.Hluvide.Ticks || this.SCheckIn.Ticks >= horarioLocal.Hluvia.Ticks
+                    || this.SCheckOut.Ticks <= horarioLocal.Hluvide.Ticks || this.SCheckOut.Ticks > horarioLocal.Hluvia.Ticks
+                    || this.SCheckOut.Ticks == this.SCheckIn.Ticks)
+                {
+                    var message = $"{Languages.SRangoHorarioError1} {checkIn} {Languages.To} {checkOut}. {Languages.RangoHorarioError}.";
+                    Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        message,
+                        "Ok");
+                    this.next = false;
+                    return;
+                }
+                this.ValidateHorariosComida();
+            }
+
+            if (this.page == "Domingo")
+            {
+                var checkIn = new DateTime
+                (
+                    DateTime.Now.Year,
+                    DateTime.Now.Month,
+                    DateTime.Now.Day,
+                    horarioLocal.Hdomde.Hours,
+                    horarioLocal.Hdomde.Minutes,0
+                ).ToString("h:mm tt");
+
+                var checkOut = new DateTime
+                (
+                    DateTime.Now.Year,
+                    DateTime.Now.Month,
+                    DateTime.Now.Day,
+                    horarioLocal.Hdoma.Hours,
+                    horarioLocal.Hdoma.Minutes,0
+                ).ToString("h:mm tt");
+
+                if (this.DCheckIn.Ticks < horarioLocal.Hluvide.Ticks || this.DCheckIn.Ticks >= horarioLocal.Hluvia.Ticks
+                    || this.DCheckOut.Ticks <= horarioLocal.Hluvide.Ticks || this.DCheckOut.Ticks > horarioLocal.Hluvia.Ticks
+                    || this.DCheckOut.Ticks == this.DCheckIn.Ticks)
+                {
+                    var message = $"{Languages.DRangoHorarioError1} {checkIn} {Languages.To} {checkOut}. {Languages.RangoHorarioError}.";
+                    Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        message,
+                        "Ok");
+                    return;
+                    this.next = false;
+                }
+                this.ValidateHorariosComida();
+            }
+
+        }
+        private void ValidateHorariosComida()
+        {
+            var horarioLocal = MainViewModel.GetInstance().Login.ListHorariosLocales.Where(h => h.Id_Local == this.tecnico.Id_Local).FirstOrDefault();
+            if (this.page == "LunVie")
+            {
+                if(this.LVComidaChecked == true)
+                {
+                    var checkIn = new DateTime
+                    (
+                        DateTime.Now.Year,
+                        DateTime.Now.Month,
+                        DateTime.Now.Day,
+                        horarioLocal.Hluvide.Hours,
+                        horarioLocal.Hluvide.Minutes, 0
+                    ).ToString("h:mm tt");
+
+                    var checkOut = new DateTime
+                    (
+                        DateTime.Now.Year,
+                        DateTime.Now.Month,
+                        DateTime.Now.Day,
+                        horarioLocal.Hluvia.Hours,
+                        horarioLocal.Hluvia.Minutes, 0
+                    ).ToString("h:mm tt");
+
+                    if (this.LVCheckOutEat.Ticks <= horarioLocal.Hluvide.Ticks || this.LVCheckOutEat.Ticks >= horarioLocal.Hluvia.Ticks
+                        || this.LVCheckInEat.Ticks <= horarioLocal.Hluvide.Ticks || this.LVCheckInEat.Ticks >= horarioLocal.Hluvia.Ticks
+                        || this.LVCheckOutEat == this.LVCheckInEat)
+                    {
+                        var message = $"{Languages.LVRangoHorarioError1} {checkIn} {Languages.To} {checkOut}. {Languages.RangoHorarioComidaError}.";
+                        Application.Current.MainPage.DisplayAlert(
+                            Languages.Error,
+                            message,
+                            "Ok");
+                        this.next = false;
+                        return;
+                    }
+                }
+            }
+
+            if (this.page == "Sabado")
+            {
+
+                if (this.SComidaChecked == true)
+                {
+                    var checkIn = new DateTime
+                    (
+                    DateTime.Now.Year,
+                    DateTime.Now.Month,
+                    DateTime.Now.Day,
+                    horarioLocal.Hsabde.Hours,
+                    horarioLocal.Hsabde.Minutes, 0
+                    ).ToString("h:mm tt");
+
+                    var checkOut = new DateTime
+                    (
+                        DateTime.Now.Year,
+                        DateTime.Now.Month,
+                        DateTime.Now.Day,
+                        horarioLocal.Hsaba.Hours,
+                        horarioLocal.Hsaba.Minutes, 0
+                    ).ToString("h:mm tt");
+
+                    if (this.SCheckIn.Ticks <= horarioLocal.Hluvide.Ticks || this.SCheckIn.Ticks >= horarioLocal.Hluvia.Ticks
+                        || this.SCheckOut.Ticks <= horarioLocal.Hluvide.Ticks || this.SCheckOut.Ticks >= horarioLocal.Hluvia.Ticks
+                        || this.SCheckOutEat == this.SCheckInEat)
+                    {
+                        var message = $"{Languages.SRangoHorarioError1} {checkIn} {Languages.To} {checkOut}. {Languages.RangoHorarioComidaError}.";
+                        Application.Current.MainPage.DisplayAlert(
+                            Languages.Error,
+                            message,
+                            "Ok");
+                        this.next = false;
+                        return;
+                    }
+                }
+
+            }
+
+            if (this.page == "Domingo")
+            {
+                if (this.DComidaChecked == true)
+                {
+                    var checkIn = new DateTime
+                    (
+                    DateTime.Now.Year,
+                    DateTime.Now.Month,
+                    DateTime.Now.Day,
+                    horarioLocal.Hdomde.Hours,
+                    horarioLocal.Hdomde.Minutes, 0
+                    ).ToString("h:mm tt");
+
+                    var checkOut = new DateTime
+                    (
+                        DateTime.Now.Year,
+                        DateTime.Now.Month,
+                        DateTime.Now.Day,
+                        horarioLocal.Hdoma.Hours,
+                        horarioLocal.Hdoma.Minutes, 0
+                    ).ToString("h:mm tt");
+
+                    if (this.DCheckIn.Ticks < horarioLocal.Hluvide.Ticks || this.DCheckIn.Ticks >= horarioLocal.Hluvia.Ticks
+                        || this.DCheckOut.Ticks <= horarioLocal.Hluvide.Ticks || this.DCheckOut.Ticks > horarioLocal.Hluvia.Ticks
+                        || this.DCheckOutEat == this.DCheckInEat)
+                    {
+                        var message = $"{Languages.DRangoHorarioError1} {checkIn} {Languages.To} {checkOut}. {Languages.RangoHorarioComidaError}.";
+                        Application.Current.MainPage.DisplayAlert(
+                            Languages.Error,
+                            message,
+                            "Ok");
+                        return;
+                        this.next = false;
+                    }
+                }
+
+            }
+
+        }
+        private void ValidateSmall()
+        {
+            this.next = true;
             if (string.IsNullOrEmpty(this.SHeight) || string.IsNullOrEmpty(this.SWidth))
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.SizeError,
                     "Ok");
+                this.next = false;
                 return;
             }
             this.height = decimal.Parse(this.SHeight);
             this.width = decimal.Parse(this.SWidth);
             if (this.height < 0 || this.width < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
 
@@ -320,37 +565,41 @@
                 || string.IsNullOrEmpty(this.SMCost)
                 || string.IsNullOrEmpty(this.SHCost))
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.CostError,
                     "Ok");
+                this.next = false;
                 return;
             }
             this.cost = decimal.Parse(this.SECost);
             if (this.cost < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
             this.cost = decimal.Parse(this.SMCost);
             if (this.cost < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
             this.cost = decimal.Parse(this.SHCost);
             if (this.cost < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
 
@@ -358,75 +607,84 @@
                 || string.IsNullOrEmpty(this.SMAdvance)
                 || string.IsNullOrEmpty(this.SHAdvance))
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.AdvanceError,
                     "Ok");
+                this.next = false;
                 return;
             }
             this.advance = decimal.Parse(this.SEAdvance);
             if (this.cost < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
             this.cost = decimal.Parse(this.SMAdvance);
             if (this.cost < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
             this.cost = decimal.Parse(this.SHAdvance);
             if (this.cost < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
             if (this.SETime <= 0 || this.SMTime <= 0 || this.SMTime <= 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.EstimatedTimeError,
                     "OK");
+                this.next = false;
                 return;
             }
 
             if (this.file1 == null)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.ExampleImageError,
                     "Ok");
+                this.next = false;
                 return;
             }
         }
-        private async void ValidateMedium()
+        private void ValidateMedium()
         {
+            this.next = true;
             if (string.IsNullOrEmpty(this.MHeight) || string.IsNullOrEmpty(this.MWidth))
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.SizeError,
                     "Ok");
+                this.next = false;
                 return;
             }
             this.height = decimal.Parse(this.MHeight);
             this.width = decimal.Parse(this.MWidth);
             if (this.height < 0 || this.width < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
 
@@ -434,38 +692,42 @@
                 || string.IsNullOrEmpty(this.MMCost)
                 || string.IsNullOrEmpty(this.MHCost))
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.CostError,
                     "Ok");
+                this.next = false;
                 return;
             }
             this.cost = decimal.Parse(this.MECost);
             if (this.cost < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
             this.cost = decimal.Parse(this.MMCost);
             if (this.cost < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
             this.cost = decimal.Parse(this.MHCost);
 
             if (this.cost < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
 
@@ -473,77 +735,86 @@
                 || string.IsNullOrEmpty(this.MMAdvance)
                 || string.IsNullOrEmpty(this.MHAdvance))
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.AdvanceError,
                     "Ok");
+                this.next = false;
                 return;
             }
 
             this.advance = decimal.Parse(this.MEAdvance);
             if (this.cost < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
             this.cost = decimal.Parse(this.MMAdvance);
             if (this.cost < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
             this.cost = decimal.Parse(this.MHAdvance);
             if (this.cost < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
 
             if (this.METime <= 0 || this.MMTime <= 0 || this.MMTime <= 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.EstimatedTimeError,
                     "OK");
+                this.next = false;
                 return;
             }
 
             if (this.file1 == null)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.ExampleImageError,
                     "Ok");
+                this.next = false;
                 return;
             }
         }
-        private async void ValidateBig()
+        private void ValidateBig()
         {
+            this.next = true;
             if (string.IsNullOrEmpty(this.BHeight) || string.IsNullOrEmpty(this.BWidth))
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.SizeError,
                     "Ok");
+                this.next = false;
                 return;
             }
             this.height = decimal.Parse(this.BHeight);
             this.width = decimal.Parse(this.BWidth);
             if (this.height < 0 || this.width < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
 
@@ -551,37 +822,41 @@
                 || string.IsNullOrEmpty(this.BMCost)
                 || string.IsNullOrEmpty(this.BHCost))
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.CostError,
                     "Ok");
+                this.next = false;
                 return;
             }
             this.cost = decimal.Parse(this.BECost);
             if (this.cost < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
             this.cost = decimal.Parse(this.BMCost);
             if (this.cost < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
             this.cost = decimal.Parse(this.BHCost);
             if (this.cost < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
 
@@ -589,69 +864,121 @@
                 || string.IsNullOrEmpty(this.BMAdvance)
                 || string.IsNullOrEmpty(this.BHAdvance))
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.AdvanceError,
                     "Ok");
+                this.next = false;
                 return;
             }
             this.advance = decimal.Parse(this.BEAdvance);
             if (this.cost < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
             this.cost = decimal.Parse(this.BMAdvance);
             if (this.cost < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
             this.cost = decimal.Parse(this.BHAdvance);
             if (this.cost < 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.NegativeError,
                     "OK");
+                this.next = false;
                 return;
             }
             if (this.BETime <= 0 || this.BMTime <= 0 || this.BMTime <= 0)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.EstimatedTimeError,
                     "OK");
+                this.next = false;
                 return;
             }
 
             if (this.file1 == null)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     Languages.ExampleImageError,
                     "Ok");
+                this.next = false;
                 return;
             }
         }
-        private async void SaveUserData()
+        private void ValidateHorarioAct()
+        {
+            var horarioLocal = MainViewModel.GetInstance().Login.ListHorariosLocales.Where(h => h.Id_Local == this.tecnico.Id_Local).FirstOrDefault();
+            this.next = true;
+            if (this.LunVieChecked == true)
+            {
+                if (horarioLocal.Hluviact == false)
+                {
+                    Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        Languages.LunVieActError,
+                        "Ok");
+                    this.next = false;
+                    return;
+                }
+            }
+            if (this.SabadoChecked == true)
+            {
+
+                if (horarioLocal.Hsabact == false)
+                {
+                    Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        Languages.SabActError,
+                        "Ok");
+                    this.next = false;
+                    return;
+                }
+            }
+            if (this.DomingoChecked == true)
+            {
+                if (horarioLocal.Hdomact == false)
+                {
+                    Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        Languages.DomActError,
+                        "Ok");
+                    this.next = false;
+                    return;
+                }
+            }
+        }
+        private async void SaveData()
         {
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
-
+                this.apiService.EndActivityPopup();
                 await App.Current.MainPage.DisplayAlert(
                     Languages.Error,
                     connection.Message,
                     "Ok");
                 return;
             }
+            var urlApi = App.Current.Resources["UrlAPI"].ToString();
+            var prefix = App.Current.Resources["UrlPrefix"].ToString();
+
+            //------------------------- Save User Changes ----------------------//
 
             var editUser = new T_usuarios
             {
@@ -666,8 +993,6 @@
             };
             var id = this.user.Id_usuario;
 
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
             var controller = App.Current.Resources["UrlT_usuariosController"].ToString();
 
             this.apiService = new ApiService();
@@ -681,6 +1006,7 @@
 
             if (!response.IsSuccess)
             {
+                this.apiService.EndActivityPopup();
 
                 await App.Current.MainPage.DisplayAlert(
                 Languages.Error,
@@ -688,23 +1014,59 @@
                 "OK");
                 return;
             }
+            this.user = (T_usuarios)response.Result;
 
-            MainViewModel.GetInstance().TecnicoFeatures = new TecnicoFeaturesViewModel(user, tecnico);
-            await Application.Current.MainPage.Navigation.PopModalAsync();
-            await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoFeaturesPage());
-        }
-
-        private async void SaveAndNext()
-        {
-            var connection = await this.apiService.CheckConnection();
-            if (!connection.IsSuccess)
+            var oldUser = MainViewModel.GetInstance().Login.ListUsuarios.Where(n => n.Id_usuario == this.user.Id_usuario).FirstOrDefault();
+            if (oldUser != null)
             {
+                MainViewModel.GetInstance().Login.ListUsuarios.Remove(oldUser);
+            }
+
+            MainViewModel.GetInstance().Login.ListUsuarios.Add(this.user);
+
+            //------------------------- Save Horarios ----------------------//
+
+            var newHorario = new T_tecnicohorarios
+            {
+                Id_Tecnico = this.tecnico.Id_Tecnico,
+                Hdoma = this.DCheckOut,
+                Hdomact = this.DomingoChecked,
+                Hdomde = this.DCheckIn,
+                Hdcomidaa = this.DCheckInEat,
+                Hdcomidaact = this.DComidaChecked,
+                Hdcomidade = this.DCheckOutEat,
+                Hluvia = this.LVCheckOut,
+                Hluviact = this.LunVieChecked,
+                Hluvide = this.LVCheckIn,
+                Hlvcomidaa = this.LVCheckInEat,
+                Hlvcomidaact = this.LVComidaChecked,
+                Hlvcomidade = this.LVCheckOutEat,
+                Hsaba = this.SCheckOut,
+                Hsabact = this.SabadoChecked,
+                Hsabde = this.SCheckIn,
+                Hscomidaa = this.SCheckInEat,
+                Hscomidaact = this.SComidaChecked,
+                Hscomidade = this.SCheckOutEat,
+            };
+
+            controller = Application.Current.Resources["UrlT_tecnicohorariosController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newHorario);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    connection.Message,
-                    "OK");
+                Languages.Error,
+                response.Message,
+                "OK");
                 return;
             }
+
+            newHorario = (T_tecnicohorarios)response.Result;
+            MainViewModel.GetInstance().Login.ListHorariosTecnicos.Add(newHorario);
+
+            //------------------------- Save Features ----------------------//
 
             #region Small
 
@@ -728,35 +1090,27 @@
                 Tiempo = this.SETime,
             };
 
-            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
-            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
-            var controller = Application.Current.Resources["UrlT_teccaractController"].ToString();
+            controller = Application.Current.Resources["UrlT_teccaractController"].ToString();
 
-            var response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
+            response = await this.apiService.Post(urlApi, prefix, controller, this.feature);
 
             if (!response.IsSuccess)
             {
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
                 return;
             }
+            var newfeature = (T_teccaract)response.Result;
+            MainViewModel.GetInstance().Login.FeaturesList.Add(newfeature);
             #endregion
 
             #region Save SmallMedium
 
-            this.apiService = new ApiService();
             this.cost = decimal.Parse(this.SMCost);
             this.advance = decimal.Parse(this.SMAdvance);
-            if (this.cost < 0 || this.advance < 0)
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.NegativeError,
-                    "OK");
-                return;
-            }
 
             this.feature = new T_teccaract
             {
@@ -774,12 +1128,16 @@
 
             if (!response.IsSuccess)
             {
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
                 return;
             }
+
+            newfeature = (T_teccaract)response.Result;
+            MainViewModel.GetInstance().Login.FeaturesList.Add(newfeature);
             #endregion
 
             #region Save SmallHard
@@ -802,12 +1160,16 @@
 
             if (!response.IsSuccess)
             {
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
                 return;
             }
+
+            newfeature = (T_teccaract)response.Result;
+            MainViewModel.GetInstance().Login.FeaturesList.Add(newfeature);
             #endregion
 
             #endregion
@@ -821,14 +1183,6 @@
 
             this.cost = decimal.Parse(this.MECost);
             this.advance = decimal.Parse(this.MEAdvance);
-            if (this.cost < 0 || this.advance < 0)
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.NegativeError,
-                    "OK");
-                return;
-            }
 
             this.feature = new T_teccaract
             {
@@ -846,26 +1200,19 @@
 
             if (!response.IsSuccess)
             {
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
                 return;
             }
+
+            newfeature = (T_teccaract)response.Result;
+            MainViewModel.GetInstance().Login.FeaturesList.Add(newfeature);
             #endregion
 
             #region Save MediumMedium
-
-            byte[] ByteImage5 = null;
-            if (this.file5 == null)
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    Languages.ExampleImageError,
-                    "Ok");
-                return;
-            }
-            ByteImage5 = FileHelper.ReadFully(this.file5.GetStream());
 
             this.cost = decimal.Parse(this.MMCost);
             this.advance = decimal.Parse(this.MMAdvance);
@@ -887,12 +1234,16 @@
             if (!response.IsSuccess)
             {
 
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
                 return;
             }
+
+            newfeature = (T_teccaract)response.Result;
+            MainViewModel.GetInstance().Login.FeaturesList.Add(newfeature);
             #endregion
 
             #region Save MediumHard
@@ -916,12 +1267,16 @@
 
             if (!response.IsSuccess)
             {
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
                 return;
             }
+
+            newfeature = (T_teccaract)response.Result;
+            MainViewModel.GetInstance().Login.FeaturesList.Add(newfeature);
             #endregion
 
             #endregion
@@ -951,12 +1306,16 @@
 
             if (!response.IsSuccess)
             {
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
                 return;
             }
+
+            newfeature = (T_teccaract)response.Result;
+            MainViewModel.GetInstance().Login.FeaturesList.Add(newfeature);
             #endregion
 
             #region Save BigMedium
@@ -979,12 +1338,16 @@
 
             if (!response.IsSuccess)
             {
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
                 return;
             }
+
+            newfeature = (T_teccaract)response.Result;
+            MainViewModel.GetInstance().Login.FeaturesList.Add(newfeature);
             #endregion
 
             #region Save BigHard
@@ -1008,22 +1371,27 @@
 
             if (!response.IsSuccess)
             {
+                this.apiService.EndActivityPopup();
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
                 "OK");
                 return;
             }
+
+            newfeature = (T_teccaract)response.Result;
+            MainViewModel.GetInstance().Login.FeaturesList.Add(newfeature);
             #endregion 
             #endregion
-
-            await Application.Current.MainPage.Navigation.PopModalAsync();
-            MainViewModel.GetInstance().TecnicoHome = new TecnicoHomeViewModel(user, tecnico);
+            
+            MainViewModel.GetInstance().TecnicoHome = new TecnicoHomeViewModel(this.user, this.tecnico);
             Application.Current.MainPage = new SNavigationPage(new TecnicoHomePage())
             {
                 BarBackgroundColor = Color.FromRgb(20, 20, 20),
                 BarTextColor = Color.FromRgb(200, 200, 200),
             };
+
+            this.apiService.EndActivityPopup();
         }
 
         private async void GoToNextPopupPage()
@@ -1032,7 +1400,12 @@
             {
                 case "Password":
 
-                    //this.ValidatePassword();
+                    this.ValidatePassword();
+
+                    if (this.next == false)
+                    {
+                        break;
+                    }
 
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
                     this.page = "ActCode";
@@ -1041,13 +1414,25 @@
 
                 case "ActCode":
                     //this.ValidateActCode();
+                    //if (this.next == false)
+                    //{
+                    //    break;
+                    //}
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
                     this.page = "Horario";
                     await Application.Current.MainPage.Navigation.PushPopupAsync(new ConfirmHorarioPopupPage());
                     break;
 
                 case "Horario":
-                    if(this.LunVieChecked==true)
+
+                    this.ValidateHorarioAct();
+
+                    if (this.next == false)
+                    {
+                        break;
+                    }
+
+                    if (this.LunVieChecked == true)
                     {
                         await Application.Current.MainPage.Navigation.PopPopupAsync();
                         this.page = "LunVie";
@@ -1057,7 +1442,6 @@
 
                     if (this.SabadoChecked == true)
                     {
-
                         await Application.Current.MainPage.Navigation.PopPopupAsync();
                         this.page = "Sabado";
                         await Application.Current.MainPage.Navigation.PushPopupAsync(new ConfirmSabadoPopupPage());
@@ -1066,7 +1450,6 @@
 
                     if (this.DomingoChecked == true)
                     {
-
                         await Application.Current.MainPage.Navigation.PopPopupAsync();
                         this.page = "Domingo";
                         await Application.Current.MainPage.Navigation.PushPopupAsync(new ConfirmDomingoPopupPage());
@@ -1078,11 +1461,17 @@
                         Languages.HorarioError,
                         "Ok");
                     break;
+
                 case "LunVie":
+                    this.ValidateHorarios();
+
+                    if(this.next == false)
+                    {
+                        break;
+                    }
 
                     if (this.SabadoChecked == true)
                     {
-
                         await Application.Current.MainPage.Navigation.PopPopupAsync();
                         this.page = "Sabado";
                         await Application.Current.MainPage.Navigation.PushPopupAsync(new ConfirmSabadoPopupPage());
@@ -1091,7 +1480,6 @@
 
                     if (this.DomingoChecked == true)
                     {
-
                         await Application.Current.MainPage.Navigation.PopPopupAsync();
                         this.page = "Domingo";
                         await Application.Current.MainPage.Navigation.PushPopupAsync(new ConfirmDomingoPopupPage());
@@ -1104,6 +1492,12 @@
                     break;
 
                 case "Sabado":
+                    this.ValidateHorarios();
+
+                    if (this.next == false)
+                    {
+                        break;
+                    }
 
                     if (this.DomingoChecked == true)
                     {
@@ -1119,6 +1513,12 @@
                     break;
 
                 case "Domingo":
+                    this.ValidateHorarios();
+
+                    if (this.next == false)
+                    {
+                        break;
+                    }
 
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
                     this.page = "Small";
@@ -1126,24 +1526,43 @@
                     break;
 
                 case "Small":
-                    //this.ValidateSmall();
+                    this.ValidateSmall();
+
+                    if (this.next == false)
+                    {
+                        break;
+                    }
+
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
                     this.page = "Medium";
                     await Application.Current.MainPage.Navigation.PushPopupAsync(new ConfirmMediumPopupPage());
                     break;
 
                 case "Medium":
-                    //this.ValidateMedium();
+                    this.ValidateMedium();
+
+                    if (this.next == false)
+                    {
+                        break;
+                    }
+
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
                     this.page = "Big";
                     await Application.Current.MainPage.Navigation.PushPopupAsync(new ConfirmBigPopupPage());
                     break;
 
                 case "Big":
-                    //this.ValidateBig();
+                    this.ValidateBig();
+
+                    if (this.next == false)
+                    {
+                        break;
+                    }
+
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
-                    this.page = "Small";
-                    await Application.Current.MainPage.Navigation.PushPopupAsync(new ConfirmSmallPopupPage());
+
+                    this.SaveData();
+
                     break;
             }
         }

@@ -237,7 +237,7 @@
             var daStack = Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopupStack.Count();
             if (daStack > 0)
             {
-                await Application.Current.MainPage.Navigation.PopAllPopupAsync();
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
             }
         }
 

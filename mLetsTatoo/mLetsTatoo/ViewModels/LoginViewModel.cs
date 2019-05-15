@@ -48,6 +48,7 @@
         public List<T_ciudad> CiudadesList { get; set; }
         public List<T_estado> EstadosList { get; set; }
         public List<T_tecnicohorarios> ListHorariosTecnicos { get; set; }
+        public List<T_localhorarios> ListHorariosLocales { get; set; }
         public List<T_nuevafecha> NuevaFechaList { get; set; }
 
         public List<ClientesCollection> ClienteList { get; set; }
@@ -105,8 +106,7 @@
         {
             get
             {
-                //return new RelayCommand(Inicio);
-                return new RelayCommand(prueba);
+                return new RelayCommand(Inicio);
             }
 
         }
@@ -268,6 +268,23 @@
             }
 
             this.ListHorariosTecnicos = (List<T_tecnicohorarios>)response.Result;
+
+
+            //-----------------------------Load HorariosLocalesList----------------------------//
+
+            controller = Application.Current.Resources["UrlT_localhorariosController"].ToString();
+
+            response = await this.apiService.GetList<T_localhorarios>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+
+            this.ListHorariosLocales = (List<T_localhorarios>)response.Result;
 
             Application.Current.MainPage = new NavigationPage(new LoginPage())
             {
@@ -484,8 +501,11 @@
                 }
                 else
                 {
-                    MainViewModel.GetInstance().TecnicoConfirm = new TecnicoConfirmViewModel(this.user, this.tecnico);
-                    await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoConfirmPage());
+                    MainViewModel.GetInstance().ConfirmTecnicoPopup = new ConfirmTecnicoPopupViewModel(this.user, this.tecnico);
+                    MainViewModel.GetInstance().ConfirmTecnicoPopup.page = "Password";
+                    await Application.Current.MainPage.Navigation.PushPopupAsync(new ConfirmPasswordPopupPage());
+                    //MainViewModel.GetInstance().TecnicoConfirm = new TecnicoConfirmViewModel(this.user, this.tecnico);
+                    //await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoConfirmPage());
                 }
 
                 this.Usuario = string.Empty;
@@ -498,12 +518,6 @@
         {
             MainViewModel.GetInstance().Register = new RegisterAccountViewModel();
             await Application.Current.MainPage.Navigation.PushModalAsync(new RegisterAccountPage());
-        }
-        public async void prueba()
-        {
-            MainViewModel.GetInstance().ConfirmTecnicoPopup = new ConfirmTecnicoPopupViewModel();
-            MainViewModel.GetInstance().ConfirmTecnicoPopup.page = "Password";
-            await Application.Current.MainPage.Navigation.PushPopupAsync(new ConfirmPasswordPopupPage());
         }
 
         #endregion

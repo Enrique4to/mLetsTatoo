@@ -124,6 +124,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add a publication.
+        /// </summary>
+        internal static string AddPublication {
+            get {
+                return ResourceManager.GetString("AddPublication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Advance.
         /// </summary>
         internal static string Advance {
@@ -602,6 +611,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The place where you work, has registered that does not open on Sunday, if this is incorrect, talk to the administrator to validate and modify their schedules if necessary..
+        /// </summary>
+        internal static string DomActError {
+            get {
+                return ResourceManager.GetString("DomActError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sunday.
         /// </summary>
         internal static string Domingo {
@@ -616,6 +634,15 @@ namespace mLetsTatoo.Resources {
         internal static string Done {
             get {
                 return ResourceManager.GetString("Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The place where you work, has registered that the work schedule of Sunday is from.
+        /// </summary>
+        internal static string DRangoHorarioError1 {
+            get {
+                return ResourceManager.GetString("DRangoHorarioError1", resourceCulture);
             }
         }
         
@@ -778,6 +805,15 @@ namespace mLetsTatoo.Resources {
         internal static string FillComplexity {
             get {
                 return ResourceManager.GetString("FillComplexity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fill the data you want to change.
+        /// </summary>
+        internal static string FillFeatures {
+            get {
+                return ResourceManager.GetString("FillFeatures", resourceCulture);
             }
         }
         
@@ -949,6 +985,24 @@ namespace mLetsTatoo.Resources {
         internal static string LunVie {
             get {
                 return ResourceManager.GetString("LunVie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The place where you work, has registered that does not open from Monday to Friday, if this is incorrect, talk to the administrator to validate and modify their schedules if necessary..
+        /// </summary>
+        internal static string LunVieActError {
+            get {
+                return ResourceManager.GetString("LunVieActError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The place where you work has registered that the working hours from Monday to Friday are from.
+        /// </summary>
+        internal static string LVRangoHorarioError1 {
+            get {
+                return ResourceManager.GetString("LVRangoHorarioError1", resourceCulture);
             }
         }
         
@@ -1223,6 +1277,24 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your meal time should be within that time..
+        /// </summary>
+        internal static string RangoHorarioComidaError {
+            get {
+                return ResourceManager.GetString("RangoHorarioComidaError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your schedule must be within that schedule, verify your data, thank you..
+        /// </summary>
+        internal static string RangoHorarioError {
+            get {
+                return ResourceManager.GetString("RangoHorarioError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remember me on this device!.
         /// </summary>
         internal static string Recordarme {
@@ -1273,6 +1345,15 @@ namespace mLetsTatoo.Resources {
         internal static string Remaining {
             get {
                 return ResourceManager.GetString("Remaining", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The place where you work, has registered that the work schedule of Saturday is.
+        /// </summary>
+        internal static string SabActError {
+            get {
+                return ResourceManager.GetString("SabActError", resourceCulture);
             }
         }
         
@@ -1429,6 +1510,15 @@ namespace mLetsTatoo.Resources {
         internal static string Small {
             get {
                 return ResourceManager.GetString("Small", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The place where you work, has registered that the work schedule of Saturday is from.
+        /// </summary>
+        internal static string SRangoHorarioError1 {
+            get {
+                return ResourceManager.GetString("SRangoHorarioError1", resourceCulture);
             }
         }
         
