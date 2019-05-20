@@ -13,6 +13,8 @@
         public string Publicacion { get; set; }
         [Required]
         public DateTime Fecha_Publicacion { get; set; }
+        [Required]
+        public DateTime Modif_Date { get; set; }
         #endregion
     }
 }

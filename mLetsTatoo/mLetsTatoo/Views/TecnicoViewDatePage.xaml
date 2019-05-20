@@ -12,10 +12,10 @@
     x:Class="mLetsTatoo.Views.TecnicoViewDatePage">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout 
+            <StackLayout
+                BindingContext="{Binding TecnicoViewDate}" 
                 Padding="5">
                 <StackLayout
-                    BindingContext="{Binding TecnicoViewDate}"
                     Padding="5"
                     VerticalOptions="StartAndExpand">
                     <StackLayout
@@ -115,6 +115,55 @@
                         MinimumHeightRequest="100"
                         Source="{Binding Image.Imagen, Converter={StaticResource ByteArrayToImage}}"
                         VerticalOptions="Start"/>
+                </StackLayout>
+
+                <StackLayout
+                        HorizontalOptions="EndAndExpand"
+                        Padding="0,10"
+                        VerticalOptions="EndAndExpand">
+                    <Frame
+                            BackgroundColor="White"
+                            BorderColor="Black"
+                            CornerRadius="10"
+                            HasShadow="True"
+                            Margin="20,0,20,0"
+                            VerticalOptions="Center"
+                            Padding="20,5,20,5">
+                        <Label
+                            FontSize="12"
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            HorizontalTextAlignment="Center"
+                            Text="{i18n:Translate NewDate}"
+                            TextColor="Black"/>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AddNewDateCommand}"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </StackLayout>
+                <StackLayout
+                        HorizontalOptions="EndAndExpand"
+                        Padding="0,10"
+                        VerticalOptions="EndAndExpand">
+                    <Frame
+                        BackgroundColor="White"
+                        BorderColor="Black"
+                        CornerRadius="10"
+                        HasShadow="True"
+                        Margin="20,0,20,0"
+                        VerticalOptions="Center"
+                        Padding="20,5,20,5">
+                        <Label
+                            FontSize="12"
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            HorizontalTextAlignment="Center"
+                            Text="{i18n:Translate FinishArt}"
+                            TextColor="Black"/>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding FinishJobCommand}"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
                 </StackLayout>
                 <StackLayout
                     BindingContext="{Binding TecnicoViewDate}"

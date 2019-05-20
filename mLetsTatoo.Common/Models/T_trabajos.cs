@@ -26,6 +26,8 @@
         public bool Completo { get; set; }
         [Required]
         public bool Cancelado { get; set; }
+        [Required]
+        public bool TecnicoTiempo { get; set; }
 
 
     }

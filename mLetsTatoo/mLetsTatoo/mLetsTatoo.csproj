@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ExifLib.PCL" Version="1.0.2-pre01" />
     <PackageReference Include="FontAwesome" Version="4.7.0" />
     <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
     <PackageReference Include="NControl" Version="0.9.1" />
@@ -44,6 +45,7 @@
     <PackageReference Include="Syncfusion.Xamarin.SfSchedule" Version="17.1.0.40" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="4.0.0.190-beta" />
     <PackageReference Include="Xam.Plugin.Media" Version="4.2.0-beta" />
+    <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.9.961" />
     <PackageReference Include="Xamarin.Forms" Version="4.0.0.304370-pre8" />
     <PackageReference Include="Xamarin.Forms.CarouselView" Version="2.3.0-pre2" />
   </ItemGroup>
@@ -62,6 +64,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Popups\Views\NewAndEditDate\AppointmentMetodoPopupPage.xaml.cs">
+      <DependentUpon>AppointmentMetodoPopupPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Popups\Views\NewPublicationPopupPage.xaml.cs">
       <DependentUpon>NewPublicationPopupPage.xaml</DependentUpon>
     </Compile>
@@ -175,6 +180,9 @@
     <Compile Update="Views\TecnicoViewDatePage.xaml.cs">
       <DependentUpon>TecnicoViewDatePage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\PublicationPage.xaml.cs">
+      <DependentUpon>PublicationPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -242,6 +250,81 @@
     <None Update="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <None Update="Popups\Views\ActivityIndicatorPopupPage .xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\AddCommentPopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\ConfirmTecnico\ConfirmActCodePopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\ConfirmTecnico\ConfirmBigPopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\ConfirmTecnico\ConfirmDomingoPopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\ConfirmTecnico\ConfirmHorarioPopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\ConfirmTecnico\ConfirmLunViePopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\ConfirmTecnico\ConfirmMediumPopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\ConfirmTecnico\ConfirmPasswordPopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\ConfirmTecnico\ConfirmSabadoPopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\ConfirmTecnico\ConfirmSmallPopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\EditCommentPopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\NewAndEditDate\AppointmentCalendarPopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\NewAndEditDate\AppointmentDescriptionPopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\NewAndEditDate\AppointmentDetailsPopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\NewAndEditDate\AppointmentFeaturesPopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\NewAndEditDate\AppointmentTimePopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\NewAndEditDate\BudgetDetailsPopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\NewAndEditDate\CancelDatePopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\NewAndEditDate\ChangeDatePopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\NewAndEditDate\SearchTecnicoPopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\NewAndEditDate\TypeAppointmentPopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\NewPublicationPopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Popups\Views\StartPopupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\EditTecnicoUserPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
     <None Update="Views\EditUserPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
@@ -269,7 +352,13 @@
     <None Update="Views\SearchPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <None Update="Views\StartPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
     <None Update="Views\TecnicoConfirmPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\TecnicoEditFeaturesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
     <None Update="Views\TecnicoFeaturesPage.xaml">
@@ -278,16 +367,37 @@
     <None Update="Views\TecnicoHomePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <None Update="Views\TecnicoMessagesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\TecnicoMessajeJobPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
     <None Update="Views\TecnicoPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
     <None Update="Views\TecnicoProfilePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <None Update="Views\TecnicoViewDatePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\TecnicoViewJobPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
     <None Update="Views\UserHomePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
+    <None Update="Views\UserMessagesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\UserMessajeJobPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
     <None Update="Views\UserPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Views\UserViewDatePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </None>
   </ItemGroup>

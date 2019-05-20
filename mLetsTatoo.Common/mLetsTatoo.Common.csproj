@@ -39,6 +39,15 @@
     </Reference>
     <Reference Include="DevExpress.Data.v18.1, Version=18.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpo.v18.1, Version=18.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="FFImageLoading, Version=2.4.9.961, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.4.9.961\lib\netstandard1.0\FFImageLoading.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Forms, Version=2.4.9.961, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xamarin.FFImageLoading.Forms.2.4.9.961\lib\netstandard1.0\FFImageLoading.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="FFImageLoading.Platform, Version=2.4.9.961, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.4.9.961\lib\netstandard1.0\FFImageLoading.Platform.dll</HintPath>
+    </Reference>
     <Reference Include="GalaSoft.MvvmLight, Version=5.4.1.0, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
     </Reference>
@@ -132,6 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\ClientesCollection.cs" />
+    <Compile Include="Models\PublicacionesCollection.cs" />
     <Compile Include="Models\EmpresasCollection.cs" />
     <Compile Include="Models\Response.cs" />
     <Compile Include="Models\TecnicosCollection.cs" />
@@ -142,7 +152,6 @@
     <Compile Include="Models\T_comentpublicacion.cs" />
     <Compile Include="Models\T_imgpublicacion.cs" />
     <Compile Include="Models\T_likepublicacion.cs" />
-    <Compile Include="Models\T_nuevafecha.cs" />
     <Compile Include="Models\T_citaimagenes.cs" />
     <Compile Include="Models\T_citaimagenestemp.cs" />
     <Compile Include="Models\T_ciudad.cs" />

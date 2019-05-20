@@ -34,6 +34,10 @@
             <x:String x:Key="UrlT_localhorariosController">/T_localhorarios</x:String>
             <x:String x:Key="UrlT_tecnicohorariosController">/T_tecnicohorarios</x:String>
             <x:String x:Key="UrlT_nuevafechaController">/T_nuevafecha</x:String>
+            <x:String x:Key="UrlT_comentpublicacionController">/T_comentpublicacion</x:String>
+            <x:String x:Key="UrlT_imgpublicacionController">/T_imgpublicacion</x:String>
+            <x:String x:Key="UrlT_publicacionesController">/T_publicaciones</x:String>
+            <x:String x:Key="UrlT_likepublicacionController">/T_likepublicacion</x:String>
             
         </ResourceDictionary>
 

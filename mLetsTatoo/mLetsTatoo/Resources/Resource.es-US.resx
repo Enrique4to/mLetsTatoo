@@ -698,4 +698,33 @@ Del mismo modo, si resulta que el nuevo anticipo es mayor al recuperado, deberá
   <data name="AddPublication" xml:space="preserve">
     <value>Agrega una publicación</value>
   </data>
+  <data name="CancelUserDateMessage" xml:space="preserve">
+    <value>Estás por cancelar la cita que tenías programada para realizar tu arte.
+
+Antes de que procedas, debes saber lo siguiente:
+
+1.- El anticipo no se te será reembolsado, perderás la cita, y si deseas crear otra cita, deberás realizar otro pago de anticipo para esta nueva cita.
+
+Se te recomienda hablar con el artista para reagendar en caso de que el motivo de cancelación sea por falta de tiempo, esto debe ser sólo 48 horas antes de tu cita ya programada.
+
+¿Deseas continuar?</value>
+  </data>
+  <data name="PaymentMethod" xml:space="preserve">
+    <value>Selecciona tu método de pago</value>
+  </data>
+  <data name="CashMethod" xml:space="preserve">
+    <value>Efectivo</value>
+  </data>
+  <data name="Date48Hours" xml:space="preserve">
+    <value>Debe seleccionar una fecha 48 horas después de la fecha de hoy.</value>
+  </data>
+  <data name="DateBeforeTodayError" xml:space="preserve">
+    <value>No puedes seleccionar una fecha antes de hoy.</value>
+  </data>
+  <data name="FinishArt" xml:space="preserve">
+    <value>Terminar arte</value>
+  </data>
+  <data name="AddNewDateMessage" xml:space="preserve">
+    <value>Se ha agregado una nueva cita a tu trabajo con la fecha y hora seleccionada, la cita actual se marcará como completada.</value>
+  </data>
 </root>

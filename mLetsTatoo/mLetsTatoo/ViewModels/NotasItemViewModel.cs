@@ -63,6 +63,7 @@
                     if (this.Cambio_Fecha == true)
                     {
                         await Application.Current.MainPage.Navigation.PushPopupAsync(new ChangeDatePopupPage());
+                        MainViewModel.GetInstance().UserViewDate.cancelPage = "CancelTempDate";
                         return;
                     }
                     MainViewModel.GetInstance().UserViewDate.IsButtonEnabled = false;

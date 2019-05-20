@@ -8,6 +8,7 @@
     xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
     xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns:radiobutton="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
     x:Class="mLetsTatoo.Popups.Views.NewPublicationPopupPage">
     <pages:PopupPage.Animation>
         <animations:ScaleAnimation
@@ -39,67 +40,103 @@
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <StackLayout
                             Grid.Column="0"
                             Grid.Row="0"
-                            HorizontalOptions="Start"
+                            HorizontalOptions="FillAndExpand"
                             Orientation="Horizontal"
-                            VerticalOptions="Center">
-                            <control:CircleImage
-                                Aspect="AspectFill"
-                                HorizontalOptions="Start"
-                                Margin="4"
-                                Source="{Binding F_Perfil, Converter={StaticResource ByteArrayToImage}}"
-                                VerticalOptions="Center">
-                                <control:CircleImage.WidthRequest>
-                                    <OnPlatform x:TypeArguments="x:Double">
-                                        <On Platform="Android, iOS">40</On>
-                                    </OnPlatform>
-                                </control:CircleImage.WidthRequest>
-                                <control:CircleImage.HeightRequest>
-                                    <OnPlatform x:TypeArguments="x:Double">
-                                        <On Platform="Android, iOS">40</On>
-                                    </OnPlatform>
-                                </control:CircleImage.HeightRequest>
-                            </control:CircleImage>
-                            <StackLayout>
-                                <StackLayout
-                                Orientation="Horizontal">
-                                    <Label
-                                    FontAttributes="Bold"
-                                    FontSize="14"
-                                    HorizontalTextAlignment="Start"
-                                    Text="{Binding Nombre}"                                                        
-                                    TextColor="Black"
-                                    VerticalTextAlignment="End"/>
-                                    <Label
-                                    FontAttributes="Bold"
-                                    FontSize="14"
-                                    HorizontalTextAlignment="Start"
-                                    Text="{Binding Apellido}"                                                        
-                                    TextColor="Black"
-                                    VerticalTextAlignment="Start"/>
-                                </StackLayout>
-                                <StackLayout>
-                                    <Label
-                                    FontAttributes="Bold"
-                                    FontSize="14"
-                                    HorizontalTextAlignment="Start"
-                                    Text="{Binding EmpresaInfo}"                                                        
-                                    TextColor="DimGray"
-                                    VerticalTextAlignment="Start"/>
-                                </StackLayout>
-                            </StackLayout>
-                        </StackLayout>
+                            VerticalOptions="Start">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=".2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width=".2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                    <control:CircleImage
+                                        Aspect="AspectFill"
+                                        Grid.Column="0"
+                                        Grid.Row="0"
+                                        HorizontalOptions="Center"
+                                        Margin="4"
+                                        Source="{Binding F_Perfil, Converter={StaticResource ByteArrayToImage}}"
+                                        VerticalOptions="Center">
+                                        <control:CircleImage.WidthRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="Android, iOS">40</On>
+                                            </OnPlatform>
+                                        </control:CircleImage.WidthRequest>
+                                        <control:CircleImage.HeightRequest>
+                                            <OnPlatform x:TypeArguments="x:Double">
+                                                <On Platform="Android, iOS">40</On>
+                                            </OnPlatform>
+                                        </control:CircleImage.HeightRequest>
+                                    </control:CircleImage>
+                                    <StackLayout
+                                        Grid.Column="1"
+                                        Grid.Row="0"
+                                        HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="Center">
+                                        <StackLayout
+                                            Orientation="Horizontal"
+                                            HorizontalOptions="StartAndExpand"
+                                            VerticalOptions="End">
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="14"
+                                                HorizontalTextAlignment="Start"
+                                                Text="{Binding Nombre}"                                                        
+                                                TextColor="Black"
+                                                VerticalOptions="End"
+                                                VerticalTextAlignment="End"/>
+                                            <Label
+                                                FontAttributes="Bold"
+                                                FontSize="14"
+                                                HorizontalTextAlignment="Start"
+                                                Text="{Binding Apellido}"                                                        
+                                                TextColor="Black"
+                                                VerticalOptions="End"
+                                                VerticalTextAlignment="End"/>
+                                        </StackLayout>
+                                        <StackLayout
+                                            VerticalOptions="StartAndExpand">
+                                            <Label
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            HorizontalTextAlignment="Start"
+                                            Text="{Binding EmpresaInfo}"                                                        
+                                            TextColor="DimGray"
+                                            VerticalOptions="Start"
+                                            VerticalTextAlignment="Start"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                    <Image
+                                        Aspect="Fill"
+                                        Grid.Column="2"
+                                        Grid.Row="0"
+                                        HeightRequest="30"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Source="Image.png"
+                                        VerticalOptions="Center"
+                                        WidthRequest="30">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="GetImage"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                            </Grid>
+                        </StackLayout>                                
+
                         <StackLayout
                             Grid.Column="0"
                             Grid.Row="1"
                             HorizontalOptions="FillAndExpand"
                             VerticalOptions="Start">
-                            <StackLayout
-                                Orientation="Horizontal">
-                                <Frame
+                            <Frame
                                 BackgroundColor="White"
                                 BorderColor="DimGray"
                                 CornerRadius="10"
@@ -107,51 +144,36 @@
                                 HorizontalOptions="FillAndExpand"
                                 Margin="4,8"
                                 Padding="5,0" >
-                                    <Editor
+                                <Editor
                                     AutoSize="TextChanges"
                                     FontSize="14"
                                     HorizontalOptions="FillAndExpand"
                                     IsTextPredictionEnabled="true"
                                     Placeholder="{i18n:Translate AddPublication}"
                                     PlaceholderColor="DimGray"
-                                    Text="{Binding DescribeArt, Mode=TwoWay}"
+                                    Text="{Binding Publicacion, Mode=TwoWay}"
                                     TextColor="Black"/>
-                                </Frame>
-                                <Image
-                                    Aspect="Fill"
-                                    HeightRequest="40"
-                                    HorizontalOptions="End"
-                                    Source="Image.png"
-                                    VerticalOptions="Center"
-                                    WidthRequest="40">
-                                    <Image.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="GetImage"/>
-                                    </Image.GestureRecognizers>
-                                </Image>
-                            </StackLayout>
+                            </Frame>
+                            
                             <StackLayout
                                 IsVisible="False"
                                 x:Name="One_Image">
                                 <Grid
-                                    HeightRequest="250"
                                     HorizontalOptions="CenterAndExpand"
-                                    VerticalOptions="StartAndExpand"
-                                    WidthRequest="250">
+                                    VerticalOptions="StartAndExpand">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="260"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     <Image
-                                        Grid.Column="0"
-                                        Grid.Row="0"
-                                        Aspect="AspectFill"
-                                        HeightRequest="400"
-                                        HorizontalOptions="Center"
+                                        Aspect="AspectFit"
+                                        Grid.ColumnSpan="2"
+                                        Grid.RowSpan="2"
+                                        HorizontalOptions="FillAndExpand"
                                         Source="Image.png"
-                                        VerticalOptions="Center"
-                                        WidthRequest="400"
+                                        VerticalOptions="FillAndExpand"
                                         x:Name="One_ImgOne">
                                         <!--<Image.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="GetImage"/>
@@ -159,105 +181,251 @@
                                     </Image>
                                 </Grid>
                             </StackLayout>
+                            
                             <StackLayout
                                 IsVisible="False"
-                                x:Name="Two_Image">
+                                x:Name="Two_Image_Hor">
                                 <Grid
-                                    HeightRequest="250"
+                                    HorizontalOptions="CenterAndExpand"
+                                    VerticalOptions="StartAndExpand">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130"/>
+                                        <ColumnDefinition Width="130"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="130"/>
+                                        <RowDefinition Height="130"/>
+                                    </Grid.RowDefinitions>
+                                <Image
+                                    Aspect="AspectFill"
+                                    Grid.ColumnSpan="2"
+                                    Grid.Row="0"
+                                    HorizontalOptions="FillAndExpand"
+                                    Scale="1.0"
+                                    Source="Image.png"
+                                    VerticalOptions="FillAndExpand"
+                                    x:Name="Two_ImgOne_Hor">
+                                <!--<Image.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="GetImage"/>
+                                    </Image.GestureRecognizers>-->
+                                </Image>
+                                <Image
+                                    Aspect="AspectFill"
+                                    Grid.ColumnSpan="2"
+                                    Grid.Row="1"
+                                    HorizontalOptions="FillAndExpand"
+                                    Scale="1.0"
+                                    Source="Image.png"
+                                    VerticalOptions="FillAndExpand"
+                                    x:Name="Two_ImgTwo_Hor">
+                                <!--<Image.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="GetImage"/>
+                                    </Image.GestureRecognizers>-->
+                                </Image>
+                            </Grid>
+                            </StackLayout>
+                            
+                            <StackLayout
+                            IsVisible="False"
+                            x:Name="Two_Image_Ver">
+                                <Grid
+                                    HorizontalOptions="CenterAndExpand"
+                                    VerticalOptions="StartAndExpand">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130"/>
+                                        <ColumnDefinition Width="130"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="130"/>
+                                        <RowDefinition Height="130"/>
+                                    </Grid.RowDefinitions>
+                                    <Image
+                                    Aspect="AspectFill"
+                                    Grid.Column="0"
+                                    Grid.RowSpan="2"
+                                    HorizontalOptions="FillAndExpand"
+                                    Source="Image.png"
+                                    VerticalOptions="FillAndExpand"
+                                    x:Name="Two_ImgOne_Ver">
+                                    <!--<Image.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="GetImage"/>
+                                    </Image.GestureRecognizers>-->
+                                </Image>
+                                <Image
+                                    Aspect="AspectFill"
+                                    Grid.Column="1"
+                                    Grid.RowSpan="2"
+                                    HorizontalOptions="FillAndExpand"
+                                    Scale="1.0"
+                                    Source="Image.png"
+                                    VerticalOptions="FillAndExpand"
+                                    x:Name="Two_ImgTwo_Ver">
+                                    <!--<Image.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="GetImage"/>
+                                    </Image.GestureRecognizers>-->
+                                </Image>
+                            </Grid>
+                            </StackLayout>
+
+                            <StackLayout
+                            IsVisible="False"
+                            x:Name="Two_Image_Dif">
+                                <Grid
+                                    HeightRequest="135"
                                     HorizontalOptions="CenterAndExpand"
                                     VerticalOptions="StartAndExpand"
-                                    WidthRequest="250">
+                                    WidthRequest="270">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
                                     <Image
-                                        Grid.Column="0"
-                                        Grid.Row="0"
-                                        Aspect="AspectFill"
-                                        HorizontalOptions="Center"
-                                        Source="Image.png"
-                                        VerticalOptions="Center"
-                                        x:Name="Two_ImgOne">
+                                    Aspect="AspectFill"
+                                    Grid.Column="0"
+                                    Grid.Row="0"
+                                    HorizontalOptions="FillAndExpand"
+                                    Scale="1.0"
+                                    Source="Image.png"
+                                    VerticalOptions="FillAndExpand"
+                                    x:Name="Two_ImgOne_Dif">
                                         <!--<Image.GestureRecognizers>
-                                            <TapGestureRecognizer Tapped="GetImage"/>
-                                        </Image.GestureRecognizers>-->
+                                        <TapGestureRecognizer Tapped="GetImage"/>
+                                    </Image.GestureRecognizers>-->
                                     </Image>
                                     <Image
-                                        Grid.Column="1"
-                                        Grid.Row="0"
-                                        Aspect="AspectFill"
-                                        HorizontalOptions="Center"
-                                        Source="Image.png"
-                                        VerticalOptions="Center"
-                                        x:Name="Two_ImgTwo">
+                                    Aspect="AspectFill"
+                                    Grid.Column="1"
+                                    Grid.Row="0"
+                                    HorizontalOptions="FillAndExpand"
+                                    Scale="1.0"
+                                    Source="Image.png"
+                                    VerticalOptions="FillAndExpand"
+                                    x:Name="Two_ImgTwo_Dif">
                                         <!--<Image.GestureRecognizers>
-                                            <TapGestureRecognizer Tapped="GetImage"/>
-                                        </Image.GestureRecognizers>-->
+                                        <TapGestureRecognizer Tapped="GetImage"/>
+                                    </Image.GestureRecognizers>-->
                                     </Image>
                                 </Grid>
                             </StackLayout>
+
                             <StackLayout
                                 IsVisible="False"
-                                x:Name="Three_Image">
+                                x:Name="Three_Image_Hor">
                                 <Grid
-                                    HeightRequest="250"
                                     HorizontalOptions="CenterAndExpand"
-                                    VerticalOptions="StartAndExpand"
-                                    WidthRequest="250">
+                                    VerticalOptions="StartAndExpand">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="130"/>
+                                        <ColumnDefinition Width="130"/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="130"/>
+                                        <RowDefinition Height="130"/>
                                     </Grid.RowDefinitions>
                                     <Image
+                                        Aspect="AspectFill"
+                                        HorizontalOptions="FillAndExpand"
                                         Grid.ColumnSpan="2"
                                         Grid.Row="0"
-                                        Aspect="Fill"
-                                        HorizontalOptions="Center"
+                                        Scale="1.0"
                                         Source="Image.png"
-                                        VerticalOptions="Center"
-                                        x:Name="Three_ImgOne">
+                                        VerticalOptions="FillAndExpand"
+                                        x:Name="Three_ImgOne_Hor">
                                         <!--<Image.GestureRecognizers>
-                                            <TapGestureRecognizer Tapped="GetImage"/>
-                                        </Image.GestureRecognizers>-->
+                                                <TapGestureRecognizer Tapped="GetImage"/>
+                                            </Image.GestureRecognizers>-->
                                     </Image>
                                     <Image
+                                        Aspect="AspectFill"
                                         Grid.Column="0"
                                         Grid.Row="1"
-                                        Aspect="Fill"
-                                        HeightRequest="400"
-                                        HorizontalOptions="Center"
+                                        HorizontalOptions="FillAndExpand"
+                                        Scale="1.0"
                                         Source="Image.png"
-                                        VerticalOptions="Center"
-                                        WidthRequest="400"
-                                        x:Name="Three_ImgTwo">
+                                        VerticalOptions="FillAndExpand"
+                                        WidthRequest="180"
+                                        x:Name="Three_ImgTwo_Hor">
                                         <!--<Image.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="GetImage"/>
                                         </Image.GestureRecognizers>-->
                                     </Image>
                                     <Image
+                                        Aspect="AspectFill"
                                         Grid.Column="1"
                                         Grid.Row="1"
-                                        Aspect="Fill"
-                                        HeightRequest="400"
-                                        HorizontalOptions="Center"
+                                        HorizontalOptions="FillAndExpand"
+                                        Scale="1.0"
                                         Source="Image.png"
-                                        VerticalOptions="Center"
-                                        WidthRequest="400"
-                                        x:Name="Three_ImgThree">
+                                        VerticalOptions="FillAndExpand"
+                                        WidthRequest="180"
+                                        x:Name="Three_ImgThree_Hor">
                                         <!--<Image.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="GetImage"/>
                                         </Image.GestureRecognizers>-->
                                     </Image>
                                 </Grid>
                             </StackLayout>
+                            
+                            <StackLayout
+                                IsVisible="False"
+                                x:Name="Three_Image_Ver">
+                                <Grid
+                                    HorizontalOptions="CenterAndExpand"
+                                    VerticalOptions="StartAndExpand">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="130"/>
+                                        <ColumnDefinition Width="130"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="130"/>
+                                        <RowDefinition Height="130"/>
+                                    </Grid.RowDefinitions>
+                                    <Image
+                                        Aspect="AspectFill"
+                                        Grid.Column="0"
+                                        Grid.RowSpan="2"
+                                        HorizontalOptions="FillAndExpand"
+                                        Scale="1.0"
+                                        Source="Image.png"
+                                        VerticalOptions="FillAndExpand"
+                                        x:Name="Three_ImgOne_Ver">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="GetImage"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                    <Image
+                                        Aspect="AspectFill"
+                                        Grid.Column="1"
+                                        Grid.Row="0"
+                                        HorizontalOptions="FillAndExpand"
+                                        Scale="1.0"
+                                        Source="Image.png"
+                                        VerticalOptions="FillAndExpand"
+                                        WidthRequest="180"
+                                        x:Name="Three_ImgTwo_Ver">
+                                        <!--<Image.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="GetImage"/>
+                                        </Image.GestureRecognizers>-->
+                                    </Image>
+                                    <Image
+                                        Aspect="AspectFill"
+                                        Grid.Column="1"
+                                        Grid.Row="1"
+                                        HorizontalOptions="FillAndExpand"
+                                        Scale="1.0"
+                                        Source="Image.png"
+                                        VerticalOptions="FillAndExpand"
+                                        WidthRequest="180"
+                                        x:Name="Three_ImgThree_Ver">
+                                        <!--<Image.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="GetImage"/>
+                                        </Image.GestureRecognizers>-->
+                                    </Image>
+                                </Grid>
+                            </StackLayout>
+                            
                             <StackLayout
                                 IsVisible="False"
                                 x:Name="Four_Image">
@@ -275,48 +443,51 @@
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
                                     <Image
+                                        Aspect="AspectFill"
                                         Grid.Column="0"
                                         Grid.Row="0"
-                                        Aspect="Fill"
-                                        HorizontalOptions="Center"
+                                        HorizontalOptions="FillAndExpand"
+                                        Scale="1.0"
                                         Source="Image.png"
-                                        VerticalOptions="Center"
+                                        VerticalOptions="FillAndExpand"
                                         x:Name="Four_ImgOne">
                                         <!--<Image.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="GetImage"/>
                                         </Image.GestureRecognizers>-->
                                     </Image>
                                     <Image
+                                        Aspect="AspectFill"
                                         Grid.Column="1"
                                         Grid.Row="0"
-                                        Aspect="Fill"
-                                        HorizontalOptions="Center"
+                                        HorizontalOptions="FillAndExpand"
                                         Source="Image.png"
-                                        VerticalOptions="Center"
+                                        VerticalOptions="FillAndExpand"
                                         x:Name="Four_ImgTwo">
                                         <!--<Image.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="GetImage"/>
                                         </Image.GestureRecognizers>-->
                                     </Image>
                                     <Image
+                                        Aspect="AspectFill"
                                         Grid.Column="0"
                                         Grid.Row="1"
-                                        Aspect="Fill"
-                                        HorizontalOptions="Center"
+                                        HorizontalOptions="FillAndExpand"
+                                        Scale="1.0"
                                         Source="Image.png"
-                                        VerticalOptions="Center"
+                                        VerticalOptions="FillAndExpand"
                                         x:Name="Four_ImgThree">
                                         <!--<Image.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="GetImage"/>
                                         </Image.GestureRecognizers>-->
                                     </Image>
                                     <Image
+                                        Aspect="AspectFill"
                                         Grid.Column="1"
                                         Grid.Row="1"
-                                        Aspect="Fill"
-                                        HorizontalOptions="Center"
+                                        HorizontalOptions="FillAndExpand"
+                                        Scale="1.0"
                                         Source="Image.png"
-                                        VerticalOptions="Center"
+                                        VerticalOptions="FillAndExpand"
                                         x:Name="Four_ImgFour">
                                         <!--<Image.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="GetImage"/>
@@ -324,6 +495,50 @@
                                     </Image>
                                 </Grid>
                             </StackLayout>
+                        </StackLayout>
+                        
+                        <StackLayout
+                            Grid.Column="0"
+                            Grid.Row="2"
+                            HorizontalOptions="FillAndExpand"
+                            Orientation="Horizontal"
+                            VerticalOptions="End">
+                            <Frame
+                                BackgroundColor="Transparent"
+                                BorderColor="Black"
+                                HasShadow="True"
+                                HorizontalOptions="StartAndExpand"
+                                CornerRadius="10"
+                                Padding="2"
+                                VerticalOptions="End">
+                                <Image
+                                    HorizontalOptions="CenterAndExpand"
+                                    Margin="2"
+                                    Source="Previous.png"
+                                    VerticalOptions="CenterAndExpand"
+                                    WidthRequest="20"/>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding CancelCommand}"/>
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                            <Frame
+                                BackgroundColor="Transparent"
+                                BorderColor="Black"
+                                HasShadow="True"
+                                HorizontalOptions="EndAndExpand"
+                                CornerRadius="10"
+                                Padding="2"
+                                VerticalOptions="Center">
+                                <Image
+                                    HorizontalOptions="CenterAndExpand"
+                                    Margin="2"
+                                    Source="Check.png"
+                                    VerticalOptions="CenterAndExpand"
+                                    WidthRequest="20"/>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding NextCommand}"/>
+                                </Frame.GestureRecognizers>
+                            </Frame>
                         </StackLayout>
                     </Grid>
                 </ScrollView>

@@ -91,7 +91,7 @@
             this.user = user;
             this.tecnico = tecnico;
             this.apiService = new ApiService();
-            Task.Run(async () => { await this.LoadCitas(); }).Wait();
+            this.RerfeshCitasList();
             //this.LoadCitas();
             this.LoadData();
             this.IsRefreshing = false;
@@ -104,7 +104,7 @@
         {
             get
             {
-                return new RelayCommand(RerfeshCitasLiast);
+                return new RelayCommand(RerfeshCitasList);
             }                
         }
         #endregion
@@ -118,39 +118,10 @@
             this.total = $"{Languages.Remaining} {tot.ToString("C2")}";
         }
 
-        private async Task LoadCitas()
+        public void RerfeshCitasList()
         {
-            this.IsRefreshing = true;
+            this.CitasList = MainViewModel.GetInstance().TecnicoHome.CitasList.Where(c => c.Id_Trabajo == this.trabajo.Id_Trabajo).ToList();
 
-            var connection = await this.apiService.CheckConnection();
-            if (!connection.IsSuccess)
-            {
-                this.IsRefreshing = false;
-                await App.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    connection.Message,
-                    "OK");
-                return;
-            }
-
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_trabajocitasController"].ToString();
-
-            var response = await this.apiService.GetList<T_trabajocitas>(urlApi, prefix, controller);
-
-            if (!response.IsSuccess)
-            {
-                this.IsRefreshing = false;
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-            this.CitasList = (List<T_trabajocitas>)response.Result;
-            this.CitasList = this.CitasList.Where(c => c.Id_Trabajo == this.trabajo.Id_Trabajo).ToList();
-            
             var cita = this.CitasList.Select(c => new CitasItemViewModel
             {
                 Asunto = c.Asunto,
@@ -165,16 +136,14 @@
                 Id_Trabajo = c.Id_Trabajo,
                 ColorText = c.ColorText,
                 Color = Color.FromHex(c.ColorText),
+                CitaTemp = c.CitaTemp,
+                CambioFecha = c.CambioFecha,
+                TecnicoTiempo = c.TecnicoTiempo,
                 Completado = MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Completo,
                 Cancelado = MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Cancelado,
 
-            }).Where(c => c.Completa == false && c.Cancelado == false).ToList();
+            }).Where(c => c.Cancelado == false && c.CitaTemp == false && c.TecnicoTiempo == false).ToList();
             this.Citas = new ObservableCollection<CitasItemViewModel>(cita.OrderBy(c => c.F_Inicio));
-            this.IsRefreshing = false;
-        }
-        public void RerfeshCitasLiast()
-        {
-            Task.Run(async () => { await this.LoadCitas(); }).Wait();
         }
 
         #endregion

@@ -731,5 +731,25 @@
         {
             get { return Resource.AddPublication; }
         }
+        public static string CancelUserDateMessage
+        {
+            get { return Resource.CancelUserDateMessage; }
+        }
+        public static string PaymentMethod
+        {
+            get { return Resource.PaymentMethod; }
+        }
+        public static string Date48Hours
+        {
+            get { return Resource.Date48Hours; }
+        }
+        public static string DateBeforeTodayError
+        {
+            get { return Resource.DateBeforeTodayError; }
+        }
+        public static string AddNewDateMessage
+        {
+            get { return Resource.AddNewDateMessage; }
+        }
     }
 }

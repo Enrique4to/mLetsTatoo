@@ -48,8 +48,10 @@
         public List<T_ciudad> CiudadesList { get; set; }
         public List<T_estado> EstadosList { get; set; }
         public List<T_tecnicohorarios> ListHorariosTecnicos { get; set; }
+        public List<T_publicaciones> ListPublicaciones { get; set; }
+        public List<T_imgpublicacion> ListImgPublicacion { get; set; }
+        public List<T_comentpublicacion> ListComentPublicacion { get; set; }
         public List<T_localhorarios> ListHorariosLocales { get; set; }
-        public List<T_nuevafecha> NuevaFechaList { get; set; }
 
         public List<ClientesCollection> ClienteList { get; set; }
         public List<TecnicosCollection> TecnicoList { get; set; }
@@ -270,11 +272,11 @@
             this.ListHorariosTecnicos = (List<T_tecnicohorarios>)response.Result;
 
 
-            //-----------------------------Load HorariosLocalesList----------------------------//
+            //-----------------------------Load PublicacionesList----------------------------//
 
-            controller = Application.Current.Resources["UrlT_localhorariosController"].ToString();
+            controller = Application.Current.Resources["UrlT_publicacionesController"].ToString();
 
-            response = await this.apiService.GetList<T_localhorarios>(urlApi, prefix, controller);
+            response = await this.apiService.GetList<T_publicaciones>(urlApi, prefix, controller);
             if (!response.IsSuccess)
             {
                 await Application.Current.MainPage.DisplayAlert(
@@ -284,7 +286,41 @@
                 return;
             }
 
-            this.ListHorariosLocales = (List<T_localhorarios>)response.Result;
+            this.ListPublicaciones = (List<T_publicaciones>)response.Result;
+
+
+            //-----------------------------Load ImgPublicacionesList----------------------------//
+
+            controller = Application.Current.Resources["UrlT_imgpublicacionController"].ToString();
+
+            response = await this.apiService.GetList<T_imgpublicacion>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+
+            this.ListImgPublicacion = (List<T_imgpublicacion>)response.Result;
+
+
+            //-----------------------------Load ComentPublicacionesList----------------------------//
+
+            controller = Application.Current.Resources["UrlT_comentpublicacionController"].ToString();
+
+            response = await this.apiService.GetList<T_comentpublicacion>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+
+            this.ListComentPublicacion = (List<T_comentpublicacion>)response.Result;
 
             Application.Current.MainPage = new NavigationPage(new LoginPage())
             {
@@ -346,25 +382,6 @@
                 return;
             }
             this.ListUsuarios = (List<T_usuarios>)response.Result;
-
-
-            //-----------------------------Load Nuevas Fechas List----------------------------//
-
-            controller = App.Current.Resources["UrlT_nuevafechaController"].ToString();
-
-            response = await this.apiService.GetList<T_nuevafecha>(urlApi, prefix, controller);
-            if (!response.IsSuccess)
-            {
-                this.IsEnabled = true;
-                this.apiService.EndActivityPopup();
-                await App.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-
-            this.NuevaFechaList = (List<T_nuevafecha>)response.Result;
 
 
             //-----------------------------Load TecnicosList----------------------------//
@@ -476,7 +493,7 @@
             if (this.user.Tipo == 1)
             {
                 this.cliente = this.ClienteList.Single(c => c.Id_Usuario == this.user.Id_usuario);
-
+                MainViewModel.GetInstance().RergisterDevice();
                 MainViewModel.GetInstance().UserHome = new UserHomeViewModel(this.user, this.cliente);
                 Application.Current.MainPage = new SNavigationPage(new UserHomePage())
                 {
@@ -492,6 +509,7 @@
 
                 if(this.user.Confirmado == true)
                 {
+                    MainViewModel.GetInstance().RergisterDevice();
                     MainViewModel.GetInstance().TecnicoHome = new TecnicoHomeViewModel(this.user, this.tecnico);
                     Application.Current.MainPage = new SNavigationPage(new TecnicoHomePage())
                     {

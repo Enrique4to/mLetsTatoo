@@ -124,6 +124,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A new appointment has been added to your work with the selected date and time, the current appointment will be marked as completed..
+        /// </summary>
+        internal static string AddNewDateMessage {
+            get {
+                return ResourceManager.GetString("AddNewDateMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add a publication.
         /// </summary>
         internal static string AddPublication {
@@ -370,6 +379,31 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 
+        ///You are about to cancel the appointment that you had scheduled to make your art.
+        ///
+        ///Before you proceed, you should know the following:
+        ///
+        ///1.- The advance payment will not be refunded, you will lose the appointment, and if you wish to create another appointment, you must make another advance payment for this new appointment.
+        ///
+        ///You are advised to speak with the artist to re-standardize in case the reason for cancellation is due to lack of time, this must be only 48 hours before your scheduled appointment.        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CancelUserDateMessage {
+            get {
+                return ResourceManager.GetString("CancelUserDateMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cash.
+        /// </summary>
+        internal static string CashMethod {
+            get {
+                return ResourceManager.GetString("CashMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change Date.
         /// </summary>
         internal static string ChangeDate {
@@ -580,6 +614,24 @@ namespace mLetsTatoo.Resources {
         internal static string Date {
             get {
                 return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You must select a date 48 hours after today date..
+        /// </summary>
+        internal static string Date48Hours {
+            get {
+                return ResourceManager.GetString("Date48Hours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can not select a date before today..
+        /// </summary>
+        internal static string DateBeforeTodayError {
+            get {
+                return ResourceManager.GetString("DateBeforeTodayError", resourceCulture);
             }
         }
         
@@ -832,6 +884,15 @@ namespace mLetsTatoo.Resources {
         internal static string FillSmallFeatures {
             get {
                 return ResourceManager.GetString("FillSmallFeatures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finish art.
+        /// </summary>
+        internal static string FinishArt {
+            get {
+                return ResourceManager.GetString("FinishArt", resourceCulture);
             }
         }
         
@@ -1183,6 +1244,15 @@ namespace mLetsTatoo.Resources {
         internal static string PasswordError {
             get {
                 return ResourceManager.GetString("PasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select your payment method.
+        /// </summary>
+        internal static string PaymentMethod {
+            get {
+                return ResourceManager.GetString("PaymentMethod", resourceCulture);
             }
         }
         

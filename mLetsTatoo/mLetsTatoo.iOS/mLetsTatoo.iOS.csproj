@@ -90,6 +90,7 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="Controls\NControls.cs" />
     <Compile Include="Implementations\Localize.cs" />
     <Compile Include="Main.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Renderers\CustomDatePickerRenderer.cs" />
     <Compile Include="Renderers\CustomLabelRenderer.cs" />
     <Compile Include="Renderers\CustomEntryRenderer.cs" />
+    <Compile Include="Renderers\ImageFit.cs" />
     <Compile Include="Renderers\SNavigationPageRenderer.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
@@ -161,6 +163,9 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="ExifLib.PCL">
+      <Version>1.0.2-pre01</Version>
+    </PackageReference>
     <PackageReference Include="FontAwesome">
       <Version>4.7.0</Version>
     </PackageReference>
@@ -202,6 +207,9 @@
     </PackageReference>
     <PackageReference Include="Xam.Plugin.Media">
       <Version>4.2.0-beta</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.FFImageLoading.Forms">
+      <Version>2.4.9.961</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="4.0.0.304370-pre8" />
     <PackageReference Include="Xamarin.Forms.CarouselView">
@@ -343,5 +351,20 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Cancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Cash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\MasterCard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\PayPal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Visa.png" />
   </ItemGroup>
 </Project>

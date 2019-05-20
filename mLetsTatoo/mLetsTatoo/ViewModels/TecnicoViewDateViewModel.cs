@@ -190,6 +190,23 @@
                 return new RelayCommand(ChangeDate);
             }
         }
+        public ICommand AddNewDateCommand
+        {
+            get
+            {
+                return new RelayCommand(AddNewDate);
+            }
+        }
+
+
+        public ICommand FinishJobCommand
+        {
+            get
+            {
+                return new RelayCommand(FinishJob);
+            }
+        }
+
 
         #endregion
 
@@ -436,6 +453,126 @@
             IsButtonEnabled = false;
             IsVisible = false;
             this.apiService.EndActivityPopup();
+        }
+        private async void AddNewDate()
+        {
+            MainViewModel.GetInstance().NewAppointmentPopup = new NewAppointmentPopupViewModel(this.cliente);
+            MainViewModel.GetInstance().NewAppointmentPopup.feature = new T_teccaract
+            {
+                Alto = this.trabajo.Alto,
+                Ancho = this.trabajo.Ancho,
+                Tiempo = this.trabajo.Tiempo,
+            };
+            MainViewModel.GetInstance().NewAppointmentPopup.addNewDate = true;
+            MainViewModel.GetInstance().NewAppointmentPopup.tecnico = this.tecnico;
+            MainViewModel.GetInstance().NewAppointmentPopup.thisPage = "Calendar";
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentCalendarPopupPage());
+        }
+        private async void FinishJob()
+        {
+            this.apiService.StartActivityPopup();
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+            var newTrabajo = new T_trabajos
+            {
+                Alto = this.trabajo.Alto,
+                Ancho = this.trabajo.Ancho,
+                Asunto = this.trabajo.Asunto,
+                Cancelado = true,
+                Completo = this.trabajo.Completo,
+                Costo_Cita = this.trabajo.Costo_Cita,
+                Id_Caract = this.trabajo.Id_Caract,
+                Id_Cliente = this.trabajo.Id_Cliente,
+                Id_Tatuador = this.trabajo.Id_Tatuador,
+                Id_Trabajo = this.trabajo.Id_Trabajo,
+                TecnicoTiempo = this.trabajo.TecnicoTiempo,
+                Tiempo = this.trabajo.Tiempo,
+                Total_Aprox = this.trabajo.Total_Aprox,
+            };
+
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_trabajosController"].ToString();
+
+            var response = await this.apiService.Put(urlApi, prefix, controller, newTrabajo, this.trabajo.Id_Trabajo);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            var newAddedTrabajo = (T_trabajos)response.Result;
+
+            controller = Application.Current.Resources["UrlT_trabajocitasController"].ToString();
+            var newOldCita = new T_trabajocitas
+            {
+                Id_Cita = this.cita.Id_Cita,
+                Id_Trabajo = this.cita.Id_Trabajo,
+                Id_Cliente = this.cita.Id_Cliente,
+                Id_Tatuador = this.cita.Id_Tatuador,
+                F_Inicio = this.cita.F_Inicio,
+                H_Inicio = this.cita.H_Inicio,
+                F_Fin = this.cita.F_Fin,
+                H_Fin = this.cita.H_Fin,
+                Asunto = this.cita.Asunto,
+                Completa = true,
+                ColorText = this.cita.ColorText,
+                CambioFecha = false,
+                TecnicoTiempo = false,
+                CitaTemp = false,
+            };
+            response = await this.apiService.Put(urlApi, prefix, controller, newOldCita, this.cita.Id_Cita);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            var newCitaTemp = (T_trabajocitas)response.Result;
+
+            var oldCitaTemp = MainViewModel.GetInstance().TecnicoHome.CitasList.Where(n => n.Id_Cita == this.cita.Id_Cita).FirstOrDefault();
+            if (oldCitaTemp != null)
+            {
+                MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(oldCitaTemp);
+            }
+
+            MainViewModel.GetInstance().TecnicoHome.CitasList.Add(newCitaTemp);
+            MainViewModel.GetInstance().TecnicoViewJob.RerfeshCitasList();
+
+            var oldTrabajo = MainViewModel.GetInstance().TecnicoHome.TrabajoList.Where(c => c.Id_Trabajo == this.cita.Id_Trabajo).FirstOrDefault();
+
+            if (oldTrabajo != null)
+            {
+                MainViewModel.GetInstance().TecnicoHome.TrabajoList.Remove(oldTrabajo);
+            }
+
+            MainViewModel.GetInstance().TecnicoHome.TrabajoList.Add(newAddedTrabajo);
+
+            MainViewModel.GetInstance().TecnicoHome.RefreshTrabajosList();
+
+            this.apiService.EndActivityPopup();
+
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+
         }
 
         public void SelectedNota()

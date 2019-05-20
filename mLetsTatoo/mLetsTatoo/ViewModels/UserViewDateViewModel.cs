@@ -23,6 +23,7 @@
         #endregion
 
         #region Attributes
+        public string cancelPage;
         private INavigation Navigation;
 
         private bool isRefreshing;
@@ -50,7 +51,6 @@
         private T_estado estado;
         private T_ciudad ciudad;
         private T_postal postal;
-        private T_nuevafecha nuevaFecha;
         public TrabajoNotaCollection notaSelected;
         public T_citaimagenes image;
 
@@ -220,58 +220,27 @@
                 return new RelayCommand(CancelDate);
             }
         }
-
+        public ICommand CancelTempDateCommand
+        {
+            get
+            {
+                return new RelayCommand(CancelTempDate);
+            }
+        }
 
         #endregion
 
         #region Methods
         public async Task LoadInfo()
         {
-            var connection = await this.apiService.CheckConnection();
-            if (!connection.IsSuccess)
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    connection.Message,
-                    "OK");
-                return;
-            }
-            //------------------------Cargar Datos de Trabajo ------------------------//
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
-            var controller = App.Current.Resources["UrlT_trabajosController"].ToString();
-
-            var response = await this.apiService.Get<T_trabajos>(urlApi, prefix, controller, this.cita.Id_Trabajo);
-
-            if (!response.IsSuccess)
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-            this.trabajo = (T_trabajos)response.Result;
+            this.trabajo = MainViewModel.GetInstance().UserHome.TrabajosList.Where(t => t.Id_Trabajo == this.cita.Id_Trabajo).FirstOrDefault();
 
             this.subTotal = $"{Languages.Total}: {this.trabajo.Total_Aprox.ToString("C2")}";
             this.advance = $"{Languages.Advance} {this.trabajo.Costo_Cita.ToString("C2")}";
             var tot = this.trabajo.Total_Aprox - this.trabajo.Costo_Cita;
             this.total = $"{Languages.Remaining} {tot.ToString("C2")}";
 
-            //------------------------Cargar Datos de Tecnico ------------------------//
-
-            controller = Application.Current.Resources["UrlT_tecnicosController"].ToString();
-
-            response = await this.apiService.Get<T_tecnicos>(urlApi, prefix, controller, this.trabajo.Id_Tatuador);
-            if (!response.IsSuccess)
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-            var tecnicoTemp = (T_tecnicos)response.Result;
+            var tecnicoTemp = MainViewModel.GetInstance().UserHome.TecnicoList.Where(t => t.Id_Tecnico == this.cita.Id_Tatuador).FirstOrDefault();
             var userList = MainViewModel.GetInstance().Login.ListUsuarios;
 
             this.tecnico = new TecnicosCollection
@@ -288,42 +257,30 @@
                 F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == tecnicoTemp.Id_Usuario).F_Perfil,
             };
 
-            //------------------------Cargar Datos de Local ------------------------//
-
-            controller = Application.Current.Resources["UrlT_localesController"].ToString();
-
-            response = await this.apiService.Get<T_locales>(urlApi, prefix, controller, this.tecnico.Id_Local);
-            if (!response.IsSuccess)
-            {
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-            this.local = (T_locales)response.Result;
+            this.local = MainViewModel.GetInstance().UserHome.LocalesList.Where(l => l.Id_Local == this.tecnico.Id_Local).FirstOrDefault();
             this.reference = $"{Languages.Reference} {this.local.Referencia}";
 
-            //------------------------Cargar Datos de Empresa ------------------------//
-            controller = Application.Current.Resources["UrlT_empresasController"].ToString();
+            this.empresa = MainViewModel.GetInstance().UserHome.EmpresaList.Where(e => e.Id_Empresa == this.tecnico.Id_Empresa).FirstOrDefault();
+            this.studio = $"{this.empresa.Nombre} {Languages.BranchOffice} {this.local.Nombre}";
 
-            response = await this.apiService.Get<T_empresas>(urlApi, prefix, controller, this.local.Id_Empresa);
-            if (!response.IsSuccess)
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
             {
                 await Application.Current.MainPage.DisplayAlert(
                     Languages.Error,
-                    response.Message,
+                    connection.Message,
                     "OK");
                 return;
             }
-            this.empresa = (T_empresas)response.Result;
-            this.studio = $"{this.empresa.Nombre} {Languages.BranchOffice} {this.local.Nombre}";
+
+            var urlApi = App.Current.Resources["UrlAPI"].ToString();
+            var prefix = App.Current.Resources["UrlPrefix"].ToString();
 
             //-----------------Cargar Datos Postal-----------------//
 
-            controller = Application.Current.Resources["UrlT_postalController"].ToString();
+            var controller = Application.Current.Resources["UrlT_postalController"].ToString();
 
-            response = await this.apiService.Get<T_postal>(urlApi, prefix, controller, this.local.Id_Colonia);
+            var response = await this.apiService.Get<T_postal>(urlApi, prefix, controller, this.local.Id_Colonia);
 
             if (!response.IsSuccess)
             {
@@ -384,16 +341,9 @@
                 return;
             }
             this.image = (T_citaimagenes)response.Result;
-
-            //------------------------Cargar Datos de Cambios de Fecha ------------------------//
-            if (MainViewModel.GetInstance().UserHome.NuevaFechaList.Any(n => n.Id_Cita == this.cita.Id_Cita))
-            {
-                this.nuevaFecha = MainViewModel.GetInstance().UserHome.NuevaFechaList.Single(n => n.Id_Cita == this.cita.Id_Cita);
-            }
         }
         public async Task LoadNotas()
         {
-
             var connection = await this.apiService.CheckConnection();
             if (!connection.IsSuccess)
             {
@@ -451,7 +401,7 @@
         public async void ChangeDate()
         {
             await Application.Current.MainPage.Navigation.PopPopupAsync();
-
+            var citaTemp = MainViewModel.GetInstance().UserHome.CitaList.Where(c => c.CitaTemp == true && c.Id_Trabajo == this.trabajo.Id_Trabajo).FirstOrDefault();
             this.apiService.StartActivityPopup();
 
             var connection = await this.apiService.CheckConnection();
@@ -464,52 +414,22 @@
                     "OK");
                 return;
             }
-
-            var newEndDate = nuevaFecha.Nueva_Fecha.AddMinutes(this.trabajo.Tiempo);
             var newCita = new T_trabajocitas
             {
                 Id_Cita = this.cita.Id_Cita,
                 Id_Trabajo = this.cita.Id_Trabajo,
                 Id_Cliente = this.cita.Id_Cliente,
                 Id_Tatuador = this.cita.Id_Tatuador,
-
-                F_Inicio = new DateTime
-                (
-                    nuevaFecha.Nueva_Fecha.Year, 
-                    nuevaFecha.Nueva_Fecha.Month, 
-                    nuevaFecha.Nueva_Fecha.Day, 
-                    nuevaFecha.Nueva_Fecha.Hour, 
-                    nuevaFecha.Nueva_Fecha.Minute, 
-                    nuevaFecha.Nueva_Fecha.Second
-                ),
-
-                H_Inicio = new TimeSpan
-                (
-                    nuevaFecha.Nueva_Fecha.Hour,
-                    nuevaFecha.Nueva_Fecha.Minute,
-                    nuevaFecha.Nueva_Fecha.Second
-                ),
-
-                F_Fin = new DateTime
-                (
-                    newEndDate.Year, 
-                    newEndDate.Month, 
-                    newEndDate.Day, 
-                    newEndDate.Hour, 
-                    newEndDate.Minute, 
-                    newEndDate.Second
-                ),
-
-                H_Fin = new TimeSpan
-                (
-                    newEndDate.Hour,
-                    newEndDate.Minute,
-                    newEndDate.Second
-                ),
-
+                F_Inicio = this.cita.F_Inicio,
+                H_Inicio = this.cita.H_Inicio,
+                F_Fin = this.cita.F_Fin,
+                H_Fin = this.cita.H_Fin,
                 Asunto = this.cita.Asunto,
                 Completa = this.cita.Completa,
                 ColorText = this.cita.ColorText,
+                CambioFecha = false,
+                CitaTemp = false,
+                TecnicoTiempo = true,
             };
 
             var urlApi = Application.Current.Resources["UrlAPI"].ToString();
@@ -531,15 +451,31 @@
 
             var citaAccepted = (T_trabajocitas)response.Result;
 
-            var oldNuevaFecha = MainViewModel.GetInstance().UserHome.NuevaFechaList.Where(t => t.Id_Cita == this.cita.Id_Cita).FirstOrDefault();
+            newCita = new T_trabajocitas
+            {
+                Id_Cita = citaTemp.Id_Cita,
+                Id_Trabajo = citaTemp.Id_Trabajo,
+                Id_Cliente = citaTemp.Id_Cliente,
+                Id_Tatuador = citaTemp.Id_Tatuador,
+                F_Inicio = citaTemp.F_Inicio,
+                H_Inicio = citaTemp.H_Inicio,
+                F_Fin = citaTemp.F_Fin,
+                H_Fin = citaTemp.H_Fin,
+                Asunto = citaTemp.Asunto,
+                Completa = citaTemp.Completa,
+                ColorText = citaTemp.ColorText,
+                CambioFecha = false,
+                CitaTemp = false,
+                TecnicoTiempo = false,
+            };
+            controller = Application.Current.Resources["UrlT_trabajocitasController"].ToString();
 
-            controller = Application.Current.Resources["UrlT_nuevafechaController"].ToString();
-
-            response = await this.apiService.Delete(urlApi, prefix, controller, oldNuevaFecha.Id_Cita);
+            response = await this.apiService.Put(urlApi, prefix, controller, newCita, citaTemp.Id_Cita);
 
             if (!response.IsSuccess)
             {
-                this.IsRefreshing = false;
+                this.apiService.EndActivityPopup();
+
                 await Application.Current.MainPage.DisplayAlert(
                 Languages.Error,
                 response.Message,
@@ -547,10 +483,7 @@
                 return;
             }
 
-            if (oldNuevaFecha != null)
-            {
-                MainViewModel.GetInstance().UserHome.NuevaFechaList.Remove(oldNuevaFecha);
-            }
+            var citaTempAccepted = (T_trabajocitas)response.Result;
 
             var oldnota = this.NotaList.Where(t => t.Id_Cita == this.cita.Id_Cita && t.Cambio_Fecha == true).FirstOrDefault();
             controller = Application.Current.Resources["UrlT_trabajonotaController"].ToString();
@@ -572,14 +505,54 @@
                 this.NotaList.Remove(oldnota);
             }
 
+            foreach (var notaTemp in this.NotaList)
+            {
+                var nota = new T_trabajonota
+                {
+                    Id_Nota = notaTemp.Id_Nota,
+                    Id_Trabajo = notaTemp.Id_Trabajo,
+                    Tipo_Usuario = notaTemp.Tipo_Usuario,
+                    Id_Usuario = notaTemp.Id_Usuario,
+                    Id_Local = notaTemp.Id_Local,
+                    Id_Cita = citaTemp.Id_Cita,
+                    Nota = notaTemp.Nota,
+                    Nombre_Post = notaTemp.Nombre_Post,
+                    F_nota = notaTemp.F_nota,
+                    Cambio_Fecha = notaTemp.Cambio_Fecha,
+                    
+                };
+
+                controller = Application.Current.Resources["UrlT_trabajonotaController"].ToString();
+
+                response = await this.apiService.Put(urlApi, prefix, controller, nota, notaTemp.Id_Nota);
+
+                if (!response.IsSuccess)
+                {
+                    this.apiService.EndActivityPopup();
+
+                    await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                    return;
+                }
+            }
+
             var oldCita = MainViewModel.GetInstance().UserHome.CitaList.Where(c => c.Id_Cita == this.cita.Id_Cita).FirstOrDefault();
 
             if (oldCita != null)
             {                
                 MainViewModel.GetInstance().UserHome.CitaList.Remove(oldCita);
             }
+            oldCita = MainViewModel.GetInstance().UserHome.CitaList.Where(c => c.Id_Cita == citaTemp.Id_Cita).FirstOrDefault();
+
+            if (oldCita != null)
+            {
+                MainViewModel.GetInstance().UserHome.CitaList.Remove(oldCita);
+            }
 
             MainViewModel.GetInstance().UserHome.CitaList.Add(citaAccepted);
+            MainViewModel.GetInstance().UserHome.CitaList.Add(citaTempAccepted);
             MainViewModel.GetInstance().UserHome.RefreshCitaList();
 
             this.apiService.EndActivityPopup();
@@ -589,6 +562,25 @@
         private async void Cancel()
         {
             await Application.Current.MainPage.Navigation.PopPopupAsync();
+
+            if(this.cancelPage != "CancelDate")
+            {
+                if (this.cancelPage == "CancelTempDate")
+                {
+                    await Application.Current.MainPage.Navigation.PushPopupAsync(new CancelDatePopupPage());
+                    this.cancelPage = null;
+                    return;
+                }
+                if (string.IsNullOrEmpty(this.cancelPage))
+                {
+                    await Application.Current.MainPage.Navigation.PushPopupAsync(new ChangeDatePopupPage());
+                    this.cancelPage = "CancelTempDate";
+                    return;
+                }
+            }
+
+            this.cancelPage = null;
+            
         }
         private async void CancelDate()
         {
@@ -617,6 +609,7 @@
                 Id_Cliente = this.trabajo.Id_Cliente,
                 Id_Tatuador = this.trabajo.Id_Tatuador,
                 Id_Trabajo = this.trabajo.Id_Trabajo,
+                TecnicoTiempo = this.trabajo.TecnicoTiempo,
                 Tiempo = this.trabajo.Tiempo,
                 Total_Aprox = this.trabajo.Total_Aprox,
             };
@@ -649,6 +642,182 @@
             MainViewModel.GetInstance().UserHome.TrabajosList.Add(newAddedTrabajo);
 
             MainViewModel.GetInstance().UserHome.RefreshCitaList();
+
+            this.apiService.EndActivityPopup();
+
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+
+        }
+        private async void CancelTempDate()
+        {
+            if(cancelPage == "CancelDate")
+            {
+                this.CancelDate();
+                return;
+            }
+            await Application.Current.MainPage.Navigation.PopPopupAsync();
+            var citaTemp = MainViewModel.GetInstance().UserHome.CitaList.Where(c => c.CitaTemp == true && c.Id_Trabajo == this.trabajo.Id_Trabajo).FirstOrDefault();
+
+            this.apiService.StartActivityPopup();
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+            var newTrabajo = new T_trabajos
+            {
+                Alto = this.trabajo.Alto,
+                Ancho = this.trabajo.Ancho,
+                Asunto = this.trabajo.Asunto,
+                Cancelado = this.trabajo.Cancelado,
+                Completo = this.trabajo.Completo,
+                Costo_Cita = this.trabajo.Costo_Cita,
+                Id_Caract = this.trabajo.Id_Caract,
+                Id_Cliente = this.trabajo.Id_Cliente,
+                Id_Tatuador = this.trabajo.Id_Tatuador,
+                Id_Trabajo = this.trabajo.Id_Trabajo,
+                TecnicoTiempo = true,                
+                Tiempo = this.trabajo.Tiempo,
+                Total_Aprox = this.trabajo.Total_Aprox,
+            };
+
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_trabajosController"].ToString();
+
+            var response = await this.apiService.Put(urlApi, prefix, controller, newTrabajo, this.trabajo.Id_Trabajo);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            var newAddedTrabajo = (T_trabajos)response.Result;
+
+            var oldTrabajo = MainViewModel.GetInstance().UserHome.TrabajosList.Where(c => c.Id_Trabajo == this.cita.Id_Trabajo).FirstOrDefault();
+
+            if (oldTrabajo != null)
+            {
+                MainViewModel.GetInstance().UserHome.TrabajosList.Remove(oldTrabajo);
+            }
+
+            MainViewModel.GetInstance().UserHome.TrabajosList.Add(newAddedTrabajo);
+
+            var newCita = new T_trabajocitas
+            {
+                Id_Cita = this.cita.Id_Cita,
+                Id_Trabajo = this.cita.Id_Trabajo,
+                Id_Cliente = this.cita.Id_Cliente,
+                Id_Tatuador = this.cita.Id_Tatuador,
+                F_Inicio = this.cita.F_Inicio,
+                H_Inicio = this.cita.H_Inicio,
+                F_Fin = this.cita.F_Fin,
+                H_Fin = this.cita.H_Fin,
+                Asunto = this.cita.Asunto,
+                Completa = this.cita.Completa,
+                ColorText = this.cita.ColorText,
+                CambioFecha = false,
+                CitaTemp = false,
+                TecnicoTiempo = true,
+            };
+            controller = Application.Current.Resources["UrlT_trabajocitasController"].ToString();
+
+            response = await this.apiService.Put(urlApi, prefix, controller, newCita, this.cita.Id_Cita);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            var citaAccepted = (T_trabajocitas)response.Result;
+
+            var oldCita = MainViewModel.GetInstance().UserHome.CitaList.Where(c => c.Id_Cita == this.cita.Id_Cita).FirstOrDefault();
+
+            if (oldCita != null)
+            {
+                MainViewModel.GetInstance().UserHome.CitaList.Remove(oldCita);
+            }
+            
+            MainViewModel.GetInstance().UserHome.CitaList.Add(citaAccepted);
+
+            response = await this.apiService.Delete(urlApi, prefix, controller, citaTemp.Id_Cita);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            oldCita = MainViewModel.GetInstance().UserHome.CitaList.Where(c => c.Id_Cita == citaTemp.Id_Cita).FirstOrDefault();
+
+            if (oldCita != null)
+            {
+                MainViewModel.GetInstance().UserHome.CitaList.Remove(oldCita);
+            }
+
+            MainViewModel.GetInstance().UserHome.RefreshCitaList();
+
+            var userList = MainViewModel.GetInstance().Login.ListUsuarios;
+            var notaTempList = this.NotaList.Select(c => new NotasItemViewModel
+            {
+                Id_Cita = c.Id_Cita,
+                Id_Trabajo = c.Id_Trabajo,
+                Id_Usuario = c.Id_Usuario,
+                Tipo_Usuario = c.Tipo_Usuario,
+                F_nota = c.F_nota,
+                Id_Local = c.Id_Local,
+                Id_Nota = c.Id_Nota,
+                Nota = c.Nota,
+                Nombre_Post = c.Nombre_Post,
+                Cambio_Fecha = c.Cambio_Fecha,
+                F_Perfil = userList.FirstOrDefault(u => u.Id_usuario == c.Id_Usuario).F_Perfil,
+
+            }).Where(c => c.Id_Cita == this.cita.Id_Cita).ToList();
+
+            foreach(var notaTemp in notaTempList)
+            {
+                controller = Application.Current.Resources["UrlT_trabajonotaController"].ToString();
+
+                response = await this.apiService.Delete(urlApi, prefix, controller, notaTemp.Id_Nota);
+
+                if (!response.IsSuccess)
+                {
+                    this.apiService.EndActivityPopup();
+
+                    await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                    return;
+                }
+
+                var oldNotaTemp = this.NotaList.Where(n => n.Id_Trabajo == notaTemp.Id_Nota).FirstOrDefault();
+
+                if (oldNotaTemp != null)
+                {
+                    this.NotaList.Remove(oldNotaTemp);
+                }
+            }
 
             this.apiService.EndActivityPopup();
 

@@ -44,10 +44,13 @@
         private bool isRefreshing;
         private bool isVisible;
         private bool isVisible2;
+        private bool cashMetodoChecked;
+        private bool payPalMetodoChecked;
 
         public bool fromTecnitoPage;
         public bool PresupuestoPage;
         public bool changeDate;
+        public bool addNewDate;
 
         public decimal cost;
         public decimal advance;
@@ -167,6 +170,16 @@
         {
             get { return this.hardChecked; }
             set { SetValue(ref this.hardChecked, value); }
+        }
+        public bool CashMetodoChecked
+        {
+            get { return this.cashMetodoChecked; }
+            set { SetValue(ref this.cashMetodoChecked, value); }
+        }
+        public bool PayPalMetodoChecked
+        {
+            get { return this.payPalMetodoChecked; }
+            set { SetValue(ref this.payPalMetodoChecked, value); }
         }
 
         public string AppointmentType
@@ -498,11 +511,18 @@
         }
         public void LoadCitas()
         {
-            if (changeDate == true)
+            var color = Color.Black;
+            int red = (int)(color.R * 255);
+            int green = (int)(color.G * 255);
+            int blue = (int)(color.B * 255);
+            string hex = String.Format("#{0:X2}{1:X2}{2:X2}", red, green, blue);
+
+            if (changeDate == true || addNewDate == true)
             {
-                var newTecnicoList = MainViewModel.GetInstance().TecnicoHome.TrabajoList.Where(t => t.Cancelado == false).ToList();
+                var newTecnicoList = MainViewModel.GetInstance().TecnicoHome.TrabajoList.Where(t => t.Cancelado == false && t.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
                 if (newTecnicoList.Count > 0 )
                 {
+
                     this.CitaList = MainViewModel.GetInstance().TecnicoHome.CitasList.Select(c => new CitasItemViewModel
                     {
                         Id_Cita = c.Id_Cita,
@@ -513,12 +533,32 @@
                         H_Inicio = c.H_Inicio,
                         F_Fin = new DateTime(c.F_Fin.Year, c.F_Fin.Month, c.F_Fin.Day, c.H_Fin.Hours, c.H_Fin.Minutes, c.H_Fin.Seconds),
                         H_Fin = c.H_Fin,
-                        Asunto = c.Asunto,
+                        Asunto = 
+                        (
+                        c.CambioFecha == true || c.TecnicoTiempo == true ?
+                            "":
+                            c.Asunto
+                        ),
+
                         Completa = c.Completa,
-                        ColorText = c.ColorText,
-                        Color = Color.FromHex(c.ColorText),
+
+                        ColorText =
+                        (
+                        c.CambioFecha == true || c.TecnicoTiempo == true ?
+                            hex:
+                            c.ColorText
+                        ),
+                        Color =
+                        (
+                        c.CambioFecha == true || c.TecnicoTiempo == true ?
+                            Color.FromHex(hex):
+                            Color.FromHex(c.ColorText)
+                        ),
                         Completado = MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Completo,
                         Cancelado = MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Cancelado,
+                        TecnicoTiempo = c.TecnicoTiempo,
+                        CambioFecha = c.CambioFecha,
+                        CitaTemp = c.CitaTemp,
 
                     }).Where(c => c.Completa == false && c.Cancelado == false && c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
                 }
@@ -534,10 +574,30 @@
                         H_Inicio = c.H_Inicio,
                         F_Fin = new DateTime(c.F_Fin.Year, c.F_Fin.Month, c.F_Fin.Day, c.H_Fin.Hours, c.H_Fin.Minutes, c.H_Fin.Seconds),
                         H_Fin = c.H_Fin,
-                        Asunto = c.Asunto,
+                        Asunto =
+                        (
+                        c.CambioFecha == true || c.TecnicoTiempo == true ?
+                            "" :
+                            c.Asunto
+                        ),
+
                         Completa = c.Completa,
-                        ColorText = c.ColorText,
-                        Color = Color.FromHex(c.ColorText),
+
+                        ColorText =
+                        (
+                        c.CambioFecha == true || c.TecnicoTiempo == true ?
+                            hex :
+                            c.ColorText
+                        ),
+                        Color =
+                        (
+                        c.CambioFecha == true || c.TecnicoTiempo == true ?
+                            Color.FromHex(hex) :
+                            Color.FromHex(c.ColorText)
+                        ),
+                        TecnicoTiempo = c.TecnicoTiempo,
+                        CambioFecha = c.CambioFecha,
+                        CitaTemp = c.CitaTemp,
 
                     }).Where(c => c.Completa == false && c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
                 }
@@ -557,10 +617,30 @@
                         H_Inicio = c.H_Inicio,
                         F_Fin = new DateTime(c.F_Fin.Year, c.F_Fin.Month, c.F_Fin.Day, c.H_Fin.Hours, c.H_Fin.Minutes, c.H_Fin.Seconds),
                         H_Fin = c.H_Fin,
-                        Asunto = c.Asunto,
+                        Asunto =
+                        (
+                        c.CambioFecha == true || c.TecnicoTiempo == true ?
+                            "" :
+                            c.Asunto
+                        ),
+
                         Completa = c.Completa,
-                        ColorText = c.ColorText,
-                        Color = Color.FromHex(c.ColorText),
+
+                        ColorText =
+                        (
+                        c.CambioFecha == true || c.TecnicoTiempo == true ?
+                            hex :
+                            c.ColorText
+                        ),
+                        Color =
+                        (
+                        c.CambioFecha == true || c.TecnicoTiempo == true ?
+                            Color.FromHex(hex) :
+                            Color.FromHex(c.ColorText)
+                        ),
+                        TecnicoTiempo = c.TecnicoTiempo,
+                        CambioFecha = c.CambioFecha,
+                        CitaTemp = c.CitaTemp,
                         Completado = MainViewModel.GetInstance().UserHome.TrabajosList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Completo,
                         Cancelado = MainViewModel.GetInstance().UserHome.TrabajosList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Cancelado,
 
@@ -578,10 +658,30 @@
                         H_Inicio = c.H_Inicio,
                         F_Fin = new DateTime(c.F_Fin.Year, c.F_Fin.Month, c.F_Fin.Day, c.H_Fin.Hours, c.H_Fin.Minutes, c.H_Fin.Seconds),
                         H_Fin = c.H_Fin,
-                        Asunto = c.Asunto,
+                        Asunto =
+                        (
+                        c.CambioFecha == true || c.TecnicoTiempo == true ?
+                            "" :
+                            c.Asunto
+                        ),
+
                         Completa = c.Completa,
-                        ColorText = c.ColorText,
-                        Color = Color.FromHex(c.ColorText),
+
+                        ColorText =
+                        (
+                        c.CambioFecha == true || c.TecnicoTiempo == true ?
+                            hex :
+                            c.ColorText
+                        ),
+                        Color =
+                        (
+                        c.CambioFecha == true || c.TecnicoTiempo == true ?
+                            Color.FromHex(hex) :
+                            Color.FromHex(c.ColorText)
+                        ),
+                        TecnicoTiempo = c.TecnicoTiempo,
+                        CambioFecha = c.CambioFecha,
+                        CitaTemp = c.CitaTemp,
 
                     }).Where(c => c.Completa == false && c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
                 }
@@ -594,7 +694,7 @@
         {
             if (this.newCita != null)
             {
-                if (changeDate == true)
+                if (changeDate == true || addNewDate == true)
                 {
                     MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
                 }
@@ -629,7 +729,7 @@
                                 "OK");
                             if (newCita != null)
                             {
-                                if (changeDate == true)
+                                if (changeDate == true || addNewDate == true)
                                 {
                                     MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
                                 }
@@ -651,7 +751,7 @@
                                 "OK");
                         if (newCita != null)
                         {
-                            if (changeDate == true)
+                            if (changeDate == true || addNewDate == true)
                             {
                                 MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
                             }
@@ -672,7 +772,7 @@
                                 "OK");
                         if (newCita != null)
                         {
-                            if (changeDate == true)
+                            if (changeDate == true || addNewDate == true)
                             {
                                 MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
                             }
@@ -703,7 +803,7 @@
                             "OK");
                         if (newCita != null)
                         {
-                            if (changeDate == true)
+                            if (changeDate == true || addNewDate == true)
                             {
                                 MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
                             }
@@ -724,7 +824,7 @@
                             "OK");
                         if (newCita != null)
                         {
-                            if (changeDate == true)
+                            if (changeDate == true || addNewDate == true)
                             {
                                 MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
                             }
@@ -756,7 +856,7 @@
             }
             else
             {
-                if(this.changeDate == false)
+                if(this.changeDate == false || addNewDate == true)
                 {
                     this.subject = $"{Languages.Tattoo}, {this.feature.Alto} cm X {this.feature.Ancho} cm, {Languages.Complexity} {this.complexity}.";
                 }
@@ -780,11 +880,14 @@
                 Color = Color.FromHex(hex),
                 Completado = false,
                 Cancelado = false,
-               
+                CambioFecha = false,
+                TecnicoTiempo = false,
+                CitaTemp = false,
+
             };
             if (newCita != null)
             {
-                if (changeDate == true)
+                if (changeDate == true || addNewDate == true)
                 {
                     if (MainViewModel.GetInstance().TecnicoHome.CitasList.Count > 0)
                     {
@@ -800,7 +903,7 @@
                 }
             }
 
-            if (changeDate == true)
+            if (changeDate == true || addNewDate == true)
             {
                 MainViewModel.GetInstance().TecnicoHome.CitasList.Add(newCita);
             }
@@ -816,7 +919,7 @@
         {
             var horario = new T_tecnicohorarios();
 
-            if(changeDate == true)
+            if(changeDate == true || addNewDate == true)
             {
                 horario = MainViewModel.GetInstance().TecnicoHome.ListHorariosTecnicos.Single(h => h.Id_Tecnico == this.tecnico.Id_Tecnico);
             }
@@ -1089,6 +1192,7 @@
                 Tiempo = this.feature.Tiempo,
                 Completo = false,
                 Cancelado = false,
+                TecnicoTiempo = false,
             };
 
             var urlApi = Application.Current.Resources["UrlAPI"].ToString();
@@ -1130,6 +1234,9 @@
                 Asunto = this.subject,
                 Completa = false,
                 ColorText = hex,
+                CambioFecha = false,
+                TecnicoTiempo = false,
+                CitaTemp = false,
             };
 
             controller = Application.Current.Resources["UrlT_trabajocitasController"].ToString();
@@ -1252,6 +1359,7 @@
                 Tiempo = trabajoTemp.Tiempo,
                 Completo = false,
                 Cancelado = false,
+                TecnicoTiempo = false,
             };
 
             var urlApi = Application.Current.Resources["UrlAPI"].ToString();
@@ -1294,6 +1402,9 @@
                 Asunto = this.subject,
                 Completa = false,
                 ColorText = hex,
+                CambioFecha = false,
+                TecnicoTiempo = false,
+                CitaTemp = false,
             };
 
             controller = Application.Current.Resources["UrlT_trabajocitasController"].ToString();
@@ -1477,17 +1588,30 @@
                 return;
             }
 
-            var nuevafecha = new T_nuevafecha
-            {
-                Id_Cita = cita.Id_Cita,
-                Nueva_Fecha = new DateTime(SelectedTime.Year, SelectedTime.Month, SelectedTime.Day, SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second),
-            };
-
             var urlApi = Application.Current.Resources["UrlAPI"].ToString();
             var prefix = Application.Current.Resources["UrlPrefix"].ToString();
-            var controller = Application.Current.Resources["UrlT_nuevafechaController"].ToString();
 
-            var response = await this.apiService.Post(urlApi, prefix, controller, nuevafecha);
+            var newEndDate = SelectedTime.AddMinutes(this.feature.Tiempo);
+            var newCitaTemp = new T_trabajocitas
+            {
+                Id_Trabajo = cita.Id_Trabajo,
+                Id_Cliente = cita.Id_Cliente,
+                Id_Tatuador = cita.Id_Tatuador,
+                F_Inicio = new DateTime(SelectedTime.Year, SelectedTime.Month, SelectedTime.Day, SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second),
+                H_Inicio = new TimeSpan(SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second),
+                F_Fin = new DateTime(newEndDate.Year, newEndDate.Month, newEndDate.Day, newEndDate.Hour, newEndDate.Minute, newEndDate.Second),
+                H_Fin = new TimeSpan(newEndDate.Hour, newEndDate.Minute, newEndDate.Second),
+                Asunto = cita.Asunto,
+                Completa = cita.Completa,
+                ColorText = cita.ColorText,
+                CambioFecha = false,
+                TecnicoTiempo = false,
+                CitaTemp = true,
+            };
+
+            var controller = Application.Current.Resources["UrlT_trabajocitasController"].ToString();
+
+            var response = await this.apiService.Post(urlApi, prefix, controller, newCitaTemp);
 
             if (!response.IsSuccess)
             {
@@ -1500,17 +1624,61 @@
                 return;
             }
 
+            newCitaTemp = (T_trabajocitas)response.Result;
+
+            MainViewModel.GetInstance().TecnicoHome.CitasList.Add(newCitaTemp);
+
+            var newOldCita = new T_trabajocitas
+            {
+                Id_Cita = cita.Id_Cita,
+                Id_Trabajo = cita.Id_Trabajo,
+                Id_Cliente = cita.Id_Cliente,
+                Id_Tatuador = cita.Id_Tatuador,
+                F_Inicio = cita.F_Inicio,
+                H_Inicio = cita.H_Inicio,
+                F_Fin = cita.F_Fin,
+                H_Fin = cita.H_Fin,
+                Asunto = cita.Asunto,
+                Completa = cita.Completa,
+                ColorText = cita.ColorText,
+                CambioFecha = true,
+                TecnicoTiempo = false,
+                CitaTemp = false,
+            };
+            response = await this.apiService.Put(urlApi, prefix, controller, newOldCita, cita.Id_Cita);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            newCitaTemp = (T_trabajocitas)response.Result;
+
+            var oldCitaTemp = MainViewModel.GetInstance().TecnicoHome.CitasList.Where(n => n.Id_Cita == cita.Id_Cita).FirstOrDefault();
+            if (oldCitaTemp != null)
+            {
+                MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(oldCitaTemp);
+            }
+            
+            MainViewModel.GetInstance().TecnicoHome.CitasList.Add(newCitaTemp);
+            MainViewModel.GetInstance().TecnicoViewJob.RerfeshCitasList();
+
             if (newCita != null)
             {
                 MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
                 this.newCita = null;
                 this.LoadCitas();
             }
-            
+
             this.apiService.EndActivityPopup();
 
-            string date = DateTime.Parse(nuevafecha.Nueva_Fecha.ToString()).ToString("dd-MMM-yyyy").ToUpper();
-            string time = DateTime.Parse(nuevafecha.Nueva_Fecha.ToString()).ToString("hh:mm tt").ToUpper();
+            string date = DateTime.Parse(SelectedDate.ToString()).ToString("dd-MMM-yyyy").ToUpper();
+            string time = DateTime.Parse(SelectedDate.ToString()).ToString("hh:mm tt").ToUpper();
 
             var message = $"{Languages.TheDateChanged} #{cita.Id_Cita} {Languages.WillBeChanged}  {date}  {Languages.To}  {time}  {Languages.CustomerAccept}.";
 
@@ -1521,6 +1689,121 @@
                 );
 
             MainViewModel.GetInstance().TecnicoViewDate.SendMessage();
+
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+        }
+        private async void AddNewDate()
+        {
+            this.apiService.StartActivityPopup();
+
+            var cita = MainViewModel.GetInstance().TecnicoViewDate.cita;
+
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+
+            var newEndDate = SelectedTime.AddMinutes(this.feature.Tiempo);
+            var newCitaTemp = new T_trabajocitas
+            {
+                Id_Trabajo = cita.Id_Trabajo,
+                Id_Cliente = cita.Id_Cliente,
+                Id_Tatuador = cita.Id_Tatuador,
+                F_Inicio = new DateTime(SelectedTime.Year, SelectedTime.Month, SelectedTime.Day, SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second),
+                H_Inicio = new TimeSpan(SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second),
+                F_Fin = new DateTime(newEndDate.Year, newEndDate.Month, newEndDate.Day, newEndDate.Hour, newEndDate.Minute, newEndDate.Second),
+                H_Fin = new TimeSpan(newEndDate.Hour, newEndDate.Minute, newEndDate.Second),
+                Asunto = cita.Asunto,
+                Completa = false,
+                ColorText = cita.ColorText,
+                CambioFecha = false,
+                TecnicoTiempo = false,
+                CitaTemp = false,
+            };
+
+            var controller = Application.Current.Resources["UrlT_trabajocitasController"].ToString();
+
+            var response = await this.apiService.Post(urlApi, prefix, controller, newCitaTemp);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            newCitaTemp = (T_trabajocitas)response.Result;
+
+            MainViewModel.GetInstance().TecnicoHome.CitasList.Add(newCitaTemp);
+
+            var newOldCita = new T_trabajocitas
+            {
+                Id_Cita = cita.Id_Cita,
+                Id_Trabajo = cita.Id_Trabajo,
+                Id_Cliente = cita.Id_Cliente,
+                Id_Tatuador = cita.Id_Tatuador,
+                F_Inicio = cita.F_Inicio,
+                H_Inicio = cita.H_Inicio,
+                F_Fin = cita.F_Fin,
+                H_Fin = cita.H_Fin,
+                Asunto = cita.Asunto,
+                Completa = true,
+                ColorText = cita.ColorText,
+                CambioFecha = false,
+                TecnicoTiempo = false,
+                CitaTemp = false,
+            };
+            response = await this.apiService.Put(urlApi, prefix, controller, newOldCita, cita.Id_Cita);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            newCitaTemp = (T_trabajocitas)response.Result;
+
+            var oldCitaTemp = MainViewModel.GetInstance().TecnicoHome.CitasList.Where(n => n.Id_Cita == cita.Id_Cita).FirstOrDefault();
+            if (oldCitaTemp != null)
+            {
+                MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(oldCitaTemp);
+            }
+
+            MainViewModel.GetInstance().TecnicoHome.CitasList.Add(newCitaTemp);
+            MainViewModel.GetInstance().TecnicoViewJob.RerfeshCitasList();
+
+            if (newCita != null)
+            {
+                MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
+                this.newCita = null;
+                this.LoadCitas();
+            }
+
+            this.apiService.EndActivityPopup();
+
+            await Application.Current.MainPage.DisplayAlert
+                (Languages.Notice,
+                Languages.AddNewDateMessage,
+                "Ok"
+                );
 
             await Application.Current.MainPage.Navigation.PopModalAsync();
             await Application.Current.MainPage.Navigation.PopModalAsync();
@@ -1571,6 +1854,21 @@
         {
             switch (this.thisPage)
             {
+                case "Metodo":
+
+                    if (this.tecnico == null)
+                    {
+                        await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        this.thisPage = "Search";
+                        await Application.Current.MainPage.Navigation.PushPopupAsync(new SearchTecnicoPopupPage());
+                        break;
+                    }
+                    await Application.Current.MainPage.Navigation.PopPopupAsync();
+                    this.thisPage = "Type";
+                    await Application.Current.MainPage.Navigation.PushPopupAsync(new TypeAppointmentPopupPage());
+                    break;
+
+
                 case "Search":
 
                     if (this.tecnico == null)
@@ -1622,7 +1920,27 @@
                     break;
 
                 case "Calendar":
-
+                    if(this.CashMetodoChecked == true || (this.CashMetodoChecked == true && this.PresupuestoPage == true) || this.changeDate == true)
+                    {
+                        var tempDate = new DateTime(this.SelectedDate.Year, this.SelectedDate.Month, this.SelectedDate.Day, this.SelectedDate.Hour, this.SelectedDate.Minute, 0);
+                        tempDate = tempDate.AddHours(48);
+                        if (this.SelectedDate < tempDate)
+                        {
+                            await Application.Current.MainPage.DisplayAlert(
+                                Languages.Error,
+                                Languages.Date48Hours,
+                                "Ok");
+                            break;
+                        }
+                    }
+                    if (this.SelectedDate < DateTime.Today)
+                    {
+                        await Application.Current.MainPage.DisplayAlert(
+                            Languages.Error,
+                            Languages.DateBeforeTodayError,
+                            "Ok");
+                        break;
+                    }
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
                     if (this.PresupuestoPage == true)
                     {
@@ -1660,6 +1978,12 @@
                     {
                         await Application.Current.MainPage.Navigation.PopPopupAsync();
                         this.ChangeDate();
+                        break;
+                    }
+                    if (this.addNewDate == true)
+                    {
+                        await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        this.AddNewDate();
                         break;
                     }
 
@@ -1724,19 +2048,26 @@
         {
             switch (this.thisPage)
             {
-                case "Search":
+                case "Metodo":
 
                     this.tecnico = null;
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
                     this.thisPage = null;
                     break;
 
+                case "Search":
+
+                    await Application.Current.MainPage.Navigation.PopPopupAsync();
+                    this.thisPage = "Metodo";
+                    await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentMetodoPopupPage());
+                    break;
+
                 case "Type":
                     if(!fromTecnitoPage == false)
                     {
-                        this.tecnico = null;
                         await Application.Current.MainPage.Navigation.PopPopupAsync();
-                        this.thisPage = null;
+                        this.thisPage = "Metodo";
+                        await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentMetodoPopupPage());
                         break;
                     }
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
@@ -1755,10 +2086,17 @@
                     if(this.PresupuestoPage==true)
                     {
                         await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        this.thisPage = "Metodo";
+                        await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentMetodoPopupPage());
                         MainViewModel.GetInstance().UserMessageJob.LoadBudget();
                         break;
                     }
                     if (this.changeDate == true)
+                    {
+                        await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        break;
+                    }
+                    if (this.addNewDate == true)
                     {
                         await Application.Current.MainPage.Navigation.PopPopupAsync();
                         break;

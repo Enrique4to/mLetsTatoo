@@ -43,7 +43,8 @@
 
         private async void GoToCancelPopupPage(object sender, EventArgs e)
         {
-            await Application.Current.MainPage.Navigation.PushPopupAsync(new CancelDatePopupPage());
+            MainViewModel.GetInstance().UserViewDate.cancelPage = "CancelDate";
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new CancelDatePopupPage());         
         }
     }
 }

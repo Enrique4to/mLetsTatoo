@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using mLetsTatoo.Domain.Modules;
-using mLetsTatooModels;
+using mLetsTatoo.Models;
 
 namespace mLetsTatoo.API.Controllers
 {

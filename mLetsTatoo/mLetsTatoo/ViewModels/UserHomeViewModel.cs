@@ -77,7 +77,6 @@
         public List<T_estado> EstadosList { get; set; }
         public List<T_tecnicohorarios> ListHorariosTecnicos { get; set; }
         public List<EmpresasCollection> EmpresaUserList { get; set; }
-        public List<T_nuevafecha> NuevaFechaList { get; set; }
 
         public T_usuarios User
         {
@@ -155,7 +154,6 @@
 
             this.IsRefreshing = false;
             this.TipoBusqueda = "All";
-
         }
 
         #endregion
@@ -203,7 +201,6 @@
         {
             MainViewModel.GetInstance().UserPage = new UserViewModel(this.user, this.cliente);
 
-            this.NuevaFechaList = MainViewModel.GetInstance().Login.NuevaFechaList;
             this.TrabajosList = MainViewModel.GetInstance().Login.TrabajosList;
             this.CitaList = MainViewModel.GetInstance().Login.CitaList;
             this.LocalesList = MainViewModel.GetInstance().Login.LocalesList;
@@ -313,10 +310,13 @@
                 Completa = c.Completa,
                 ColorText = c.ColorText,
                 Color = Color.FromHex(c.ColorText),
+                CambioFecha = c.CambioFecha,
+                TecnicoTiempo = c.TecnicoTiempo,
+                CitaTemp = c.CitaTemp,
                 Completado = this.TrabajosList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Completo,
                 Cancelado = this.TrabajosList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Cancelado,
 
-            }).Where(c => c.Completa == false && c.Cancelado == false).ToList();
+            }).Where(c => c.Completa == false && c.Cancelado == false && c.TecnicoTiempo == false && c.CitaTemp == false).ToList();
 
             this.Citas = new ObservableCollection<CitasItemViewModel>(cita.OrderByDescending(c => c.F_Inicio));
             IsRefreshing = false;
@@ -345,8 +345,8 @@
         {
             MainViewModel.GetInstance().NewAppointmentPopup= new NewAppointmentPopupViewModel(this.cliente);
             MainViewModel.GetInstance().NewAppointmentPopup.fromTecnitoPage = false;
-            MainViewModel.GetInstance().NewAppointmentPopup.thisPage = "Search";
-            await Application.Current.MainPage.Navigation.PushPopupAsync(new SearchTecnicoPopupPage());
+            MainViewModel.GetInstance().NewAppointmentPopup.thisPage = "Metodo";
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentMetodoPopupPage());
         }
         public async void GoToMessagesPage()
         {

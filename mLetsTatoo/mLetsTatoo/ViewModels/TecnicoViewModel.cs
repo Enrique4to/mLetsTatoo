@@ -124,8 +124,8 @@
             MainViewModel.GetInstance().NewAppointmentPopup = new NewAppointmentPopupViewModel(this.cliente);
             MainViewModel.GetInstance().NewAppointmentPopup.fromTecnitoPage = true;
             MainViewModel.GetInstance().NewAppointmentPopup.tecnico = this.tecnico;
-            MainViewModel.GetInstance().NewAppointmentPopup.thisPage = "Type";
-            await Application.Current.MainPage.Navigation.PushPopupAsync(new TypeAppointmentPopupPage());
+            MainViewModel.GetInstance().NewAppointmentPopup.thisPage = "Metodo";
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentMetodoPopupPage());
         }
         private void LoadTecnico()
         {

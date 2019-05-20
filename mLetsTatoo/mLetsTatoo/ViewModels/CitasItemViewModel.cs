@@ -50,13 +50,6 @@
                 return new RelayCommand(GoToTecnicoViewDatePage);
             }
         }
-        //public ICommand TecnicoSelectedCommand
-        //{
-        //    get
-        //    {
-        //        return new RelayCommand(TecnicoSelected);
-        //    }
-        //}
         #endregion
 
         #region Methods
@@ -69,11 +62,14 @@
         }
         private void GoToTecnicoViewDatePage()
         {
-            var user = MainViewModel.GetInstance().Login.user;
-            var tecnico = MainViewModel.GetInstance().Login.tecnico;
-            var trabajo = MainViewModel.GetInstance().TecnicoViewJob.trabajo;
-            MainViewModel.GetInstance().TecnicoViewDate = new TecnicoViewDateViewModel(this, user, tecnico, trabajo);
-            Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoViewDatePage());
+            if(this.Completa != true)
+            {
+                var user = MainViewModel.GetInstance().Login.user;
+                var tecnico = MainViewModel.GetInstance().Login.tecnico;
+                var trabajo = MainViewModel.GetInstance().TecnicoViewJob.trabajo;
+                MainViewModel.GetInstance().TecnicoViewDate = new TecnicoViewDateViewModel(this, user, tecnico, trabajo);
+                Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoViewDatePage());
+            }
         }
         //private async void TecnicoSelected()
         //{

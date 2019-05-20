@@ -1,4 +1,4 @@
-﻿namespace mLetsTatooModels
+﻿namespace mLetsTatoo.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;

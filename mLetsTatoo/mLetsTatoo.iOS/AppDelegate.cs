@@ -11,6 +11,7 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using mLetsTatoo.ViewModels;
 using mLetsTatoo.iOS.Controls;
 
 namespace mLetsTatoo.iOS
@@ -21,6 +22,7 @@ namespace mLetsTatoo.iOS
     [Register("AppDelegate")]
     public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
     {
+        public SBNotificationHub Hub { get; set; }
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
         // method you should instantiate the window, load the UI into it and then make the window
@@ -31,6 +33,7 @@ namespace mLetsTatoo.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
             SfCheckBoxRenderer.Init();
             SfCalendarRenderer.Init();
             SfCarouselRenderer.Init();

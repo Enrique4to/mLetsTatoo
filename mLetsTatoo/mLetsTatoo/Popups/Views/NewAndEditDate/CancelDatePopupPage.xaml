@@ -37,14 +37,15 @@
                     VerticalOptions="StartAndExpand"
                     Padding="0,5,0,5">
                         <Label
-                        FontAttributes="Bold"
-                        FontSize="14"
-                        Text="{i18n:Translate CancelDateMessage}"
-                        TextColor="Black"
-                        HorizontalTextAlignment="Center"
-                        VerticalOptions="StartAndExpand"/>
+                            FontAttributes="Bold"
+                            FontSize="14"
+                            Text="{i18n:Translate CancelDateMessage}"
+                            TextColor="Black"
+                            HorizontalTextAlignment="Center"
+                            VerticalOptions="StartAndExpand"
+                            x:Name="CancelMessage"/>
                         <StackLayout
-                        Orientation="Horizontal">
+                            Orientation="Horizontal">
                             <Frame
                                 BackgroundColor="Transparent"
                                 BorderColor="Black"
@@ -78,7 +79,7 @@
                                 VerticalOptions="CenterAndExpand"
                                 WidthRequest="20"/>
                                 <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding CancelDateCommand}"/>
+                                    <TapGestureRecognizer Command="{Binding CancelTempDateCommand}"/>
                                 </Frame.GestureRecognizers>
                             </Frame>
                         </StackLayout>

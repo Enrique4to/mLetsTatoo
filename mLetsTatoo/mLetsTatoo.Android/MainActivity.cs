@@ -19,8 +19,20 @@ namespace mLetsTatoo.Droid
 
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        #region Singleton
+        private static MainActivity instance;
+        public static MainActivity GetInstance()
+        {
+            if(instance == null)
+            {
+                instance = new MainActivity();
+            }
+            return instance;
+        }
+        #endregion
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            instance = this;
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
@@ -31,6 +43,7 @@ namespace mLetsTatoo.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             NControls.Init();
             LoadApplication(new App());
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
         }
         public override void OnRequestPermissionsResult(
             int requestCode,

@@ -6,10 +6,13 @@
     using System;
     using System.Windows.Input;
     using Xamarin.Forms;
+    using Plugin.Media.Abstractions;
+
     public partial class TecnicoHomePage : TabbedPage
     {
         #region Attributes
         public string filter;
+        private MediaFile file;
         #endregion
 
         #region Properties
@@ -113,6 +116,7 @@
                 MainViewModel.GetInstance().TecnicoHome.filter = this.filter;
             }
         }
+
         #endregion
 
 

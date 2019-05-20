@@ -85,6 +85,7 @@
                     Nota = this.AddNota,
                     Nombre_Post = nombre_Post,
                     Cambio_Fecha = false,
+                    F_nota = DateTime.Now.ToLocalTime(),
                 };
                 var response = await this.apiService.Post(urlApi, prefix, controller, this.nota);
 
@@ -117,7 +118,8 @@
                     Nota = this.AddNota,
                     Nombre_Post = nombre_Post,
                     Cambio_Fecha = false,
-                };
+                     F_nota = DateTime.Now.ToLocalTime(),
+                 };
                 var response = await this.apiService.Post(urlApi, prefix, controller, this.nota);
 
                 if (!response.IsSuccess)

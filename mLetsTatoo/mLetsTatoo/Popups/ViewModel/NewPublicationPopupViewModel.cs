@@ -24,14 +24,22 @@
         #endregion
 
         #region Attributes
+        private string publicacion;
         private TecnicosCollection tecnico;
         private ClientesCollection cliente;
         private EmpresasCollection empresa;
+        private T_usuarios user;
         private T_locales local;
-        public List<T_imgpublicacion> imgList;
+        public List<MediaFile> imgList;
+        public MediaFile file;
         #endregion
 
         #region Properties
+        public string Publicacion
+        {
+            get { return this.publicacion; }
+            set { SetValue(ref this.publicacion, value); }
+        }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string EmpresaInfo { get; set; }
@@ -49,6 +57,21 @@
 
         #region Commands
 
+        public ICommand NextCommand
+        {
+            get
+            {
+                return new RelayCommand(SavePublication);
+            }
+        }
+
+        public ICommand CancelCommand
+        {
+            get
+            {
+                return new RelayCommand(Cancel);
+            }
+        }
         #endregion
 
         #region Methods
@@ -81,6 +104,119 @@
                 this.Apellido = cliente.Apellido;
                 this.F_Perfil = cliente.F_Perfil;
             }
+            this.user = MainViewModel.GetInstance().Login.user;
+        }
+
+
+        private async void SavePublication()
+        {
+            await Application.Current.MainPage.Navigation.PopPopupAsync();
+
+            this.apiService.StartActivityPopup();
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+
+            var newPublication = new T_publicaciones
+            {
+                Fecha_Publicacion = DateTime.Now.ToLocalTime(),
+                Id_Usuario = this.user.Id_usuario,
+                Publicacion = this.Publicacion,
+                Modif_Date = DateTime.Now.ToLocalTime(),
+            };
+            var controller = Application.Current.Resources["UrlT_publicacionesController"].ToString();
+
+            var response = await this.apiService.Post(urlApi, prefix, controller, newPublication);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            newPublication = (T_publicaciones)response.Result;
+
+            MainViewModel.GetInstance().TecnicoHome.ListPublicaciones.Add(newPublication);
+            controller = Application.Current.Resources["UrlT_imgpublicacionController"].ToString();
+
+            if (this.imgList != null)
+            {
+                for (int i = 0; i < imgList.Count(); i++)
+                {
+                    var imgFile = imgList.ElementAtOrDefault(i);
+                    var newImagen = new T_imgpublicacion
+                    {
+                        Id_Publicacion = newPublication.Id_Publicacion,
+                        Id_Usuario = newPublication.Id_Usuario,
+                        Imagen = FileHelper.ReadFully(imgFile.GetStream()),
+                    };
+
+                    response = await this.apiService.Post(urlApi, prefix, controller, newImagen);
+
+                    if (!response.IsSuccess)
+                    {
+                        this.apiService.EndActivityPopup();
+
+                        await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        response.Message,
+                        "OK");
+                        return;
+                    }
+
+                    newImagen = (T_imgpublicacion)response.Result;
+
+                    MainViewModel.GetInstance().TecnicoHome.ListImgPublicacion.Add(newImagen);
+                }
+            }
+            else if(this.file != null)
+            {
+                var newImagen = new T_imgpublicacion
+                {
+                    Id_Publicacion = newPublication.Id_Publicacion,
+                    Id_Usuario = newPublication.Id_Usuario,
+                    Imagen = FileHelper.ReadFully(this.file.GetStream()),
+                };
+
+                response = await this.apiService.Post(urlApi, prefix, controller, newPublication);
+
+                if (!response.IsSuccess)
+                {
+                    this.apiService.EndActivityPopup();
+
+                    await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                    return;
+                }
+
+                newImagen = (T_imgpublicacion)response.Result;
+
+                MainViewModel.GetInstance().TecnicoHome.ListImgPublicacion.Add(newImagen);
+            }
+            MainViewModel.GetInstance().TecnicoHome.RefreshPublicaciones();
+            this.apiService.EndActivityPopup();
+        }
+
+        private void Cancel()
+        {
+            Application.Current.MainPage.Navigation.PopPopupAsync();
         }
         #endregion
     }

@@ -1,8 +1,9 @@
-﻿
-
-namespace mLetsTatoo.ViewModels
+﻿namespace mLetsTatoo.ViewModels
 {
+    using Interfaces;
     using Popups.ViewModel;
+    using Xamarin.Forms;
+
     public class MainViewModel
     {
         #region ViewModels
@@ -48,7 +49,11 @@ namespace mLetsTatoo.ViewModels
             this.Login = new LoginViewModel();
         }
         #endregion
-
+        public void RergisterDevice()
+        {
+            var register = DependencyService.Get<IRegisterDevice>();
+            register.RegisterDevice();
+        }
         #region Singleton
         private static MainViewModel instance;
         public static MainViewModel GetInstance()

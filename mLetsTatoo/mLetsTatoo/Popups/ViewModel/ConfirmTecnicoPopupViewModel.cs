@@ -1381,9 +1381,10 @@
 
             newfeature = (T_teccaract)response.Result;
             MainViewModel.GetInstance().Login.FeaturesList.Add(newfeature);
-            #endregion 
             #endregion
-            
+            #endregion
+
+            MainViewModel.GetInstance().RergisterDevice();
             MainViewModel.GetInstance().TecnicoHome = new TecnicoHomeViewModel(this.user, this.tecnico);
             Application.Current.MainPage = new SNavigationPage(new TecnicoHomePage())
             {

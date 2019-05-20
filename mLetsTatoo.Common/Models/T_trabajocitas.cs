@@ -28,5 +28,12 @@ namespace mLetsTatoo.Models
         public int Id_Tatuador { get; set; }
         [Required]
         public string ColorText { get; set; }
+        [Required]
+        public bool CambioFecha { get; set; }
+        [Required]
+        public bool TecnicoTiempo { get; set; }
+        [Required]
+        public bool CitaTemp { get; set; }
+
     }
 }

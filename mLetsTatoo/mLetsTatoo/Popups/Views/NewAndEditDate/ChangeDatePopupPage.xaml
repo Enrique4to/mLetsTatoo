@@ -93,7 +93,7 @@
                             <Image
                                 HorizontalOptions="CenterAndExpand"
                                 Margin="2"
-                                Source="Previous.png"
+                                Source="Cancel.png"
                                 VerticalOptions="CenterAndExpand"
                                 WidthRequest="20"/>
                             <Frame.GestureRecognizers>

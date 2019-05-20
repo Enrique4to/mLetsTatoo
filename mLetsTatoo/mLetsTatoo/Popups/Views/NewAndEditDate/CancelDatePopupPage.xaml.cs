@@ -17,6 +17,14 @@
         {
             this.CloseWhenBackgroundIsClicked = false;
             InitializeComponent();
+            if(MainViewModel.GetInstance().UserViewDate.cancelPage == "CancelDate")
+            {
+                this.CancelMessage.Text = Languages.CancelUserDateMessage;
+            }
+            else if(MainViewModel.GetInstance().UserViewDate.cancelPage == "CancelTempDate")
+            {
+                this.CancelMessage.Text = Languages.CancelDateMessage;
+            }
         }
         #endregion
 

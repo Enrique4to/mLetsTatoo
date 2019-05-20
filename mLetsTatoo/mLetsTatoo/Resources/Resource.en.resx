@@ -697,4 +697,34 @@ Do you want to continue?</value>
   <data name="AddPublication" xml:space="preserve">
     <value>Add a publication</value>
   </data>
+  <data name="CancelUserDateMessage" xml:space="preserve">
+    <value>
+You are about to cancel the appointment that you had scheduled to make your art.
+
+Before you proceed, you should know the following:
+
+1.- The advance payment will not be refunded, you will lose the appointment, and if you wish to create another appointment, you must make another advance payment for this new appointment.
+
+You are advised to speak with the artist to re-standardize in case the reason for cancellation is due to lack of time, this must be only 48 hours before your scheduled appointment.
+
+Do you want to continue?</value>
+  </data>
+  <data name="PaymentMethod" xml:space="preserve">
+    <value>Select payment method</value>
+  </data>
+  <data name="CashMethod" xml:space="preserve">
+    <value>Cash</value>
+  </data>
+  <data name="Date48Hours" xml:space="preserve">
+    <value>You must select a date 48 hours after today date.</value>
+  </data>
+  <data name="DateBeforeTodayError" xml:space="preserve">
+    <value>You can not select a date before today.</value>
+  </data>
+  <data name="FinishArt" xml:space="preserve">
+    <value>Finish art</value>
+  </data>
+  <data name="AddNewDateMessage" xml:space="preserve">
+    <value>A new appointment has been added to your work with the selected date and time, the current appointment will be marked as completed.</value>
+  </data>
 </root>
