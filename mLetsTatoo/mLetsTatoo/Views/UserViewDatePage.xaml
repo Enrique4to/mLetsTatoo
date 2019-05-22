@@ -69,7 +69,30 @@
                             Text="{Binding HourStart, Mode=TwoWay}"
                             VerticalOptions="Center"/>
                     </StackLayout>
-                    
+                    <StackLayout
+                        IsVisible="{Binding IsVisibleInicio}">
+                        <Frame
+                            BackgroundColor="White"
+                            HasShadow="True"
+                            CornerRadius="10"
+                            Margin="20,0,20,0"
+                            VerticalOptions="Center"
+                            Padding="10">
+                            <StackLayout
+                                HorizontalOptions="Center">
+                                <Label
+                                    FontSize="14"
+                                    HorizontalTextAlignment="Center"
+                                    Margin="5,0,0,0"
+                                    Text="{i18n:Translate StartArt}"
+                                    TextColor="Black"/>
+                            </StackLayout>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding StartArtCommand}"/>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </StackLayout>
+
                     <StackLayout
                         HorizontalOptions="CenterAndExpand"
                         Padding="0,10,0,0"

@@ -12,5 +12,8 @@
         public string Apodo { get; set; }
         public string Carrera { get; set; }
         public byte[] F_Perfil { get; set; }
+        public decimal Saldo_Favor { get; set; }
+        public decimal Saldo_Contra { get; set; }
+        public decimal Saldo_Retenido { get; set; }
     }
 }

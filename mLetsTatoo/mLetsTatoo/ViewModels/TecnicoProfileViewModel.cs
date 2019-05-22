@@ -26,6 +26,9 @@
         private INavigation Navigation;
 
         private string nombreCompleto;
+        private string saldo_Favor;
+        private string saldo_Contra;
+        private string saldo_Retenido;
 
         private byte[] byteImage;
         private ImageSource imageSource;
@@ -39,6 +42,7 @@
         public TecnicosCollection tecnico;
         public T_usuarios user;
         #endregion
+
         #region Properties
         public T_usuarios User
         {
@@ -69,6 +73,21 @@
         {
             get { return this.nombreCompleto; }
             set { SetValue(ref this.nombreCompleto, value); }
+        }
+        public string Saldo_Favor
+        {
+            get { return this.saldo_Favor; }
+            set { SetValue(ref this.saldo_Favor, value); }
+        }
+        public string Saldo_Contra
+        {
+            get { return this.saldo_Contra; }
+            set { SetValue(ref this.saldo_Contra, value); }
+        }
+        public string Saldo_Retenido
+        {
+            get { return this.saldo_Retenido; }
+            set { SetValue(ref this.saldo_Retenido, value); }
         }
         #endregion
 
@@ -126,6 +145,9 @@
                 this.ByteImage = this.apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
                 this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
             }
+            this.saldo_Favor = this.tecnico.Saldo_Favor.ToString("C2");
+            this.saldo_Contra = this.tecnico.Saldo_Contra.ToString("C2");
+            this.saldo_Retenido = this.tecnico.Saldo_Retenido.ToString("C2");
         }
         private async void ChangeImage()
         {

@@ -751,5 +751,41 @@
         {
             get { return Resource.AddNewDateMessage; }
         }
+        public static string PositiveBalance
+        {
+            get { return Resource.PositiveBalance; }
+        }
+        public static string NegativeBalance
+        {
+            get { return Resource.NegativeBalance; }
+        }
+        public static string RetainedBalance
+        {
+            get { return Resource.RetainedBalance; }
+        }
+        public static string CashMethodMessage
+        {
+            get { return Resource.CashMethodMessage; }
+        }
+        public static string YouWishContiniue
+        {
+            get { return Resource.YouWishContinue; }
+        }
+        public static string TypeCashDate
+        {
+            get { return Resource.TypeCashDate; }
+        }
+        public static string PagoTecnicoConcept1
+        {
+            get { return Resource.PagoTecnicoConcept1; }
+        }
+        public static string PagoTecnicoConcept2
+        {
+            get { return Resource.PagoTecnicoConcept2; }
+        }
+        public static string StartArt
+        {
+            get { return Resource.StartArt; }
+        }
     }
 }

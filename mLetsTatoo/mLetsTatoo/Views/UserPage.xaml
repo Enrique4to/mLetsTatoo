@@ -62,12 +62,28 @@
                     </Grid>
                 </StackLayout>
                 <StackLayout
-                        VerticalOptions="StartAndExpand">
-                    <ActivityIndicator
-                        HeightRequest="30"
-                        IsRunning="{Binding IsRunning, Mode=TwoWay}"
-                        Opacity="80"
-                        Color="Gray"/>
+                    VerticalOptions="StartAndExpand"
+                    Padding="15,0">
+                    <StackLayout
+                        Orientation="Horizontal">
+                        <control:ActionButton
+                            ButtonColor="#c8c8c8"
+                            ButtonIcon= "{x:Static control:FontAwesomeLabel.FAInfoCircle}"
+                            ButtonIconColor="Black"
+                            Scale="1"/>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            Text="{i18n:Translate PositiveBalance}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Center"/>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            Text="{Binding Saldo_Favor, Mode=TwoWay}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Center"/>
+                    </StackLayout>
                 </StackLayout>
             </StackLayout>
         </ScrollView>

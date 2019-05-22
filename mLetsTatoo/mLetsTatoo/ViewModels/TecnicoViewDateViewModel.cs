@@ -27,6 +27,8 @@
         
         private bool isRefreshing;
         private bool isVisible;
+        private bool isVisibleNewDate;
+        private bool isVisibleFinishArt;
         private bool isButtonEnabled;
 
         private string address;
@@ -67,6 +69,16 @@
         {
             get { return this.isVisible; }
             set { SetValue(ref this.isVisible, value); }
+        }
+        public bool IsVisibleNewDate
+        {
+            get { return this.isVisibleNewDate; }
+            set { SetValue(ref this.isVisibleNewDate, value); }
+        }
+        public bool IsVisibleFinishArt
+        {
+            get { return this.isVisibleFinishArt; }
+            set { SetValue(ref this.isVisibleFinishArt, value); }
         }
         public bool IsButtonEnabled
         {
@@ -150,6 +162,22 @@
             Task.Run(async () => { await this.LoadNotas(); }).Wait();
             this.IsButtonEnabled = false;
             this.IsVisible = false;
+            if (this.trabajo.Trabajo_Iniciado == true && (this.cita.F_Inicio >= DateTime.Today))
+            {
+                this.IsVisibleFinishArt = true;
+                this.IsVisibleNewDate = true;
+            }
+            else if (this.trabajo.Trabajo_Iniciado == false && (this.cita.F_Inicio >= DateTime.Today))
+            {
+                this.IsVisibleFinishArt = true;
+                this.IsVisibleNewDate = false;
+            }
+            else if (this.trabajo.Trabajo_Iniciado == false && (this.cita.F_Inicio < DateTime.Today))
+            {
+                this.IsVisibleFinishArt = false;
+                this.IsVisibleNewDate = false;
+            }
+
             this.apiService.EndActivityPopup();
         }
         #endregion
@@ -568,7 +596,93 @@
 
             MainViewModel.GetInstance().TecnicoHome.RefreshTrabajosList();
 
-            this.apiService.EndActivityPopup();
+            var pago = MainViewModel.GetInstance().Login.ListPagosCliente.FirstOrDefault(p => p.Id_Trabajo == this.cita.Id_Trabajo);
+            if (pago.Tipo_Pago != 1)
+            {
+                var saldoTecnico = MainViewModel.GetInstance().Login.ListBalanceTecnico.FirstOrDefault(b => b.Id_Tecnico == this.tecnico.Id_Tecnico);
+                var saldo_Favor = saldoTecnico.Saldo_Favor + (newAddedTrabajo.Costo_Cita - 50);
+                var saldo_Contra = saldoTecnico.Saldo_Contra;
+                var saldo_Retenido = saldoTecnico.Saldo_Retenido - (newAddedTrabajo.Costo_Cita - 50);
+                decimal i = 0;
+                if (saldo_Contra > 0)
+                {
+                    if (saldo_Favor >= saldo_Contra)
+                    {
+                        saldo_Favor = saldo_Favor - saldo_Contra;
+                        i = saldo_Contra;
+                        saldo_Contra = 0;
+                    }
+                    else
+                    {
+                        saldo_Contra = saldo_Contra - saldo_Favor;
+                        i = saldo_Favor;
+                        saldo_Favor = 0;
+                    }
+                }
+                if (i > 0)
+                {
+                    var newPagoTecnico = new T_pagostecnico
+                    {
+                        Id_Tecnico = this.tecnico.Id_Tecnico,
+                        Id_Usuario = this.tecnico.Id_Usuario,
+                        Pago = i,
+                        Fecha_Pago = DateTime.Now,
+                        Concepto = Languages.PagoTecnicoConcept2,
+                    };
+                    controller = Application.Current.Resources["UrlT_pagostecnicoController"].ToString();
+
+                    response = await this.apiService.Post(urlApi, prefix, controller, newPagoTecnico);
+
+                    if (!response.IsSuccess)
+                    {
+                        this.apiService.EndActivityPopup();
+
+                        await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        response.Message,
+                        "OK");
+                        return;
+                    }
+
+                    newPagoTecnico = (T_pagostecnico)response.Result;
+                    MainViewModel.GetInstance().Login.ListPagosTecnico.Add(newPagoTecnico);
+                }
+
+                var newSaldoTecnico = new T_balancetecnico
+                {
+                    Id_Balancetecnico = saldoTecnico.Id_Balancetecnico,
+                    Id_Tecnico = saldoTecnico.Id_Tecnico,
+                    Id_Usuario = saldoTecnico.Id_Usuario,
+                    Saldo_Contra = saldo_Contra,
+                    Saldo_Favor = saldo_Favor,
+                    Saldo_Retenido = saldo_Retenido,
+                };
+                controller = Application.Current.Resources["UrlT_balancetecnicoController"].ToString();
+
+                response = await this.apiService.Put(urlApi, prefix, controller, newSaldoTecnico, saldoTecnico.Id_Balancetecnico);
+
+                if (!response.IsSuccess)
+                {
+                    this.apiService.EndActivityPopup();
+
+                    await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                    return;
+                }
+
+                newSaldoTecnico = (T_balancetecnico)response.Result;
+                var oldSaldoTecnico = MainViewModel.GetInstance().Login.ListBalanceTecnico.Where(p => p.Id_Balancetecnico == saldoTecnico.Id_Balancetecnico).FirstOrDefault();
+                if (oldSaldoTecnico != null)
+                {
+                    MainViewModel.GetInstance().Login.ListBalanceTecnico.Remove(oldSaldoTecnico);
+                }
+                MainViewModel.GetInstance().Login.ListBalanceTecnico.Add(newSaldoTecnico);
+            }
+            MainViewModel.GetInstance().TecnicoHome.LoadTecnico();
+
+                this.apiService.EndActivityPopup();
 
             await Application.Current.MainPage.Navigation.PopModalAsync();
             await Application.Current.MainPage.Navigation.PopModalAsync();

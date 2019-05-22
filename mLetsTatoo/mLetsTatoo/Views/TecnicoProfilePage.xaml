@@ -90,17 +90,82 @@
                         </RelativeLayout>
                     </StackLayout>
                 </Grid>
-
                 <StackLayout
-                        VerticalOptions="StartAndExpand">
-                    <ActivityIndicator
-                        HeightRequest="30"
-                        IsRunning="{Binding IsRunning, Mode=TwoWay}"
-                        Opacity="80"
-                        Color="Gray"/>
+                    Padding="15,0">
+                    <StackLayout
+                        Orientation="Horizontal">
+                        <control:ActionButton
+                            ButtonColor="#c8c8c8"
+                            ButtonIcon= "{x:Static control:FontAwesomeLabel.FAInfoCircle}"
+                            ButtonIconColor="Black"
+                            Scale="1"/>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Text="{i18n:Translate PositiveBalance}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Center"/>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Text="{Binding Saldo_Favor, Mode=TwoWay}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                    <StackLayout
+                        Orientation="Horizontal">
+                        <control:ActionButton
+                            ButtonColor="#c8c8c8"
+                            ButtonIcon= "{x:Static control:FontAwesomeLabel.FAInfoCircle}"
+                            ButtonIconColor="Black"
+                            Scale="1"/>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Text="{i18n:Translate NegativeBalance}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Center"/>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Text="{Binding Saldo_Contra, Mode=TwoWay}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Center"/>
+                    </StackLayout>
+                    <StackLayout
+                        Orientation="Horizontal">
+                        <control:ActionButton
+                            ButtonColor="#c8c8c8"
+                            ButtonIcon= "{x:Static control:FontAwesomeLabel.FAInfoCircle}"
+                            ButtonIconColor="Black"
+                            Scale="1"/>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Text="{i18n:Translate RetainedBalance}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Center"/>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="20"
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            Text="{Binding Saldo_Retenido, Mode=TwoWay}"
+                            TextColor="LightGray"
+                            HorizontalTextAlignment="Center"/>
+                    </StackLayout>
                 </StackLayout>
             </StackLayout>
         </ScrollView>
-
     </ContentPage.Content>
 </ContentPage>

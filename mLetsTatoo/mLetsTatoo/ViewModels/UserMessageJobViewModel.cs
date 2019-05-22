@@ -260,12 +260,12 @@ namespace mLetsTatoo.ViewModels
             };
             MainViewModel.GetInstance().NewAppointmentPopup.PresupuestoPage = true;
             MainViewModel.GetInstance().NewAppointmentPopup.tecnico = this.tecnico;
-            MainViewModel.GetInstance().NewAppointmentPopup.thisPage = "Calendar";
+            MainViewModel.GetInstance().NewAppointmentPopup.thisPage = "Metodo";
             MainViewModel.GetInstance().NewAppointmentPopup.AppCost = this.AppCost;
             MainViewModel.GetInstance().NewAppointmentPopup.AppAdvance = this.AppAdvance;
             MainViewModel.GetInstance().NewAppointmentPopup.AppDuration = this.AppDuration;
             await Application.Current.MainPage.Navigation.PopPopupAsync();
-            await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentCalendarPopupPage());
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentMetodoPopupPage());
         }
         private async void Cancel()
         {

@@ -710,7 +710,7 @@ Se te recomienda hablar con el artista para reagendar en caso de que el motivo d
 ¿Deseas continuar?</value>
   </data>
   <data name="PaymentMethod" xml:space="preserve">
-    <value>Selecciona tu método de pago</value>
+    <value>Selecciona tu método de pago para tu anticipo</value>
   </data>
   <data name="CashMethod" xml:space="preserve">
     <value>Efectivo</value>
@@ -726,5 +726,34 @@ Se te recomienda hablar con el artista para reagendar en caso de que el motivo d
   </data>
   <data name="AddNewDateMessage" xml:space="preserve">
     <value>Se ha agregado una nueva cita a tu trabajo con la fecha y hora seleccionada, la cita actual se marcará como completada.</value>
+  </data>
+  <data name="PositiveBalance" xml:space="preserve">
+    <value>Saldo a favor</value>
+  </data>
+  <data name="NegativeBalance" xml:space="preserve">
+    <value>Saldo en contra</value>
+  </data>
+  <data name="RetainedBalance" xml:space="preserve">
+    <value>Saldo retenido</value>
+  </data>
+  <data name="CashMethodMessage" xml:space="preserve">
+    <value>Tu método de pago será en efectivo, es necesario que acudas al estudio o te pongas en contacto con el mismo, para realizar tu pago.
+
+Recuerda que sólo tienes 24 horas para hacerlo, sino, tu cita será cancelada de forma automática.</value>
+  </data>
+  <data name="YouWishContinue" xml:space="preserve">
+    <value>¿Deseas Continuar?</value>
+  </data>
+  <data name="TypeCashDate" xml:space="preserve">
+    <value>Esta cita, fue asignada con un tipo de pago en efectivo, es necesario que verifiques si ya se realizó el pago de la misma seleccionando "Sí", en caso contrario, sólo selecciona "NO" y no se efectuará ningún tipo de cambio en tu cuenta.</value>
+  </data>
+  <data name="PagoTecnicoConcept1" xml:space="preserve">
+    <value>Pago automático del concepto de saldo negativo</value>
+  </data>
+  <data name="PagoTecnicoConcept2" xml:space="preserve">
+    <value>Pago automático por concepto de cancelación de cambio de fecha por parte del cliente.</value>
+  </data>
+  <data name="StartArt" xml:space="preserve">
+    <value>Iniciar tu arte</value>
   </data>
 </root>

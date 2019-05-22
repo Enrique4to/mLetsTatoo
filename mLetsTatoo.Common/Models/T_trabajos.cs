@@ -28,6 +28,8 @@
         public bool Cancelado { get; set; }
         [Required]
         public bool TecnicoTiempo { get; set; }
+        [Required]
+        public bool Trabajo_Iniciado { get; set; }
 
 
     }

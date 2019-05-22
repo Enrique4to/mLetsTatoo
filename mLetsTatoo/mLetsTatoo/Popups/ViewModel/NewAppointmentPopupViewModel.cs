@@ -394,6 +394,7 @@
                     Id_Empresa = t.Id_Empresa,
                     Id_Local = t.Id_Local,
                     Id_Tecnico = t.Id_Tecnico,
+                    Id_Usuario = t.Id_Usuario,
                     Nombre = t.Nombre,
                     F_Perfil = t.F_Perfil
 
@@ -411,6 +412,7 @@
                     Id_Empresa = t.Id_Empresa,
                     Id_Local = t.Id_Local,
                     Id_Tecnico = t.Id_Tecnico,
+                    Id_Usuario = t.Id_Usuario,
                     Nombre = t.Nombre,
                     F_Perfil = t.F_Perfil
 
@@ -519,10 +521,6 @@
 
             if (changeDate == true || addNewDate == true)
             {
-                var newTecnicoList = MainViewModel.GetInstance().TecnicoHome.TrabajoList.Where(t => t.Cancelado == false && t.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
-                if (newTecnicoList.Count > 0 )
-                {
-
                     this.CitaList = MainViewModel.GetInstance().TecnicoHome.CitasList.Select(c => new CitasItemViewModel
                     {
                         Id_Cita = c.Id_Cita,
@@ -554,59 +552,37 @@
                             Color.FromHex(hex):
                             Color.FromHex(c.ColorText)
                         ),
-                        Completado = MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Completo,
-                        Cancelado = MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Cancelado,
+                        Completado =
+                        (
+                            MainViewModel.GetInstance().TecnicoHome.TrabajoList.Any(t => t.Id_Trabajo == c.Id_Trabajo) ?
+                            MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Completo:
+                            false
+                        ),
+                        Cancelado =
+                        (
+                            MainViewModel.GetInstance().TecnicoHome.TrabajoList.Any(t => t.Id_Trabajo == c.Id_Trabajo) ?
+                            MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Cancelado :
+                            false
+                        ),
+                        Trabajo_Iniciado =
+                        (
+                            MainViewModel.GetInstance().TecnicoHome.TrabajoList.Any(t => t.Id_Trabajo == c.Id_Trabajo) ?
+                            MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Trabajo_Iniciado :
+                            false
+                        ),
                         TecnicoTiempo = c.TecnicoTiempo,
                         CambioFecha = c.CambioFecha,
                         CitaTemp = c.CitaTemp,
-
+                        Pagado =
+                        (
+                            !MainViewModel.GetInstance().Login.ListPagosCliente.Any(p => p.Id_Trabajo == c.Id_Trabajo) ?
+                            true :
+                            MainViewModel.GetInstance().Login.ListPagosCliente.FirstOrDefault(p => p.Id_Trabajo == c.Id_Trabajo).Pagado
+                        ),
                     }).Where(c => c.Completa == false && c.Cancelado == false && c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
-                }
-                else
-                {
-                    this.CitaList = MainViewModel.GetInstance().TecnicoHome.CitasList.Select(c => new CitasItemViewModel
-                    {
-                        Id_Cita = c.Id_Cita,
-                        Id_Trabajo = c.Id_Trabajo,
-                        Id_Cliente = c.Id_Cliente,
-                        Id_Tatuador = c.Id_Tatuador,
-                        F_Inicio = new DateTime(c.F_Inicio.Year, c.F_Inicio.Month, c.F_Inicio.Day, c.H_Inicio.Hours, c.H_Inicio.Minutes, c.H_Inicio.Seconds),
-                        H_Inicio = c.H_Inicio,
-                        F_Fin = new DateTime(c.F_Fin.Year, c.F_Fin.Month, c.F_Fin.Day, c.H_Fin.Hours, c.H_Fin.Minutes, c.H_Fin.Seconds),
-                        H_Fin = c.H_Fin,
-                        Asunto =
-                        (
-                        c.CambioFecha == true || c.TecnicoTiempo == true ?
-                            "" :
-                            c.Asunto
-                        ),
-
-                        Completa = c.Completa,
-
-                        ColorText =
-                        (
-                        c.CambioFecha == true || c.TecnicoTiempo == true ?
-                            hex :
-                            c.ColorText
-                        ),
-                        Color =
-                        (
-                        c.CambioFecha == true || c.TecnicoTiempo == true ?
-                            Color.FromHex(hex) :
-                            Color.FromHex(c.ColorText)
-                        ),
-                        TecnicoTiempo = c.TecnicoTiempo,
-                        CambioFecha = c.CambioFecha,
-                        CitaTemp = c.CitaTemp,
-
-                    }).Where(c => c.Completa == false && c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
-                }
             }
             else
             {
-                var newTecnicoList = MainViewModel.GetInstance().UserHome.TrabajosList.Where(t => t.Cancelado == false && t.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
-                if (newTecnicoList.Count > 0)
-                {
                     this.CitaList = MainViewModel.GetInstance().UserHome.CitaList.Select(c => new CitasItemViewModel
                     {
                         Id_Cita = c.Id_Cita,
@@ -641,72 +617,45 @@
                         TecnicoTiempo = c.TecnicoTiempo,
                         CambioFecha = c.CambioFecha,
                         CitaTemp = c.CitaTemp,
-                        Completado = MainViewModel.GetInstance().UserHome.TrabajosList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Completo,
-                        Cancelado = MainViewModel.GetInstance().UserHome.TrabajosList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Cancelado,
+                        Completado =
+                        (
+                            MainViewModel.GetInstance().UserHome.TrabajosList.Any(t => t.Id_Trabajo == c.Id_Trabajo) ?
+                            MainViewModel.GetInstance().UserHome.TrabajosList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Completo :
+                            false
+                        ),
+                        Cancelado =
+                        (
+                            MainViewModel.GetInstance().UserHome.TrabajosList.Any(t => t.Id_Trabajo == c.Id_Trabajo) ?
+                            MainViewModel.GetInstance().UserHome.TrabajosList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Cancelado :
+                            false
+                        ),
+                        Trabajo_Iniciado =
+                        (
+                            MainViewModel.GetInstance().TecnicoHome.TrabajoList.Any(t => t.Id_Trabajo == c.Id_Trabajo) ?
+                            MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Trabajo_Iniciado :
+                            false
+                        ),
+                        Pagado =
+                        (
+                            !MainViewModel.GetInstance().Login.ListPagosCliente.Any(p => p.Id_Trabajo == c.Id_Trabajo) ?
+                            true :
+                            MainViewModel.GetInstance().Login.ListPagosCliente.FirstOrDefault(p => p.Id_Trabajo == c.Id_Trabajo).Pagado
+                        ),
 
                     }).Where(c => c.Completa == false && c.Cancelado == false && c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
-                }
-                else
-                {
-                    this.CitaList = MainViewModel.GetInstance().UserHome.CitaList.Select(c => new CitasItemViewModel
-                    {
-                        Id_Cita = c.Id_Cita,
-                        Id_Trabajo = c.Id_Trabajo,
-                        Id_Cliente = c.Id_Cliente,
-                        Id_Tatuador = c.Id_Tatuador,
-                        F_Inicio = new DateTime(c.F_Inicio.Year, c.F_Inicio.Month, c.F_Inicio.Day, c.H_Inicio.Hours, c.H_Inicio.Minutes, c.H_Inicio.Seconds),
-                        H_Inicio = c.H_Inicio,
-                        F_Fin = new DateTime(c.F_Fin.Year, c.F_Fin.Month, c.F_Fin.Day, c.H_Fin.Hours, c.H_Fin.Minutes, c.H_Fin.Seconds),
-                        H_Fin = c.H_Fin,
-                        Asunto =
-                        (
-                        c.CambioFecha == true || c.TecnicoTiempo == true ?
-                            "" :
-                            c.Asunto
-                        ),
-
-                        Completa = c.Completa,
-
-                        ColorText =
-                        (
-                        c.CambioFecha == true || c.TecnicoTiempo == true ?
-                            hex :
-                            c.ColorText
-                        ),
-                        Color =
-                        (
-                        c.CambioFecha == true || c.TecnicoTiempo == true ?
-                            Color.FromHex(hex) :
-                            Color.FromHex(c.ColorText)
-                        ),
-                        TecnicoTiempo = c.TecnicoTiempo,
-                        CambioFecha = c.CambioFecha,
-                        CitaTemp = c.CitaTemp,
-
-                    }).Where(c => c.Completa == false && c.Id_Tatuador == this.tecnico.Id_Tecnico).ToList();
-                }
             }
-
-            this.Citas = new ObservableCollection<CitasItemViewModel>(this.CitaList.OrderByDescending(c => c.F_Inicio));
+            if (this.newCita != null)
+            {
+                this.CitaList.Add(this.newCita);
+            }
+            this.Citas = new ObservableCollection<CitasItemViewModel>(this.CitaList);
             
         }
         private async void NewDateSelected()
         {
-            if (this.newCita != null)
-            {
-                if (changeDate == true || addNewDate == true)
-                {
-                    MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
-                }
-                else
-                {
-                    MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
-                }
-                this.LoadCitas();
-                this.newCita = null;
-            }
 
-
+            this.newCita = null;
+            this.LoadCitas();
 
             var times = (feature.Tiempo / 30) - 1;
             var TempDate = new DateTime(SelectedTime.Year, SelectedTime.Month, SelectedTime.Day, SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second);
@@ -727,19 +676,8 @@
                                 Languages.Error,
                                 Languages.ScheduleError,
                                 "OK");
-                            if (newCita != null)
-                            {
-                                if (changeDate == true || addNewDate == true)
-                                {
-                                    MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
-                                }
-                                else
-                                {
-                                    MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
-                                }
                                 this.newCita = null;
                                 this.LoadCitas();
-                            }
                             return;
                         }
                     }
@@ -749,19 +687,8 @@
                                 Languages.Error,
                                 Languages.ScheduleError,
                                 "OK");
-                        if (newCita != null)
-                        {
-                            if (changeDate == true || addNewDate == true)
-                            {
-                                MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
-                            }
-                            else
-                            {
-                                MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
-                            }
                             this.newCita = null;
                             this.LoadCitas();
-                        }
                         return;
                     }
                     if (tempTime.Ticks >= this.eatOut.Ticks && tempTime.Ticks < this.eatIn.Ticks)
@@ -770,19 +697,8 @@
                                 Languages.Error,
                                 Languages.ScheduleError,
                                 "OK");
-                        if (newCita != null)
-                        {
-                            if (changeDate == true || addNewDate == true)
-                            {
-                                MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
-                            }
-                            else
-                            {
-                                MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
-                            }
                             this.newCita = null;
                             this.LoadCitas();
-                        }
                         return;
                     }
 
@@ -801,19 +717,8 @@
                             Languages.Error,
                             Languages.ScheduleError,
                             "OK");
-                        if (newCita != null)
-                        {
-                            if (changeDate == true || addNewDate == true)
-                            {
-                                MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
-                            }
-                            else
-                            {
-                                MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
-                            }
                             this.newCita = null;
                             this.LoadCitas();
-                        }
                         return;
                     }
                     if (tempTime.Ticks >= this.eatOut.Ticks && tempTime.Ticks < this.eatIn.Ticks)
@@ -822,19 +727,8 @@
                             Languages.Error,
                             Languages.ScheduleError,
                             "OK");
-                        if (newCita != null)
-                        {
-                            if (changeDate == true || addNewDate == true)
-                            {
-                                MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
-                            }
-                            else
-                            {
-                                MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
-                            }
                             this.newCita = null;
                             this.LoadCitas();
-                        }
                         return;
                     }
 
@@ -880,37 +774,13 @@
                 Color = Color.FromHex(hex),
                 Completado = false,
                 Cancelado = false,
+                Trabajo_Iniciado = false,
                 CambioFecha = false,
                 TecnicoTiempo = false,
                 CitaTemp = false,
+                Pagado = true,
 
             };
-            if (newCita != null)
-            {
-                if (changeDate == true || addNewDate == true)
-                {
-                    if (MainViewModel.GetInstance().TecnicoHome.CitasList.Count > 0)
-                    {
-                        MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
-                    }
-                }
-                else
-                {
-                    if (MainViewModel.GetInstance().UserHome.CitaList.Count > 0)
-                    {
-                        MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
-                    }
-                }
-            }
-
-            if (changeDate == true || addNewDate == true)
-            {
-                MainViewModel.GetInstance().TecnicoHome.CitasList.Add(newCita);
-            }
-            else
-            {
-                MainViewModel.GetInstance().UserHome.CitaList.Add(newCita);
-            }
             this.hourStart = SelectedTime.ToString("h:mm tt");
             this.dateStart = SelectedTime.ToString("dd MMM yyyy");
             this.LoadCitas();
@@ -1192,6 +1062,7 @@
                 Tiempo = this.feature.Tiempo,
                 Completo = false,
                 Cancelado = false,
+                Trabajo_Iniciado = false,
                 TecnicoTiempo = false,
             };
 
@@ -1292,6 +1163,8 @@
                 Id_Trabajo = trabajo.Id_Trabajo,
 
             };
+            
+
             controller = Application.Current.Resources["UrlT_citaimagenesController"].ToString();
 
             response = await this.apiService.Post(urlApi, prefix, controller, notaImagen);
@@ -1307,12 +1180,118 @@
                 return;
             }
 
-            if (newCita != null)
+            // Tipo_Pago 1 = Efectivo
+            // Tipo_Pago 2 = PayPal
+            // Tipo_Pago 3 = Tarjeta
+            var pago = new T_pagoscliente
             {
-                MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
-                this.newCita = null;
-                this.LoadCitas();
+                Id_Usuario = this.cliente.Id_Usuario,
+                Id_Cliente = this.cliente.Id_Cliente,
+                Id_Trabajo = trabajo.Id_Trabajo,
+                Pago = trabajo.Costo_Cita,
+                Tipo_Pago =
+                (
+                    this.CashMetodoChecked == true ?
+                    1 :
+                    2
+                ),
+                Pagado =
+                (
+                    this.CashMetodoChecked == true ?
+                    false :
+                    true
+                ),
+                Fecha_Pago = DateTime.Now,
+                Fecha_Peticion = DateTime.Now,
+
+            };
+            controller = Application.Current.Resources["UrlT_pagosclienteController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, pago);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
             }
+            pago = (T_pagoscliente)response.Result;
+
+            MainViewModel.GetInstance().Login.ListPagosCliente.Add(pago);
+
+            if (CashMetodoChecked != true)
+            {
+                if (!MainViewModel.GetInstance().Login.ListBalanceTecnico.Any(b => b.Id_Tecnico == this.tecnico.Id_Tecnico))
+                {
+                    var newSaldo = new T_balancetecnico
+                    {
+                        Id_Tecnico = this.tecnico.Id_Tecnico,
+                        Id_Usuario = this.tecnico.Id_Usuario,
+                        Saldo_Contra = 0,
+                        Saldo_Favor = 0,
+                        Saldo_Retenido = pago.Pago - 50,
+                    };
+
+                    controller = Application.Current.Resources["UrlT_balancetecnicoController"].ToString();
+
+                    response = await this.apiService.Post(urlApi, prefix, controller, newSaldo);
+
+                    if (!response.IsSuccess)
+                    {
+                        this.apiService.EndActivityPopup();
+
+                        await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        response.Message,
+                        "OK");
+                        return;
+                    }
+                    newSaldo = (T_balancetecnico)response.Result;
+
+                    MainViewModel.GetInstance().Login.ListBalanceTecnico.Add(newSaldo);
+                }
+                else
+                {
+                    var saldo = MainViewModel.GetInstance().Login.ListBalanceTecnico.FirstOrDefault(b => b.Id_Tecnico == trabajo.Id_Tatuador);
+                    var newSaldo = new T_balancetecnico
+                    {
+                        Id_Balancetecnico = saldo.Id_Balancetecnico,
+                        Id_Tecnico = saldo.Id_Tecnico,
+                        Id_Usuario = saldo.Id_Usuario,
+                        Saldo_Contra = saldo.Saldo_Contra,
+                        Saldo_Favor = saldo.Saldo_Favor,
+                        Saldo_Retenido = saldo.Saldo_Retenido + (pago.Pago - 50),
+                    };
+
+                    controller = Application.Current.Resources["UrlT_balancetecnicoController"].ToString();
+
+                    response = await this.apiService.Put(urlApi, prefix, controller, newSaldo, saldo.Id_Balancetecnico);
+
+                    if (!response.IsSuccess)
+                    {
+                        this.apiService.EndActivityPopup();
+
+                        await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        response.Message,
+                        "OK");
+                        return;
+                    }
+                    newSaldo = (T_balancetecnico)response.Result;
+                    var oldSaldo = MainViewModel.GetInstance().Login.ListBalanceTecnico.Where(p => p.Id_Balancetecnico == saldo.Id_Balancetecnico).FirstOrDefault();
+                    if (oldSaldo != null)
+                    {
+                        MainViewModel.GetInstance().Login.ListBalanceTecnico.Remove(oldSaldo);
+                    }
+                    MainViewModel.GetInstance().Login.ListBalanceTecnico.Add(newSaldo);
+                }
+            }
+
+            MainViewModel.GetInstance().UserHome.LoadCliente();
 
             MainViewModel.GetInstance().UserHome.CitaList.Add(cita);
             MainViewModel.GetInstance().UserHome.RefreshCitaList();
@@ -1359,6 +1338,7 @@
                 Tiempo = trabajoTemp.Tiempo,
                 Completo = false,
                 Cancelado = false,
+                Trabajo_Iniciado = false,
                 TecnicoTiempo = false,
             };
 
@@ -1482,6 +1462,119 @@
                 return;
             }
 
+
+            // Tipo_Pago 1 = Efectivo
+            // Tipo_Pago 2 = PayPal
+            // Tipo_Pago 3 = Tarjeta
+            var pago = new T_pagoscliente
+            {
+                Id_Usuario = this.cliente.Id_Usuario,
+                Id_Cliente = this.cliente.Id_Cliente,
+                Id_Trabajo = trabajo.Id_Trabajo,
+                Pago = trabajo.Costo_Cita,
+                Tipo_Pago = 
+                (
+                    this.CashMetodoChecked == true ?
+                    1:
+                    2
+                ),
+                Pagado =
+                (
+                    this.CashMetodoChecked == true ?
+                    false :
+                    true
+                ),
+                Fecha_Pago = DateTime.Now,
+                Fecha_Peticion = DateTime.Now,
+
+            };
+            controller = Application.Current.Resources["UrlT_pagosclienteController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, pago);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            pago = (T_pagoscliente)response.Result;
+
+            MainViewModel.GetInstance().Login.ListPagosCliente.Add(pago);
+
+            if (CashMetodoChecked != true)
+            {
+                if (!MainViewModel.GetInstance().Login.ListBalanceTecnico.Any(b => b.Id_Tecnico == this.tecnico.Id_Tecnico))
+                {
+                    var newSaldo = new T_balancetecnico
+                    {
+                        Id_Tecnico = this.tecnico.Id_Tecnico,
+                        Id_Usuario = this.tecnico.Id_Usuario,
+                        Saldo_Contra = 0,
+                        Saldo_Favor = 0,
+                        Saldo_Retenido = pago.Pago - 50,
+                    };
+
+                    controller = Application.Current.Resources["UrlT_balancetecnicoController"].ToString();
+
+                    response = await this.apiService.Post(urlApi, prefix, controller, newSaldo);
+
+                    if (!response.IsSuccess)
+                    {
+                        this.apiService.EndActivityPopup();
+
+                        await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        response.Message,
+                        "OK");
+                        return;
+                    }
+                    newSaldo = (T_balancetecnico)response.Result;
+
+                    MainViewModel.GetInstance().Login.ListBalanceTecnico.Add(newSaldo);
+                }
+                else
+                {
+                    var saldo = MainViewModel.GetInstance().Login.ListBalanceTecnico.FirstOrDefault(b => b.Id_Tecnico == trabajo.Id_Tatuador);
+                    var newSaldo = new T_balancetecnico
+                    {
+                        Id_Balancetecnico = saldo.Id_Balancetecnico,
+                        Id_Tecnico = saldo.Id_Tecnico,
+                        Id_Usuario = saldo.Id_Usuario,
+                        Saldo_Contra = saldo.Saldo_Contra,
+                        Saldo_Favor = saldo.Saldo_Favor,
+                        Saldo_Retenido = saldo.Saldo_Retenido + (pago.Pago - 50),
+                    };
+
+                    controller = Application.Current.Resources["UrlT_balancetecnicoController"].ToString();
+
+                    response = await this.apiService.Put(urlApi, prefix, controller, newSaldo, saldo.Id_Balancetecnico);
+
+                    if (!response.IsSuccess)
+                    {
+                        this.apiService.EndActivityPopup();
+
+                        await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        response.Message,
+                        "OK");
+                        return;
+                    }
+                    newSaldo = (T_balancetecnico)response.Result;
+                    var oldSaldo = MainViewModel.GetInstance().Login.ListBalanceTecnico.Where(p => p.Id_Balancetecnico == saldo.Id_Balancetecnico).FirstOrDefault();
+                    if (oldSaldo != null)
+                    {
+                        MainViewModel.GetInstance().Login.ListBalanceTecnico.Remove(oldSaldo);
+                    }
+                    MainViewModel.GetInstance().Login.ListBalanceTecnico.Add(newSaldo);
+                }
+            }
+
+            MainViewModel.GetInstance().UserHome.LoadCliente();
             var oldTrabajo = MainViewModel.GetInstance().UserMessages.TrabajosList.Where(t => t.Id_Trabajotemp == trabajoTemp.Id_Trabajotemp).FirstOrDefault();
 
             controller = Application.Current.Resources["UrlT_trabajostempController"].ToString();
@@ -1854,21 +1947,6 @@
         {
             switch (this.thisPage)
             {
-                case "Metodo":
-
-                    if (this.tecnico == null)
-                    {
-                        await Application.Current.MainPage.Navigation.PopPopupAsync();
-                        this.thisPage = "Search";
-                        await Application.Current.MainPage.Navigation.PushPopupAsync(new SearchTecnicoPopupPage());
-                        break;
-                    }
-                    await Application.Current.MainPage.Navigation.PopPopupAsync();
-                    this.thisPage = "Type";
-                    await Application.Current.MainPage.Navigation.PushPopupAsync(new TypeAppointmentPopupPage());
-                    break;
-
-
                 case "Search":
 
                     if (this.tecnico == null)
@@ -1891,7 +1969,16 @@
                     this.empresa = MainViewModel.GetInstance().UserHome.EmpresaList.Single(e => e.Id_Empresa == this.tecnico.Id_Empresa);
                     this.local = MainViewModel.GetInstance().UserHome.LocalesList.Single(l => l.Id_Local == this.tecnico.Id_Local);
                     this.LoadPostal();
-                    if (this.typeAppointment == true)
+
+                    this.thisPage = "Metodo";
+                    await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentMetodoPopupPage());
+
+                    break;
+
+                case "Metodo":
+
+                    await Application.Current.MainPage.Navigation.PopPopupAsync();
+                    if (this.typeAppointment == true && this.PresupuestoPage != true)
                     {
                         this.thisPage = "Feature";
                         this.smallChecked = true;
@@ -1902,7 +1989,7 @@
 
                         break;
                     }
-                    else
+                    else if(this.typeAppointment != true && this.PresupuestoPage != true)
                     {
                         this.IsVisible = true;
                         this.IsVisible2 = false;
@@ -1912,6 +1999,13 @@
                         break;
                     }
 
+                    else if (this.PresupuestoPage == true && this.typeAppointment != true)
+                    {
+                        this.thisPage = "Calendar";
+                        await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentCalendarPopupPage());
+                        break;
+                    }
+                    break;
                 case "Feature":
 
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
@@ -1922,8 +2016,7 @@
                 case "Calendar":
                     if(this.CashMetodoChecked == true || (this.CashMetodoChecked == true && this.PresupuestoPage == true) || this.changeDate == true)
                     {
-                        var tempDate = new DateTime(this.SelectedDate.Year, this.SelectedDate.Month, this.SelectedDate.Day, this.SelectedDate.Hour, this.SelectedDate.Minute, 0);
-                        tempDate = tempDate.AddHours(48);
+                        var tempDate = DateTime.Today.AddHours(48);
                         if (this.SelectedDate < tempDate)
                         {
                             await Application.Current.MainPage.DisplayAlert(
@@ -2048,26 +2141,19 @@
         {
             switch (this.thisPage)
             {
-                case "Metodo":
+                case "Search":
 
                     this.tecnico = null;
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
                     this.thisPage = null;
                     break;
 
-                case "Search":
-
-                    await Application.Current.MainPage.Navigation.PopPopupAsync();
-                    this.thisPage = "Metodo";
-                    await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentMetodoPopupPage());
-                    break;
-
                 case "Type":
                     if(!fromTecnitoPage == false)
                     {
+                        this.tecnico = null;
                         await Application.Current.MainPage.Navigation.PopPopupAsync();
-                        this.thisPage = "Metodo";
-                        await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentMetodoPopupPage());
+                        this.thisPage = null;
                         break;
                     }
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
@@ -2075,11 +2161,18 @@
                     await Application.Current.MainPage.Navigation.PushPopupAsync(new SearchTecnicoPopupPage());
                     break;
 
-                case "Feature":
+                case "Metodo":
 
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
                     this.thisPage = "Type";
                     await Application.Current.MainPage.Navigation.PushPopupAsync(new TypeAppointmentPopupPage());
+                    break;
+
+                case "Feature":
+
+                    await Application.Current.MainPage.Navigation.PopPopupAsync();
+                    this.thisPage = "Metodo";
+                    await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentMetodoPopupPage());
                     break;
 
                 case "Calendar":
@@ -2109,11 +2202,6 @@
                 case "Time":
 
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
-                    if (this.newCita != null)
-                    {
-                        MainViewModel.GetInstance().UserHome.CitaList.Remove(this.newCita);
-                        this.LoadCitas();
-                    }
                     this.newCita = null;
                     this.CitaList = null;
                     this.thisPage = "Calendar";
@@ -2134,17 +2222,15 @@
                         await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentTimePopupPage());
                         break;
                     }
-                    else
-                    {
-                        await Application.Current.MainPage.Navigation.PopPopupAsync();
-                        this.IsVisible = false;
-                        this.describeArt = null;
-                        this.artImageSource = null;
-                        this.file = null;
-                        this.thisPage = "Type";
-                        await Application.Current.MainPage.Navigation.PushPopupAsync(new TypeAppointmentPopupPage());
-                        break;
-                    }
+
+                    await Application.Current.MainPage.Navigation.PopPopupAsync();
+                    this.IsVisible = false;
+                    this.describeArt = null;
+                    this.artImageSource = null;
+                    this.file = null;
+                    this.thisPage = "Metodo";
+                    await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentMetodoPopupPage());
+                    break;
 
                 case "Details":
                     if(this.PresupuestoPage == true)

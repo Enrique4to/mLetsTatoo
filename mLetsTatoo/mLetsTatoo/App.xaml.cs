@@ -2,12 +2,15 @@
 {
     using Xamarin.Forms;
     using Views;
+    using mLetsTatoo.ViewModels;
+
     public partial class App : Application
     {
         public App()
         {
             InitializeComponent();
-            MainPage = new StartPage();
+            MainViewModel.GetInstance().Login = new LoginViewModel();            
+            MainPage = new LoginPage();
             //MainPage = new LoginPage();
         }
 

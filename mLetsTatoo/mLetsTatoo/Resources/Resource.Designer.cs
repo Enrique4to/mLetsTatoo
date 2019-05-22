@@ -404,6 +404,17 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your payment method will be in cash, it is necessary that you go to the studio or get in contact with it, to make your payment.
+        ///
+        ///Remember that you only have 24 hours to do it, otherwise, your appointment will be canceled automatically..
+        /// </summary>
+        internal static string CashMethodMessage {
+            get {
+                return ResourceManager.GetString("CashMethodMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change Date.
         /// </summary>
         internal static string ChangeDate {
@@ -1131,6 +1142,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Negative balance.
+        /// </summary>
+        internal static string NegativeBalance {
+            get {
+                return ResourceManager.GetString("NegativeBalance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You can&apos;t introduce negative values!.
         /// </summary>
         internal static string NegativeError {
@@ -1230,6 +1250,24 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Automatic payment of negative balance concept.
+        /// </summary>
+        internal static string PagoTecnicoConcept1 {
+            get {
+                return ResourceManager.GetString("PagoTecnicoConcept1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Automatic payment for cancellation of date change by the client..
+        /// </summary>
+        internal static string PagoTecnicoConcept2 {
+            get {
+                return ResourceManager.GetString("PagoTecnicoConcept2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         internal static string Password {
@@ -1248,7 +1286,7 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select your payment method.
+        ///   Looks up a localized string similar to Select your payment method for your advance.
         /// </summary>
         internal static string PaymentMethod {
             get {
@@ -1316,6 +1354,15 @@ namespace mLetsTatoo.Resources {
         internal static string PhoneLenghtError {
             get {
                 return ResourceManager.GetString("PhoneLenghtError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Positive balance.
+        /// </summary>
+        internal static string PositiveBalance {
+            get {
+                return ResourceManager.GetString("PositiveBalance", resourceCulture);
             }
         }
         
@@ -1415,6 +1462,15 @@ namespace mLetsTatoo.Resources {
         internal static string Remaining {
             get {
                 return ResourceManager.GetString("Remaining", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retained balance.
+        /// </summary>
+        internal static string RetainedBalance {
+            get {
+                return ResourceManager.GetString("RetainedBalance", resourceCulture);
             }
         }
         
@@ -1593,6 +1649,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start your art.
+        /// </summary>
+        internal static string StartArt {
+            get {
+                return ResourceManager.GetString("StartArt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Studio.
         /// </summary>
         internal static string Study {
@@ -1710,6 +1775,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This appointment was assigned with a type of cash payment, it is necessary to verify if the payment was already made by selecting &quot;Yes&quot;, otherwise, only select &quot;NO&quot; and no change will be made in your account..
+        /// </summary>
+        internal static string TypeCashDate {
+            get {
+                return ResourceManager.GetString("TypeCashDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter your account data....
         /// </summary>
         internal static string UserData {
@@ -1814,6 +1888,15 @@ namespace mLetsTatoo.Resources {
         internal static string YourArt {
             get {
                 return ResourceManager.GetString("YourArt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to continue?.
+        /// </summary>
+        internal static string YouWishContinue {
+            get {
+                return ResourceManager.GetString("YouWishContinue", resourceCulture);
             }
         }
     }

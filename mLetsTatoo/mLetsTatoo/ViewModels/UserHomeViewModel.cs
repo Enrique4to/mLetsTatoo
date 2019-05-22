@@ -69,7 +69,7 @@
         public List<T_empresas> EmpresaList { get; set; }
         public List<TecnicosCollection> TecnicoList { get; set; }
         public List<T_trabajocitas> CitaList { get; set; }
-        public List<T_trabajocitas> CteCitaList { get; set; }
+        public List<CitasItemViewModel> CteCitaList { get; set; }
         public List<T_teccaract> FeaturesList { get; set; }
         public List<T_trabajos> TrabajosList { get; set; }
         public List<T_locales> LocalesList { get; set; }
@@ -197,6 +197,27 @@
         #endregion
 
         #region Methods
+        public void LoadCliente()
+        {
+            this.cliente = new ClientesCollection
+            {
+                Id_Usuario = this.user.Id_usuario,
+                Id_Cliente = this.cliente.Id_Cliente,
+                Nombre = this.cliente.Nombre,
+                Apellido = this.cliente.Apellido,
+                Telefono = this.cliente.Telefono,
+                Correo = this.cliente.Correo,
+                F_Nac = this.cliente.F_Nac,
+                Bloqueo = this.cliente.Bloqueo,
+                F_Perfil = this.cliente.F_Perfil,
+                Saldo_Favor =
+                (
+                    !MainViewModel.GetInstance().Login.ListBalanceCliente.Any(b => b.Id_Usuario == this.user.Id_usuario) ?
+                    0 :
+                    MainViewModel.GetInstance().Login.ListBalanceCliente.FirstOrDefault(b => b.Id_Usuario == this.user.Id_usuario).Saldo_Favor
+                ),
+            };
+        }
         private void LoadLists()
         {
             MainViewModel.GetInstance().UserPage = new UserViewModel(this.user, this.cliente);
@@ -295,8 +316,7 @@
         }
         public void RefreshCitaList()
         {
-            this.CteCitaList = this.CitaList.Where(c => c.Id_Cliente == this.cliente.Id_Cliente).ToList();
-            var cita = this.CteCitaList.Select(c => new CitasItemViewModel
+            this.CteCitaList = this.CitaList.Select(c => new CitasItemViewModel
             {
                 Id_Cita = c.Id_Cita,
                 Id_Trabajo = c.Id_Trabajo,
@@ -315,10 +335,22 @@
                 CitaTemp = c.CitaTemp,
                 Completado = this.TrabajosList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Completo,
                 Cancelado = this.TrabajosList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Cancelado,
+                Trabajo_Iniciado = this.TrabajosList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Trabajo_Iniciado,
+                Pagado =
+                (
+                    !MainViewModel.GetInstance().Login.ListPagosCliente.Any(p => p.Id_Trabajo == c.Id_Trabajo) ?
+                    true :
+                    MainViewModel.GetInstance().Login.ListPagosCliente.FirstOrDefault(p => p.Id_Trabajo == c.Id_Trabajo).Pagado
+                ),
 
-            }).Where(c => c.Completa == false && c.Cancelado == false && c.TecnicoTiempo == false && c.CitaTemp == false).ToList();
+            }).Where(c => 
+            c.Id_Cliente == this.cliente.Id_Cliente 
+            && c.Completa == false && c.Cancelado == false 
+            && c.TecnicoTiempo == false && c.CitaTemp == false 
+            && c.Pagado == true
+            ).ToList();
 
-            this.Citas = new ObservableCollection<CitasItemViewModel>(cita.OrderByDescending(c => c.F_Inicio));
+            this.Citas = new ObservableCollection<CitasItemViewModel>(CteCitaList.OrderByDescending(c => c.F_Inicio));
             IsRefreshing = false;
         }
 
@@ -345,8 +377,8 @@
         {
             MainViewModel.GetInstance().NewAppointmentPopup= new NewAppointmentPopupViewModel(this.cliente);
             MainViewModel.GetInstance().NewAppointmentPopup.fromTecnitoPage = false;
-            MainViewModel.GetInstance().NewAppointmentPopup.thisPage = "Metodo";
-            await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentMetodoPopupPage());
+            MainViewModel.GetInstance().NewAppointmentPopup.thisPage = "Search";
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new SearchTecnicoPopupPage());
         }
         public async void GoToMessagesPage()
         {

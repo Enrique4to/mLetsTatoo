@@ -28,6 +28,7 @@
 
         private bool isRefreshing;
         private bool isVisible;
+        private bool isVisibleInicio;
         private bool isButtonEnabled;
 
         private string address;
@@ -68,6 +69,11 @@
         {
             get { return this.isVisible; }
             set { SetValue(ref this.isVisible, value); }
+        }
+        public bool IsVisibleInicio
+        {
+            get { return this.isVisibleInicio; }
+            set { SetValue(ref this.isVisibleInicio, value); }
         }
         public bool IsButtonEnabled
         {
@@ -152,6 +158,7 @@
             Task.Run(async () => { await this.LoadNotas(); }).Wait();
             this.IsButtonEnabled = false;
             this.IsVisible = false;
+            this.IsVisibleInicio = true;
             this.IsRefreshing = false;
             this.Date = new DateTime
             (
@@ -164,6 +171,7 @@
 
             this.DateStart = this.Date.ToString("dd MMM yyyy");
             this.HourStart = this.Date.ToString("h:mm tt");
+            this.LoadButton();
         }
         #endregion
 
@@ -227,10 +235,24 @@
                 return new RelayCommand(CancelTempDate);
             }
         }
+        public ICommand StartArtCommand
+        {
+            get
+            {
+                return new RelayCommand(StartArt);
+            }
+        }
 
         #endregion
 
         #region Methods
+        private void LoadButton()
+        {
+            if (this.trabajo.Trabajo_Iniciado == true)
+            {
+                this.isVisibleInicio = false;
+            }
+        }
         public async Task LoadInfo()
         {
             this.trabajo = MainViewModel.GetInstance().UserHome.TrabajosList.Where(t => t.Id_Trabajo == this.cita.Id_Trabajo).FirstOrDefault();
@@ -643,10 +665,95 @@
 
             MainViewModel.GetInstance().UserHome.RefreshCitaList();
 
+            var pago = MainViewModel.GetInstance().Login.ListPagosCliente.FirstOrDefault(p => p.Id_Trabajo == this.cita.Id_Trabajo);
+            if (pago.Tipo_Pago != 1)
+            {
+                var saldoTecnico = MainViewModel.GetInstance().Login.ListBalanceTecnico.FirstOrDefault(b => b.Id_Tecnico == this.tecnico.Id_Tecnico);
+                var saldo_Favor = saldoTecnico.Saldo_Favor + (this.trabajo.Costo_Cita - 50);
+                var saldo_Contra = saldoTecnico.Saldo_Contra;
+                var saldo_Retenido = saldoTecnico.Saldo_Retenido - (this.trabajo.Costo_Cita - 50);
+                decimal i = 0;
+                if (saldo_Contra > 0)
+                {
+                    if (saldo_Favor >= saldo_Contra)
+                    {
+                        saldo_Favor = saldo_Favor - saldo_Contra;
+                        i = saldo_Contra;
+                        saldo_Contra = 0;
+                    }
+                    else
+                    {
+                        saldo_Contra = saldo_Contra - saldo_Favor;
+                        i = saldo_Favor;
+                        saldo_Favor = 0;
+                    }
+                }
+                if (i > 0)
+                {
+                    var newPagoTecnico = new T_pagostecnico
+                    {
+                        Id_Tecnico = this.tecnico.Id_Tecnico,
+                        Id_Usuario = this.tecnico.Id_Usuario,
+                        Pago = i,
+                        Fecha_Pago = DateTime.Now,
+                        Concepto = Languages.PagoTecnicoConcept2,
+                    };
+                    controller = Application.Current.Resources["UrlT_pagostecnicoController"].ToString();
+
+                    response = await this.apiService.Post(urlApi, prefix, controller, newPagoTecnico);
+
+                    if (!response.IsSuccess)
+                    {
+                        this.apiService.EndActivityPopup();
+
+                        await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        response.Message,
+                        "OK");
+                        return;
+                    }
+
+                    newPagoTecnico = (T_pagostecnico)response.Result;
+                    MainViewModel.GetInstance().Login.ListPagosTecnico.Add(newPagoTecnico);
+                }
+
+                var newSaldoTecnico = new T_balancetecnico
+                {
+                    Id_Balancetecnico = saldoTecnico.Id_Balancetecnico,
+                    Id_Tecnico = saldoTecnico.Id_Tecnico,
+                    Id_Usuario = saldoTecnico.Id_Usuario,
+                    Saldo_Contra = saldo_Contra,
+                    Saldo_Favor = saldo_Favor,
+                    Saldo_Retenido = saldo_Retenido,
+                };
+                controller = Application.Current.Resources["UrlT_balancetecnicoController"].ToString();
+
+                response = await this.apiService.Put(urlApi, prefix, controller, newSaldoTecnico, saldoTecnico.Id_Balancetecnico);
+
+                if (!response.IsSuccess)
+                {
+                    this.apiService.EndActivityPopup();
+
+                    await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                    return;
+                }
+
+                newSaldoTecnico = (T_balancetecnico)response.Result;
+                var oldSaldoTecnico = MainViewModel.GetInstance().Login.ListBalanceTecnico.Where(p => p.Id_Balancetecnico == saldoTecnico.Id_Balancetecnico).FirstOrDefault();
+                if (oldSaldoTecnico != null)
+                {
+                    MainViewModel.GetInstance().Login.ListBalanceTecnico.Remove(oldSaldoTecnico);
+                }
+                MainViewModel.GetInstance().Login.ListBalanceTecnico.Add(newSaldoTecnico);
+            }
+            MainViewModel.GetInstance().UserHome.LoadCliente();
+
             this.apiService.EndActivityPopup();
 
             await Application.Current.MainPage.Navigation.PopModalAsync();
-
         }
         private async void CancelTempDate()
         {
@@ -681,9 +788,10 @@
                 Id_Cliente = this.trabajo.Id_Cliente,
                 Id_Tatuador = this.trabajo.Id_Tatuador,
                 Id_Trabajo = this.trabajo.Id_Trabajo,
-                TecnicoTiempo = true,                
+                TecnicoTiempo = true,
                 Tiempo = this.trabajo.Tiempo,
                 Total_Aprox = this.trabajo.Total_Aprox,
+                Trabajo_Iniciado = false,
             };
 
             var urlApi = Application.Current.Resources["UrlAPI"].ToString();
@@ -819,10 +927,219 @@
                 }
             }
 
+            if (!MainViewModel.GetInstance().Login.ListBalanceCliente.Any(b => b.Id_Usuario == this.cliente.Id_Usuario))
+            {
+                var newSaldo = new T_balancecliente
+                {
+                    Id_Cliente = this.cliente.Id_Cliente,
+                    Id_Usuario = this.cliente.Id_Usuario,
+                    Saldo_Favor = this.trabajo.Costo_Cita,
+                };
+
+                controller = Application.Current.Resources["UrlT_balanceclienteController"].ToString();
+
+                response = await this.apiService.Post(urlApi, prefix, controller, newSaldo);
+
+                if (!response.IsSuccess)
+                {
+                    this.apiService.EndActivityPopup();
+
+                    await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                    return;
+                }
+                newSaldo = (T_balancecliente)response.Result;
+
+                MainViewModel.GetInstance().Login.ListBalanceCliente.Add(newSaldo);
+            }
+            else
+            {
+                var saldo = MainViewModel.GetInstance().Login.ListBalanceCliente.FirstOrDefault(b => b.Id_Usuario == this.cliente.Id_Usuario);
+                var newSaldo = new T_balancecliente
+                {
+                    Id_Balancecliente = saldo.Id_Balancecliente,
+                    Id_Cliente = this.cliente.Id_Cliente,
+                    Id_Usuario = this.cliente.Id_Usuario,
+                    Saldo_Favor = saldo.Saldo_Favor + this.trabajo.Costo_Cita,
+                };
+
+                controller = Application.Current.Resources["UrlT_balanceclienteController"].ToString();
+
+                response = await this.apiService.Put(urlApi, prefix, controller, newSaldo, saldo.Id_Balancecliente);
+
+                if (!response.IsSuccess)
+                {
+                    this.apiService.EndActivityPopup();
+
+                    await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                    return;
+                }
+                newSaldo = (T_balancecliente)response.Result;
+                var oldSaldo = MainViewModel.GetInstance().Login.ListBalanceCliente.Where(p => p.Id_Balancecliente == saldo.Id_Balancecliente).FirstOrDefault();
+                if (oldSaldo != null)
+                {
+                    MainViewModel.GetInstance().Login.ListBalanceCliente.Remove(oldSaldo);
+                }
+                MainViewModel.GetInstance().Login.ListBalanceCliente.Add(newSaldo);
+            }
+
+            MainViewModel.GetInstance().UserHome.LoadCliente();
+            MainViewModel.GetInstance().UserPage.LoadUser();
+
+            var saldoTecnico = MainViewModel.GetInstance().Login.ListBalanceTecnico.FirstOrDefault(b => b.Id_Tecnico == this.tecnico.Id_Tecnico);
+            var pago = MainViewModel.GetInstance().Login.ListPagosCliente.FirstOrDefault(p => p.Id_Trabajo == this.cita.Id_Trabajo);
+            var saldo_Favor = saldoTecnico.Saldo_Favor;
+            var saldo_Contra = saldoTecnico.Saldo_Contra;
+            var saldo_Retenido = saldoTecnico.Saldo_Retenido;
+            decimal i = 0;
+            if (pago.Tipo_Pago == 1)
+            {
+                if (saldo_Favor >= (this.trabajo.Costo_Cita - 50))
+                {
+                    saldo_Favor = saldo_Favor - (this.trabajo.Costo_Cita - 50);
+                    i = this.trabajo.Costo_Cita - 50;
+                    saldo_Contra = 0;
+                }
+                else
+                {
+                    saldo_Contra = saldo_Contra + ((this.trabajo.Costo_Cita - 50) - saldo_Favor);
+                    i = saldo_Favor;
+                    saldo_Favor = 0;
+                }
+                if (i > 0)
+                {
+                    var newPagoTecnico = new T_pagostecnico
+                    {
+                        Id_Tecnico = this.tecnico.Id_Tecnico,
+                        Id_Usuario = this.tecnico.Id_Usuario,
+                        Pago = i,
+                        Fecha_Pago = DateTime.Now,
+                        Concepto = Languages.PagoTecnicoConcept2,
+                    };
+                    controller = Application.Current.Resources["UrlT_pagostecnicoController"].ToString();
+
+                    response = await this.apiService.Post(urlApi, prefix, controller, newPagoTecnico);
+
+                    if (!response.IsSuccess)
+                    {
+                        this.apiService.EndActivityPopup();
+
+                        await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        response.Message,
+                        "OK");
+                        return;
+                    }
+
+                    newPagoTecnico = (T_pagostecnico)response.Result;
+                    MainViewModel.GetInstance().Login.ListPagosTecnico.Add(newPagoTecnico);
+                }
+            }
+            else
+            {
+                saldo_Retenido = saldoTecnico.Saldo_Retenido - (this.trabajo.Costo_Cita - 50);
+            }
+            var newSaldoTecnico = new T_balancetecnico
+            {
+                Id_Balancetecnico = saldoTecnico.Id_Balancetecnico,
+                Id_Tecnico = saldoTecnico.Id_Tecnico,
+                Id_Usuario = saldoTecnico.Id_Usuario,
+                Saldo_Contra = saldo_Contra,
+                Saldo_Favor = saldo_Favor,
+                Saldo_Retenido = saldo_Retenido,
+            };
+            controller = Application.Current.Resources["UrlT_balancetecnicoController"].ToString();
+
+            response = await this.apiService.Put(urlApi, prefix, controller, newSaldoTecnico, saldoTecnico.Id_Balancetecnico);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            newSaldoTecnico = (T_balancetecnico)response.Result;
+
+            var oldSaldoTecnico = MainViewModel.GetInstance().Login.ListBalanceTecnico.Where(p => p.Id_Balancetecnico == saldoTecnico.Id_Balancetecnico).FirstOrDefault();
+            if (oldSaldoTecnico != null)
+            {
+                MainViewModel.GetInstance().Login.ListBalanceTecnico.Remove(oldSaldoTecnico);
+            }
+            MainViewModel.GetInstance().Login.ListBalanceTecnico.Add(newSaldoTecnico);
+
             this.apiService.EndActivityPopup();
 
             await Application.Current.MainPage.Navigation.PopModalAsync();
 
+        }
+
+        private async void StartArt()
+        {
+            this.IsVisibleInicio = false;
+
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+            var newTrabajo = new T_trabajos
+            {
+                Alto = this.trabajo.Alto,
+                Ancho = this.trabajo.Ancho,
+                Asunto = this.trabajo.Asunto,
+                Cancelado = this.trabajo.Cancelado,
+                Completo = this.trabajo.Completo,
+                Costo_Cita = this.trabajo.Costo_Cita,
+                Id_Caract = this.trabajo.Id_Caract,
+                Id_Cliente = this.trabajo.Id_Cliente,
+                Id_Tatuador = this.trabajo.Id_Tatuador,
+                Id_Trabajo = this.trabajo.Id_Trabajo,
+                TecnicoTiempo = this.trabajo.TecnicoTiempo,
+                Tiempo = this.trabajo.Tiempo,
+                Total_Aprox = this.trabajo.Total_Aprox,
+                Trabajo_Iniciado = true,
+            };
+
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_trabajosController"].ToString();
+
+            var response = await this.apiService.Put(urlApi, prefix, controller, newTrabajo, this.trabajo.Id_Trabajo);
+
+            if (!response.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            var newAddedTrabajo = (T_trabajos)response.Result;
+
+            var oldTrabajo = MainViewModel.GetInstance().UserHome.TrabajosList.Where(c => c.Id_Trabajo == this.cita.Id_Trabajo).FirstOrDefault();
+
+            if (oldTrabajo != null)
+            {
+                MainViewModel.GetInstance().UserHome.TrabajosList.Remove(oldTrabajo);
+            }
+
+            MainViewModel.GetInstance().UserHome.TrabajosList.Add(newAddedTrabajo);
+
+            MainViewModel.GetInstance().UserHome.RefreshCitaList();
         }
         public void GoToAddCommandPopup()
         {

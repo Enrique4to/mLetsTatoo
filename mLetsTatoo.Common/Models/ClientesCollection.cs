@@ -14,6 +14,7 @@
         public DateTime F_Nac { get; set; }
         public bool Bloqueo { get; set; }
         public byte[] F_Perfil { get; set; }
+        public decimal Saldo_Favor { get; set; }
         #endregion
     }
 }

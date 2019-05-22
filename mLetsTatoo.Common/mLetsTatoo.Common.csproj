@@ -149,6 +149,10 @@
     <Compile Include="Models\TrabajoNotaCollection.cs" />
     <Compile Include="Models\TrabajonotaTempCollection.cs" />
     <Compile Include="Models\TrabajosTempCollection.cs" />
+    <Compile Include="Models\T_balanceempresa.cs" />
+    <Compile Include="Models\T_balancetecnico.cs" />
+    <Compile Include="Models\T_balancecliente.cs" />
+    <Compile Include="Models\T_cobrostecnico.cs" />
     <Compile Include="Models\T_comentpublicacion.cs" />
     <Compile Include="Models\T_imgpublicacion.cs" />
     <Compile Include="Models\T_likepublicacion.cs" />
@@ -161,6 +165,8 @@
     <Compile Include="Models\T_locales.cs" />
     <Compile Include="Models\T_localfacturas.cs" />
     <Compile Include="Models\T_localhistoria.cs" />
+    <Compile Include="Models\T_pagoscliente.cs" />
+    <Compile Include="Models\T_pagostecnico.cs" />
     <Compile Include="Models\T_publicaciones.cs" />
     <Compile Include="Models\T_tecnicohorarios.cs" />
     <Compile Include="Models\T_localhorarios.cs" />

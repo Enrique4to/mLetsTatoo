@@ -10419,26 +10419,26 @@ namespace mLetsTatoo.Droid
 			// aapt resource value: 0x7f020059
 			public const int avd_hide_password = 2130837593;
 			
-			// aapt resource value: 0x7f0201b9
-			public const int avd_hide_password_1 = 2130837945;
-			
 			// aapt resource value: 0x7f0201ba
-			public const int avd_hide_password_2 = 2130837946;
+			public const int avd_hide_password_1 = 2130837946;
 			
 			// aapt resource value: 0x7f0201bb
-			public const int avd_hide_password_3 = 2130837947;
+			public const int avd_hide_password_2 = 2130837947;
+			
+			// aapt resource value: 0x7f0201bc
+			public const int avd_hide_password_3 = 2130837948;
 			
 			// aapt resource value: 0x7f02005a
 			public const int avd_show_password = 2130837594;
 			
-			// aapt resource value: 0x7f0201bc
-			public const int avd_show_password_1 = 2130837948;
-			
 			// aapt resource value: 0x7f0201bd
-			public const int avd_show_password_2 = 2130837949;
+			public const int avd_show_password_1 = 2130837949;
 			
 			// aapt resource value: 0x7f0201be
-			public const int avd_show_password_3 = 2130837950;
+			public const int avd_show_password_2 = 2130837950;
+			
+			// aapt resource value: 0x7f0201bf
+			public const int avd_show_password_3 = 2130837951;
 			
 			// aapt resource value: 0x7f02005b
 			public const int Balance = 2130837595;
@@ -11433,11 +11433,11 @@ namespace mLetsTatoo.Droid
 			// aapt resource value: 0x7f0201a5
 			public const int notification_icon_background = 2130837925;
 			
-			// aapt resource value: 0x7f0201b7
-			public const int notification_template_icon_bg = 2130837943;
-			
 			// aapt resource value: 0x7f0201b8
-			public const int notification_template_icon_low_bg = 2130837944;
+			public const int notification_template_icon_bg = 2130837944;
+			
+			// aapt resource value: 0x7f0201b9
+			public const int notification_template_icon_low_bg = 2130837945;
 			
 			// aapt resource value: 0x7f0201a6
 			public const int notification_tile_bg = 2130837926;
@@ -11476,19 +11476,22 @@ namespace mLetsTatoo.Droid
 			public const int Settings = 2130837937;
 			
 			// aapt resource value: 0x7f0201b2
-			public const int Tattoo = 2130837938;
+			public const int splash = 2130837938;
 			
 			// aapt resource value: 0x7f0201b3
-			public const int TattooUns = 2130837939;
+			public const int Tattoo = 2130837939;
 			
 			// aapt resource value: 0x7f0201b4
-			public const int tooltip_frame_dark = 2130837940;
+			public const int TattooUns = 2130837940;
 			
 			// aapt resource value: 0x7f0201b5
-			public const int tooltip_frame_light = 2130837941;
+			public const int tooltip_frame_dark = 2130837941;
 			
 			// aapt resource value: 0x7f0201b6
-			public const int Visa = 2130837942;
+			public const int tooltip_frame_light = 2130837942;
+			
+			// aapt resource value: 0x7f0201b7
+			public const int Visa = 2130837943;
 			
 			static Drawable()
 			{
@@ -15263,6 +15266,9 @@ namespace mLetsTatoo.Droid
 			
 			// aapt resource value: 0x7f100006
 			public const int Theme_MediaRouter_LightControlPanel = 2131755014;
+			
+			// aapt resource value: 0x7f100271
+			public const int Theme_Splash = 2131755633;
 			
 			// aapt resource value: 0x7f100112
 			public const int ThemeOverlay_AppCompat = 2131755282;

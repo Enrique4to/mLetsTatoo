@@ -141,6 +141,8 @@
                 TecnicoTiempo = c.TecnicoTiempo,
                 Completado = MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Completo,
                 Cancelado = MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Cancelado,
+                Trabajo_Iniciado = MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Trabajo_Iniciado,
+                Pagado = MainViewModel.GetInstance().Login.ListPagosCliente.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Pagado,
 
             }).Where(c => c.Cancelado == false && c.CitaTemp == false && c.TecnicoTiempo == false).ToList();
             this.Citas = new ObservableCollection<CitasItemViewModel>(cita.OrderBy(c => c.F_Inicio));

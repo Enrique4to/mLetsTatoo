@@ -22,6 +22,7 @@
         #endregion
         #region Attributes
         private string nombreCompleto;
+        private string saldo_Favor;
         private byte[] byteImage;
         private ImageSource imageSource;
         private MediaFile file;
@@ -61,6 +62,11 @@
         {
             get { return this.nombreCompleto; }
             set { SetValue(ref this.nombreCompleto, value); }
+        }
+        public string Saldo_Favor
+        {
+            get { return this.saldo_Favor; }
+            set { SetValue(ref this.saldo_Favor, value); }
         }
         #endregion
         #region Constructors
@@ -103,6 +109,8 @@
                 this.ByteImage = this.apiService.GetImageFromFile("mLetsTatoo.NoUserPic.png");
                 this.ImageSource = ImageSource.FromStream(() => new MemoryStream(this.ByteImage));
             }
+
+            this.saldo_Favor = this.cliente.Saldo_Favor.ToString("C2");
         }
         private async void ChangeImage()
         {

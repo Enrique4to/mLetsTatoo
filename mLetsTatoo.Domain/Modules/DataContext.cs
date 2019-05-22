@@ -70,5 +70,17 @@
         public System.Data.Entity.DbSet<mLetsTatoo.Models.T_comentpublicacion> T_comentpublicacion { get; set; }
 
         public System.Data.Entity.DbSet<mLetsTatoo.Models.T_likepublicacion> T_likepublicacion { get; set; }
+
+        public System.Data.Entity.DbSet<mLetsTatoo.Models.T_balancecliente> T_balancecliente { get; set; }
+
+        public System.Data.Entity.DbSet<mLetsTatoo.Models.T_balanceempresa> T_balanceempresa { get; set; }
+
+        public System.Data.Entity.DbSet<mLetsTatoo.Models.T_balancetecnico> T_balancetecnico { get; set; }
+
+        public System.Data.Entity.DbSet<mLetsTatoo.Models.T_pagoscliente> T_pagoscliente { get; set; }
+
+        public System.Data.Entity.DbSet<mLetsTatoo.Models.T_pagostecnico> T_pagostecnico { get; set; }
+
+        public System.Data.Entity.DbSet<mLetsTatoo.Models.T_cobrostecnico> T_cobrostecnico { get; set; }
     }
 }

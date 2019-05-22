@@ -320,8 +320,31 @@
                 F_Nac = this.Birthdate,
                 Bloqueo = clibloq,
             };
+            cliente = (T_clientes)response.Result;
 
             controller = App.Current.Resources["UrlT_clientesController"].ToString();
+            response = await this.apiService.Post(urlApi, prefix, controller, cliente);
+
+            if (!response.IsSuccess)
+            {
+                this.IsRunning = false;
+                this.IsEnabled = true;
+
+                await App.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            var balancecliente = new T_balancecliente
+            {
+                Id_Usuario = this.user.Id_usuario,
+                Id_Cliente = cliente.Id_Cliente,
+                Saldo_Favor = 0,
+            };
+
+            controller = App.Current.Resources["UrlT_balanceclienteController"].ToString();
             response = await this.apiService.Post(urlApi, prefix, controller, cliente);
 
             if (!response.IsSuccess)

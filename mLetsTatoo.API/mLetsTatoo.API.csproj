@@ -299,10 +299,14 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\T_balanceclienteController.cs" />
+    <Compile Include="Controllers\T_balanceempresaController.cs" />
+    <Compile Include="Controllers\T_balancetecnicoController.cs" />
     <Compile Include="Controllers\T_citaimagenesController.cs" />
     <Compile Include="Controllers\T_citaimagenestempController.cs" />
     <Compile Include="Controllers\T_ciudadController.cs" />
     <Compile Include="Controllers\T_clientesController.cs" />
+    <Compile Include="Controllers\T_cobrostecnicoController.cs" />
     <Compile Include="Controllers\T_comentpublicacionController.cs" />
     <Compile Include="Controllers\T_empresasController.cs" />
     <Compile Include="Controllers\T_estadoController.cs" />
@@ -314,6 +318,8 @@
     <Compile Include="Controllers\T_localhorariosController.cs" />
     <Compile Include="Controllers\T_localimagenesController.cs" />
     <Compile Include="Controllers\T_locatariosController.cs" />
+    <Compile Include="Controllers\T_pagosclienteController.cs" />
+    <Compile Include="Controllers\T_pagostecnicoController.cs" />
     <Compile Include="Controllers\T_postalController.cs" />
     <Compile Include="Controllers\T_propietariosController.cs" />
     <Compile Include="Controllers\T_publicacionesController.cs" />

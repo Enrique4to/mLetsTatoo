@@ -710,7 +710,7 @@ You are advised to speak with the artist to re-standardize in case the reason fo
 Do you want to continue?</value>
   </data>
   <data name="PaymentMethod" xml:space="preserve">
-    <value>Select payment method</value>
+    <value>Select payment method for your advance</value>
   </data>
   <data name="CashMethod" xml:space="preserve">
     <value>Cash</value>
@@ -726,5 +726,34 @@ Do you want to continue?</value>
   </data>
   <data name="AddNewDateMessage" xml:space="preserve">
     <value>A new appointment has been added to your work with the selected date and time, the current appointment will be marked as completed.</value>
+  </data>
+  <data name="PositiveBalance" xml:space="preserve">
+    <value>Positive balance</value>
+  </data>
+  <data name="NegativeBalance" xml:space="preserve">
+    <value>Negative balance</value>
+  </data>
+  <data name="RetainedBalance" xml:space="preserve">
+    <value>Retained balance</value>
+  </data>
+  <data name="CashMethodMessage" xml:space="preserve">
+    <value>Your payment method will be in cash, it is necessary that you go to the studio or get in contact with it, to make your payment.
+
+Remember that you only have 24 hours to do it, otherwise, your appointment will be canceled automatically.</value>
+  </data>
+  <data name="YouWishContinue" xml:space="preserve">
+    <value>Do you want to continue?</value>
+  </data>
+  <data name="TypeCashDate" xml:space="preserve">
+    <value>This appointment was assigned with a type of cash payment, it is necessary to verify if the payment was already made by selecting "Yes", otherwise, only select "NO" and no change will be made in your account.</value>
+  </data>
+  <data name="PagoTecnicoConcept1" xml:space="preserve">
+    <value>Automatic payment of negative balance concept</value>
+  </data>
+  <data name="PagoTecnicoConcept2" xml:space="preserve">
+    <value>Automatic payment for cancellation of date change by the client.</value>
+  </data>
+  <data name="StartArt" xml:space="preserve">
+    <value>Start your art</value>
   </data>
 </root>

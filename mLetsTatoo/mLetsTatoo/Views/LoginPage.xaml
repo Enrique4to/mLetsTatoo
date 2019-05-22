@@ -9,27 +9,27 @@
     xmlns:control="clr-namespace:mLetsTatoo.Controls"
     x:Class="mLetsTatoo.Views.LoginPage">
     <ContentPage.Content>
-        <ScrollView
+        <StackLayout
             BindingContext="{Binding Login}">
-            <StackLayout
-                BackgroundColor="Black"
-                Padding="5,10">
-                <Image
+            <ScrollView>
+                <StackLayout
+                    Padding="5,10">
+                    <Image
                     Source="Logo.png"
                     WidthRequest="200"
                     VerticalOptions="StartAndExpand"
                     HorizontalOptions="CenterAndExpand"/>
-                <Grid
+                    <Grid
                     VerticalOptions="StartAndExpand">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width=".2*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width=".2*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <control:CustomEntry 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width=".2*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width=".2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <control:CustomEntry 
                         BorderColor="Gray"
                         FontAttributes="Bold"
                         FontSize="20"
@@ -42,7 +42,7 @@
                         PlaceholderColor="Gray"
                         Text="{Binding Usuario, Mode=TwoWay}"                        
                         TextColor="LightGray"/>
-                    <control:CustomEntry
+                        <control:CustomEntry
                         BorderColor="Gray"
                         FontAttributes="Bold"
                         FontSize="20"
@@ -56,41 +56,41 @@
                         PlaceholderColor="Gray"
                         Text="{Binding Pass, Mode=TwoWay}"                      
                         TextColor="LightGray"/>
-                    <Label                        
+                        <Label                        
                         Grid.Row="2"
                         Grid.Column="1"
                         HorizontalOptions="Center"
                         Text="{i18n:Translate OlvidoPassword}"
                         TextColor="Blue"
                         VerticalOptions="StartAndExpand"/>
-                </Grid>
-                <ActivityIndicator
+                    </Grid>
+                    <ActivityIndicator
                     HeightRequest="30"
                     IsRunning="{Binding IsRunning, Mode=TwoWay}"
                     Opacity="80"
                     Color="Gray"
                     VerticalOptions="StartAndExpand"/>
-                <StackLayout
+                    <StackLayout
                     Margin="10,0,10,0"
                     Orientation="Horizontal"
                     VerticalOptions="EndAndExpand">
-                    <Label
+                        <Label
                         FontAttributes="Bold"
                         FontSize="18"
                         HorizontalOptions="StartAndExpand"
                         Text="{i18n:Translate Recordarme}"
                         TextColor="Gray"
                         VerticalOptions="Center"/>
-                    <Switch
+                        <Switch
                         HorizontalOptions="EndAndExpand"
                         IsToggled="{Binding IsRemember, Mode=TwoWay}"
                         Scale=".9"                        
                         VerticalOptions="Center"/>
-                </StackLayout>
-                <StackLayout
+                    </StackLayout>
+                    <StackLayout
                     Margin="40,0,40,5"
                     VerticalOptions="EndAndExpand">
-                    <Button
+                        <Button
                         BackgroundColor="Silver"
                         BorderRadius="23"
                         Command="{Binding InicioCommand}"
@@ -100,7 +100,7 @@
                         IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
                         Text="{i18n:Translate Inicio}"
                         TextColor="Black"/>
-                    <Button
+                        <Button
                         BackgroundColor="Gray"
                         BorderRadius="23"
                         Command="{Binding RegistroCommand}"
@@ -110,8 +110,10 @@
                         IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
                         Text="{i18n:Translate Registrate}"
                         TextColor="Black"/>
+                    </StackLayout>
                 </StackLayout>
-            </StackLayout>
-        </ScrollView>
+
+            </ScrollView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

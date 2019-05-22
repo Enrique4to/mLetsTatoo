@@ -118,9 +118,10 @@
                 </StackLayout>
 
                 <StackLayout
-                        HorizontalOptions="EndAndExpand"
-                        Padding="0,10"
-                        VerticalOptions="EndAndExpand">
+                    HorizontalOptions="EndAndExpand"
+                    IsVisible="{Binding IsVisibleNewDate}"
+                    Padding="0,10"
+                    VerticalOptions="EndAndExpand">
                     <Frame
                             BackgroundColor="White"
                             BorderColor="Black"
@@ -142,9 +143,10 @@
                     </Frame>
                 </StackLayout>
                 <StackLayout
-                        HorizontalOptions="EndAndExpand"
-                        Padding="0,10"
-                        VerticalOptions="EndAndExpand">
+                    HorizontalOptions="EndAndExpand"
+                    IsVisible="{Binding IsVisibleFinishArt}"
+                    Padding="0,10"
+                    VerticalOptions="EndAndExpand">
                     <Frame
                         BackgroundColor="White"
                         BorderColor="Black"

@@ -30,7 +30,7 @@
 
         private T_clientes cliente;
         private T_usuarios user;
-        private TecnicosCollection tecnico;
+        public TecnicosCollection tecnico;
         private T_trabajos trabajo;
 
         private string file;
@@ -143,8 +143,39 @@
 
         #region Methods
 
-        private void LoadTecnico()
+        public void LoadTecnico()
         {
+            this.tecnico = new TecnicosCollection
+            {
+                Id_Usuario = this.user.Id_usuario,
+                Id_Tecnico = this.tecnico.Id_Tecnico,
+                Nombre = this.tecnico.Nombre,
+                Apellido = this.tecnico.Apellido,
+                Apellido2 = this.tecnico.Apellido2,
+                Apodo = this.tecnico.Apodo,
+                Carrera = this.tecnico.Carrera,
+                Id_Empresa = this.tecnico.Id_Empresa,
+                Id_Local = this.tecnico.Id_Local,
+                F_Perfil = this.tecnico.F_Perfil,
+                Saldo_Favor =
+                    (
+                        !MainViewModel.GetInstance().Login.ListBalanceTecnico.Any(b => b.Id_Usuario == this.user.Id_usuario) ?
+                        0 :
+                        MainViewModel.GetInstance().Login.ListBalanceTecnico.FirstOrDefault(b => b.Id_Usuario == this.user.Id_usuario).Saldo_Favor
+                    ),
+                Saldo_Contra =
+                    (
+                        !MainViewModel.GetInstance().Login.ListBalanceTecnico.Any(b => b.Id_Usuario == this.user.Id_usuario) ?
+                        0 :
+                        MainViewModel.GetInstance().Login.ListBalanceTecnico.FirstOrDefault(b => b.Id_Usuario == this.user.Id_usuario).Saldo_Contra
+                    ),
+                Saldo_Retenido =
+                    (
+                        !MainViewModel.GetInstance().Login.ListBalanceTecnico.Any(b => b.Id_Usuario == this.user.Id_usuario) ?
+                        0 :
+                        MainViewModel.GetInstance().Login.ListBalanceTecnico.FirstOrDefault(b => b.Id_Usuario == this.user.Id_usuario).Saldo_Retenido
+                    ),
+            };
             this.IsRefreshing = true;
 
             MainViewModel.GetInstance().TecnicoProfile = new TecnicoProfileViewModel(this.user, this.tecnico);
@@ -205,6 +236,7 @@
                 Tiempo = c.Tiempo,
                 Cancelado = c.Cancelado,
                 Completo = c.Completo,
+                Trabajo_Iniciado = c.Trabajo_Iniciado,
                 TecnicoTiempo = c.TecnicoTiempo
 
             }).Where(c => c.Id_Tatuador == this.tecnico.Id_Tecnico && c.Cancelado == false && c.TecnicoTiempo == false).ToList();

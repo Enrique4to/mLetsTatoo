@@ -38,6 +38,12 @@
             <x:String x:Key="UrlT_imgpublicacionController">/T_imgpublicacion</x:String>
             <x:String x:Key="UrlT_publicacionesController">/T_publicaciones</x:String>
             <x:String x:Key="UrlT_likepublicacionController">/T_likepublicacion</x:String>
+            <x:String x:Key="UrlT_balanceclienteController">/T_balancecliente</x:String>
+            <x:String x:Key="UrlT_balancetecnicoController">/T_balancetecnico</x:String>
+            <x:String x:Key="UrlT_balanceempresaController">/T_balanceempresa</x:String>
+            <x:String x:Key="UrlT_pagosclienteController">/T_pagoscliente</x:String>
+            <x:String x:Key="UrlT_pagostecnicoController">/T_pagostecnico</x:String>
+            <x:String x:Key="UrlT_cobrostecnicoController">/T_cobrostecnico</x:String>
             
         </ResourceDictionary>
 

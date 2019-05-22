@@ -46,7 +46,6 @@
         public MainViewModel()
         {
             instance = this;
-            this.Login = new LoginViewModel();
         }
         #endregion
         public void RergisterDevice()
