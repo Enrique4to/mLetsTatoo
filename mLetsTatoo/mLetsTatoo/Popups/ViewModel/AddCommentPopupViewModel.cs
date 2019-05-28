@@ -66,7 +66,7 @@
                     "OK");
                 return;
             }
-
+            T_notificaciones newNotif = null;
             var urlApi = Application.Current.Resources["UrlAPI"].ToString();
             var prefix = Application.Current.Resources["UrlPrefix"].ToString();
             var controller = Application.Current.Resources["UrlT_trabajonotaController"].ToString();
@@ -103,6 +103,21 @@
                 MainViewModel.GetInstance().UserViewDate.NotaList.Add(newNota);
                 MainViewModel.GetInstance().UserViewDate.RefreshListNotas();
                 await Application.Current.MainPage.Navigation.PopPopupAsync();
+
+
+                var fromName = $"{this.cliente.Nombre} {this.cliente.Apellido}";
+                var To = this.cliente.Id_Usuario;
+                var notif = $"{Languages.TheClient} {fromName} {Languages.NotifNewComment} #{this.cita.Id_Cita}: {this.cita.Asunto}";
+                this.apiService.SendNotificationAsync(notif, To, fromName);
+
+                newNotif = new T_notificaciones
+                {
+                    Usuario_Envia = this.cliente.Id_Usuario,
+                    Usuario_Recibe = this.tecnico.Id_Usuario,
+                    Notificacion = notif,
+                    Fecha = DateTime.Now.ToLocalTime(),
+                    Visto = false,
+                };
             }
             else if (this.user.Tipo == 2)
             {
@@ -136,6 +151,61 @@
                 MainViewModel.GetInstance().TecnicoViewDate.NotaList.Add(newNota);
                 MainViewModel.GetInstance().TecnicoViewDate.RefreshListNotas();
                 await Application.Current.MainPage.Navigation.PopPopupAsync();
+
+                var fromName = $"{this.tecnico.Nombre} {this.tecnico.Apellido}";
+                var To = this.cliente.Id_Usuario;
+                var notif = $"{Languages.TheArtist} {fromName} {Languages.NotifNewComment} #{this.cita.Id_Cita}: {this.cita.Asunto}";
+                this.apiService.SendNotificationAsync(notif, To, fromName);
+
+                newNotif = new T_notificaciones
+                {
+                    Usuario_Envia = this.tecnico.Id_Usuario,
+                    Usuario_Recibe = this.cliente.Id_Usuario,
+                    Notificacion = notif,
+                    Fecha = DateTime.Now.ToLocalTime(),
+                    Visto = false,
+                };
+
+            }
+
+            controller = Application.Current.Resources["UrlT_notificacionesController"].ToString();
+
+            var response1 = await this.apiService.Post(urlApi, prefix, controller, newNotif);
+
+            if (!response1.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response1.Message,
+                "OK");
+                return;
+            }
+            newNotif = (T_notificaciones)response1.Result;
+
+            //TipoNotif Cita =1
+            //TipoNotif TrabajoTemp = 2
+            var newNotifCita = new T_notif_citas
+            {
+                Id_Notificacion = newNotif.Id_Notificacion,
+                Id_Cita = cita.Id_Cita,
+                TipoNotif = 1,
+            };
+
+            controller = Application.Current.Resources["UrlT_notif_citasController"].ToString();
+
+            response1 = await this.apiService.Post(urlApi, prefix, controller, newNotifCita);
+
+            if (!response1.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response1.Message,
+                "OK");
+                return;
             }
         }
         #endregion

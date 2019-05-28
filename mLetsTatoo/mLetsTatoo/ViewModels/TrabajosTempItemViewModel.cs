@@ -46,18 +46,18 @@
         private void GoToMessageJobPage()
         {
             this.user = MainViewModel.GetInstance().Login.user;
-            if(MainViewModel.GetInstance().Login.tecnico != null)
+            if(this.user.Tipo == 2)
             {
                 this.tecnico = MainViewModel.GetInstance().Login.tecnico;
                 this.TrabajoNotaList = MainViewModel.GetInstance().TecnicoMessages.TrabajoNotaList;
-                MainViewModel.GetInstance().TecnicoMessageJob = new TecnicoMessageJobViewModel(this, this.tecnico, this.user, this.TrabajoNotaList);
+                MainViewModel.GetInstance().TecnicoMessageJob = new TecnicoMessageJobViewModel(this, this.tecnico, this.user);
                 Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoMessajeJobPage());
             }
-            else if(MainViewModel.GetInstance().Login.cliente != null)
+            else if(this.user.Tipo == 1)
             {
                 this.cliente = MainViewModel.GetInstance().Login.cliente;
                 this.TrabajoNotaList = MainViewModel.GetInstance().UserMessages.TrabajoNotaList;
-                MainViewModel.GetInstance().UserMessageJob = new UserMessageJobViewModel(this, this.cliente, this.user, this.TrabajoNotaList);
+                MainViewModel.GetInstance().UserMessageJob = new UserMessageJobViewModel(this, this.cliente, this.user);
                 Application.Current.MainPage.Navigation.PushModalAsync(new UserMessajeJobPage());
             }
         }

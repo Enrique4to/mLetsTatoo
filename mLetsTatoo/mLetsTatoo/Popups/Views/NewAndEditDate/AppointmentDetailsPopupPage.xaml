@@ -174,8 +174,8 @@
                             </Grid>
                         </StackLayout>
                         <StackLayout
-                        IsVisible="{Binding CashMetodoChecked}"
-                        Padding="10,5">
+                            IsVisible="{Binding CashMetodoChecked}"
+                            Padding="10,5">
                             <Label
                             FontAttributes="Bold"
                             FontSize="12"
@@ -183,17 +183,41 @@
                             TextColor="Black"
                             HorizontalTextAlignment="Start"
                             VerticalTextAlignment="Center"/>
-                            <Label
-                            FontAttributes="Bold"
-                            FontSize="12"
-                            Margin="0,10,0,5"
-                            Text="{i18n:Translate YouWishContinue}"
-                            TextColor="Black"
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"/>
                         </StackLayout>
                         <StackLayout
-                        Orientation="Horizontal">
+                            Padding="10,5">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="12"
+                                Margin="0,10,0,5"
+                                HorizontalTextAlignment="Center"
+                                VerticalTextAlignment="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{i18n:Translate AcceptTerminos} "/>
+                                        <Span Text=" "/>
+                                        <Span Text="{i18n:Translate TermsConditions}"
+                                            TextColor="Blue"
+                                            TextDecorations="Underline">
+                                            <Span.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding GoToUrlCommand}"
+                                                CommandParameter="https://letstattoo.com.mx/Terminos-y-Condiciones/" />
+                                            </Span.GestureRecognizers>
+                                        </Span>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="12"
+                                Margin="0,10,0,5"
+                                Text="{i18n:Translate YouWishContinue}"
+                                TextColor="Black"
+                                HorizontalTextAlignment="Center"
+                                VerticalTextAlignment="Center"/>
+                        </StackLayout>
+                        <StackLayout
+                            Orientation="Horizontal">
                             <Frame
                             BackgroundColor="Transparent"
                             BorderColor="Black"

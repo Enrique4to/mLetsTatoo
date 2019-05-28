@@ -1,5 +1,5 @@
 ﻿
-[assembly: Android.App.Permission(Name ="@PACKAGE_NAME@.permission.C2D_MESSAGE")]
+[assembly: Android.App.Permission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]
 [assembly: Android.App.UsesPermission(Name = "@PACKAGE_NAME@.permission.C2D_MESSAGE")]
 [assembly: Android.App.UsesPermission(Name = "com.google.android.c2dm.permission.RECEIVE")]
 [assembly: Android.App.UsesPermission(Name = "android.permission.GET_ACCOUNTS")]
@@ -12,6 +12,8 @@ namespace mLetsTatoo.Droid
     using System.Text;
     using Android.App;
     using Android.Content;
+    using Android.OS;
+    using Android.Runtime;
     using Android.Util;
     using Gcm.Client;
     using ViewModels;
@@ -43,7 +45,7 @@ namespace mLetsTatoo.Droid
         {
             Log.Info(MyBroadcastReceiver.TAG, "GCM Message Received!");
             var msg = new StringBuilder();
-            if(intent !=null && intent.Extras != null)
+            if (intent != null && intent.Extras != null)
             {
                 foreach (var key in intent.Extras.KeySet())
                     msg.AppendLine(key + "=" + intent.Extras.Get(key).ToString());
@@ -62,7 +64,7 @@ namespace mLetsTatoo.Droid
         protected override bool OnRecoverableError(Context context, string errorId)
         {
             Log.Warn(MyBroadcastReceiver.TAG, "Recoverable Error: " + errorId);
-            return base.OnRecoverableError(context,errorId);
+            return base.OnRecoverableError(context, errorId);
         }
         protected override void OnError(Context context, string errorId)
         {
@@ -86,7 +88,7 @@ namespace mLetsTatoo.Droid
 
             var tags = new List<string>() { };
             var mainviewModel = MainViewModel.GetInstance();
-            if(mainviewModel.Login.user != null)
+            if (mainviewModel.Login.user != null)
             {
                 var userID = mainviewModel.Login.user.Id_usuario;
                 var type = mainviewModel.Login.user.Tipo;
@@ -107,15 +109,24 @@ namespace mLetsTatoo.Droid
         protected override void OnUnRegistered(Context context, string registrationId)
         {
             Log.Verbose(MyBroadcastReceiver.TAG, "Gcm Unregistered:" + registrationId);
-            createNotification("LetsTattoo", "The Ddevice has been unregistered!");
+            createNotification("LetsTattoo", "The Device has been unregistered!");
         }
+
         void createNotification(String title, String desc)
         {
+            //Create notification
             var notificationManager = GetSystemService(Context.NotificationService) as NotificationManager;
+            //Create an intent to show UI
             var uiIntent = new Intent(this, typeof(MainActivity));
-            var notification = new Notification(Android.Resource.Drawable.SymActionEmail, title);
+            //Create the notification
+            var notification = new Notification(Resource.Drawable.ic_launcher, title);
+            //Auto-cancel will remove the notification once the user touches it
             notification.Flags = NotificationFlags.AutoCancel;
-            notification.SetLatestEventInfo(this, title, desc, PendingIntent.GetActivity(this, 0, uiIntent, 0));
+            //Set the notification info
+            //we use the pending intent, passing our ui intent over, which will get called
+            //when the notification is tapped.
+            notification.SetLatestEventInfo(this, new Java.Lang.String(title), new Java.Lang.String(desc), PendingIntent.GetActivity(this, 0, uiIntent, 0));
+            //Show the notification
             notificationManager.Notify(1, notification);
             dialogNotify(title, desc);
         }
@@ -126,11 +137,17 @@ namespace mLetsTatoo.Droid
             {
                 AlertDialog.Builder dlg = new AlertDialog.Builder(mainActivity);
                 AlertDialog alert = dlg.Create();
+                alert.SetTitle(title);
+                alert.SetButton("Accept", delegate
+                {
+                    alert.Dismiss();
+                });
                 alert.SetIcon(Resource.Drawable.ic_launcher);
                 alert.SetMessage(message);
                 alert.Show();
             });
         }
         #endregion
+
     }
 }

@@ -24,6 +24,7 @@
         #region Properties
         public List<T_trabajostemp> TrabajosList { get; set; }
         public List<T_trabajonotatemp> TrabajoNotaList { get; set; }
+        public List<TrabajosTempItemViewModel> TrabajoTempList { get; set; }
 
         public List<T_citaimagenestemp> ImagesList { get; set; }
 
@@ -40,7 +41,7 @@
             this.user = user;
             this.cliente = cliente;
             this.apiService = new ApiService();
-            this.LoadTrabajoNotas();
+            this.RefreshTrabajosList();
         }
         #endregion
 
@@ -49,74 +50,9 @@
         #endregion
 
         #region Methods
-        private async void LoadTrabajoNotas()
-        {
-            var connection = await this.apiService.CheckConnection();
-            if (!connection.IsSuccess)
-            {
-                this.apiService.EndActivityPopup();
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    connection.Message,
-                    "OK");
-                return;
-
-            }
-
-            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
-            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
-            var controller = Application.Current.Resources["UrlT_trabajostempController"].ToString();
-
-            var response = await this.apiService.GetList<T_trabajostemp>(urlApi, prefix, controller);
-            if (!response.IsSuccess)
-            {
-                this.apiService.EndActivityPopup();
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-
-            this.TrabajosList = (List<T_trabajostemp>)response.Result;
-
-            controller = Application.Current.Resources["UrlT_trabajonotatempController"].ToString();
-
-            response = await this.apiService.GetList<T_trabajonotatemp>(urlApi, prefix, controller);
-            if (!response.IsSuccess)
-            {
-                this.apiService.EndActivityPopup();
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-
-            this.TrabajoNotaList = (List<T_trabajonotatemp>)response.Result;
-
-            controller = Application.Current.Resources["UrlT_citaimagenestempController"].ToString();
-
-            response = await this.apiService.GetList<T_citaimagenestemp>(urlApi, prefix, controller);
-            if (!response.IsSuccess)
-            {
-                this.apiService.EndActivityPopup();
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-
-            this.ImagesList = (List<T_citaimagenestemp>)response.Result;
-
-            this.RefreshTrabajosList();
-
-            this.apiService.EndActivityPopup();
-        }
         public void RefreshTrabajosList()
         {
-            var trabajoTemp = this.TrabajosList.Select(t => new TrabajosTempItemViewModel
+            this.TrabajoTempList = MainViewModel.GetInstance().Login.TrabajosTempList.Select(t => new TrabajosTempItemViewModel
             {
                 Id_Trabajotemp = t.Id_Trabajotemp,
                 Id_Tatuador = t.Id_Tatuador,
@@ -128,8 +64,8 @@
                 Ancho = t.Ancho,
                 Tiempo = t.Tiempo,
 
-                Nota = this.TrabajoNotaList.LastOrDefault(n => n.Id_Trabajotemp == t.Id_Trabajotemp).Nota,
-                F_nota = this.TrabajoNotaList.LastOrDefault(n => n.Id_Trabajotemp == t.Id_Trabajotemp).F_nota,
+                Nota = MainViewModel.GetInstance().Login.TrabajoNotaTempList.LastOrDefault(n => n.Id_Trabajotemp == t.Id_Trabajotemp).Nota,
+                F_nota = MainViewModel.GetInstance().Login.TrabajoNotaTempList.LastOrDefault(n => n.Id_Trabajotemp == t.Id_Trabajotemp).F_nota,
 
                 Nombre = MainViewModel.GetInstance().Login.TecnicoList.FirstOrDefault(c => c.Id_Tecnico == t.Id_Tatuador).Nombre,
                 Apellido = MainViewModel.GetInstance().Login.TecnicoList.FirstOrDefault( c => c.Id_Tecnico == t.Id_Tatuador).Apellido,
@@ -138,11 +74,11 @@
                     u => u.Id_usuario == MainViewModel.GetInstance().Login.TecnicoList.FirstOrDefault(
                     c => c.Id_Tecnico == t.Id_Tatuador).Id_Usuario).F_Perfil,
 
-                Imagen = this.ImagesList.First(i => i.Id_Trabajotemp == t.Id_Trabajotemp).Imagen,
+                Imagen = MainViewModel.GetInstance().Login.ImagesTempList.FirstOrDefault(i => i.Id_Trabajotemp == t.Id_Trabajotemp).Imagen,
 
             }).Where(t => t.Id_Cliente == this.cliente.Id_Cliente).ToList();
 
-            this.Trabajos = new ObservableCollection<TrabajosTempItemViewModel>(trabajoTemp.OrderByDescending(t => t.F_nota));
+            this.Trabajos = new ObservableCollection<TrabajosTempItemViewModel>(this.TrabajoTempList.OrderByDescending(t => t.F_nota));
         }
 
         #endregion

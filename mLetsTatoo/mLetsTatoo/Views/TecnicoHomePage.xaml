@@ -625,10 +625,55 @@
             Icon="NotificacionUns.png"
             x:Name="Notifications">
             <StackLayout
-                BindingContext="{Binding TecnicoHome}"
-                BackgroundColor="Black"
-                Padding="5">
+            BindingContext="{Binding TecnicoHome}"
+            BackgroundColor="Black"
+            Padding="5">
+                <ListView                    
+                        HasUnevenRows="True"
+                        HorizontalOptions="FillAndExpand"
+                        IsPullToRefreshEnabled="True"
+                        IsRefreshing="{Binding IsRefreshing}"                    
+                        ItemsSource="{Binding Notificaciones}"
+                        SeparatorColor="DimGray"
+                        RefreshCommand="{Binding RefreshNotificacionesCommand}"
+                        VerticalOptions="EndAndExpand">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame
+                                    BackgroundColor="White"
+                                    HasShadow="True"
+                                    CornerRadius="10"
+                                    Margin="1"
+                                    VerticalOptions="Center"
+                                    Padding="2">
+                                    <Grid>
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding NotificationCommand}"/>
+                                        </Grid.GestureRecognizers>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Label
+                                            FontSize="14"
+                                            Grid.Column="1"
+                                            Grid.Row="1"
+                                            HorizontalTextAlignment="Start"
+                                            VerticalTextAlignment="Start"
+                                            Margin="20,0,20,0"
+                                            Text="{Binding Notificacion}"
+                                            TextColor="Black"/>
+                                    </Grid>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackLayout>
+
         </ContentPage>
 
         <views:TecnicoProfilePage 

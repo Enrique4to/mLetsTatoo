@@ -92,13 +92,12 @@ namespace mLetsTatoo.ViewModels
         #endregion
 
         #region Constructors
-        public UserMessageJobViewModel(TrabajosTempItemViewModel trabajo, ClientesCollection cliente, T_usuarios user, List<T_trabajonotatemp> TrabajoNotaList)
+        public UserMessageJobViewModel(TrabajosTempItemViewModel trabajo, ClientesCollection cliente, T_usuarios user)
         {
             this.apiService = new ApiService();
             this.cliente = cliente;
             this.user = user;
             this.trabajo = trabajo;
-            this.TrabajoNotaList = TrabajoNotaList;
             this.pageVisible = false;
             this.LoadListNotas();
 
@@ -134,58 +133,11 @@ namespace mLetsTatoo.ViewModels
         #endregion
 
         #region Methods
-        private async void SendMessage()
-        {
-            var connection = await this.apiService.CheckConnection();
-            if (!connection.IsSuccess)
-            {
-                this.apiService.EndActivityPopup();
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    connection.Message,
-                    "OK");
-                return;
-            }
-
-            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
-            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
-            var controller = Application.Current.Resources["UrlT_trabajonotatempController"].ToString();
-
-            var nombre_Post = $"{this.cliente.Nombre} {this.cliente.Apellido}";
-
-            this.notaTemp = new T_trabajonotatemp
-            {
-                Id_Trabajotemp = this.trabajo.Id_Trabajotemp,
-                Tipo_Usuario = 1,
-                Id_Usuario = this.cliente.Id_Usuario,
-                Id_Local = MainViewModel.GetInstance().Login.TecnicoList.FirstOrDefault(u => u.Id_Tecnico == this.trabajo.Id_Tatuador).Id_Local,
-                Nota = this.Message,
-                Nombre_Post = nombre_Post,
-            };
-            var response = await this.apiService.Post(urlApi, prefix, controller, this.notaTemp);
-
-            if (!response.IsSuccess)
-            {
-                this.apiService.EndActivityPopup();
-                await Application.Current.MainPage.DisplayAlert(
-                Languages.Error,
-                response.Message,
-                "OK");
-                return;
-            }
-
-            var newNota = (T_trabajonotatemp)response.Result;
-
-            MainViewModel.GetInstance().UserMessages.TrabajoNotaList.Add(newNota);
-            MainViewModel.GetInstance().UserMessages.RefreshTrabajosList();
-            this.LoadListNotas();
-            this.Message = null;
-        }
         public void LoadListNotas()
         {
             var userList = MainViewModel.GetInstance().Login.ListUsuarios;
 
-            var nota = this.TrabajoNotaList.Select(n => new NotasTempItemViewModel
+            var nota = MainViewModel.GetInstance().Login.TrabajoNotaTempList.Select(n => new NotasTempItemViewModel
             {
                 Id_Notatemp = n.Id_Notatemp,
                 Id_Trabajotemp = n.Id_Trabajotemp,
@@ -248,6 +200,107 @@ namespace mLetsTatoo.ViewModels
             this.AppDuration = $"{Languages.EstimatedTime} {tempTime}";
             Application.Current.MainPage.Navigation.PushPopupAsync(new BudgetDetailsPopupPage());
         }
+        private async void SendMessage()
+        {
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+
+            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlT_trabajonotatempController"].ToString();
+
+            var nombre_Post = $"{this.cliente.Nombre} {this.cliente.Apellido}";
+
+            this.notaTemp = new T_trabajonotatemp
+            {
+                Id_Trabajotemp = this.trabajo.Id_Trabajotemp,
+                Tipo_Usuario = 1,
+                Id_Usuario = this.cliente.Id_Usuario,
+                Id_Local = MainViewModel.GetInstance().Login.TecnicoList.FirstOrDefault(u => u.Id_Tecnico == this.trabajo.Id_Tatuador).Id_Local,
+                Nota = this.Message,
+                Nombre_Post = nombre_Post,
+            };
+            var response = await this.apiService.Post(urlApi, prefix, controller, this.notaTemp);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            var newNota = (T_trabajonotatemp)response.Result;
+
+            MainViewModel.GetInstance().UserMessages.TrabajoNotaList.Add(newNota);
+            MainViewModel.GetInstance().UserMessages.RefreshTrabajosList();
+            this.LoadListNotas();
+            this.Message = null;
+
+            this.tecnico = MainViewModel.GetInstance().Login.TecnicoList.FirstOrDefault(c => c.Id_Tecnico == this.trabajo.Id_Tatuador);
+            var fromName = $"{this.cliente.Nombre} {this.cliente.Apellido}";
+            var To = this.tecnico.Id_Usuario;
+            var notif = $"{Languages.TheClient} {fromName} {Languages.NotifMessagePersonalized}";
+            this.apiService.SendNotificationAsync(notif, To, fromName);
+
+            var newNotif = new T_notificaciones
+            {
+                Usuario_Envia = this.cliente.Id_Usuario,
+                Usuario_Recibe = this.tecnico.Id_Usuario,
+                Notificacion = notif,
+                Fecha = DateTime.Now.ToLocalTime(),
+                Visto = false,
+            };
+            controller = Application.Current.Resources["UrlT_notificacionesController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotif);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            newNotif = (T_notificaciones)response.Result;
+
+            //TipoNotif cita = 1
+            //TipoNotif TrabajoTemp = 2
+            var newNotifCita = new T_notif_citas
+            {
+                Id_Notificacion = newNotif.Id_Notificacion,
+                Id_TrabajoTemp = trabajo.Id_Trabajotemp,
+                TipoNotif = 2,
+            };
+
+            controller = Application.Current.Resources["UrlT_notif_citasController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotifCita);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+        }
 
         private async void GoToNextPopupPage()
         {
@@ -261,6 +314,7 @@ namespace mLetsTatoo.ViewModels
             MainViewModel.GetInstance().NewAppointmentPopup.PresupuestoPage = true;
             MainViewModel.GetInstance().NewAppointmentPopup.tecnico = this.tecnico;
             MainViewModel.GetInstance().NewAppointmentPopup.thisPage = "Metodo";
+            MainViewModel.GetInstance().NewAppointmentPopup.tempAdvance = this.trabajo.Costo_Cita;
             MainViewModel.GetInstance().NewAppointmentPopup.AppCost = this.AppCost;
             MainViewModel.GetInstance().NewAppointmentPopup.AppAdvance = this.AppAdvance;
             MainViewModel.GetInstance().NewAppointmentPopup.AppDuration = this.AppDuration;

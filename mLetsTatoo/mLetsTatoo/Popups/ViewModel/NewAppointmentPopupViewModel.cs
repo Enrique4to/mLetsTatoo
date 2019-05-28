@@ -16,6 +16,9 @@
     using System.IO;
     using Plugin.Media.Abstractions;
     using Plugin.Media;
+    using PayPal.Forms;
+    using PayPal.Forms.Abstractions;
+    using System.Diagnostics;
 
     public class NewAppointmentPopupViewModel : BaseViewModel
     {
@@ -46,6 +49,7 @@
         private bool isVisible2;
         private bool cashMetodoChecked;
         private bool payPalMetodoChecked;
+        private bool SaldoFavorPayMethod;
 
         public bool fromTecnitoPage;
         public bool PresupuestoPage;
@@ -54,6 +58,8 @@
 
         public decimal cost;
         public decimal advance;
+        public decimal newSaldoFavor;
+        public decimal tempAdvance;
 
         public string appointmentType;
         public string thisPage;
@@ -93,6 +99,7 @@
         private T_estado estado;
         private T_ciudad ciudad;
         private T_postal postal;
+        private T_trabajos trabajo;
 
         private ObservableCollection<TecnicoItemViewModel> tecnicos;
         private ObservableCollection<CitasItemViewModel> citas;
@@ -335,6 +342,7 @@
             this.changeDate = false;
             this.IsRefreshing = false;
             this.IsVisible = false;
+            this.SaldoFavorPayMethod = false;
         }
         #endregion
 
@@ -374,6 +382,10 @@
                 return new RelayCommand(ChangeImage);
             }
         }
+        public ICommand GoToUrlCommand => new Command<string>((url) =>
+        {
+            Device.OpenUri(new System.Uri(url));
+        });
 
         #endregion
 
@@ -505,7 +517,7 @@
                     tempTime = "3 hrs.";
                     break;
             }
-
+            this.tempAdvance = this.feature.Costo_Cita;
             this.HeightWidth = $"{Languages.MaximunSize}: {this.feature.Alto} cm X {this.feature.Ancho} cm";
             this.AppCost = $"{Languages.Cost}: {this.feature.Total_Aprox.ToString("C2")}";
             this.AppAdvance = $"{Languages.Advance}: {this.feature.Costo_Cita.ToString("C2")}";
@@ -562,12 +574,6 @@
                         (
                             MainViewModel.GetInstance().TecnicoHome.TrabajoList.Any(t => t.Id_Trabajo == c.Id_Trabajo) ?
                             MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Cancelado :
-                            false
-                        ),
-                        Trabajo_Iniciado =
-                        (
-                            MainViewModel.GetInstance().TecnicoHome.TrabajoList.Any(t => t.Id_Trabajo == c.Id_Trabajo) ?
-                            MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Trabajo_Iniciado :
                             false
                         ),
                         TecnicoTiempo = c.TecnicoTiempo,
@@ -627,12 +633,6 @@
                         (
                             MainViewModel.GetInstance().UserHome.TrabajosList.Any(t => t.Id_Trabajo == c.Id_Trabajo) ?
                             MainViewModel.GetInstance().UserHome.TrabajosList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Cancelado :
-                            false
-                        ),
-                        Trabajo_Iniciado =
-                        (
-                            MainViewModel.GetInstance().TecnicoHome.TrabajoList.Any(t => t.Id_Trabajo == c.Id_Trabajo) ?
-                            MainViewModel.GetInstance().TecnicoHome.TrabajoList.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Trabajo_Iniciado :
                             false
                         ),
                         Pagado =
@@ -774,7 +774,6 @@
                 Color = Color.FromHex(hex),
                 Completado = false,
                 Cancelado = false,
-                Trabajo_Iniciado = false,
                 CambioFecha = false,
                 TecnicoTiempo = false,
                 CitaTemp = false,
@@ -791,7 +790,7 @@
 
             if(changeDate == true || addNewDate == true)
             {
-                horario = MainViewModel.GetInstance().TecnicoHome.ListHorariosTecnicos.Single(h => h.Id_Tecnico == this.tecnico.Id_Tecnico);
+                horario = MainViewModel.GetInstance().TecnicoHome.horario;
             }
             else
             {
@@ -931,6 +930,59 @@
                 });
             }
         }
+        private void LoadInfoLocal()
+        {
+            this.ciudad = MainViewModel.GetInstance().UserHome.CiudadesList.Single(c => c.Id == this.local.Id_Ciudad);
+            this.estado = MainViewModel.GetInstance().UserHome.EstadosList.Single(e => e.Id == this.local.Id_Estado);
+
+            if (MainViewModel.GetInstance().Login.ListBalanceCliente.Any(b => b.Id_Usuario == this.cliente.Id_Usuario))
+            {
+                var balance = MainViewModel.GetInstance().Login.ListBalanceCliente.FirstOrDefault(b => b.Id_Usuario == this.cliente.Id_Usuario);
+                if (balance.Saldo_Favor >= this.tempAdvance)
+                {
+                    this.newSaldoFavor = balance.Saldo_Favor - this.tempAdvance;
+                    this.AppAdvance = $"{Languages.Advance}: {0.ToString("C2")}";
+                    this.SaldoFavorPayMethod = true;
+                }
+            }
+
+            this.reference = $"{Languages.Reference} {this.local.Referencia}";
+            this.studio = $"{this.empresa.Nombre} {Languages.BranchOffice} {this.local.Nombre}";
+            this.address = $"{this.local.Calle} {this.local.Numero}, {this.postal.Asentamiento} {this.postal.Colonia}, " +
+                $"C.P. {this.postal.Id.ToString()}, {this.ciudad.Ciudad}, {this.estado.Estado}.";
+            this.artist = $"{this.tecnico.Nombre} {this.tecnico.Apellido}";
+        }
+        private async void LoadPostal()
+        {
+            var connection = await this.apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    connection.Message,
+                    "OK");
+                return;
+            }
+            var urlApi = App.Current.Resources["UrlAPI"].ToString();
+            var prefix = App.Current.Resources["UrlPrefix"].ToString();
+
+            //-----------------Cargar Datos Postal-----------------//
+
+            var controller = Application.Current.Resources["UrlT_postalController"].ToString();
+
+            var response = await this.apiService.Get<T_postal>(urlApi, prefix, controller, this.local.Id_Colonia);
+
+            if (!response.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+            this.postal = (T_postal)response.Result;
+        }
+
         private async void SavePersonal()
         {
             this.apiService.StartActivityPopup();
@@ -1026,6 +1078,58 @@
             }
             this.apiService.EndActivityPopup();
 
+            var fromName = $"{this.cliente.Nombre} {this.cliente.Apellido}";
+            var To = this.tecnico.Id_Usuario;
+            var notif = $"{Languages.TheClient} {fromName} {Languages.NotifNewPersonalizedApp}";
+            this.apiService.SendNotificationAsync(notif, To, fromName);
+
+            var newNotif = new T_notificaciones
+            {
+                Usuario_Envia = this.cliente.Id_Usuario,
+                Usuario_Recibe = this.tecnico.Id_Usuario,
+                Notificacion = notif,
+                Fecha = DateTime.Now.ToLocalTime(),
+                Visto = false,
+            };
+            controller = Application.Current.Resources["UrlT_notificacionesController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotif);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            newNotif = (T_notificaciones)response.Result;
+            //TipoNotif Cita =1
+            //TipoNotif TrabajoTemp = 2
+            var newNotifCita = new T_notif_citas
+            {
+                Id_Notificacion = newNotif.Id_Notificacion,
+                Id_TrabajoTemp = trabajotemp.Id_Trabajotemp,
+                TipoNotif = 2,
+            };
+
+            controller = Application.Current.Resources["UrlT_notif_citasController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotifCita);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
             var message = $"{Languages.TempJobMessageSent} {this.tecnico.Nombre} '{this.tecnico.Apodo}' {this.tecnico.Apellido}.{'\n'}{'\n'} {Languages.TempJobAnswerMessage}.";
 
             await Application.Current.MainPage.DisplayAlert
@@ -1049,7 +1153,7 @@
                 return;
             }
 
-            var trabajo = new T_trabajos
+            var newTrabajo = new T_trabajos
             {
                 Id_Cliente = this.cliente.Id_Cliente,
                 Id_Tatuador = this.tecnico.Id_Tecnico,
@@ -1070,7 +1174,7 @@
             var prefix = Application.Current.Resources["UrlPrefix"].ToString();
             var controller = Application.Current.Resources["UrlT_trabajosController"].ToString();
 
-            var response = await this.apiService.Post(urlApi, prefix, controller, trabajo);
+            var response = await this.apiService.Post(urlApi, prefix, controller, newTrabajo);
 
             if (!response.IsSuccess)
             {
@@ -1083,8 +1187,8 @@
                 return;
             }
 
-            trabajo = (T_trabajos)response.Result;
-            MainViewModel.GetInstance().UserHome.TrabajosList.Add(trabajo);
+            this.trabajo = (T_trabajos)response.Result;
+            MainViewModel.GetInstance().UserHome.TrabajosList.Add(this.trabajo);
 
             var color = Color.DarkRed;
             int red = (int)(color.R * 255);
@@ -1095,7 +1199,7 @@
 
             var cita = new T_trabajocitas
             {
-                Id_Trabajo = trabajo.Id_Trabajo,
+                Id_Trabajo = this.trabajo.Id_Trabajo,
                 Id_Cliente = this.cliente.Id_Cliente,
                 Id_Tatuador = this.tecnico.Id_Tecnico,
                 F_Inicio = new DateTime(SelectedTime.Year, SelectedTime.Month, SelectedTime.Day, SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second),
@@ -1130,7 +1234,7 @@
             var nombre_Post = $"{this.cliente.Nombre} {this.cliente.Apellido}";
             var nota = new T_trabajonota
             {
-                Id_Trabajo = trabajo.Id_Trabajo,
+                Id_Trabajo = this.trabajo.Id_Trabajo,
                 Tipo_Usuario = 1,
                 Id_Usuario = this.cliente.Id_Usuario,
                 Id_Local = this.tecnico.Id_Local,
@@ -1160,7 +1264,7 @@
             var notaImagen = new T_citaimagenes
             {
                 Imagen = FileHelper.ReadFully(this.file.GetStream()),
-                Id_Trabajo = trabajo.Id_Trabajo,
+                Id_Trabajo = this.trabajo.Id_Trabajo,
 
             };
             
@@ -1179,26 +1283,30 @@
                 "OK");
                 return;
             }
-
             // Tipo_Pago 1 = Efectivo
             // Tipo_Pago 2 = PayPal
             // Tipo_Pago 3 = Tarjeta
+            // Tipo_Pago 4 = Saldo Favor
             var pago = new T_pagoscliente
             {
                 Id_Usuario = this.cliente.Id_Usuario,
                 Id_Cliente = this.cliente.Id_Cliente,
-                Id_Trabajo = trabajo.Id_Trabajo,
-                Pago = trabajo.Costo_Cita,
+                Id_Trabajo = this.trabajo.Id_Trabajo,
+                Pago = this.trabajo.Costo_Cita,
                 Tipo_Pago =
                 (
                     this.CashMetodoChecked == true ?
                     1 :
+                    this.SaldoFavorPayMethod == true ?
+                    4 :
                     2
                 ),
                 Pagado =
                 (
-                    this.CashMetodoChecked == true ?
+                    this.CashMetodoChecked == true && this.SaldoFavorPayMethod == false ?
                     false :
+                    this.CashMetodoChecked == true && this.SaldoFavorPayMethod == true ?
+                    true :
                     true
                 ),
                 Fecha_Pago = DateTime.Now,
@@ -1220,10 +1328,42 @@
                 return;
             }
             pago = (T_pagoscliente)response.Result;
+            if(SaldoFavorPayMethod == true)
+            {
+                var saldo = MainViewModel.GetInstance().Login.ListBalanceCliente.FirstOrDefault(b => b.Id_Usuario == this.cliente.Id_Usuario);
+                var newSaldo = new T_balancecliente
+                {
+                    Id_Balancecliente = saldo.Id_Balancecliente,
+                    Id_Cliente= saldo.Id_Cliente,
+                    Id_Usuario = saldo.Id_Usuario,
+                    Saldo_Favor = this.newSaldoFavor,
+                };
 
+                controller = Application.Current.Resources["UrlT_balanceclienteController"].ToString();
+
+                response = await this.apiService.Put(urlApi, prefix, controller, newSaldo, saldo.Id_Balancecliente);
+
+                if (!response.IsSuccess)
+                {
+                    this.apiService.EndActivityPopup();
+
+                    await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                    return;
+                }
+                newSaldo = (T_balancecliente)response.Result;
+                var oldSaldo = MainViewModel.GetInstance().Login.ListBalanceCliente.Where(p => p.Id_Balancecliente == saldo.Id_Balancecliente).FirstOrDefault();
+                if (oldSaldo != null)
+                {
+                    MainViewModel.GetInstance().Login.ListBalanceCliente.Remove(oldSaldo);
+                }
+                MainViewModel.GetInstance().Login.ListBalanceCliente.Add(newSaldo);
+
+            }
             MainViewModel.GetInstance().Login.ListPagosCliente.Add(pago);
-
-            if (CashMetodoChecked != true)
+            if (CashMetodoChecked != true || (CashMetodoChecked == true && SaldoFavorPayMethod == true))
             {
                 if (!MainViewModel.GetInstance().Login.ListBalanceTecnico.Any(b => b.Id_Tecnico == this.tecnico.Id_Tecnico))
                 {
@@ -1256,7 +1396,7 @@
                 }
                 else
                 {
-                    var saldo = MainViewModel.GetInstance().Login.ListBalanceTecnico.FirstOrDefault(b => b.Id_Tecnico == trabajo.Id_Tatuador);
+                    var saldo = MainViewModel.GetInstance().Login.ListBalanceTecnico.FirstOrDefault(b => b.Id_Tecnico == this.trabajo.Id_Tatuador);
                     var newSaldo = new T_balancetecnico
                     {
                         Id_Balancetecnico = saldo.Id_Balancetecnico,
@@ -1292,6 +1432,7 @@
             }
 
             MainViewModel.GetInstance().UserHome.LoadCliente();
+            MainViewModel.GetInstance().UserPage.LoadUser();
 
             MainViewModel.GetInstance().UserHome.CitaList.Add(cita);
             MainViewModel.GetInstance().UserHome.RefreshCitaList();
@@ -1301,7 +1442,8 @@
             string date = DateTime.Parse(cita.F_Inicio.ToString()).ToString("dd-MMM-yyyy");
             string time = DateTime.Parse(cita.H_Inicio.ToString()).ToString("hh:mm tt");
 
-            var message = $"{Languages.YourAppointment} #{trabajo.Id_Trabajo} {Languages.HasBeenCreated}  {date}  {Languages.At}  {time} " +
+
+            var message = $"{Languages.YourAppointment} #{this.trabajo.Id_Trabajo} {Languages.HasBeenCreated}  {date}  {Languages.At}  {time} " +
                 $" {Languages.WithThe_Artist}  {this.tecnico.Nombre} '{this.tecnico.Apodo}' {this.tecnico.Apellido}.{'\n'}{'\n'} {Languages.TryToBe}.";
 
             await Application.Current.MainPage.DisplayAlert
@@ -1309,6 +1451,60 @@
                 message,
                 "Ok"
                 );
+
+            var fromName = $"{this.cliente.Nombre} {this.cliente.Apellido}";
+            var To = this.tecnico.Id_Usuario;
+            var notif = $"{Languages.TheClient} {fromName} {Languages.NotifNewQuickApp} {date} {Languages.At} {time}";
+            this.apiService.SendNotificationAsync(notif, To, fromName);
+
+            var newNotif = new T_notificaciones
+            {
+                Usuario_Envia = this.cliente.Id_Usuario,
+                Usuario_Recibe = this.tecnico.Id_Usuario,
+                Notificacion = notif,
+                Fecha = DateTime.Now.ToLocalTime(),
+                Visto = false,
+
+            };
+            controller = Application.Current.Resources["UrlT_notificacionesController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotif);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            newNotif = (T_notificaciones)response.Result;
+
+            //TipoNotif Cita =1
+            //TipoNotif TrabajoTemp = 2
+            var newNotifCita = new T_notif_citas
+            {
+                Id_Notificacion = newNotif.Id_Notificacion,
+                Id_Cita = cita.Id_Cita,
+                TipoNotif = 1,
+            };
+
+            controller = Application.Current.Resources["UrlT_notif_citasController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotifCita);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
         }
         private async void SavePersonalDate()
         {
@@ -1325,7 +1521,7 @@
                 return;
             }
 
-            var trabajo = new T_trabajos
+            var newTrabajo = new T_trabajos
             {
                 Id_Cliente = this.cliente.Id_Cliente,
                 Id_Tatuador = this.tecnico.Id_Tecnico,
@@ -1346,7 +1542,7 @@
             var prefix = Application.Current.Resources["UrlPrefix"].ToString();
             var controller = Application.Current.Resources["UrlT_trabajosController"].ToString();
 
-            var response = await this.apiService.Post(urlApi, prefix, controller, trabajo);
+            var response = await this.apiService.Post(urlApi, prefix, controller, newTrabajo);
 
             if (!response.IsSuccess)
             {
@@ -1359,9 +1555,9 @@
                 return;
             }
 
-            trabajo = (T_trabajos)response.Result;
+            this.trabajo = (T_trabajos)response.Result;
 
-            MainViewModel.GetInstance().UserHome.TrabajosList.Add(trabajo);
+            MainViewModel.GetInstance().UserHome.TrabajosList.Add(this.trabajo);
 
             var color = Color.DarkBlue;
             int red = (int)(color.R * 255);
@@ -1372,7 +1568,7 @@
 
             var cita = new T_trabajocitas
             {
-                Id_Trabajo = trabajo.Id_Trabajo,
+                Id_Trabajo = this.trabajo.Id_Trabajo,
                 Id_Cliente = this.cliente.Id_Cliente,
                 Id_Tatuador = this.tecnico.Id_Tecnico,
                 F_Inicio = new DateTime(SelectedTime.Year, SelectedTime.Month, SelectedTime.Day, SelectedTime.Hour, SelectedTime.Minute, SelectedTime.Second),
@@ -1415,7 +1611,7 @@
             {
                 var nota = new T_trabajonota
                 {
-                    Id_Trabajo = trabajo.Id_Trabajo,
+                    Id_Trabajo = this.trabajo.Id_Trabajo,
                     Tipo_Usuario = notaTemp.Tipo_Usuario,
                     Id_Usuario = notaTemp.Id_Usuario,
                     Id_Local = notaTemp.Id_Local,
@@ -1445,7 +1641,7 @@
             var notaImagen = new T_citaimagenes
             {
                 Imagen = trabajoTemp.Imagen,
-                Id_Trabajo = trabajo.Id_Trabajo,
+                Id_Trabajo = this.trabajo.Id_Trabajo,
             };
             controller = Application.Current.Resources["UrlT_citaimagenesController"].ToString();
 
@@ -1461,27 +1657,30 @@
                 "OK");
                 return;
             }
-
-
             // Tipo_Pago 1 = Efectivo
             // Tipo_Pago 2 = PayPal
             // Tipo_Pago 3 = Tarjeta
+            // Tipo_Pago 4 = Saldo Favor
             var pago = new T_pagoscliente
             {
                 Id_Usuario = this.cliente.Id_Usuario,
                 Id_Cliente = this.cliente.Id_Cliente,
-                Id_Trabajo = trabajo.Id_Trabajo,
-                Pago = trabajo.Costo_Cita,
-                Tipo_Pago = 
+                Id_Trabajo = this.trabajo.Id_Trabajo,
+                Pago = this.trabajo.Costo_Cita,
+                Tipo_Pago =
                 (
                     this.CashMetodoChecked == true ?
-                    1:
+                    1 :
+                    this.SaldoFavorPayMethod == true ?
+                    4 :
                     2
                 ),
                 Pagado =
                 (
-                    this.CashMetodoChecked == true ?
+                    this.CashMetodoChecked == true && this.SaldoFavorPayMethod == false ?
                     false :
+                    this.CashMetodoChecked == true && this.SaldoFavorPayMethod == true ?
+                    true :
                     true
                 ),
                 Fecha_Pago = DateTime.Now,
@@ -1506,7 +1705,42 @@
 
             MainViewModel.GetInstance().Login.ListPagosCliente.Add(pago);
 
-            if (CashMetodoChecked != true)
+            if (SaldoFavorPayMethod == true)
+            {
+                var saldo = MainViewModel.GetInstance().Login.ListBalanceCliente.FirstOrDefault(b => b.Id_Usuario == this.cliente.Id_Usuario);
+                var newSaldo = new T_balancecliente
+                {
+                    Id_Balancecliente = saldo.Id_Balancecliente,
+                    Id_Cliente = saldo.Id_Cliente,
+                    Id_Usuario = saldo.Id_Usuario,
+                    Saldo_Favor = this.newSaldoFavor,
+                };
+
+                controller = Application.Current.Resources["UrlT_balanceclienteController"].ToString();
+
+                response = await this.apiService.Put(urlApi, prefix, controller, newSaldo, saldo.Id_Balancecliente);
+
+                if (!response.IsSuccess)
+                {
+                    this.apiService.EndActivityPopup();
+
+                    await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                    return;
+                }
+                newSaldo = (T_balancecliente)response.Result;
+                var oldSaldo = MainViewModel.GetInstance().Login.ListBalanceCliente.Where(p => p.Id_Balancecliente == saldo.Id_Balancecliente).FirstOrDefault();
+                if (oldSaldo != null)
+                {
+                    MainViewModel.GetInstance().Login.ListBalanceCliente.Remove(oldSaldo);
+                }
+                MainViewModel.GetInstance().Login.ListBalanceCliente.Add(newSaldo);
+
+            }
+
+            if (CashMetodoChecked != true || (CashMetodoChecked == true && SaldoFavorPayMethod == true))
             {
                 if (!MainViewModel.GetInstance().Login.ListBalanceTecnico.Any(b => b.Id_Tecnico == this.tecnico.Id_Tecnico))
                 {
@@ -1539,7 +1773,7 @@
                 }
                 else
                 {
-                    var saldo = MainViewModel.GetInstance().Login.ListBalanceTecnico.FirstOrDefault(b => b.Id_Tecnico == trabajo.Id_Tatuador);
+                    var saldo = MainViewModel.GetInstance().Login.ListBalanceTecnico.FirstOrDefault(b => b.Id_Tecnico == this.trabajo.Id_Tatuador);
                     var newSaldo = new T_balancetecnico
                     {
                         Id_Balancetecnico = saldo.Id_Balancetecnico,
@@ -1644,13 +1878,68 @@
                 this.LoadCitas();
             }
 
+            MainViewModel.GetInstance().UserHome.LoadCliente();
+            MainViewModel.GetInstance().UserPage.LoadUser();
             MainViewModel.GetInstance().UserHome.CitaList.Add(cita);
             MainViewModel.GetInstance().UserHome.RefreshCitaList();
 
             string date = DateTime.Parse(cita.F_Inicio.ToString()).ToString("dd-MMM-yyyy");
             string time = DateTime.Parse(cita.H_Inicio.ToString()).ToString("hh:mm tt");
 
-            var message = $"{Languages.YourAppointment} #{trabajo.Id_Trabajo} {Languages.HasBeenCreated}  {date}  {Languages.At}  {time} " +
+            var fromName = $"{this.cliente.Nombre} {this.cliente.Apellido}";
+            var To = this.tecnico.Id_Usuario;
+            var notif = $"{Languages.TheClient} {fromName} {Languages.NotifAcceptBudget} {date} {Languages.At} {time}";
+            this.apiService.SendNotificationAsync(notif, To, fromName);
+
+            var newNotif = new T_notificaciones
+            {
+                Usuario_Envia = this.cliente.Id_Usuario,
+                Usuario_Recibe = this.tecnico.Id_Usuario,
+                Notificacion = notif,
+                Fecha = DateTime.Now.ToLocalTime(),
+                Visto = false,
+            };
+            controller = Application.Current.Resources["UrlT_notificacionesController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotif);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            newNotif = (T_notificaciones)response.Result;
+
+            //TipoNotif Cita =1
+            //TipoNotif TrabajoTemp = 2
+            var newNotifCita = new T_notif_citas
+            {
+                Id_Notificacion = newNotif.Id_Notificacion,
+                Id_Cita = cita.Id_Cita,
+                TipoNotif = 1,
+            };
+
+            controller = Application.Current.Resources["UrlT_notif_citasController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotifCita);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+
+            var message = $"{Languages.YourAppointment} #{this.trabajo.Id_Trabajo} {Languages.HasBeenCreated}  {date}  {Languages.At}  {time} " +
                 $" {Languages.WithThe_Artist}  {this.tecnico.Nombre} '{this.tecnico.Apodo}' {this.tecnico.Apellido}.{'\n'}{'\n'} {Languages.TryToBe}.";
 
             this.apiService.EndActivityPopup();
@@ -1782,9 +2071,63 @@
                 );
 
             MainViewModel.GetInstance().TecnicoViewDate.SendMessage();
+            
+            await Application.Current.MainPage.Navigation.PopModalAsync();
+            await Application.Current.MainPage.Navigation.PopModalAsync();
 
-            await Application.Current.MainPage.Navigation.PopModalAsync();
-            await Application.Current.MainPage.Navigation.PopModalAsync();
+            this.cliente = MainViewModel.GetInstance().Login.ClienteList.FirstOrDefault(c => c.Id_Cliente == cita.Id_Cliente);
+            var fromName = $"{this.tecnico.Nombre} {this.tecnico.Apellido}";
+            var To = this.cliente.Id_Usuario;
+            var notif = $"{Languages.TheArtist} {fromName} {Languages.NotifChageDate} # {cita.Id_Cita}: {cita.Asunto}";
+            this.apiService.SendNotificationAsync(notif, To, fromName);
+
+            var newNotif = new T_notificaciones
+            {
+                Usuario_Envia = this.tecnico.Id_Usuario,
+                Usuario_Recibe = this.cliente.Id_Usuario,
+                Notificacion = notif,
+                Fecha = DateTime.Now.ToLocalTime(),
+                Visto = false,
+            };
+            controller = Application.Current.Resources["UrlT_notificacionesController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotif);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            newNotif = (T_notificaciones)response.Result;
+
+            //TipoNotif Cita =1
+            //TipoNotif TrabajoTemp = 2
+            var newNotifCita = new T_notif_citas
+            {
+                Id_Notificacion = newNotif.Id_Notificacion,
+                Id_Cita = cita.Id_Cita,
+                TipoNotif = 1,
+            };
+
+            controller = Application.Current.Resources["UrlT_notif_citasController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotifCita);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
         }
         private async void AddNewDate()
         {
@@ -1900,47 +2243,63 @@
 
             await Application.Current.MainPage.Navigation.PopModalAsync();
             await Application.Current.MainPage.Navigation.PopModalAsync();
-        }
-        private void LoadInfoLocal()
-        {
-            this.ciudad = MainViewModel.GetInstance().UserHome.CiudadesList.Single(c => c.Id == this.local.Id_Ciudad);
-            this.estado = MainViewModel.GetInstance().UserHome.EstadosList.Single(e => e.Id == this.local.Id_Estado);
 
-            this.reference = $"{Languages.Reference} {this.local.Referencia}";
-            this.studio = $"{this.empresa.Nombre} {Languages.BranchOffice} {this.local.Nombre}";
-            this.address = $"{this.local.Calle} {this.local.Numero}, {this.postal.Asentamiento} {this.postal.Colonia}, " +
-                $"C.P. {this.postal.Id.ToString()}, {this.ciudad.Ciudad}, {this.estado.Estado}.";
-            this.artist = $"{this.tecnico.Nombre} {this.tecnico.Apellido}";
-        }
-        private async void LoadPostal()
-        {
-            var connection = await this.apiService.CheckConnection();
-            if (!connection.IsSuccess)
+            string date = DateTime.Parse(this.newCita.F_Inicio.ToString()).ToString("dd-MMM-yyyy");
+            string time = DateTime.Parse(this.newCita.H_Inicio.ToString()).ToString("hh:mm tt");
+
+            this.cliente = MainViewModel.GetInstance().Login.ClienteList.FirstOrDefault(c => c.Id_Cliente == cita.Id_Cliente);
+            var fromName = $"{this.tecnico.Nombre} {this.tecnico.Apellido}";
+            var To = this.cliente.Id_Usuario;
+            var notif = $"{Languages.TheArtist} {fromName} {Languages.NotifNewApp} {date} {Languages.At} {time}";
+            this.apiService.SendNotificationAsync(notif, To, fromName);
+
+            var newNotif = new T_notificaciones
             {
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    connection.Message,
-                    "OK");
-                return;
-            }
-            var urlApi = App.Current.Resources["UrlAPI"].ToString();
-            var prefix = App.Current.Resources["UrlPrefix"].ToString();
+                Usuario_Envia = this.tecnico.Id_Usuario,
+                Usuario_Recibe = this.cliente.Id_Usuario,
+                Notificacion = notif,
+                Fecha = DateTime.Now.ToLocalTime(),
+                Visto = false,
+            };
+            controller = Application.Current.Resources["UrlT_notificacionesController"].ToString();
 
-            //-----------------Cargar Datos Postal-----------------//
-
-            var controller = Application.Current.Resources["UrlT_postalController"].ToString();
-
-            var response = await this.apiService.Get<T_postal>(urlApi, prefix, controller, this.local.Id_Colonia);
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotif);
 
             if (!response.IsSuccess)
             {
+                this.apiService.EndActivityPopup();
+
                 await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
+                Languages.Error,
+                response.Message,
+                "OK");
                 return;
             }
-            this.postal = (T_postal)response.Result;
+            newNotif = (T_notificaciones)response.Result;
+
+            //TipoNotif Cita =1
+            //TipoNotif TrabajoTemp = 2
+            var newNotifCita = new T_notif_citas
+            {
+                Id_Notificacion = newNotif.Id_Notificacion,
+                Id_Cita = cita.Id_Cita,
+                TipoNotif = 1,
+            };
+
+            controller = Application.Current.Resources["UrlT_notif_citasController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotifCita);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
         }
 
         private async void GoToNextPopupPage()
@@ -2120,21 +2479,51 @@
                     }
 
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
+
                     this.LoadInfoLocal();
                     this.thisPage = "Details";
                     await Application.Current.MainPage.Navigation.PushPopupAsync(new AppointmentDetailsPopupPage());
                     break;
 
                 case "Details":
-                    if(this.PresupuestoPage == true)
+                    Double thisAdvance = Double.Parse(tempAdvance.ToString());
+                if(PayPalMetodoChecked == true)
+                {
+                    var result = await CrossPayPalManager.Current.Buy(new PayPalItem(Subject, new Decimal(3.00), "MXN"), this.tempAdvance);
+                    if (result.Status == PayPalStatus.Cancelled)
                     {
-                        await Application.Current.MainPage.Navigation.PopPopupAsync();
-                        this.SavePersonalDate();
+                        Debug.WriteLine("Cancelled");
                         break;
                     }
+                    else if (result.Status == PayPalStatus.Error)
+                    {
+                        Debug.WriteLine(result.ErrorMessage);
+                        break;
+                    }
+                    else if (result.Status == PayPalStatus.Successful)
+                    {
+                        if (this.PresupuestoPage == true)
+                        {
+                            await Application.Current.MainPage.Navigation.PopPopupAsync();
+                            this.SavePersonalDate();
+                            Debug.WriteLine(result.ServerResponse.Response.Id);
+                            break;
+                        }
+                        await Application.Current.MainPage.Navigation.PopPopupAsync();
+                        this.SaveQuickDate();
+                        Debug.WriteLine(result.ServerResponse.Response.Id);
+                        break;
+                    }
+                }
+                if (this.PresupuestoPage == true)
+                {
                     await Application.Current.MainPage.Navigation.PopPopupAsync();
-                    this.SaveQuickDate();
+                    this.SavePersonalDate();
                     break;
+                }
+                await Application.Current.MainPage.Navigation.PopPopupAsync();
+                this.SaveQuickDate();
+                break;
             }
         }
         private async void Cancel()

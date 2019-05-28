@@ -23,6 +23,18 @@
         #endregion
 
         #region Attributes
+        private T_teccaract feature;
+
+        public MediaFile file1;
+        public MediaFile file2;
+        public MediaFile file3;
+        public MediaFile file4;
+        public MediaFile file5;
+        public MediaFile file6;
+        public MediaFile file7;
+        public MediaFile file8;
+        public MediaFile file9;
+
         private bool next;
         private TecnicosCollection tecnico;
         private T_usuarios user;
@@ -63,18 +75,6 @@
         #endregion
 
         #region Properties
-        private T_teccaract feature;
-
-        public MediaFile file1;
-        public MediaFile file2;
-        public MediaFile file3;
-        public MediaFile file4;
-        public MediaFile file5;
-        public MediaFile file6;
-        public MediaFile file7;
-        public MediaFile file8;
-        public MediaFile file9;
-
         public string ActivationCode
         {
             get { return this.activationCode; }

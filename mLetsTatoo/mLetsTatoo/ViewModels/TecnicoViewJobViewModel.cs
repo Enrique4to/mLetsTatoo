@@ -66,6 +66,7 @@
         }
         
         public List<T_trabajocitas> CitasList { get; set; }
+        public List<CitasItemViewModel> TcoCitasList { get; set; }
 
         public T_trabajocitas Cita
         {
@@ -122,7 +123,7 @@
         {
             this.CitasList = MainViewModel.GetInstance().TecnicoHome.CitasList.Where(c => c.Id_Trabajo == this.trabajo.Id_Trabajo).ToList();
 
-            var cita = this.CitasList.Select(c => new CitasItemViewModel
+            this.TcoCitasList = this.CitasList.Select(c => new CitasItemViewModel
             {
                 Asunto = c.Asunto,
                 Completa = c.Completa,
@@ -145,7 +146,8 @@
                 Pagado = MainViewModel.GetInstance().Login.ListPagosCliente.FirstOrDefault(u => u.Id_Trabajo == c.Id_Trabajo).Pagado,
 
             }).Where(c => c.Cancelado == false && c.CitaTemp == false && c.TecnicoTiempo == false).ToList();
-            this.Citas = new ObservableCollection<CitasItemViewModel>(cita.OrderBy(c => c.F_Inicio));
+            this.Citas = new ObservableCollection<CitasItemViewModel>(this.TcoCitasList.OrderBy(c => c.F_Inicio));
+
         }
 
         #endregion

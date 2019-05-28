@@ -44,6 +44,8 @@
             <x:String x:Key="UrlT_pagosclienteController">/T_pagoscliente</x:String>
             <x:String x:Key="UrlT_pagostecnicoController">/T_pagostecnico</x:String>
             <x:String x:Key="UrlT_cobrostecnicoController">/T_cobrostecnico</x:String>
+            <x:String x:Key="UrlT_notificacionesController">/T_notificaciones</x:String>
+            <x:String x:Key="UrlT_notif_citasController">/T_notif_citas</x:String>
             
         </ResourceDictionary>
 

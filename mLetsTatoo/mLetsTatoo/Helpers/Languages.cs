@@ -787,5 +787,93 @@
         {
             get { return Resource.StartArt; }
         }
+        public static string AcceptTerminos
+        {
+            get { return Resource.AcceptTerminos; }
+        }
+        public static string TermsConditions
+        {
+            get { return Resource.TermsConditions; }
+        }
+        public static string Options
+        {
+            get { return Resource.Options; }
+        }
+        public static string EditFeaturesOptions
+        {
+            get { return Resource.EditFeaturesOptions; }
+        }
+        public static string OpEditSchedulerOptionstions
+        {
+            get { return Resource.EditSchedulerOptions; }
+        }
+        public static string EditUserOptions
+        {
+            get { return Resource.EditUserOptions; }
+        }
+        public static string TheArtist
+        {
+            get { return Resource.TheArtist; }
+        }
+        public static string TheClient
+        {
+            get { return Resource.TheClient; }
+        }
+        public static string NotifNewQuickApp
+        {
+            get { return Resource.NotifNewQuickApp; }
+        }
+        public static string NotifNewPersonalizedApp
+        {
+            get { return Resource.NotifNewPersonalizedApp; }
+        }
+        public static string NotifAcceptBudget
+        {
+            get { return Resource.NotifAcceptBudget; }
+        }
+        public static string NotifChageDate
+        {
+            get { return Resource.NotifChageDate; }
+        }
+        public static string NotifNewApp
+        {
+            get { return Resource.NotifNewApp; }
+        }
+        public static string NotifNewComment
+        {
+            get { return Resource.NotifNewComment; }
+        }
+        public static string NotifAccepChangeDate
+        {
+            get { return Resource.NotifAccepChangeDate; }
+        }
+        public static string NotifRefuseChangeDate1
+        {
+            get { return Resource.NotifRefuseChangeDate1; }
+        }
+        public static string NotifRefuseChangeDate2
+        {
+            get { return Resource.NotifRefuseChangeDate2; }
+        }
+        public static string NotifArtCanceled
+        {
+            get { return Resource.NotifArtCanceled; }
+        }
+        public static string NotifArtStart
+        {
+            get { return Resource.NotifArtStart; }
+        }
+        public static string NotifFinishArt
+        {
+            get { return Resource.NotifFinishArt; }
+        }
+        public static string NotifMessagePersonalized
+        {
+            get { return Resource.NotifMessagePersonalized; }
+        }
+        public static string BankAccount
+        {
+            get { return Resource.BankAccount; }
+        }
     }
 }

@@ -1,6 +1,4 @@
-﻿
-
-namespace mLetsTatoo.ViewModels
+﻿namespace mLetsTatoo.ViewModels
 {
     using GalaSoft.MvvmLight.Command;
     using mLetsTatoo.Helpers;
@@ -88,13 +86,12 @@ namespace mLetsTatoo.ViewModels
         #endregion
 
         #region Constructors
-        public TecnicoMessageJobViewModel(TrabajosTempItemViewModel trabajo, TecnicosCollection tecnico, T_usuarios user, List<T_trabajonotatemp> TrabajoNotaList)
+        public TecnicoMessageJobViewModel(TrabajosTempItemViewModel trabajo, TecnicosCollection tecnico, T_usuarios user)
         {
             this.apiService = new ApiService();
             this.tecnico = tecnico;
             this.user = user;
             this.trabajo = trabajo;
-            this.TrabajoNotaList = TrabajoNotaList;
             this.pageVisible = false;
             this.propuesta = false;
             this.LoadListNotas();
@@ -178,6 +175,60 @@ namespace mLetsTatoo.ViewModels
             this.LoadListNotas();
             this.Message = null;
             this.propuesta = false;
+
+            var cliente = MainViewModel.GetInstance().Login.ClienteList.FirstOrDefault(c => c.Id_Cliente == trabajo.Id_Cliente);
+            var fromName = $"{this.tecnico.Nombre} {this.tecnico.Apellido}";
+            var To = cliente.Id_Usuario;
+            var notif = $"{Languages.TheArtist} {fromName} {Languages.NotifMessagePersonalized}";
+            this.apiService.SendNotificationAsync(notif, To, fromName);
+
+            var newNotif = new T_notificaciones
+            {
+                Usuario_Envia = this.tecnico.Id_Usuario,
+                Usuario_Recibe = cliente.Id_Usuario,
+                Notificacion = notif,
+                Fecha = DateTime.Now.ToLocalTime(),
+                Visto = false,
+            };
+            controller = Application.Current.Resources["UrlT_notificacionesController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotif);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            newNotif = (T_notificaciones)response.Result;
+
+            //TipoNotif cita = 1
+            //TipoNotif TrabajoTemp = 2
+            var newNotifCita = new T_notif_citas
+            {
+                Id_Notificacion = newNotif.Id_Notificacion,
+                Id_TrabajoTemp = trabajo.Id_Trabajotemp,
+                TipoNotif = 2,
+            };
+
+            controller = Application.Current.Resources["UrlT_notif_citasController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotifCita);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
         }
         private async void SendBudget()
         {
@@ -239,7 +290,7 @@ namespace mLetsTatoo.ViewModels
             var userList = MainViewModel.GetInstance().Login.ListUsuarios;
             var clienteList = MainViewModel.GetInstance().Login.ClienteList;
 
-            var nota = this.TrabajoNotaList.Select(n => new NotasTempItemViewModel
+            var nota = MainViewModel.GetInstance().Login.TrabajoNotaTempList.Select(n => new NotasTempItemViewModel
             {
                 Id_Notatemp = n.Id_Notatemp,
                 Id_Trabajotemp = n.Id_Trabajotemp,

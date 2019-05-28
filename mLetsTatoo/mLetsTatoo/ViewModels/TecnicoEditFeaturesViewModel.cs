@@ -550,7 +550,6 @@
             this.FBM = this.FeaturesList.Single(f => f.Caract == "BigMedium");
             this.FBH = this.FeaturesList.Single(f => f.Caract == "BigHard");
 
-
             await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoEditFeaturesPage());
 
             var daStack = Rg.Plugins.Popup.Services.PopupNavigation.Instance.PopupStack.Count();

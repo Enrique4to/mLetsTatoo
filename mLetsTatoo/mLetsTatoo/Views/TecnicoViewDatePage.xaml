@@ -168,7 +168,6 @@
                     </Frame>
                 </StackLayout>
                 <StackLayout
-                    BindingContext="{Binding TecnicoViewDate}"
                     Padding="5"
                     VerticalOptions="StartAndExpand">
                     <StackLayout

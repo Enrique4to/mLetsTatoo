@@ -1,5 +1,6 @@
 ﻿namespace mLetsTatoo.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -23,8 +24,6 @@
         #endregion
 
         #region Attributes
-        private INavigation Navigation;
-
         private string nombreCompleto;
         private string saldo_Favor;
         private string saldo_Contra;
@@ -111,6 +110,13 @@
                 return new RelayCommand(ChangeImage);
             }
         }
+        public ICommand OptionsCommand
+        {
+            get
+            {
+                return new RelayCommand(GoToOptions);
+            }
+        }
         public ICommand EditUserCommand
         {
             get
@@ -123,6 +129,13 @@
             get
             {
                 return new RelayCommand(GoToEditFeatures);
+            }
+        }
+        public ICommand EditSchedulerCommand
+        {
+            get
+            {
+                return new RelayCommand(GoToEditScheduler);
             }
         }
         public ICommand SignOutCommand
@@ -260,17 +273,34 @@
             MainViewModel.GetInstance().Login.ListUsuarios.Add(NewUser);
             this.IsRunning = false;
         }
+        private async void GoToOptions()
+        {
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new EditTecnicoMenuPopupPage());
+            // MainViewModel.GetInstance().TecnicoEditFeatures = new TecnicoEditFeaturesViewModel(this.user, this.tecnico);
+        }
+
+        private async void GoToEditFeatures()
+        {
+            await Application.Current.MainPage.Navigation.PopPopupAsync();
+            MainViewModel.GetInstance().EditFeaturesPopup = new EditFeaturesPopupViewModel();
+            MainViewModel.GetInstance().EditFeaturesPopup.page = "Small";
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new EditSmallPopupPage());
+        }
         private async void GoToEditUser()
         {
             MainViewModel.GetInstance().EditTecnicoUser = new EditTecnicoUserViewModel(this.tecnico, this.user);
 
             await Application.Current.MainPage.Navigation.PushModalAsync(new EditTecnicoUserPage());
         }
-        private async void GoToEditFeatures()
+        private async void GoToEditScheduler()
         {
-            this.apiService.StartActivityPopup();
-
-            MainViewModel.GetInstance().TecnicoEditFeatures = new TecnicoEditFeaturesViewModel(this.user, this.tecnico);
+            await Application.Current.MainPage.Navigation.PopPopupAsync();
+            var horario = MainViewModel.GetInstance().TecnicoHome.horario;
+            var localHorario = MainViewModel.GetInstance().Login.ListHorariosLocales.FirstOrDefault(l => l.Id_Local == this.tecnico.Id_Local);
+            MainViewModel.GetInstance().EditSchedulerPopup = new EditSchedulerPopupViewModel(horario, localHorario);
+            MainViewModel.GetInstance().EditSchedulerPopup.page = "Horario";
+            MainViewModel.GetInstance().EditSchedulerPopup.Horario = MainViewModel.GetInstance().TecnicoHome.horario;
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new EditHorarioPopupPage());
         }
         private void SignOut()
         {

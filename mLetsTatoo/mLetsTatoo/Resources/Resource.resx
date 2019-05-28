@@ -434,7 +434,7 @@
     <value>Quick appointment</value>
   </data>
   <data name="PersonalizedAppointment" xml:space="preserve">
-    <value>Personalized appointment</value>
+    <value>Personalized appointment / Cover Up</value>
   </data>
   <data name="TempJobMessageSent" xml:space="preserve">
     <value>A message has been sent to the artist </value>
@@ -735,5 +735,71 @@ Remember that you only have 24 hours to do it, otherwise, your appointment will 
   </data>
   <data name="StartArt" xml:space="preserve">
     <value>Start your art</value>
+  </data>
+  <data name="AcceptTerminos" xml:space="preserve">
+    <value>If you continue, you will accept the terms and conditions described in </value>
+  </data>
+  <data name="TermsConditions" xml:space="preserve">
+    <value>LetsTattoo Terms And Conditions</value>
+  </data>
+  <data name="Options" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="EditUserOptions" xml:space="preserve">
+    <value>Edit your user options...</value>
+  </data>
+  <data name="EditFeaturesOptions" xml:space="preserve">
+    <value>Edit your features...</value>
+  </data>
+  <data name="EditSchedulerOptions" xml:space="preserve">
+    <value>Edit your scheduler...</value>
+  </data>
+  <data name="TheArtist" xml:space="preserve">
+    <value>The artist</value>
+  </data>
+  <data name="TheClient" xml:space="preserve">
+    <value>The client</value>
+  </data>
+  <data name="NotifNewQuickApp" xml:space="preserve">
+    <value>has created a new appointment with you for</value>
+  </data>
+  <data name="NotifNewPersonalizedApp" xml:space="preserve">
+    <value>has left a message to agree with you regarding a personalized art</value>
+  </data>
+  <data name="NotifAcceptBudget" xml:space="preserve">
+    <value>has accepted your budget, and an appointment has been created for</value>
+  </data>
+  <data name="NotifChageDate" xml:space="preserve">
+    <value>wants to change the date for your appointment</value>
+  </data>
+  <data name="NotifNewApp" xml:space="preserve">
+    <value>has created a new appointment to continue or finish your art, and it will be on</value>
+  </data>
+  <data name="NotifNewComment" xml:space="preserve">
+    <value>has made a comment on the appointment</value>
+  </data>
+  <data name="NotifAccepChangeDate" xml:space="preserve">
+    <value>has accepted the date change that you proposed for the appointment</value>
+  </data>
+  <data name="NotifRefuseChangeDate1" xml:space="preserve">
+    <value>has rejected the date change you proposed for the appointment</value>
+  </data>
+  <data name="NotifRefuseChangeDate2" xml:space="preserve">
+    <value>so the appointment has been canceled</value>
+  </data>
+  <data name="NotifArtCanceled" xml:space="preserve">
+    <value>has canceled the art</value>
+  </data>
+  <data name="NotifArtStart" xml:space="preserve">
+    <value>has initiated the art</value>
+  </data>
+  <data name="NotifFinishArt" xml:space="preserve">
+    <value>has finished the art</value>
+  </data>
+  <data name="NotifMessagePersonalized" xml:space="preserve">
+    <value>has answered the converse you have with respect to a personalized art pending</value>
+  </data>
+  <data name="BankAccount" xml:space="preserve">
+    <value>Bank information</value>
   </data>
 </root>

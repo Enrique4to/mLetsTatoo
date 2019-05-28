@@ -720,7 +720,7 @@
                 <StackLayout
                     VerticalOptions="StartAndExpand">
                     <Grid
-                            Padding="0,0,0,15">
+                        Padding="0,0,0,15">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width=".8*"/>

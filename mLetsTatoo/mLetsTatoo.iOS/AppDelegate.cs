@@ -14,6 +14,8 @@ using UIKit;
 using mLetsTatoo.ViewModels;
 using mLetsTatoo.iOS.Controls;
 using WindowsAzure.Messaging;
+using PayPal.Forms.Abstractions;
+using PayPal.Forms;
 
 namespace mLetsTatoo.iOS
 {
@@ -43,6 +45,27 @@ namespace mLetsTatoo.iOS
             SfCheckBoxRenderer.Init();
             Rg.Plugins.Popup.Popup.Init();
             NControls.Init();
+
+            var config = new PayPalConfiguration(PayPalEnvironment.Production, "AfV0uHgHfdRiSCM7jX786-0iatiiG-GtFwRRXe7L7xKQZYwTpbuAqGUvkeMpvbaXsWN_GOB1n69D5HYh")
+            {
+                //If you want to accept credit cards
+                AcceptCreditCards = true,
+                //Your business name
+                MerchantName = "Test Store",
+                //Your privacy policy Url
+                MerchantPrivacyPolicyUri = "https://Letstattoo.com.mx/Terminos-y-Condiciones/",
+                //Your user agreement Url
+                MerchantUserAgreementUri = "https://Letstattoo.com.mx/Terminos-y-Condiciones/",
+                // OPTIONAL - ShippingAddressOption (Both, None, PayPal, Provided)
+                //ShippingAddressOption = ShippingAddressOption.None,
+                // OPTIONAL - Language: Default languege for PayPal Plug-In
+                //Language = "es",
+                // OPTIONAL - PhoneCountryCode: Default phone country code for PayPal Plug-In
+                //PhoneCountryCode = "52",
+            };
+
+            CrossPayPalManager.Init(config);
+
             LoadApplication(new App());
 
             if(UIDevice.CurrentDevice.CheckSystemVersion(8,0))

@@ -580,6 +580,60 @@
             this.apiService.EndActivityPopup();
 
             await Application.Current.MainPage.Navigation.PopModalAsync();
+
+            //this.cliente = MainViewModel.GetInstance().Login.ClienteList.FirstOrDefault(c => c.Id_Cliente == cita.Id_Cliente);
+            var fromName = $"{this.cliente.Nombre} {this.cliente.Apellido}";
+            var To = this.tecnico.Id_Usuario;
+            var notif = $"{Languages.TheClient} {fromName} {Languages.NotifAccepChangeDate} # {cita.Id_Cita}: {cita.Asunto}";
+            this.apiService.SendNotificationAsync(notif, To, fromName);
+
+            var newNotif = new T_notificaciones
+            {
+                Usuario_Envia = this.cliente.Id_Usuario,
+                Usuario_Recibe = this.tecnico.Id_Usuario,
+                Notificacion = notif,
+                Fecha = DateTime.Now.ToLocalTime(),
+                Visto = false,
+            };
+            controller = Application.Current.Resources["UrlT_notificacionesController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotif);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            newNotif = (T_notificaciones)response.Result;
+
+            //TipoNotif Cita =1
+            //TipoNotif TrabajoTemp = 2
+            var newNotifCita = new T_notif_citas
+            {
+                Id_Notificacion = newNotif.Id_Notificacion,
+                Id_Cita = cita.Id_Cita,
+                TipoNotif = 1,
+            };
+
+            controller = Application.Current.Resources["UrlT_notif_citasController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotifCita);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
         }
         private async void Cancel()
         {
@@ -750,10 +804,65 @@
                 MainViewModel.GetInstance().Login.ListBalanceTecnico.Add(newSaldoTecnico);
             }
             MainViewModel.GetInstance().UserHome.LoadCliente();
+            MainViewModel.GetInstance().UserPage.LoadUser();
 
             this.apiService.EndActivityPopup();
 
             await Application.Current.MainPage.Navigation.PopModalAsync();
+
+            //this.cliente = MainViewModel.GetInstance().Login.ClienteList.FirstOrDefault(c => c.Id_Cliente == cita.Id_Cliente);
+            var fromName = $"{this.cliente.Nombre} {this.cliente.Apellido}";
+            var To = this.tecnico.Id_Usuario;
+            var notif = $"{Languages.TheClient} {fromName} {Languages.NotifArtCanceled} # {trabajo.Id_Trabajo}: {trabajo.Asunto}";
+            this.apiService.SendNotificationAsync(notif, To, fromName);
+
+            var newNotif = new T_notificaciones
+            {
+                Usuario_Envia = this.cliente.Id_Usuario,
+                Usuario_Recibe = this.tecnico.Id_Usuario,
+                Notificacion = notif,
+                Fecha = DateTime.Now.ToLocalTime(),
+                Visto = false,
+            };
+            controller = Application.Current.Resources["UrlT_notificacionesController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotif);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            newNotif = (T_notificaciones)response.Result;
+
+            //TipoNotif cita = 1
+            //TipoNotif TrabajoTemp = 2
+            var newNotifCita = new T_notif_citas
+            {
+                Id_Notificacion = newNotif.Id_Notificacion,
+                Id_Cita = cita.Id_Cita,
+                TipoNotif = 1,
+            };
+
+            controller = Application.Current.Resources["UrlT_notif_citasController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotifCita);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
         }
         private async void CancelTempDate()
         {
@@ -989,7 +1098,6 @@
             }
 
             MainViewModel.GetInstance().UserHome.LoadCliente();
-            MainViewModel.GetInstance().UserPage.LoadUser();
 
             var saldoTecnico = MainViewModel.GetInstance().Login.ListBalanceTecnico.FirstOrDefault(b => b.Id_Tecnico == this.tecnico.Id_Tecnico);
             var pago = MainViewModel.GetInstance().Login.ListPagosCliente.FirstOrDefault(p => p.Id_Trabajo == this.cita.Id_Trabajo);
@@ -1076,10 +1184,66 @@
                 MainViewModel.GetInstance().Login.ListBalanceTecnico.Remove(oldSaldoTecnico);
             }
             MainViewModel.GetInstance().Login.ListBalanceTecnico.Add(newSaldoTecnico);
+            
+            MainViewModel.GetInstance().UserPage.LoadUser();
 
             this.apiService.EndActivityPopup();
 
             await Application.Current.MainPage.Navigation.PopModalAsync();
+            
+            //this.cliente = MainViewModel.GetInstance().Login.ClienteList.FirstOrDefault(c => c.Id_Cliente == cita.Id_Cliente);
+            var fromName = $"{this.cliente.Nombre} {this.cliente.Apellido}";
+            var To = this.tecnico.Id_Usuario;
+            var notif = $"{Languages.TheClient} {fromName} {Languages.NotifRefuseChangeDate1} # {cita.Id_Cita}: {cita.Asunto}, {Languages.NotifRefuseChangeDate2}";
+            this.apiService.SendNotificationAsync(notif, To, fromName);
+
+            var newNotif = new T_notificaciones
+            {
+                Usuario_Envia = this.cliente.Id_Usuario,
+                Usuario_Recibe = this.tecnico.Id_Usuario,
+                Notificacion = notif,
+                Fecha = DateTime.Now.ToLocalTime(),
+                Visto = false,
+            };
+            controller = Application.Current.Resources["UrlT_notificacionesController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotif);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            newNotif = (T_notificaciones)response.Result;
+
+            //TipoNotif cita = 1
+            //TipoNotif TrabajoTemp = 2
+            var newNotifCita = new T_notif_citas
+            {
+                Id_Notificacion = newNotif.Id_Notificacion,
+                Id_Cita = cita.Id_Cita,
+                TipoNotif = 1,
+            };
+
+            controller = Application.Current.Resources["UrlT_notif_citasController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotifCita);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
 
         }
 
@@ -1140,6 +1304,59 @@
             MainViewModel.GetInstance().UserHome.TrabajosList.Add(newAddedTrabajo);
 
             MainViewModel.GetInstance().UserHome.RefreshCitaList();
+
+            //this.cliente = MainViewModel.GetInstance().Login.ClienteList.FirstOrDefault(c => c.Id_Cliente == cita.Id_Cliente);
+            var fromName = $"{this.cliente.Nombre} {this.cliente.Apellido}";
+            var To = this.tecnico.Id_Usuario;
+            var notif = $"{Languages.TheClient} {fromName} {Languages.NotifArtStart} # {trabajo.Id_Trabajo}: {trabajo.Asunto}";
+            this.apiService.SendNotificationAsync(notif, To, fromName);
+
+            var newNotif = new T_notificaciones
+            {
+                Usuario_Envia = this.cliente.Id_Usuario,
+                Usuario_Recibe = this.tecnico.Id_Usuario,
+                Notificacion = notif,
+                Fecha = DateTime.Now.ToLocalTime(),
+                Visto = false,
+            };
+            controller = Application.Current.Resources["UrlT_notificacionesController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotif);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
+            newNotif = (T_notificaciones)response.Result;
+            //TipoNotif cita = 1
+            //TipoNotif TrabajoTemp = 2
+            var newNotifCita = new T_notif_citas
+            {
+                Id_Notificacion = newNotif.Id_Notificacion,
+                Id_Cita = cita.Id_Cita,
+                TipoNotif = 1,
+            };
+
+            controller = Application.Current.Resources["UrlT_notif_citasController"].ToString();
+
+            response = await this.apiService.Post(urlApi, prefix, controller, newNotifCita);
+
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+
+                await Application.Current.MainPage.DisplayAlert(
+                Languages.Error,
+                response.Message,
+                "OK");
+                return;
+            }
         }
         public void GoToAddCommandPopup()
         {

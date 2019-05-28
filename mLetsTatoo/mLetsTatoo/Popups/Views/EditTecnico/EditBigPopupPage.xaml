@@ -1,0 +1,498 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    BindingContext="{Binding Main, Source={StaticResource Locator}}"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+xmlns:checkbox="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:control="clr-namespace:mLetsTatoo.Controls;assembly=mLetsTatoo"
+    xmlns:i18n="clr-namespace:mLetsTatoo.Helpers"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+    x:Class="mLetsTatoo.Popups.Views.EditBigPopupPage">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="300"
+            DurationOut="200"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="true"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8"/>
+    </pages:PopupPage.Animation>
+    <ContentPage.Content>
+        <Frame
+            BackgroundColor="White"
+            HasShadow="True"
+            CornerRadius="10"
+            Opacity=".95"
+            Margin="20,5"
+            Padding="5"
+            VerticalOptions="Center">
+            <ScrollView>
+                <StackLayout
+                    BindingContext="{Binding EditFeaturesPopup}"
+                    Padding="5">
+                    <StackLayout
+                        VerticalOptions="FillAndExpand">
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            Margin="5,0,0,5"
+                            Text="{i18n:Translate FillBigFeatures}"
+                            TextColor="Black"
+                            HorizontalTextAlignment="Start"
+                            VerticalOptions="StartAndExpand"/>
+                        <StackLayout
+                            VerticalOptions="CenterAndExpand">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width=".2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width=".2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Frame
+                                    BackgroundColor="White"
+                                    BorderColor="Black"
+                                    CornerRadius="20"
+                                    Grid.Column="1"
+                                    HasShadow="True"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Padding="8,0"
+                                    VerticalOptions="Center">
+                                    <Entry 
+                                        FontAttributes="Bold"
+                                        FontSize="14"
+                                        HorizontalOptions="Center"
+                                        HorizontalTextAlignment="Center"
+                                        Keyboard="Numeric"
+                                        Placeholder="{i18n:Translate Height}"
+                                        PlaceholderColor="DimGray"  
+                                        Text="{Binding FBE.Alto, Mode=TwoWay}"                     
+                                        TextColor="Black"
+                                        WidthRequest="100"/>
+                                </Frame>
+                                <Frame
+                                    BackgroundColor="White"
+                                    BorderColor="Black"
+                                    CornerRadius="20"
+                                    Grid.Column="2"
+                                    HasShadow="True"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Padding="8,0"
+                                    VerticalOptions="Center">
+                                    <Entry 
+                                        FontAttributes="Bold"
+                                        FontSize="14"
+                                        HorizontalOptions="Center"
+                                        HorizontalTextAlignment="Center"
+                                        Keyboard="Numeric"
+                                        Placeholder="{i18n:Translate Width}"
+                                        PlaceholderColor="DimGray"
+                                        Text="{Binding FBE.Ancho, Mode=TwoWay}"
+                                        TextColor="Black"
+                                        WidthRequest="100"/>
+                                </Frame>
+                            </Grid>
+                        </StackLayout>
+                        <Label
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            Margin="10,5,0,5"
+                            Text="{i18n:Translate FillComplexity}"
+                            TextColor="Black"
+                            HorizontalTextAlignment="Start"
+                            VerticalOptions="StartAndExpand"/>
+                        <Frame
+                            BackgroundColor="White"
+                            BorderColor="Black"
+                            CornerRadius="10"
+                            HasShadow="True"
+                            HorizontalOptions="FillAndExpand"
+                            Margin="3,3,3,0"
+                            Padding="5"
+                            VerticalOptions="StartAndExpand">                            
+                            <StackLayout
+                                VerticalOptions="FillAndExpand">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Grid.Column="0"
+                                        Grid.Row="0"
+                                        Text="{i18n:Translate Easy}"
+                                        TextColor="Black"
+                                        HorizontalTextAlignment="Start"
+                                        VerticalOptions="StartAndExpand"/>
+                                    <Frame
+                                        BackgroundColor="White"
+                                        BorderColor="Black"
+                                        CornerRadius="20"
+                                        Grid.Column="1"
+                                        Grid.Row="1"
+                                        HasShadow="True"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Padding="8,0"
+                                        VerticalOptions="Center">
+                                        <Entry 
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            HorizontalOptions="Center"
+                                            HorizontalTextAlignment="Center"
+                                            Keyboard="Numeric"
+                                            Placeholder="{i18n:Translate Cost}"
+                                            PlaceholderColor="DimGray"  
+                                            Text="{Binding FBE.Total_Aprox, Mode=TwoWay}"                     
+                                            TextColor="Black"
+                                            Unfocused="AddComision"
+                                            WidthRequest="70"
+                                            x:Name="ECost"/>
+                                    </Frame>
+                                    <Frame
+                                        BackgroundColor="White"
+                                        BorderColor="Black"
+                                        CornerRadius="20"
+                                        Grid.Column="0"
+                                        Grid.Row="1"
+                                        HasShadow="True"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Padding="8,0"
+                                        VerticalOptions="Center">
+                                        <Entry 
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            HorizontalOptions="Center"
+                                            HorizontalTextAlignment="Center"
+                                            Keyboard="Numeric"
+                                            Placeholder="{i18n:Translate Advance}"
+                                            PlaceholderColor="DimGray"
+                                            Text="{Binding FBE.Costo_Cita, Mode=TwoWay}"
+                                            TextColor="Black"
+                                            Unfocused="AddComision"
+                                            WidthRequest="70"
+                                            x:Name="EAdvance"/>
+                                    </Frame>
+                                    <control:CustomLabel 
+                                        BorderColor="BLack"
+                                        FontAttributes="Bold"
+                                        FontSize="14"
+                                        Grid.ColumnSpan="2"
+                                        Grid.Row="2"
+                                        HeightRequest="30"
+                                        HorizontalOptions="CenterAndExpand"
+                                        HorizontalTextAlignment="Center"
+                                        IsCurvedCornersEnabled="True"
+                                        PropertyChanged="ConvertTime"
+                                        Text="{Binding FBE.Tiempo, Mode=TwoWay}"                        
+                                        TextColor="Black"
+                                        VerticalOptions="Center"
+                                        WidthRequest="180"
+                                        x:Name="BETime">
+                                        <control:CustomLabel.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="GetTime"/>
+                                        </control:CustomLabel.GestureRecognizers>
+                                    </control:CustomLabel>
+                                    <Image
+                                        Grid.Column="2"
+                                        Grid.RowSpan="3"
+                                        HorizontalOptions="FillAndExpand"
+                                        Source="{Binding FBE.Imagen_Ejemplo, Converter={StaticResource ByteArrayToImage}}"
+                                        VerticalOptions="Center"
+                                        WidthRequest="70"
+                                        x:Name="BEImage">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="GetImage"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </Grid>
+                            </StackLayout>
+                        </Frame>
+                        <Frame
+                            BackgroundColor="White"
+                            BorderColor="Black"
+                            CornerRadius="10"
+                            HasShadow="True"
+                            HorizontalOptions="FillAndExpand"
+                            Margin="3,0"
+                            Padding="5"
+                            VerticalOptions="StartAndExpand">
+                            <StackLayout
+                                VerticalOptions="FillAndExpand">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Grid.Column="0"
+                                        Grid.Row="0"
+                                        Text="{i18n:Translate MediumComplexity}"
+                                        TextColor="Black"
+                                        HorizontalTextAlignment="Start"
+                                        VerticalOptions="StartAndExpand"/>
+                                    <Frame
+                                        BackgroundColor="White"
+                                        BorderColor="Black"
+                                        CornerRadius="20"
+                                        Grid.Column="1"
+                                        Grid.Row="1"
+                                        HasShadow="True"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Padding="8,0"
+                                        VerticalOptions="Center">
+                                        <Entry 
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            HorizontalOptions="Center"
+                                            HorizontalTextAlignment="Center"
+                                            Keyboard="Numeric"
+                                            Placeholder="{i18n:Translate Cost}"
+                                            PlaceholderColor="DimGray"  
+                                            Text="{Binding FBM.Total_Aprox, Mode=TwoWay}"                     
+                                            TextColor="Black"
+                                            Unfocused="AddComision"
+                                            WidthRequest="70"
+                                            x:Name="MCost"/>
+                                    </Frame>
+                                    <Frame
+                                        BackgroundColor="White"
+                                        BorderColor="Black"
+                                        CornerRadius="20"
+                                        Grid.Column="0"
+                                        Grid.Row="1"
+                                        HasShadow="True"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Padding="8,0"
+                                        VerticalOptions="Center">
+                                        <Entry 
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            HorizontalOptions="Center"
+                                            HorizontalTextAlignment="Center"
+                                            Keyboard="Numeric"
+                                            Placeholder="{i18n:Translate Advance}"
+                                            PlaceholderColor="DimGray"
+                                            Text="{Binding FBM.Costo_Cita, Mode=TwoWay}"
+                                            TextColor="Black"
+                                            WidthRequest="70"
+                                            Unfocused="AddComision"
+                                            x:Name="MAdvance"/>
+                                    </Frame>
+                                    <control:CustomLabel 
+                                        BorderColor="BLack"
+                                        FontAttributes="Bold"
+                                        FontSize="14"
+                                        Grid.ColumnSpan="2"
+                                        Grid.Row="2"
+                                        HeightRequest="30"
+                                        HorizontalOptions="CenterAndExpand"
+                                        HorizontalTextAlignment="Center"
+                                        IsCurvedCornersEnabled="True"
+                                        PropertyChanged="ConvertTime"
+                                        Text="{Binding FBM.Tiempo, Mode=TwoWay}"                         
+                                        TextColor="Black"
+                                        VerticalOptions="Center"
+                                        WidthRequest="180"
+                                        x:Name="BMTime">
+                                        <control:CustomLabel.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="GetTime"/>
+                                        </control:CustomLabel.GestureRecognizers>
+                                    </control:CustomLabel>
+                                    <Image
+                                        Grid.Column="2"
+                                        Grid.RowSpan="3"
+                                        HorizontalOptions="FillAndExpand"
+                                        Source="{Binding FBM.Imagen_Ejemplo, Converter={StaticResource ByteArrayToImage}}"
+                                        VerticalOptions="Center"
+                                        WidthRequest="70"
+                                        x:Name="BMImage">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="GetImage"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </Grid>
+                            </StackLayout>
+                        </Frame>
+                        <Frame
+                            BackgroundColor="White"
+                            BorderColor="Black"
+                            CornerRadius="10"
+                            HasShadow="True"
+                            HorizontalOptions="FillAndExpand"
+                            Margin="3,0,3,3"
+                            Padding="5"
+                            VerticalOptions="StartAndExpand">
+                            <StackLayout
+                                VerticalOptions="FillAndExpand">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Grid.Column="0"
+                                        Grid.Row="0"
+                                        Text="{i18n:Translate Hard}"
+                                        TextColor="Black"
+                                        HorizontalTextAlignment="Start"
+                                        VerticalOptions="StartAndExpand"/>
+                                    <Frame
+                                        BackgroundColor="White"
+                                        BorderColor="Black"
+                                        CornerRadius="20"
+                                        Grid.Column="1"
+                                        Grid.Row="1"
+                                        HasShadow="True"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Padding="8,0"
+                                        VerticalOptions="Center">
+                                        <Entry 
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            HorizontalOptions="Center"
+                                            HorizontalTextAlignment="Center"
+                                            Keyboard="Numeric"
+                                            Placeholder="{i18n:Translate Cost}"
+                                            PlaceholderColor="DimGray"  
+                                            Text="{Binding FBH.Total_Aprox, Mode=TwoWay}"                     
+                                            TextColor="Black"
+                                            Unfocused="AddComision"
+                                            WidthRequest="70"
+                                            x:Name="HCost"/>
+                                    </Frame>
+                                    <Frame
+                                        BackgroundColor="White"
+                                        BorderColor="Black"
+                                        CornerRadius="20"
+                                        Grid.Column="0"
+                                        Grid.Row="1"
+                                        HasShadow="True"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Padding="8,0"
+                                        VerticalOptions="Center">
+                                        <Entry 
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            HorizontalOptions="Center"
+                                            HorizontalTextAlignment="Center"
+                                            Keyboard="Numeric"
+                                            Placeholder="{i18n:Translate Advance}"
+                                            PlaceholderColor="DimGray"
+                                            Text="{Binding FBH.Costo_Cita, Mode=TwoWay}"
+                                            TextColor="Black"
+                                            Unfocused="AddComision"
+                                            WidthRequest="70"
+                                            x:Name="HAdvance"/>
+                                    </Frame>
+                                    <control:CustomLabel 
+                                        BorderColor="BLack"
+                                        FontAttributes="Bold"
+                                        FontSize="14"
+                                        Grid.ColumnSpan="2"
+                                        Grid.Row="2"
+                                        HeightRequest="30"
+                                        HorizontalOptions="CenterAndExpand"
+                                        HorizontalTextAlignment="Center"
+                                        IsCurvedCornersEnabled="True"
+                                        PropertyChanged="ConvertTime"
+                                        Text="{Binding FBH.Tiempo, Mode=TwoWay}"                       
+                                        TextColor="Black"
+                                        VerticalOptions="Center"
+                                        WidthRequest="180"
+                                        x:Name="BHTime">
+                                        <control:CustomLabel.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="GetTime"/>
+                                        </control:CustomLabel.GestureRecognizers>
+                                    </control:CustomLabel>
+                                    <Image
+                                        Grid.Column="2"
+                                        Grid.RowSpan="3"
+                                        HorizontalOptions="FillAndExpand"
+                                        Source="{Binding FBH.Imagen_Ejemplo, Converter={StaticResource ByteArrayToImage}}"
+                                        VerticalOptions="Center"
+                                        WidthRequest="70"
+                                        x:Name="BHImage">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="GetImage"/>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </Grid>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                    <StackLayout
+                        Margin="0,5,0,0"
+                        Orientation="Horizontal">
+                        <Frame
+                            BackgroundColor="Transparent"
+                            BorderColor="Black"
+                            HasShadow="True"
+                            HorizontalOptions="StartAndExpand"
+                            CornerRadius="10"
+                            Padding="2"
+                            VerticalOptions="End">
+                            <Image
+                                HorizontalOptions="CenterAndExpand"
+                                Margin="2"
+                                Source="Previous.png"
+                                VerticalOptions="CenterAndExpand"
+                                WidthRequest="20"/>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding CancelCommand}"/>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                        <Frame
+                            BackgroundColor="Transparent"
+                            BorderColor="Black"
+                            HasShadow="True"
+                            HorizontalOptions="EndAndExpand"
+                            CornerRadius="10"
+                            Padding="2"
+                            VerticalOptions="Center">
+                            <Image
+                                HorizontalOptions="CenterAndExpand"
+                                Margin="2"
+                                Source="Check.png"
+                                VerticalOptions="CenterAndExpand"
+                                WidthRequest="20"/>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding NextCommand}"/>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+        </Frame>
+    </ContentPage.Content>
+</pages:PopupPage>

@@ -78,7 +78,7 @@
                                         ButtonColor="#c8c8c8"
                                         ButtonIcon= "{x:Static control:FontAwesomeLabel.FACogs}"
                                         ButtonIconColor="Black"
-                                        Command="{Binding EditFeaturesCommand}"
+                                        Command="{Binding OptionsCommand}"
                                         Scale=".8"/>
                                     <control:ActionButton
                                         ButtonColor="#c8c8c8"

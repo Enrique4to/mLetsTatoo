@@ -39,6 +39,7 @@
         private ObservableCollection<EmpresaItemViewModel> empresas;
         private ObservableCollection<TecnicoItemViewModel> tecnicos;
         private ObservableCollection<CitasItemViewModel> citas;
+        private ObservableCollection<NotificacionesItemViewModel> notificaciones;
         private ObservableCollection<T_trabajos> trabajos;
 
         public ClientesCollection cliente;
@@ -77,6 +78,7 @@
         public List<T_estado> EstadosList { get; set; }
         public List<T_tecnicohorarios> ListHorariosTecnicos { get; set; }
         public List<EmpresasCollection> EmpresaUserList { get; set; }
+        public List<NotificacionesItemViewModel> NotificacionesList { get; set; }
 
         public T_usuarios User
         {
@@ -113,6 +115,11 @@
         {
             get { return this.citas; }
             set { SetValue(ref this.citas, value); }
+        }
+        public ObservableCollection<NotificacionesItemViewModel> Notificaciones
+        {
+            get { return this.notificaciones; }
+            set { SetValue(ref this.notificaciones, value); }
         }
 
         public ImageSource ImageSource
@@ -151,7 +158,6 @@
             this.NomUsuario = user.Usuario;
             this.apiService = new ApiService();
             this.LoadLists();
-
             this.IsRefreshing = false;
             this.TipoBusqueda = "All";
         }
@@ -171,6 +177,13 @@
             get
             {
                 return new RelayCommand(RefreshTecnicoList);
+            }
+        }
+        public ICommand RefreshNotificacionesCommand
+        {
+            get
+            {
+                return new RelayCommand(RefreshNotificaciones);
             }
         }
         public ICommand RefreshCitasCommand
@@ -212,16 +225,17 @@
                 F_Perfil = this.cliente.F_Perfil,
                 Saldo_Favor =
                 (
-                    !MainViewModel.GetInstance().Login.ListBalanceCliente.Any(b => b.Id_Usuario == this.user.Id_usuario) ?
+                    !MainViewModel.GetInstance().Login.ListBalanceCliente.Any(b => b.Id_Cliente == this.cliente.Id_Cliente) ?
                     0 :
-                    MainViewModel.GetInstance().Login.ListBalanceCliente.FirstOrDefault(b => b.Id_Usuario == this.user.Id_usuario).Saldo_Favor
+                    MainViewModel.GetInstance().Login.ListBalanceCliente.FirstOrDefault(b => b.Id_Cliente == this.cliente.Id_Cliente).Saldo_Favor
                 ),
             };
+
+            MainViewModel.GetInstance().UserPage = new UserViewModel(this.user, this.cliente);
         }
         private void LoadLists()
         {
             MainViewModel.GetInstance().UserPage = new UserViewModel(this.user, this.cliente);
-
             this.TrabajosList = MainViewModel.GetInstance().Login.TrabajosList;
             this.CitaList = MainViewModel.GetInstance().Login.CitaList;
             this.LocalesList = MainViewModel.GetInstance().Login.LocalesList;
@@ -229,12 +243,31 @@
             this.CiudadesList = MainViewModel.GetInstance().Login.CiudadesList;
             this.FeaturesList = MainViewModel.GetInstance().Login.FeaturesList;
             this.ListHorariosTecnicos = MainViewModel.GetInstance().Login.ListHorariosTecnicos;
-
+            
             this.RefreshEmpresaList();
             this.RefreshTecnicoList();
             this.RefreshCitaList();
+            this.RefreshNotificaciones();
 
             this.apiService.EndActivityPopup();
+        }
+        public void RefreshNotificaciones()
+        {
+            this.NotificacionesList = MainViewModel.GetInstance().Login.NotificacionesList.Select(n => new NotificacionesItemViewModel
+            {
+                Id_Notificacion = n.Id_Notificacion,
+                Notificacion = n.Notificacion,
+                Fecha = n.Fecha,
+                Usuario_Envia = n.Usuario_Envia,
+                Usuario_Recibe = n.Usuario_Recibe,
+                Visto = n.Visto,
+
+                TipoNotif = MainViewModel.GetInstance().Login.Notif_CitasList.FirstOrDefault(p => p.Id_Notificacion == n.Id_Notificacion).TipoNotif,
+                Id_Cita = MainViewModel.GetInstance().Login.Notif_CitasList.FirstOrDefault(p => p.Id_Notificacion == n.Id_Notificacion).Id_Cita,
+                Id_TrabajoTemp = MainViewModel.GetInstance().Login.Notif_CitasList.FirstOrDefault(p => p.Id_Notificacion == n.Id_Notificacion).Id_TrabajoTemp,
+
+            }).Where(n => n.Usuario_Recibe == this.user.Id_usuario).ToList();
+            this.Notificaciones = new ObservableCollection<NotificacionesItemViewModel>(NotificacionesList.OrderBy(n => n.Fecha));
         }
         public void RefreshEmpresaList()
         {
@@ -382,11 +415,10 @@
         }
         public async void GoToMessagesPage()
         {
-            this.apiService.StartActivityPopup();
-
             MainViewModel.GetInstance().UserMessages = new UserMessagesViewModel(this.user, this.cliente);
             await Application.Current.MainPage.Navigation.PushModalAsync(new UserMessagesPage());
         }
+
         #endregion
     }
 }

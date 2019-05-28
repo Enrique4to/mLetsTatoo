@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "81619148080",
+    "firebase_url": "https://letstatoo-1549554075508.firebaseio.com",
+    "project_id": "letstatoo-1549554075508",
+    "storage_bucket": "letstatoo-1549554075508.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:81619148080:android:fec06305ca61556a",
+        "android_client_info": {
+          "package_name": "com.letstattoo.letstattoohub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "81619148080-o2fa5840l1ushnbf7m00bdpsqdhc4f7h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXPomqeinEAVJ-k2cmYX1SOxOtixzNhTM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "81619148080-o2fa5840l1ushnbf7m00bdpsqdhc4f7h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

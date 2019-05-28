@@ -16,9 +16,13 @@
     using Rg.Plugins.Popup.Extensions;
     using ViewModels;
     using Xamarin.Forms;
+    using Microsoft.Azure.NotificationHubs;
+    using mLetsTatoo.Common;
+    using Org.Apache.Http.Client.Methods;
 
     public class ApiService
     {
+        private static NotificationHubClient hub;
         #region Methods
         public async Task<Response> CheckConnection()
         {
@@ -258,8 +262,14 @@
 
             return buffer;
         }
+        public async void SendNotificationAsync(string message, int to, string fromName)
+        {
+            string userTag = $"userID:{to}";                
 
-
+            hub = NotificationHubClient.CreateClientFromConnectionString(Constants.ListenConnectionString, Constants.NotificationHubName);
+            var notif = "{ \"data\" : {\"Message\":\"" + "From " + fromName + ": " + message + "\"}}";
+            NotificationOutcome outcome = await hub.SendFcmNativeNotificationAsync(notif, userTag);
+        }  
         #endregion
     }
 }

@@ -64,7 +64,7 @@
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Ok(t_teccaract);
         }
 
         // POST: api/T_teccaract

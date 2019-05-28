@@ -57,6 +57,12 @@
         public List<T_pagoscliente> ListPagosCliente { get; set; }
         public List<T_pagostecnico> ListPagosTecnico { get; set; }
         public List<T_cobrostecnico> ListCobrosTecnico { get; set; }
+        public List<T_notificaciones> NotificacionesList { get; set; }
+        public List<T_notif_citas> Notif_CitasList { get; set; }
+        public List<T_trabajostemp> TrabajosTempList { get; set; }
+        public List<T_trabajonotatemp> TrabajoNotaTempList { get; set; }
+
+        public List<T_citaimagenestemp> ImagesTempList { get; set; }
 
         public List<ClientesCollection> ClienteList { get; set; }
         public List<TecnicosCollection> TecnicoList { get; set; }
@@ -225,6 +231,79 @@
                 return;
             }
             this.CitaList = (List<T_trabajocitas>)response.Result;
+            //-----------------------------Load NotificacionesList----------------------------//
+
+            controller = App.Current.Resources["UrlT_notificacionesController"].ToString();
+
+            response = await this.apiService.GetList<T_notificaciones>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+            this.NotificacionesList = (List<T_notificaciones>)response.Result;
+
+            controller = App.Current.Resources["UrlT_notif_citasController"].ToString();
+
+            response = await this.apiService.GetList<T_notif_citas>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                await App.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+            this.Notif_CitasList = (List<T_notif_citas>)response.Result;
+
+            //-----------------------------Load TrabajosTempLists -----------------------//
+            controller = Application.Current.Resources["UrlT_trabajostempController"].ToString();
+
+            response = await this.apiService.GetList<T_trabajostemp>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+
+            this.TrabajosTempList = (List<T_trabajostemp>)response.Result;
+
+            controller = Application.Current.Resources["UrlT_trabajonotatempController"].ToString();
+
+            response = await this.apiService.GetList<T_trabajonotatemp>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+
+            this.TrabajoNotaTempList = (List<T_trabajonotatemp>)response.Result;
+
+            controller = Application.Current.Resources["UrlT_citaimagenestempController"].ToString();
+
+            response = await this.apiService.GetList<T_citaimagenestemp>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                this.apiService.EndActivityPopup();
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+
+            this.ImagesTempList = (List<T_citaimagenestemp>)response.Result;
 
             //-----------------------------Load EmpresasList----------------------------//
 
@@ -274,6 +353,21 @@
             }
 
             this.ListHorariosTecnicos = (List<T_tecnicohorarios>)response.Result;
+            //-----------------------------Load HorariosLocalesList----------------------------//
+
+            controller = Application.Current.Resources["UrlT_localhorariosController"].ToString();
+
+            response = await this.apiService.GetList<T_localhorarios>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+
+            this.ListHorariosLocales = (List<T_localhorarios>)response.Result;
 
 
             //-----------------------------Load CiudadesList----------------------------//
@@ -635,6 +729,8 @@
                         BarBackgroundColor = Color.FromRgb(20, 20, 20),
                         BarTextColor = Color.FromRgb(200, 200, 200),
                     };
+
+                    this.apiService.EndActivityPopup();
                 }
                 else
                 {

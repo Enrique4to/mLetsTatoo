@@ -122,6 +122,8 @@
                 MainViewModel.GetInstance().UserViewDate.IsRefreshing = false;
             }
 
+            
+
             await Application.Current.MainPage.Navigation.PopPopupAsync();
         }
         #endregion

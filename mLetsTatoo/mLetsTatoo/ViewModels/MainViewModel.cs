@@ -39,6 +39,8 @@
         public StartPopupViewModel StartPopup { get; set; }
         public ConfirmTecnicoPopupViewModel ConfirmTecnicoPopup { get; set; }
         public NewPublicationPopupViewModel NewPublicationPopup { get; set; }
+        public EditSchedulerPopupViewModel EditSchedulerPopup { get; set; }
+        public EditFeaturesPopupViewModel EditFeaturesPopup { get; set; }
 
         #endregion
 

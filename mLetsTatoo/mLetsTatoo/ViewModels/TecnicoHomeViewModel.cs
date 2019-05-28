@@ -26,12 +26,13 @@
 
         private ObservableCollection<TrabajosItemViewModel> trabajos;
         private ObservableCollection<PublicacionesItemViewModel> publicaciones;
-
+        private ObservableCollection<NotificacionesItemViewModel> notificaciones;
 
         private T_clientes cliente;
-        private T_usuarios user;
+        public T_usuarios user;
         public TecnicosCollection tecnico;
         private T_trabajos trabajo;
+        public T_tecnicohorarios horario;
 
         private string file;
         public string filter;
@@ -50,11 +51,13 @@
 
         public List<T_trabajos> TrabajoList { get; set; }
         public List<T_trabajocitas> CitasList { get; set; }
-        public List<T_tecnicohorarios> ListHorariosTecnicos { get; set; }
         public List<T_publicaciones> ListPublicaciones { get; set; }
         public List<T_imgpublicacion> ListImgPublicacion { get; set; }
         public List<T_comentpublicacion> ListComentPublicacion { get; set; }
         public List<PublicacionesItemViewModel> NewListPublicaciones { get; set; }
+
+        public List<NotificacionesItemViewModel> NotificacionesList { get; set; }
+        public List<T_teccaract> ListFeature { get; set; }
 
         public T_clientes Cliente
         {
@@ -76,6 +79,11 @@
         {
             get { return this.trabajos; }
             set { SetValue(ref this.trabajos, value); }
+        }
+        public ObservableCollection<NotificacionesItemViewModel> Notificaciones
+        {
+            get { return this.notificaciones; }
+            set { SetValue(ref this.notificaciones, value); }
         }
         public ObservableCollection<PublicacionesItemViewModel> Publicaciones
         {
@@ -103,7 +111,8 @@
             this.apiService = new ApiService();
             this.LoadTecnico();
             this.RefreshPublicaciones();
-            this.LoadTrabajos();
+            this.RefreshNotificaciones();
+            this.RefreshTrabajosList();
             
             this.TipoBusqueda = "All";            
         }
@@ -179,49 +188,37 @@
             this.IsRefreshing = true;
 
             MainViewModel.GetInstance().TecnicoProfile = new TecnicoProfileViewModel(this.user, this.tecnico);
+            this.horario = MainViewModel.GetInstance().Login.ListHorariosTecnicos.First(h => h.Id_Tecnico == this.tecnico.Id_Tecnico);
             this.CitasList = MainViewModel.GetInstance().Login.CitaList;
-            this.ListHorariosTecnicos = MainViewModel.GetInstance().Login.ListHorariosTecnicos;
             this.ListPublicaciones = MainViewModel.GetInstance().Login.ListPublicaciones;
             this.ListImgPublicacion = MainViewModel.GetInstance().Login.ListImgPublicacion;
             this.ListComentPublicacion = MainViewModel.GetInstance().Login.ListComentPublicacion;
+            this.ListFeature = MainViewModel.GetInstance().Login.FeaturesList.Where(h => h.Id_Tecnico == this.tecnico.Id_Tecnico).ToList();
+            this.TrabajoList = MainViewModel.GetInstance().Login.TrabajosList;
 
             this.IsRefreshing = false;
         }
-        private async void LoadTrabajos()
+        public void RefreshNotificaciones()
         {
-            var connection = await this.apiService.CheckConnection();
-            if (!connection.IsSuccess)
+            this.NotificacionesList = MainViewModel.GetInstance().Login.NotificacionesList.Select(n => new NotificacionesItemViewModel
             {
-                this.apiService.EndActivityPopup();
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    connection.Message,
-                    "OK");
-                return;
-            }
+                Id_Notificacion = n.Id_Notificacion,
+                Notificacion = n.Notificacion,
+                Fecha = n.Fecha,
+                Usuario_Envia = n.Usuario_Envia,
+                Usuario_Recibe = n.Usuario_Recibe,
+                Visto = n.Visto,
 
-            var urlApi = Application.Current.Resources["UrlAPI"].ToString();
-            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
-            var controller = Application.Current.Resources["UrlT_trabajosController"].ToString();
+                TipoNotif = MainViewModel.GetInstance().Login.Notif_CitasList.FirstOrDefault(p =>p.Id_Notificacion == n.Id_Notificacion).TipoNotif,
+                Id_Cita = MainViewModel.GetInstance().Login.Notif_CitasList.FirstOrDefault(p => p.Id_Notificacion == n.Id_Notificacion).Id_Cita,
+                Id_TrabajoTemp = MainViewModel.GetInstance().Login.Notif_CitasList.FirstOrDefault(p => p.Id_Notificacion == n.Id_Notificacion).Id_TrabajoTemp,
 
-            var response = await this.apiService.GetList<T_trabajos>(urlApi, prefix, controller);
-            if (!response.IsSuccess)
-            {
-                this.apiService.EndActivityPopup();
-                await Application.Current.MainPage.DisplayAlert(
-                    Languages.Error,
-                    response.Message,
-                    "OK");
-                return;
-            }
-            this.TrabajoList = (List<T_trabajos>)response.Result;
-            this.RefreshTrabajosList();
-
-            this.apiService.EndActivityPopup();
+            }).Where(n => n.Usuario_Recibe == this.user.Id_usuario).ToList();
+            this.Notificaciones = new ObservableCollection<NotificacionesItemViewModel>(NotificacionesList.OrderBy(n => n.Fecha));
         }
         public void RefreshTrabajosList()
         {
-            var trabajo = this.TrabajoList.Select(c => new TrabajosItemViewModel
+            var trabajos = this.TrabajoList.Select(c => new TrabajosItemViewModel
             {
 
                 Id_Trabajo = c.Id_Trabajo,
@@ -237,11 +234,11 @@
                 Cancelado = c.Cancelado,
                 Completo = c.Completo,
                 Trabajo_Iniciado = c.Trabajo_Iniciado,
-                TecnicoTiempo = c.TecnicoTiempo
+                TecnicoTiempo = c.TecnicoTiempo,
 
             }).Where(c => c.Id_Tatuador == this.tecnico.Id_Tecnico && c.Cancelado == false && c.TecnicoTiempo == false).ToList();
 
-            this.Trabajos = new ObservableCollection<TrabajosItemViewModel>(trabajo.OrderBy(c => c.Id_Trabajo));
+            this.Trabajos = new ObservableCollection<TrabajosItemViewModel>(trabajos.OrderBy(c => c.Id_Trabajo));
             IsRefreshing = false;
         }
         public void RefreshPublicaciones()

@@ -70,6 +70,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If you continue, you will accept the terms and conditions described in .
+        /// </summary>
+        internal static string AcceptTerminos {
+            get {
+                return ResourceManager.GetString("AcceptTerminos", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This user is blocked, please contact the technical support at soporte@letstattoo.com.mx.
         /// </summary>
         internal static string AccountBloqued {
@@ -273,6 +282,15 @@ namespace mLetsTatoo.Resources {
         internal static string At {
             get {
                 return ResourceManager.GetString("At", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bank information.
+        /// </summary>
+        internal static string BankAccount {
+            get {
+                return ResourceManager.GetString("BankAccount", resourceCulture);
             }
         }
         
@@ -719,11 +737,38 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit your features....
+        /// </summary>
+        internal static string EditFeaturesOptions {
+            get {
+                return ResourceManager.GetString("EditFeaturesOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit your scheduler....
+        /// </summary>
+        internal static string EditSchedulerOptions {
+            get {
+                return ResourceManager.GetString("EditSchedulerOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit user.
         /// </summary>
         internal static string EditUser {
             get {
                 return ResourceManager.GetString("EditUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit your user options....
+        /// </summary>
+        internal static string EditUserOptions {
+            get {
+                return ResourceManager.GetString("EditUserOptions", resourceCulture);
             }
         }
         
@@ -1241,11 +1286,137 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to has accepted the date change that you proposed for the appointment.
+        /// </summary>
+        internal static string NotifAccepChangeDate {
+            get {
+                return ResourceManager.GetString("NotifAccepChangeDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to has accepted your budget, and an appointment has been created for.
+        /// </summary>
+        internal static string NotifAcceptBudget {
+            get {
+                return ResourceManager.GetString("NotifAcceptBudget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to has canceled the art.
+        /// </summary>
+        internal static string NotifArtCanceled {
+            get {
+                return ResourceManager.GetString("NotifArtCanceled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to has initiated the art.
+        /// </summary>
+        internal static string NotifArtStart {
+            get {
+                return ResourceManager.GetString("NotifArtStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to wants to change the date for your appointment.
+        /// </summary>
+        internal static string NotifChageDate {
+            get {
+                return ResourceManager.GetString("NotifChageDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to has finished the art.
+        /// </summary>
+        internal static string NotifFinishArt {
+            get {
+                return ResourceManager.GetString("NotifFinishArt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to has answered the converse you have with respect to a personalized art pending.
+        /// </summary>
+        internal static string NotifMessagePersonalized {
+            get {
+                return ResourceManager.GetString("NotifMessagePersonalized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to has created a new appointment to continue or finish your art, and it will be on.
+        /// </summary>
+        internal static string NotifNewApp {
+            get {
+                return ResourceManager.GetString("NotifNewApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to has made a comment on the appointment.
+        /// </summary>
+        internal static string NotifNewComment {
+            get {
+                return ResourceManager.GetString("NotifNewComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to has left a message to agree with you regarding a personalized art.
+        /// </summary>
+        internal static string NotifNewPersonalizedApp {
+            get {
+                return ResourceManager.GetString("NotifNewPersonalizedApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to has created a new appointment with you for.
+        /// </summary>
+        internal static string NotifNewQuickApp {
+            get {
+                return ResourceManager.GetString("NotifNewQuickApp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to has rejected the date change you proposed for the appointment.
+        /// </summary>
+        internal static string NotifRefuseChangeDate1 {
+            get {
+                return ResourceManager.GetString("NotifRefuseChangeDate1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to so the appointment has been canceled.
+        /// </summary>
+        internal static string NotifRefuseChangeDate2 {
+            get {
+                return ResourceManager.GetString("NotifRefuseChangeDate2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forgot your password?.
         /// </summary>
         internal static string OlvidoPassword {
             get {
                 return ResourceManager.GetString("OlvidoPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Options.
+        /// </summary>
+        internal static string Options {
+            get {
+                return ResourceManager.GetString("Options", resourceCulture);
             }
         }
         
@@ -1313,7 +1484,7 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Personalized appointment.
+        ///   Looks up a localized string similar to Personalized appointment / Cover Up.
         /// </summary>
         internal static string PersonalizedAppointment {
             get {
@@ -1708,6 +1879,33 @@ namespace mLetsTatoo.Resources {
         internal static string TempJobMessageSent {
             get {
                 return ResourceManager.GetString("TempJobMessageSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LetsTattoo Terms And Conditions.
+        /// </summary>
+        internal static string TermsConditions {
+            get {
+                return ResourceManager.GetString("TermsConditions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The artist.
+        /// </summary>
+        internal static string TheArtist {
+            get {
+                return ResourceManager.GetString("TheArtist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The client.
+        /// </summary>
+        internal static string TheClient {
+            get {
+                return ResourceManager.GetString("TheClient", resourceCulture);
             }
         }
         
