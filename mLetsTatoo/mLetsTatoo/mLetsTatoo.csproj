@@ -33,6 +33,7 @@
   <ItemGroup>
     <PackageReference Include="ExifLib.PCL" Version="1.0.2-pre01" />
     <PackageReference Include="FontAwesome" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Azure.Mobile.Client.SQLiteStore" Version="4.1.2-prerelease.481290" />
     <PackageReference Include="Microsoft.Azure.NotificationHubs" Version="3.1.0" />
     <PackageReference Include="MvvmLightLibs" Version="5.4.1.1" />
     <PackageReference Include="NControl" Version="0.9.1" />
@@ -66,6 +67,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Popups\Views\GetMoneyPopupPage.xaml.cs">
+      <DependentUpon>GetMoneyPopupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Popups\Views\EditTecnico\EditBankAccountPopupPage.xaml.cs">
+      <DependentUpon>EditBankAccountPopupPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Popups\Views\EditTecnico\EditTecnicoMenuPopupPage.xaml.cs">
       <DependentUpon>EditTecnicoMenuPopupPage.xaml</DependentUpon>
     </Compile>

@@ -96,13 +96,12 @@
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
-
                                             <StackLayout
-                                            Grid.Column="0"
-                                            Grid.Row="0"
-                                            HorizontalOptions="FillAndExpand"
-                                            Orientation="Horizontal"
-                                            VerticalOptions="Start">
+                                                Grid.Column="0"
+                                                Grid.Row="0"
+                                                HorizontalOptions="FillAndExpand"
+                                                Orientation="Horizontal"
+                                                VerticalOptions="Start">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width=".2*"/>
@@ -113,13 +112,13 @@
                                                         <RowDefinition Height="Auto"/>
                                                     </Grid.RowDefinitions>
                                                     <control:CircleImage
-                                                    Aspect="AspectFill"
-                                                    Grid.Column="0"
-                                                    Grid.Row="0"
-                                                    HorizontalOptions="Center"
-                                                    Margin="4"
-                                                    Source="{Binding F_Perfil, Converter={StaticResource ByteArrayToImage}}"
-                                                    VerticalOptions="Center">
+                                                        Aspect="AspectFill"
+                                                        Grid.Column="0"
+                                                        Grid.Row="0"
+                                                        HorizontalOptions="Center"
+                                                        Margin="4"
+                                                        Source="{Binding F_Perfil, Converter={StaticResource ByteArrayToImage}}"
+                                                        VerticalOptions="Center">
                                                         <control:CircleImage.WidthRequest>
                                                             <OnPlatform x:TypeArguments="x:Double">
                                                                 <On Platform="Android, iOS">40</On>
@@ -132,41 +131,41 @@
                                                         </control:CircleImage.HeightRequest>
                                                     </control:CircleImage>
                                                     <StackLayout
-                                                    Grid.Column="1"
-                                                    Grid.Row="0"
-                                                    HorizontalOptions="FillAndExpand"
-                                                    VerticalOptions="Center">
+                                                        Grid.Column="1"
+                                                        Grid.Row="0"
+                                                        HorizontalOptions="FillAndExpand"
+                                                        VerticalOptions="Center">
                                                         <StackLayout
-                                                        Orientation="Horizontal"
-                                                        HorizontalOptions="StartAndExpand"
-                                                        VerticalOptions="End">
+                                                            Orientation="Horizontal"
+                                                            HorizontalOptions="StartAndExpand"
+                                                            VerticalOptions="End">
                                                             <Label
-                                                            FontAttributes="Bold"
-                                                            FontSize="14"
-                                                            HorizontalTextAlignment="Start"
-                                                            Text="{Binding Nombre}"                                                        
-                                                            TextColor="Black"
-                                                            VerticalOptions="End"
-                                                            VerticalTextAlignment="End"/>
+                                                                FontAttributes="Bold"
+                                                                FontSize="14"
+                                                                HorizontalTextAlignment="Start"
+                                                                Text="{Binding Nombre}"                                                        
+                                                                TextColor="Black"
+                                                                VerticalOptions="End"
+                                                                VerticalTextAlignment="End"/>
                                                             <Label
-                                                            FontAttributes="Bold"
-                                                            FontSize="14"
-                                                            HorizontalTextAlignment="Start"
-                                                            Text="{Binding Apellido}"                                                        
-                                                            TextColor="Black"
-                                                            VerticalOptions="End"
-                                                            VerticalTextAlignment="End"/>
+                                                                FontAttributes="Bold"
+                                                                FontSize="14"
+                                                                HorizontalTextAlignment="Start"
+                                                                Text="{Binding Apellido}"                                                        
+                                                                TextColor="Black"
+                                                                VerticalOptions="End"
+                                                                VerticalTextAlignment="End"/>
                                                         </StackLayout>
                                                         <StackLayout
-                                                        VerticalOptions="StartAndExpand">
+                                                            VerticalOptions="StartAndExpand">   
                                                             <Label
-                                                            FontAttributes="Bold"
-                                                            FontSize="14"
-                                                            HorizontalTextAlignment="Start"
-                                                            Text="{Binding EmpresaInfo}"                                                        
-                                                            TextColor="DimGray"
-                                                            VerticalOptions="Start"
-                                                            VerticalTextAlignment="Start"/>
+                                                                FontAttributes="Bold"
+                                                                FontSize="14"
+                                                                HorizontalTextAlignment="Start"
+                                                                Text="{Binding EmpresaInfo}"                                                        
+                                                                TextColor="DimGray"
+                                                                VerticalOptions="Start"
+                                                                VerticalTextAlignment="Start"/>
                                                         </StackLayout>
                                                     </StackLayout>
                                                 </Grid>
@@ -185,331 +184,337 @@
                                                 TextColor="Black"
                                                 VerticalTextAlignment="Center"/>
                                                 <StackLayout
-                                                    IsVisible="{Binding One_Image}">
-                                                    <Grid
-                                                        HorizontalOptions="CenterAndExpand"
-                                                        VerticalOptions="StartAndExpand">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="260"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="Auto"/>
-                                                        </Grid.RowDefinitions>
-                                                        <Image
-                                                            Aspect="AspectFit"
-                                                            Grid.ColumnSpan="2"
-                                                            Grid.RowSpan="2"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Source="{Binding One_Image_One}"
-                                                            VerticalOptions="FillAndExpand">
+                                                    BindingContext="{Binding Imagenes}">
+                                                    <StackLayout
+                                                        IsVisible="{Binding One_Image}"
+                                                        x:Name="One">
+                                                        <Grid
+                                                            HorizontalOptions="CenterAndExpand"
+                                                            VerticalOptions="StartAndExpand">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="260"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto"/>
+                                                            </Grid.RowDefinitions>
+                                                            <Image
+                                                                Aspect="AspectFit"
+                                                                Grid.ColumnSpan="2"
+                                                                Grid.RowSpan="2"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Source="{Binding Imagen, Converter={StaticResource ByteArrayToImage}}"
+                                                                VerticalOptions="FillAndExpand">
                                                             <!--<Image.GestureRecognizers>
                                                                 <TapGestureRecognizer Tapped="GetImage"/>
                                                             </Image.GestureRecognizers>-->
-                                                        </Image>
-                                                    </Grid>
-                                                </StackLayout>
+                                                            </Image>
+                                                        </Grid>
+                                                    </StackLayout>
 
-                                                <StackLayout
-                                                    IsVisible="{Binding Two_Image_Ver}">
-                                                    <Grid
-                                                        HorizontalOptions="CenterAndExpand"
-                                                        VerticalOptions="StartAndExpand">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="130"/>
-                                                            <ColumnDefinition Width="130"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="130"/>
-                                                            <RowDefinition Height="130"/>
-                                                        </Grid.RowDefinitions>
-                                                        <Image
-                                                            Aspect="AspectFill"
-                                                            Grid.ColumnSpan="2"
-                                                            Grid.Row="0"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Scale="1.0"
-                                                            Source="{Binding Two_Image_One_Ver}"
-                                                            VerticalOptions="FillAndExpand">
+                                                    <StackLayout
+                                                        IsVisible="{Binding Two_Image_Ver}">
+                                                        <Grid
+                                                            HorizontalOptions="CenterAndExpand"
+                                                            VerticalOptions="StartAndExpand">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="130"/>
+                                                                <ColumnDefinition Width="130"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="130"/>
+                                                                <RowDefinition Height="130"/>
+                                                            </Grid.RowDefinitions>
+                                                            <Image
+                                                                Aspect="AspectFill"
+                                                                Grid.ColumnSpan="2"
+                                                                Grid.Row="0"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Scale="1.0"
+                                                                Source="{Binding Two_Image_One_Ver}"
+                                                                VerticalOptions="FillAndExpand">
                                                             <!--<Image.GestureRecognizers>
                                                                 <TapGestureRecognizer Tapped="GetImage"/>
                                                             </Image.GestureRecognizers>-->
-                                                        </Image>
-                                                        <Image
-                                                            Aspect="AspectFill"
-                                                            Grid.ColumnSpan="2"
-                                                            Grid.Row="1"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Scale="1.0"
-                                                            Source="{Binding Two_Image_Two_Ver}"
-                                                            VerticalOptions="FillAndExpand">
+                                                            </Image>
+                                                            <Image
+                                                                Aspect="AspectFill"
+                                                                Grid.ColumnSpan="2"
+                                                                Grid.Row="1"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Scale="1.0"
+                                                                Source="{Binding Two_Image_Two_Ver}"
+                                                                VerticalOptions="FillAndExpand">
                                                             <!--<Image.GestureRecognizers>-->
                                                                 <!--<TapGestureRecognizer Tapped="GetImage"/>
                                                             </Image.GestureRecognizers>-->
-                                                        </Image>
-                                                    </Grid>
-                                                </StackLayout>
+                                                            </Image>
+                                                        </Grid>
+                                                    </StackLayout>
 
-                                                <StackLayout
-                                                    IsVisible="{Binding Two_Image_Hor}">
-                                                    <Grid
-                                                        HorizontalOptions="CenterAndExpand"
-                                                        VerticalOptions="StartAndExpand">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="130"/>
-                                                            <ColumnDefinition Width="130"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="130"/>
-                                                            <RowDefinition Height="130"/>
-                                                        </Grid.RowDefinitions>
-                                                        <Image
-                                                            Aspect="AspectFill"
-                                                            Grid.Column="0"
-                                                            Grid.RowSpan="2"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Source="{Binding Two_Image_One_Ver}"
-                                                            VerticalOptions="FillAndExpand">
+                                                    <StackLayout
+                                                        IsVisible="{Binding Two_Image_Hor}">
+                                                        <Grid
+                                                            HorizontalOptions="CenterAndExpand"
+                                                            VerticalOptions="StartAndExpand">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="130"/>
+                                                                <ColumnDefinition Width="130"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="130"/>
+                                                                <RowDefinition Height="130"/>
+                                                            </Grid.RowDefinitions>
+                                                            <Image
+                                                                Aspect="AspectFill"
+                                                                Grid.Column="0"
+                                                                Grid.RowSpan="2"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Source="{Binding Two_Image_One_Ver}"
+                                                                VerticalOptions="FillAndExpand">
                                                             <!--<Image.GestureRecognizers>
                                                                 <TapGestureRecognizer Tapped="GetImage"/>
                                                             </Image.GestureRecognizers>-->
-                                                        </Image>
-                                                        <Image
-                                                            Aspect="AspectFill"
-                                                            Grid.Column="1"
-                                                            Grid.RowSpan="2"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Scale="1.0"
-                                                            Source="{Binding Two_Image_Two_Ver}"
-                                                            VerticalOptions="FillAndExpand">
+                                                            </Image>
+                                                            <Image
+                                                                Aspect="AspectFill"
+                                                                Grid.Column="1"
+                                                                Grid.RowSpan="2"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Scale="1.0"
+                                                                Source="{Binding Two_Image_Two_Ver}"
+                                                                VerticalOptions="FillAndExpand">
                                                             <!--<Image.GestureRecognizers>
                                                                 <TapGestureRecognizer Tapped="GetImage"/>
                                                             </Image.GestureRecognizers>-->
-                                                        </Image>
-                                                    </Grid>
-                                                </StackLayout>
+                                                            </Image>
+                                                        </Grid>
+                                                    </StackLayout>
 
-                                                <StackLayout
-                                                    IsVisible="{Binding Two_Image_Dif}">
-                                                    <Grid
-                                                        HeightRequest="135"
-                                                        HorizontalOptions="CenterAndExpand"
-                                                        VerticalOptions="StartAndExpand"
-                                                        WidthRequest="270">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="*"/>
-                                                        </Grid.RowDefinitions>
-                                                        <Image
-                                                            Aspect="AspectFill"
-                                                            Grid.Column="0"
-                                                            Grid.Row="0"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Scale="1.0"
-                                                            Source="{Binding Two_Image_One_Dif}"
-                                                            VerticalOptions="FillAndExpand">
+                                                    <StackLayout
+                                                        IsVisible="{Binding Two_Image_Dif}">
+                                                        <Grid
+                                                            HeightRequest="135"
+                                                            HorizontalOptions="CenterAndExpand"
+                                                            VerticalOptions="StartAndExpand"
+                                                            WidthRequest="270">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="*"/>
+                                                            </Grid.RowDefinitions>
+                                                            <Image
+                                                                Aspect="AspectFill"
+                                                                Grid.Column="0"
+                                                                Grid.Row="0"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Scale="1.0"
+                                                                Source="{Binding Two_Image_One_Dif}"
+                                                                VerticalOptions="FillAndExpand">
                                                             <!--<Image.GestureRecognizers>
                                                                 <TapGestureRecognizer Tapped="GetImage"/>
                                                             </Image.GestureRecognizers>-->
-                                                        </Image>
-                                                        <Image
-                                                            Aspect="AspectFill"
-                                                            Grid.Column="1"
-                                                            Grid.Row="0"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Scale="1.0"
-                                                            Source="{Binding Two_Image_Two_Dif}"
-                                                            VerticalOptions="FillAndExpand">
+                                                            </Image>
+                                                            <Image
+                                                                Aspect="AspectFill"
+                                                                Grid.Column="1"
+                                                                Grid.Row="0"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Scale="1.0"
+                                                                Source="{Binding Two_Image_Two_Dif}"
+                                                                VerticalOptions="FillAndExpand">
                                                             <!--<Image.GestureRecognizers>
                                                                 <TapGestureRecognizer Tapped="GetImage"/>
                                                             </Image.GestureRecognizers>-->
-                                                        </Image>
-                                                    </Grid>
-                                                </StackLayout>
+                                                            </Image>
+                                                        </Grid>
+                                                    </StackLayout>
 
-                                                <StackLayout
-                                                    IsVisible="{Binding Three_Image_Ver}">
-                                                    <Grid
-                                                        HorizontalOptions="CenterAndExpand"
-                                                        VerticalOptions="StartAndExpand">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="130"/>
-                                                            <ColumnDefinition Width="130"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="130"/>
-                                                            <RowDefinition Height="130"/>
-                                                        </Grid.RowDefinitions>
-                                                        <Image
-                                                            Aspect="AspectFill"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Grid.ColumnSpan="2"
-                                                            Grid.Row="0"
-                                                            Scale="1.0"
-                                                            Source="{Binding Three_Image_One_Ver}"
-                                                            VerticalOptions="FillAndExpand">
+                                                    <StackLayout
+                                                        IsVisible="{Binding Three_Image_Ver}">
+                                                        <Grid
+                                                            HorizontalOptions="CenterAndExpand"
+                                                            VerticalOptions="StartAndExpand">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="130"/>
+                                                                <ColumnDefinition Width="130"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="130"/>
+                                                                <RowDefinition Height="130"/>
+                                                            </Grid.RowDefinitions>
+                                                            <Image
+                                                                Aspect="AspectFill"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Grid.ColumnSpan="2"
+                                                                Grid.Row="0"
+                                                                Scale="1.0"
+                                                                Source="{Binding Three_Image_One_Ver}"
+                                                                VerticalOptions="FillAndExpand">
                                                             <!--<Image.GestureRecognizers>
                                                                 <TapGestureRecognizer Tapped="GetImage"/>
                                                             </Image.GestureRecognizers>-->
-                                                        </Image>
-                                                        <Image
-                                                            Aspect="AspectFill"
-                                                            Grid.Column="0"
-                                                            Grid.Row="1"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Scale="1.0"
-                                                            Source="{Binding Three_Image_Two_Ver}"
-                                                            VerticalOptions="FillAndExpand"
-                                                            WidthRequest="180">
+                                                            </Image>
+                                                            <Image
+                                                                Aspect="AspectFill"
+                                                                Grid.Column="0"
+                                                                Grid.Row="1"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Scale="1.0"
+                                                                Source="{Binding Three_Image_Two_Ver}"
+                                                                VerticalOptions="FillAndExpand"
+                                                                WidthRequest="180">
                                                             <!--<Image.GestureRecognizers>
                                                                 <TapGestureRecognizer Tapped="GetImage"/>
                                                             </Image.GestureRecognizers>-->
-                                                        </Image>
-                                                        <Image
-                                                            Aspect="AspectFill"
-                                                            Grid.Column="1"
-                                                            Grid.Row="1"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Scale="1.0"
-                                                            Source="{Binding Three_Image_Three_Ver}"
-                                                            VerticalOptions="FillAndExpand"
-                                                            WidthRequest="180">
+                                                            </Image>
+                                                            <Image
+                                                                Aspect="AspectFill"
+                                                                Grid.Column="1"
+                                                                Grid.Row="1"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Scale="1.0"
+                                                                Source="{Binding Three_Image_Three_Ver}"
+                                                                VerticalOptions="FillAndExpand"
+                                                                WidthRequest="180">
                                                             <!--<Image.GestureRecognizers>
                                                                 <TapGestureRecognizer Tapped="GetImage"/>
                                                             </Image.GestureRecognizers>-->
-                                                        </Image>
-                                                    </Grid>
-                                                </StackLayout>
+                                                            </Image>
+                                                        </Grid>
+                                                    </StackLayout>
 
-                                                <StackLayout                                                    
-                                                    IsVisible="{Binding Three_Image_Hor}">
-                                                    <Grid
-                                                        HorizontalOptions="CenterAndExpand"
-                                                        VerticalOptions="StartAndExpand">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="130"/>
-                                                            <ColumnDefinition Width="130"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="130"/>
-                                                            <RowDefinition Height="130"/>
-                                                        </Grid.RowDefinitions>
-                                                        <Image
-                                                            Aspect="AspectFill"
-                                                            Grid.Column="0"
-                                                            Grid.RowSpan="2"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Scale="1.0"
-                                                            Source="{Binding Three_Image_One_Hor}"
-                                                            VerticalOptions="FillAndExpand">
+                                                    <StackLayout                                                    
+                                                        IsVisible="{Binding Three_Image_Hor}">
+                                                        <Grid
+                                                            HorizontalOptions="CenterAndExpand"
+                                                            VerticalOptions="StartAndExpand">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="130"/>
+                                                                <ColumnDefinition Width="130"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="130"/>
+                                                                <RowDefinition Height="130"/>
+                                                            </Grid.RowDefinitions>
+                                                            <Image
+                                                                Aspect="AspectFill"
+                                                                Grid.Column="0"
+                                                                Grid.RowSpan="2"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Scale="1.0"
+                                                                Source="{Binding Three_Image_One_Hor}"
+                                                                VerticalOptions="FillAndExpand">
                                                             <!--<Image.GestureRecognizers>
                                                                 <TapGestureRecognizer Tapped="GetImage"/>
                                                             </Image.GestureRecognizers>-->
-                                                        </Image>
-                                                        <Image
-                                                            Aspect="AspectFill"
-                                                            Grid.Column="1"
-                                                            Grid.Row="0"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Scale="1.0"
-                                                            Source="{Binding Three_Image_Two_Hor}"
-                                                            VerticalOptions="FillAndExpand"
-                                                            WidthRequest="180">
+                                                            </Image>
+                                                            <Image
+                                                                Aspect="AspectFill"
+                                                                Grid.Column="1"
+                                                                Grid.Row="0"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Scale="1.0"
+                                                                Source="{Binding Three_Image_Two_Hor}"
+                                                                VerticalOptions="FillAndExpand"
+                                                                WidthRequest="180">
                                                             <!--<Image.GestureRecognizers>
                                                                 <TapGestureRecognizer Tapped="GetImage"/>
                                                             </Image.GestureRecognizers>-->
-                                                        </Image>
-                                                        <Image
-                                                            Aspect="AspectFill"
-                                                            Grid.Column="1"
-                                                            Grid.Row="1"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Scale="1.0"
-                                                            Source="{Binding Three_Image_Three_Hor}"
-                                                            VerticalOptions="FillAndExpand"
-                                                            WidthRequest="180">
+                                                            </Image>
+                                                            <Image
+                                                                Aspect="AspectFill"
+                                                                Grid.Column="1"
+                                                                Grid.Row="1"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Scale="1.0"
+                                                                Source="{Binding Three_Image_Three_Hor}"
+                                                                VerticalOptions="FillAndExpand"
+                                                                WidthRequest="180">
                                                             <!--<Image.GestureRecognizers>
                                                                 <TapGestureRecognizer Tapped="GetImage"/>
                                                             </Image.GestureRecognizers>-->
-                                                        </Image>
-                                                    </Grid>
-                                                </StackLayout>
+                                                            </Image>
+                                                        </Grid>
+                                                    </StackLayout>
 
-                                                <StackLayout
-                                                    IsVisible="{Binding Four_Image}">
-                                                    <Grid
-                                                        HeightRequest="250"
-                                                        HorizontalOptions="CenterAndExpand"
-                                                        VerticalOptions="StartAndExpand"
-                                                        WidthRequest="250">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*"/>
-                                                            <ColumnDefinition Width="*"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="*"/>
-                                                            <RowDefinition Height="*"/>
-                                                        </Grid.RowDefinitions>
-                                                        <Image
-                                                            Aspect="AspectFill"
-                                                            Grid.Column="0"
-                                                            Grid.Row="0"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Scale="1.0"
-                                                            Source="{Binding Four_Image_One}"
-                                                            VerticalOptions="FillAndExpand">
+                                                    <StackLayout
+                                                        IsVisible="{Binding Four_Image}">
+                                                        <Grid
+                                                            HeightRequest="250"
+                                                            HorizontalOptions="CenterAndExpand"
+                                                            VerticalOptions="StartAndExpand"
+                                                            WidthRequest="250">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="*"/>
+                                                                <RowDefinition Height="*"/>
+                                                            </Grid.RowDefinitions>
+                                                            <Image
+                                                                Aspect="AspectFill"
+                                                                Grid.Column="0"
+                                                                Grid.Row="0"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Scale="1.0"
+                                                                Source="{Binding Four_Image_One}"
+                                                                VerticalOptions="FillAndExpand">
                                                             <!--<Image.GestureRecognizers>
                                                                 <TapGestureRecognizer Tapped="GetImage"/>
                                                             </Image.GestureRecognizers>-->
-                                                        </Image>
-                                                        <Image
-                                                            Aspect="AspectFill"
-                                                            Grid.Column="1"
-                                                            Grid.Row="0"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Scale="1.0"
-                                                            Source="{Binding Four_Image_Two}"
-                                                            VerticalOptions="FillAndExpand">
+                                                            </Image>
+                                                            <Image
+                                                                Aspect="AspectFill"
+                                                                Grid.Column="1"
+                                                                Grid.Row="0"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Scale="1.0"
+                                                                Source="{Binding Four_Image_Two}"
+                                                                VerticalOptions="FillAndExpand">
                                                             <!--<Image.GestureRecognizers>
                                                                 <TapGestureRecognizer Tapped="GetImage"/>
                                                             </Image.GestureRecognizers>-->
-                                                        </Image>
-                                                        <Image
-                                                            Aspect="AspectFill"
-                                                            Grid.Column="0"
-                                                            Grid.Row="1"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Scale="1.0"
-                                                            Source="{Binding Four_Image_Three}"
-                                                            VerticalOptions="FillAndExpand">
+                                                            </Image>
+                                                            <Image
+                                                                Aspect="AspectFill"
+                                                                Grid.Column="0"
+                                                                Grid.Row="1"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Scale="1.0"
+                                                                Source="{Binding Four_Image_Three}"
+                                                                VerticalOptions="FillAndExpand">
                                                             <!--<Image.GestureRecognizers>
                                                                 <TapGestureRecognizer Tapped="GetImage"/>
                                                             </Image.GestureRecognizers>-->
-                                                        </Image>
-                                                        <Image
-                                                            Aspect="AspectFill"
-                                                            Grid.Column="1"
-                                                            Grid.Row="1"
-                                                            HorizontalOptions="FillAndExpand"
-                                                            Scale="1.0"
-                                                            Source="{Binding Four_Image_Four}"
-                                                            VerticalOptions="FillAndExpand">
+                                                            </Image>
+                                                            <Image
+                                                                Aspect="AspectFill"
+                                                                Grid.Column="1"
+                                                                Grid.Row="1"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Scale="1.0"
+                                                                Source="{Binding Four_Image_Four}"
+                                                                VerticalOptions="FillAndExpand">
                                                             <!--<Image.GestureRecognizers>
                                                                 <TapGestureRecognizer Tapped="GetImage"/>
                                                             </Image.GestureRecognizers>-->
-                                                        </Image>
-                                                    </Grid>
+                                                            </Image>
+                                                        </Grid>
+                                                    </StackLayout>
                                                 </StackLayout>
+                                                
 
-                                                <control:ItemsControl ItemsSource="{Binding ImgPublicacion}">
+
+                                                <!--<control:ItemsControl ItemsSource="{Binding Imagenes}">
                                                     <control:ItemsControl.ItemTemplate>
                                                         <DataTemplate>                                                            
                                                             <StackLayout>
                                                                 <Image
                                                                     Aspect="AspectFit"
                                                                     HorizontalOptions="FillAndExpand"
-                                                                    Source="{Binding Imagen}"
+                                                                    Source="{Binding Imagen, Converter={StaticResource ByteArrayToImage}}"
                                                                     VerticalOptions="FillAndExpand">
                                                                     <Image.GestureRecognizers>
                                                                         <TapGestureRecognizer Tapped="GetImage"/>
@@ -519,7 +524,7 @@
                                                             </StackLayout>
                                                         </DataTemplate>
                                                     </control:ItemsControl.ItemTemplate>
-                                            </control:ItemsControl>
+                                            </control:ItemsControl>-->
                                         </StackLayout>
                                     </Grid>
                                 </Frame>

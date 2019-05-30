@@ -86,5 +86,9 @@
         public System.Data.Entity.DbSet<mLetsTatoo.Models.T_notificaciones> T_notificaciones { get; set; }
 
         public System.Data.Entity.DbSet<mLetsTatoo.Models.T_notif_citas> T_notif_citas { get; set; }
+
+        public System.Data.Entity.DbSet<mLetsTatoo.Models.T_datos_bancarios> T_datos_bancarios { get; set; }
+
+        public System.Data.Entity.DbSet<mLetsTatoo.Models.T_retiros> T_retiros { get; set; }
     }
 }

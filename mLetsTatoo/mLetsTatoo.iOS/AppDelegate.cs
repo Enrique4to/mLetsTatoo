@@ -35,7 +35,8 @@ namespace mLetsTatoo.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            global::Xamarin.Forms.Forms.Init();
+global::Xamarin.Forms.Forms.Init();
+SfPickerRenderer.Init();
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
             SfCheckBoxRenderer.Init();
             SfCalendarRenderer.Init();
@@ -45,6 +46,7 @@ namespace mLetsTatoo.iOS
             SfCheckBoxRenderer.Init();
             Rg.Plugins.Popup.Popup.Init();
             NControls.Init();
+            Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 
             var config = new PayPalConfiguration(PayPalEnvironment.Production, "AfV0uHgHfdRiSCM7jX786-0iatiiG-GtFwRRXe7L7xKQZYwTpbuAqGUvkeMpvbaXsWN_GOB1n69D5HYh")
             {

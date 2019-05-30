@@ -175,7 +175,7 @@
 
                 if (entry == this.Cost)
                 {
-                    if (a != CostAddedComision)
+                    if (a != CostAddedComision || a >= 0)
                     {
                         if (e.IsFocused == false)
                         {
@@ -187,7 +187,7 @@
 
                 if (entry == this.Advance)
                 {
-                    if (a != AdvanceAddedComision)
+                    if (a != AdvanceAddedComision || a >= 0)
                     {
                         if (e.IsFocused == false)
                         {

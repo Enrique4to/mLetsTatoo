@@ -822,4 +822,28 @@ Remember that you only have 24 hours to do it, otherwise, your appointment will 
   <data name="BankAccount" xml:space="preserve">
     <value>Bank information</value>
   </data>
+  <data name="AccountCard" xml:space="preserve">
+    <value>Account/Card Number/Clabe</value>
+  </data>
+  <data name="BankAccountInformation" xml:space="preserve">
+    <value>Complete your bank details</value>
+  </data>
+  <data name="BankAccountUserName" xml:space="preserve">
+    <value>Full name</value>
+  </data>
+  <data name="SelectBank" xml:space="preserve">
+    <value>Select your bank</value>
+  </data>
+  <data name="MaximunGetMoney" xml:space="preserve">
+    <value>The maximum amount you have to withdraw is</value>
+  </data>
+  <data name="ErrorGetMoney" xml:space="preserve">
+    <value>The amount to withdraw must be less than or equal to the maximum amount you have</value>
+  </data>
+  <data name="ErrorNoBankAccount" xml:space="preserve">
+    <value>It is necessary that you fill out the bank details in the Edit Banking Information options to continue.</value>
+  </data>
+  <data name="PaypalComission" xml:space="preserve">
+    <value>PayPal Comission</value>
+  </data>
 </root>

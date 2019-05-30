@@ -143,6 +143,33 @@ xmlns:checkbox="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Butt
                                 <TapGestureRecognizer Command="{Binding EditSchedulerCommand}"/>
                             </Frame.GestureRecognizers>
                         </Frame>
+                        <Frame
+                            BorderColor="black"
+                            Margin=" 10,5,10,15"
+                            CornerRadius="10"
+                            Padding="10,3">
+                            <StackLayout
+                                Orientation="Horizontal">
+                                <Image
+                                    HorizontalOptions="Start"
+                                    Margin="2"
+                                    Source="Bank.png"
+                                    VerticalOptions="CenterAndExpand"
+                                    WidthRequest="20"/>
+                                <Label
+                                    FontAttributes="Bold"
+                                    FontSize="15"
+                                    Margin="5,0,0,5"
+                                    Text="{i18n:Translate BankAccount}"
+                                    TextColor="Black"
+                                    HorizontalTextAlignment="Start"
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="CenterAndExpand"/>
+                            </StackLayout>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding EditBankAccountCommand}"/>
+                            </Frame.GestureRecognizers>
+                        </Frame>
                     </StackLayout>
                 </StackLayout>
             </ScrollView>

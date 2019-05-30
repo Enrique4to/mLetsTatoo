@@ -41,6 +41,7 @@
         public NewPublicationPopupViewModel NewPublicationPopup { get; set; }
         public EditSchedulerPopupViewModel EditSchedulerPopup { get; set; }
         public EditFeaturesPopupViewModel EditFeaturesPopup { get; set; }
+        public EditBankAccountPopupViewModel EditBankAccountPopup { get; set; }
 
         #endregion
 

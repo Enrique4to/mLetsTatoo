@@ -115,6 +115,24 @@
                             Text="{Binding Saldo_Favor, Mode=TwoWay}"
                             TextColor="LightGray"
                             HorizontalTextAlignment="Center"/>
+                        <Frame
+                            BackgroundColor="White"
+                            BorderColor="Black"
+                            HasShadow="True"
+                            HorizontalOptions="EndAndExpand"
+                            CornerRadius="10"
+                            Padding="2"
+                            VerticalOptions="Center">
+                            <Image
+                                HorizontalOptions="CenterAndExpand"
+                                Margin="2"
+                                Source="GetMoney.png"
+                                VerticalOptions="CenterAndExpand"
+                                WidthRequest="30"/>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GetMoneyCommand}"/>
+                            </Frame.GestureRecognizers>
+                        </Frame>
                     </StackLayout>
                     <StackLayout
                         Orientation="Horizontal">

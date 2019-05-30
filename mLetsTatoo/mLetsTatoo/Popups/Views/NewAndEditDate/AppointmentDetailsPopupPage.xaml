@@ -23,155 +23,153 @@
     </pages:PopupPage.Animation>
     <ContentPage.Content>
         <Frame
-            BackgroundColor="White"
-            HasShadow="True"
-            CornerRadius="10"
-            Opacity=".95"
-            Margin="20,5,20,5"
-            VerticalOptions="Center">
+                BackgroundColor="White"
+                HasShadow="True"
+                CornerRadius="10"
+                Opacity=".95"
+                Margin="20,5,20,5"
+                VerticalOptions="Center">
             <ScrollView>
                 <StackLayout
-                BindingContext="{Binding NewAppointmentPopup}"
-                Padding="5">
+                    BindingContext="{Binding NewAppointmentPopup}"
+                    Padding="5">
                     <StackLayout
-                    VerticalOptions="StartAndExpand"
-                    Padding="0,5,0,5">
+                        VerticalOptions="StartAndExpand"
+                        Padding="0,5,0,5">
                         <Label
-                        FontAttributes="Bold"
-                        FontSize="16"
-                        Text="{i18n:Translate AppointmentDetails}"
-                        TextColor="Black"
-                        HorizontalTextAlignment="Center"
-                        VerticalOptions="StartAndExpand"/>
+                            FontAttributes="Bold"
+                            FontSize="16"
+                            Text="{i18n:Translate AppointmentDetails}"
+                            TextColor="Black"
+                            HorizontalTextAlignment="Center"
+                            VerticalOptions="StartAndExpand"/>
                         <control:CustomLabel
-                        BorderColor="Gray"
-                        FontAttributes="Bold"
-                        FontSize="14"
-                        HorizontalTextAlignment="Center"
-                        IsCurvedCornersEnabled="True"
-                        Margin="10,5,0,0"
-                        Text="{Binding Subject}"
-                        TextColor="Black"/>
-                        <StackLayout
-                        HorizontalOptions="CenterAndExpand"
-                        Orientation="Horizontal"
-                        Padding="5"
-                        VerticalOptions="StartAndExpand">
-                            <Label
-                            FontSize="12"
-                            HorizontalTextAlignment="End"
-                            Text="{i18n:Translate Date}"
-                            TextColor="Black"
-                            VerticalOptions="Center"/>
-                            <Label
-                            FontAttributes="Bold"
-                            FontSize="12"
-                            HorizontalOptions="StartAndExpand"
-                            TextColor="Black"
-                            Text="{Binding DateStart, Mode=TwoWay}"
-                            VerticalOptions="Center"/>
-                            <Label
-                            FontSize="12"
-                            HorizontalTextAlignment="End"
-                            Text="{i18n:Translate Hour}"
-                            TextColor="Black"
-                            VerticalOptions="Center"/>
-                            <Label
-                            FontAttributes="Bold"
-                            FontSize="12"
-                            HorizontalOptions="StartAndExpand"
-                            TextColor="Black"
-                            Text="{Binding HourStart, Mode=TwoWay}"
-                            VerticalOptions="Center"/>
-                        </StackLayout>
-                        <StackLayout
-                        Padding="5"
-                        VerticalOptions="StartAndExpand">
-                            <Label
+                            BorderColor="Gray"
                             FontAttributes="Bold"
                             FontSize="14"
-                            HorizontalTextAlignment="Start"
-                            Margin="10,0,0,0"
-                            Text="{i18n:Translate AppointmentWhere}"
-                            TextColor="Black"
-                            VerticalOptions="Center"/>
-                            <control:CustomLabel
-                            FontAttributes="Bold"
-                            FontSize="13"
                             HorizontalTextAlignment="Center"
-                            Margin="5,0,0,0"
-                            Text="{Binding Studio}"
+                            IsCurvedCornersEnabled="True"
+                            Margin="10,5,0,0"
+                            Text="{Binding Subject}"
                             TextColor="Black"/>
-                            <Label
-                            FontSize="12"
-                            HorizontalTextAlignment="Start"
-                            Margin="10,0,0,0"
-                            Text="{Binding Address}"
-                            TextColor="Black"/>
-                            <Label
-                            FontSize="12"
-                            HorizontalTextAlignment="Start"
-                            Margin="10,3,0,0"
-                            Text="{Binding Reference}"
-                            TextColor="Black"/>
-                        </StackLayout>
                         <StackLayout
-                        Padding="5,5,5,12"
-                        Orientation="Horizontal"
-                        VerticalOptions="StartAndExpand">
+                            HorizontalOptions="CenterAndExpand"
+                            Orientation="Horizontal"
+                            Padding="5"
+                            VerticalOptions="StartAndExpand">
                             <Label
-                            FontAttributes="Bold"
-                            FontSize="13"
-                            HorizontalTextAlignment="Start"
-                            Margin="10,0,0,0"
-                            Text="{i18n:Translate Artist}"
-                            TextColor="Black"
-                            VerticalOptions="Center"/>
+                                FontSize="12"
+                                HorizontalTextAlignment="End"
+                                Text="{i18n:Translate Date}"
+                                TextColor="Black"
+                                VerticalOptions="Center"/>
                             <Label
-                            FontSize="12"
-                            HorizontalTextAlignment="Center"
-                            Margin="5,0,0,0"
-                            Text="{Binding Artist}"
-                            TextColor="Black"/>
-                        </StackLayout>
-                        <StackLayout
-                        Padding="2,0,2,12"
-                        VerticalOptions="StartAndExpand">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <Label
                                 FontAttributes="Bold"
                                 FontSize="12"
-                                Grid.Row ="1"
+                                HorizontalOptions="StartAndExpand"
+                                TextColor="Black"
+                                Text="{Binding DateStart, Mode=TwoWay}"
+                                VerticalOptions="Center"/>
+                            <Label
+                                FontSize="12"
+                                HorizontalTextAlignment="End"
+                                Text="{i18n:Translate Hour}"
+                                TextColor="Black"
+                                VerticalOptions="Center"/>
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="12"
+                                HorizontalOptions="StartAndExpand"
+                                TextColor="Black"
+                                Text="{Binding HourStart, Mode=TwoWay}"
+                                VerticalOptions="Center"/>
+                        </StackLayout>
+                        <StackLayout
+                            Padding="5"
+                            VerticalOptions="StartAndExpand">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="14"
+                                HorizontalTextAlignment="Start"
+                                Margin="10,0,0,0"
+                                Text="{i18n:Translate AppointmentWhere}"
+                                TextColor="Black"
+                                VerticalOptions="Center"/>
+                            <control:CustomLabel
+                                FontAttributes="Bold"
+                                FontSize="13"
+                                HorizontalTextAlignment="Center"
+                                Margin="5,0,0,0"
+                                Text="{Binding Studio}"
+                                TextColor="Black"/>
+                            <Label
+                                FontSize="12"
+                                HorizontalTextAlignment="Start"
+                                Margin="10,0,0,0"
+                                Text="{Binding Address}"
+                                TextColor="Black"/>
+                            <Label
+                                FontSize="12"
+                                HorizontalTextAlignment="Start"
+                                Margin="10,3,0,0"
+                                Text="{Binding Reference}"
+                                TextColor="Black"/>
+                        </StackLayout>
+                        <StackLayout
+                            Padding="5,5,5,12"
+                            Orientation="Horizontal"
+                            VerticalOptions="StartAndExpand">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="13"
+                                HorizontalTextAlignment="Start"
+                                Margin="10,0,0,0"
+                                Text="{i18n:Translate Artist}"
+                                TextColor="Black"
+                                VerticalOptions="Center"/>
+                            <Label
+                                FontSize="12"
+                                HorizontalTextAlignment="Center"
+                                Margin="5,0,0,0"
+                                Text="{Binding Artist}"
+                                TextColor="Black"/>
+                        </StackLayout>
+                        <StackLayout
+                            Padding="2,0,2,12"
+                            VerticalOptions="StartAndExpand">
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="12"
                                 Text="{Binding AppCost}"
                                 TextColor="Black"
                                 HorizontalTextAlignment="End"
                                 VerticalTextAlignment="Start"
                                 VerticalOptions="Start"/>
-                                <Label
+                            <Label
                                 FontAttributes="Bold"
                                 FontSize="12"
-                                Grid.Row ="2"
                                 Text="{Binding AppAdvance}"
                                 TextColor="Black"
                                 HorizontalTextAlignment="End"
                                 VerticalTextAlignment="Start"
                                 VerticalOptions="Start"/>
-                                <Label
+                            <Label
                                 FontAttributes="Bold"
                                 FontSize="12"
-                                Grid.Row ="3"
                                 Text="{Binding AppDuration}"
                                 TextColor="Black"
                                 HorizontalTextAlignment="End"
                                 VerticalTextAlignment="Start"
                                 VerticalOptions="Start"/>
-                            </Grid>
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="12"
+                                IsVisible="{Binding PayPalMetodoChecked}"
+                                Text="{Binding PayPalComission}"
+                                TextColor="Black"
+                                HorizontalTextAlignment="End"
+                                VerticalTextAlignment="Start"
+                                VerticalOptions="Start"/>
                         </StackLayout>
                         <StackLayout
                             IsVisible="{Binding CashMetodoChecked}"
@@ -219,37 +217,37 @@
                         <StackLayout
                             Orientation="Horizontal">
                             <Frame
-                            BackgroundColor="Transparent"
-                            BorderColor="Black"
-                            HasShadow="True"
-                            HorizontalOptions="StartAndExpand"
-                            CornerRadius="10"
-                            Padding="2"
-                            VerticalOptions="End">
+                                BackgroundColor="Transparent"
+                                BorderColor="Black"
+                                HasShadow="True"
+                                HorizontalOptions="StartAndExpand"
+                                CornerRadius="10"
+                                Padding="2"
+                                VerticalOptions="End">
                                 <Image
-                                HorizontalOptions="CenterAndExpand"
-                                Margin="2"
-                                Source="Previous.png"
-                                VerticalOptions="CenterAndExpand"
-                                WidthRequest="20"/>
+                                    HorizontalOptions="CenterAndExpand"
+                                    Margin="2"
+                                    Source="Previous.png"
+                                    VerticalOptions="CenterAndExpand"
+                                    WidthRequest="20"/>
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding CancelCommand}"/>
                                 </Frame.GestureRecognizers>
                             </Frame>
                             <Frame
-                            BackgroundColor="Transparent"
-                            BorderColor="Black"
-                            HasShadow="True"
-                            HorizontalOptions="EndAndExpand"
-                            CornerRadius="10"
-                            Padding="2"
-                            VerticalOptions="Center">
+                                BackgroundColor="Transparent"
+                                BorderColor="Black"
+                                HasShadow="True"
+                                HorizontalOptions="EndAndExpand"
+                                CornerRadius="10"
+                                Padding="2"
+                                VerticalOptions="Center">
                                 <Image
-                                HorizontalOptions="CenterAndExpand"
-                                Margin="2"
-                                Source="Check.png"
-                                VerticalOptions="CenterAndExpand"
-                                WidthRequest="20"/>
+                                    HorizontalOptions="CenterAndExpand"
+                                    Margin="2"
+                                    Source="Check.png"
+                                    VerticalOptions="CenterAndExpand"
+                                    WidthRequest="20"/>
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding NextCommand}"/>
                                 </Frame.GestureRecognizers>

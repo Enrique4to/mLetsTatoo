@@ -88,6 +88,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account/Card Number/Clabe.
+        /// </summary>
+        internal static string AccountCard {
+            get {
+                return ResourceManager.GetString("AccountCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Activate.
         /// </summary>
         internal static string Activate {
@@ -291,6 +300,24 @@ namespace mLetsTatoo.Resources {
         internal static string BankAccount {
             get {
                 return ResourceManager.GetString("BankAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Complete your bank details.
+        /// </summary>
+        internal static string BankAccountInformation {
+            get {
+                return ResourceManager.GetString("BankAccountInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full name.
+        /// </summary>
+        internal static string BankAccountUserName {
+            get {
+                return ResourceManager.GetString("BankAccountUserName", resourceCulture);
             }
         }
         
@@ -827,11 +854,29 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The amount to withdraw must be less than or equal to the maximum amount you have.
+        /// </summary>
+        internal static string ErrorGetMoney {
+            get {
+                return ResourceManager.GetString("ErrorGetMoney", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check your internet connection!.
         /// </summary>
         internal static string ErrorInternet {
             get {
                 return ResourceManager.GetString("ErrorInternet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It is necessary that you fill out the bank details in the Edit Banking Information options to continue..
+        /// </summary>
+        internal static string ErrorNoBankAccount {
+            get {
+                return ResourceManager.GetString("ErrorNoBankAccount", resourceCulture);
             }
         }
         
@@ -1129,6 +1174,15 @@ namespace mLetsTatoo.Resources {
         internal static string MatchPasswordError {
             get {
                 return ResourceManager.GetString("MatchPasswordError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The maximum amount you have to withdraw is.
+        /// </summary>
+        internal static string MaximunGetMoney {
+            get {
+                return ResourceManager.GetString("MaximunGetMoney", resourceCulture);
             }
         }
         
@@ -1466,6 +1520,15 @@ namespace mLetsTatoo.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PayPal Comission.
+        /// </summary>
+        internal static string PaypalComission {
+            get {
+                return ResourceManager.GetString("PaypalComission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter your personal data....
         /// </summary>
         internal static string PersonalData {
@@ -1726,6 +1789,15 @@ namespace mLetsTatoo.Resources {
         internal static string SelectArtist {
             get {
                 return ResourceManager.GetString("SelectArtist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select your bank.
+        /// </summary>
+        internal static string SelectBank {
+            get {
+                return ResourceManager.GetString("SelectBank", resourceCulture);
             }
         }
         

@@ -22,6 +22,7 @@
 
         #region Services
         private ApiService apiService;
+        private SyncDBManager manager;
         #endregion
 
         #region Attributes
@@ -39,6 +40,8 @@
         #region Propierties
 
         public List<T_empresas> EmpresaList { get; set; }
+        public List<T_datos_bancarios> DatosBancariosList { get; set; }
+        public List<T_retiros> RetirosList { get; set; }
         public List<T_trabajocitas> CitaList { get; set; }
         public List<T_trabajocitas> CteCitaList { get; set; }
         public List<T_teccaract> FeaturesList { get; set; }
@@ -105,15 +108,13 @@
         public LoginViewModel()
         {
             this.apiService = new ApiService();
+            //this.manager = SyncDBManager.DefaultManager;
             this.IsRemember = true;
             this.IsEnabled = true;
             this.Usuario = null;
             this.Pass = null;
-
             this.LoadLists();
         }
-
-
         #endregion
 
         #region Commands
@@ -166,7 +167,6 @@
             }
 
             this.ListPublicaciones = (List<T_publicaciones>)response.Result;
-
 
             //-----------------------------Load ImgPublicacionesList----------------------------//
 
@@ -304,6 +304,37 @@
             }
 
             this.ImagesTempList = (List<T_citaimagenestemp>)response.Result;
+            //-----------------------------Load DatosBancariosList----------------------------//
+
+            controller = Application.Current.Resources["UrlT_datos_bancariosController"].ToString();
+
+            response = await this.apiService.GetList<T_datos_bancarios>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+
+            this.DatosBancariosList = (List<T_datos_bancarios>)response.Result;
+
+            //-----------------------------Load RetirosList----------------------------//
+
+            controller = Application.Current.Resources["UrlT_retirosController"].ToString();
+
+            response = await this.apiService.GetList<T_retiros>(urlApi, prefix, controller);
+            if (!response.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                return;
+            }
+
+            this.RetirosList = (List<T_retiros>)response.Result;
 
             //-----------------------------Load EmpresasList----------------------------//
 

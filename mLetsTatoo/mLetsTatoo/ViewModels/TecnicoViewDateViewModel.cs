@@ -162,7 +162,8 @@
             Task.Run(async () => { await this.LoadNotas(); }).Wait();
             this.IsButtonEnabled = false;
             this.IsVisible = false;
-            if (this.trabajo.Trabajo_Iniciado == true && (DateTime.Today >= this.cita.F_Inicio))
+
+            if (this.trabajo.Trabajo_Iniciado == true)
             {
                 this.IsVisibleFinishArt = true;
                 this.IsVisibleNewDate = true;
@@ -513,8 +514,8 @@
                 Alto = this.trabajo.Alto,
                 Ancho = this.trabajo.Ancho,
                 Asunto = this.trabajo.Asunto,
-                Cancelado = true,
-                Completo = this.trabajo.Completo,
+                Cancelado = this.trabajo.Cancelado,
+                Completo = true,
                 Costo_Cita = this.trabajo.Costo_Cita,
                 Id_Caract = this.trabajo.Id_Caract,
                 Id_Cliente = this.trabajo.Id_Cliente,

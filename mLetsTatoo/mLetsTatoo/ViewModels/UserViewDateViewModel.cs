@@ -252,6 +252,10 @@
             {
                 this.isVisibleInicio = false;
             }
+            if(DateTime.Today.ToLocalTime() < this.cita.F_Inicio)
+            {
+                this.isVisibleInicio = false;
+            }
         }
         public async Task LoadInfo()
         {

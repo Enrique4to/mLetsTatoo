@@ -46,6 +46,8 @@
             <x:String x:Key="UrlT_cobrostecnicoController">/T_cobrostecnico</x:String>
             <x:String x:Key="UrlT_notificacionesController">/T_notificaciones</x:String>
             <x:String x:Key="UrlT_notif_citasController">/T_notif_citas</x:String>
+            <x:String x:Key="UrlT_datos_bancariosController">/T_datos_bancarios</x:String>
+            <x:String x:Key="UrlT_retirosController">/T_retiros</x:String>
             
         </ResourceDictionary>
 

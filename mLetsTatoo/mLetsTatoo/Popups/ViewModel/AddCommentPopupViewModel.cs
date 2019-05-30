@@ -25,6 +25,7 @@
         private T_trabajos trabajo;
         private TecnicosCollection tecnico;
         private T_trabajonota nota;
+        private T_notificaciones newNotif;
         #endregion
         #region Properties
 
@@ -110,7 +111,7 @@
                 var notif = $"{Languages.TheClient} {fromName} {Languages.NotifNewComment} #{this.cita.Id_Cita}: {this.cita.Asunto}";
                 this.apiService.SendNotificationAsync(notif, To, fromName);
 
-                newNotif = new T_notificaciones
+                this.newNotif = new T_notificaciones
                 {
                     Usuario_Envia = this.cliente.Id_Usuario,
                     Usuario_Recibe = this.tecnico.Id_Usuario,
@@ -157,7 +158,7 @@
                 var notif = $"{Languages.TheArtist} {fromName} {Languages.NotifNewComment} #{this.cita.Id_Cita}: {this.cita.Asunto}";
                 this.apiService.SendNotificationAsync(notif, To, fromName);
 
-                newNotif = new T_notificaciones
+                this.newNotif = new T_notificaciones
                 {
                     Usuario_Envia = this.tecnico.Id_Usuario,
                     Usuario_Recibe = this.cliente.Id_Usuario,
@@ -170,7 +171,7 @@
 
             controller = Application.Current.Resources["UrlT_notificacionesController"].ToString();
 
-            var response1 = await this.apiService.Post(urlApi, prefix, controller, newNotif);
+            var response1 = await this.apiService.Post(urlApi, prefix, controller, this.newNotif);
 
             if (!response1.IsSuccess)
             {
@@ -182,13 +183,13 @@
                 "OK");
                 return;
             }
-            newNotif = (T_notificaciones)response1.Result;
+            this.newNotif = (T_notificaciones)response1.Result;
 
             //TipoNotif Cita =1
             //TipoNotif TrabajoTemp = 2
             var newNotifCita = new T_notif_citas
             {
-                Id_Notificacion = newNotif.Id_Notificacion,
+                Id_Notificacion = this.newNotif.Id_Notificacion,
                 Id_Cita = cita.Id_Cita,
                 TipoNotif = 1,
             };

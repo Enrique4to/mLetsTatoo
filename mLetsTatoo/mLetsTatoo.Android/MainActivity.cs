@@ -51,6 +51,7 @@ namespace mLetsTatoo.Droid
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
             NControls.Init();
+            Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
 
             var config = new PayPalConfiguration(PayPalEnvironment.Production, "AWEDFUuv1XzylbHqV2HWYdhLYc7960aIIsGP33FvbQw8lwotAPTODKekDZVmw5Xn6TDcu1lS2-kzBn_p")

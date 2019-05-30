@@ -811,7 +811,7 @@ Recuerda que sólo tienes 24 horas para hacerlo, sino, tu cita será cancelada d
     <value>ha cancelado el arte</value>
   </data>
   <data name="NotifArtStart" xml:space="preserve">
-    <value>ha iniciadio el arte</value>
+    <value>ha iniciado el arte</value>
   </data>
   <data name="NotifFinishArt" xml:space="preserve">
     <value>ha finalizado el arte</value>
@@ -821,5 +821,29 @@ Recuerda que sólo tienes 24 horas para hacerlo, sino, tu cita será cancelada d
   </data>
   <data name="BankAccount" xml:space="preserve">
     <value>Información bancaria</value>
+  </data>
+  <data name="AccountCard" xml:space="preserve">
+    <value>Cuenta / Número de Tarjeta / Clabe</value>
+  </data>
+  <data name="BankAccountInformation" xml:space="preserve">
+    <value>Completa tus datos bancarios</value>
+  </data>
+  <data name="BankAccountUserName" xml:space="preserve">
+    <value>Nombre completo</value>
+  </data>
+  <data name="SelectBank" xml:space="preserve">
+    <value>Selecciona tu banco</value>
+  </data>
+  <data name="MaximunGetMoney" xml:space="preserve">
+    <value>El monto máximo que tienes para retirar es</value>
+  </data>
+  <data name="ErrorGetMoney" xml:space="preserve">
+    <value>El monto a retirar debe ser menor o igual al monto máximo que tienes</value>
+  </data>
+  <data name="ErrorNoBankAccount" xml:space="preserve">
+    <value>Es necesario que llene los datos bancarios en las opciones de Editar Información Bancaria para continuar.</value>
+  </data>
+  <data name="PaypalComission" xml:space="preserve">
+    <value>Comisión de PayPal</value>
   </data>
 </root>

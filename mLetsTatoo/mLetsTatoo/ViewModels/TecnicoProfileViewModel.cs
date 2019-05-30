@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Net.Mail;
     using System.Windows.Input;
     using GalaSoft.MvvmLight.Command;
     using Helpers;
@@ -24,10 +25,13 @@
         #endregion
 
         #region Attributes
+        private T_datos_bancarios datosBancarios;
         private string nombreCompleto;
         private string saldo_Favor;
+        private string saldo_Retirar;
         private string saldo_Contra;
         private string saldo_Retenido;
+        private string mensageRetiro;
 
         private byte[] byteImage;
         private ImageSource imageSource;
@@ -78,6 +82,11 @@
             get { return this.saldo_Favor; }
             set { SetValue(ref this.saldo_Favor, value); }
         }
+        public string Saldo_Retirar
+        {
+            get { return this.saldo_Retirar; }
+            set { SetValue(ref this.saldo_Retirar, value); }
+        }
         public string Saldo_Contra
         {
             get { return this.saldo_Contra; }
@@ -87,6 +96,11 @@
         {
             get { return this.saldo_Retenido; }
             set { SetValue(ref this.saldo_Retenido, value); }
+        }
+        public string MensageRetiro
+        {
+            get { return this.mensageRetiro; }
+            set { SetValue(ref this.mensageRetiro, value); }
         }
         #endregion
 
@@ -138,6 +152,14 @@
                 return new RelayCommand(GoToEditScheduler);
             }
         }
+        public ICommand EditBankAccountCommand
+        {
+            get
+            {
+                return new RelayCommand(GoToEditBankAccount);
+            }
+        }
+
         public ICommand SignOutCommand
         {
             get
@@ -145,6 +167,29 @@
                 return new RelayCommand(SignOut);
             }
         }
+        public ICommand ClosePopupCommand
+        {
+            get
+            {
+                return new RelayCommand(ClosePopup);
+            }
+        }
+        public ICommand GetMoneyCommand
+        {
+            get
+            {
+                return new RelayCommand(GetMoneyPopup);
+            }
+        }
+        public ICommand MoneyCommand
+        {
+            get
+            {
+                return new RelayCommand(MoneyPopup);
+            }
+        }
+
+
         #endregion
         #region Methods
         public void LoadUser()
@@ -273,10 +318,123 @@
             MainViewModel.GetInstance().Login.ListUsuarios.Add(NewUser);
             this.IsRunning = false;
         }
+        private async void MoneyPopup()
+        {
+            if (MainViewModel.GetInstance().Login.DatosBancariosList.Any(b => b.Id_Usuario == this.tecnico.Id_Usuario))
+            {
+                this.datosBancarios = MainViewModel.GetInstance().Login.DatosBancariosList.FirstOrDefault(b => b.Id_Usuario == this.tecnico.Id_Usuario);
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.ErrorNoBankAccount,
+                    "Ok");
+                return;
+            }
+            var saldoTemp = decimal.Parse(Saldo_Retirar);
+            if (saldoTemp > this.tecnico.Saldo_Favor)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    Languages.ErrorGetMoney,
+                    "Ok");
+                return;
+            }
+            try
+            {
+                var newretiro = new T_retiros
+                {
+                    Id_Usuario = this.tecnico.Id_Usuario,
+                    Retiro = saldoTemp,
+                    Fecha_Retiro = DateTime.Today.ToLocalTime(),
+                };
+
+                var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+                var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+                var controller = Application.Current.Resources["UrlT_retirosController"].ToString();
+
+                var response = await this.apiService.Post(urlApi, prefix, controller, newretiro);
+
+                if (!response.IsSuccess)
+                {
+                    this.apiService.EndActivityPopup();
+
+                    await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                    return;
+                }
+
+                var saldo = MainViewModel.GetInstance().Login.ListBalanceTecnico.FirstOrDefault(b => b.Id_Tecnico == this.tecnico.Id_Tecnico);
+                var newsaldo_Favor = saldo.Saldo_Favor - saldoTemp;
+
+                var newsaldo = new T_balancetecnico
+                {
+                    Id_Balancetecnico = saldo.Id_Balancetecnico,
+                    Id_Tecnico = saldo.Id_Tecnico,
+                    Id_Usuario = saldo.Id_Usuario,
+                    Saldo_Contra = saldo.Saldo_Contra,
+                    Saldo_Favor = newsaldo_Favor,
+                    Saldo_Retenido = saldo.Saldo_Retenido,
+                };
+                controller = Application.Current.Resources["UrlT_balancetecnicoController"].ToString();
+
+                response = await this.apiService.Put(urlApi, prefix, controller, newsaldo, saldo.Id_Balancetecnico);
+
+                if (!response.IsSuccess)
+                {
+                    this.apiService.EndActivityPopup();
+
+                    await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                    return;
+                }
+
+                newsaldo = (T_balancetecnico)response.Result;
+                var oldSaldo = MainViewModel.GetInstance().Login.ListBalanceTecnico.Where(p => p.Id_Balancetecnico == saldo.Id_Balancetecnico).FirstOrDefault();
+                if (oldSaldo != null)
+                {
+                    MainViewModel.GetInstance().Login.ListBalanceTecnico.Remove(oldSaldo);
+                }
+                MainViewModel.GetInstance().Login.ListBalanceTecnico.Add(newsaldo);
+
+                MainViewModel.GetInstance().TecnicoHome.LoadTecnico();
+                this.Saldo_Favor = newsaldo_Favor.ToString("C2");
+
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("mail.korreoweb.com");
+
+                mail.From = new MailAddress("informacion@letstattoo.com.mx");
+                mail.To.Add("letstattoopagos@outlook.com");
+                mail.Subject = $"Retiro de cuenta del Usuario: {this.tecnico.Nombre} {this.tecnico.Apellido}";
+                mail.Body = $"El Usuario {this.tecnico.Nombre} {this.tecnico.Apellido} ha solicitado un retiro de su saldo a favor por un total de " +
+                    $"{saldoTemp.ToString("C2")}. {'\n'}{'\n'} Los datos bancarios para la transferencia son: {'\n'} Nombre Completo:" +
+                    $"{this.datosBancarios.Nombre}{'\n'} Correo Electrónico: {this.user.Ucorreo}{'\n'} Cuenta a depositar: {this.datosBancarios.Cuenta}" +
+                    $"{'\n'} Banco: {this.datosBancarios.Banco}{'\n'}{'\n'} Total a depositar: {saldoTemp.ToString("C2")}{'\n'} {'\n'} {'\n'} " +
+                    $"La información obtenida es solo para realizar depósitos de cuentas LetsTattoo a terceros.";
+
+                SmtpServer.Port = 587;
+                SmtpServer.Host = "mail.korreoweb.com";
+                SmtpServer.EnableSsl = true;
+                SmtpServer.UseDefaultCredentials = false;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("informacion@letstattoo.com.mx", "rXEG6dPkP3RRU5m8");
+
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+            }
+
+            await Application.Current.MainPage.Navigation.PopPopupAsync();
+        }
         private async void GoToOptions()
         {
             await Application.Current.MainPage.Navigation.PushPopupAsync(new EditTecnicoMenuPopupPage());
-            // MainViewModel.GetInstance().TecnicoEditFeatures = new TecnicoEditFeaturesViewModel(this.user, this.tecnico);
         }
 
         private async void GoToEditFeatures()
@@ -302,8 +460,25 @@
             MainViewModel.GetInstance().EditSchedulerPopup.Horario = MainViewModel.GetInstance().TecnicoHome.horario;
             await Application.Current.MainPage.Navigation.PushPopupAsync(new EditHorarioPopupPage());
         }
+        private async void GoToEditBankAccount()
+        {
+            await Application.Current.MainPage.Navigation.PopPopupAsync();
+            MainViewModel.GetInstance().EditBankAccountPopup = new EditBankAccountPopupViewModel();
+            await Application.Current.MainPage.Navigation.PushPopupAsync(new EditBankAccountPopupPage());
+        }
+        private void GetMoneyPopup()
+        {
+            this.MensageRetiro = $"{Languages.MaximunGetMoney} {this.Saldo_Favor}";
+            this.Saldo_Retirar = this.tecnico.Saldo_Favor.ToString();
+            Application.Current.MainPage.Navigation.PushPopupAsync(new GetMoneyPopupPage());
+        }
         private void SignOut()
         {
+        }
+
+        private async void ClosePopup()
+        {
+            await Application.Current.MainPage.Navigation.PopPopupAsync();
         }
         #endregion
     }

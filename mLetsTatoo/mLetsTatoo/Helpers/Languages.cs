@@ -875,5 +875,37 @@
         {
             get { return Resource.BankAccount; }
         }
+        public static string AccountCard
+        {
+            get { return Resource.AccountCard; }
+        }
+        public static string BankAccountInformation
+        {
+            get { return Resource.BankAccountInformation; }
+        }
+        public static string BankAccountUserName
+        {
+            get { return Resource.BankAccountUserName; }
+        }
+        public static string SelectBank
+        {
+            get { return Resource.SelectBank; }
+        }
+        public static string MaximunGetMoney
+        {
+            get { return Resource.MaximunGetMoney; }
+        }
+        public static string ErrorGetMoney
+        {
+            get { return Resource.ErrorGetMoney; }
+        }
+        public static string ErrorNoBankAccount
+        {
+            get { return Resource.ErrorNoBankAccount; }
+        }
+        public static string PaypalComission
+        {
+            get { return Resource.PaypalComission; }
+        }
     }
 }

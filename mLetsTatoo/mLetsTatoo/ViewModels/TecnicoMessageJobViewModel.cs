@@ -247,7 +247,7 @@
             var prefix = Application.Current.Resources["UrlPrefix"].ToString();
             var controller = Application.Current.Resources["UrlT_trabajostempController"].ToString();
 
-            this.trabajoTemp = new T_trabajostemp
+            var newTrabajotemp = new T_trabajostemp
             {
                 Id_Trabajotemp = this.trabajo.Id_Trabajotemp,
                 Id_Tatuador = this.trabajo.Id_Tatuador,
@@ -259,7 +259,7 @@
                 Ancho = this.trabajo.Ancho,
                 Tiempo = int.Parse(this.Time),                
             };
-            var response = await this.apiService.Put(urlApi, prefix, controller, this.trabajoTemp, this.trabajoTemp.Id_Trabajotemp);
+            var response = await this.apiService.Put(urlApi, prefix, controller, newTrabajotemp, this.trabajo.Id_Trabajotemp);
 
             if (!response.IsSuccess)
             {
@@ -270,15 +270,22 @@
                 "OK");
                 return;
             }
+            try
+            {
+                this.trabajoTemp = (T_trabajostemp)response.Result;
+            }
+            catch (Exception ex)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", ex.ToString(), "ok");
+            }
 
-            this.trabajoTemp = (T_trabajostemp)response.Result;
             var trabajoOld = MainViewModel.GetInstance().TecnicoMessages.TrabajosList.Where(t => t.Id_Trabajotemp == this.trabajo.Id_Trabajotemp).FirstOrDefault();
             if (trabajoOld != null)
             {
                 MainViewModel.GetInstance().TecnicoMessages.TrabajosList.Remove(trabajoOld);
             }
 
-            MainViewModel.GetInstance().TecnicoMessages.TrabajosList.Add(trabajoTemp);
+            MainViewModel.GetInstance().TecnicoMessages.TrabajosList.Add(this.trabajoTemp);
             MainViewModel.GetInstance().TecnicoMessages.RefreshTrabajosList();
 
             this.Message = Languages.BudgetSentMessage;
@@ -319,7 +326,6 @@
 
             this.Notas = new ObservableCollection<NotasTempItemViewModel>(nota.OrderBy(n => n.F_nota));
 
-            this.apiService.EndActivityPopup();
         }
         #endregion
     }

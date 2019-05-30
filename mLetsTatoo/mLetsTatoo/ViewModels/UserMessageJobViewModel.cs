@@ -242,8 +242,9 @@ namespace mLetsTatoo.ViewModels
 
             var newNota = (T_trabajonotatemp)response.Result;
 
-            MainViewModel.GetInstance().UserMessages.TrabajoNotaList.Add(newNota);
+            MainViewModel.GetInstance().Login.TrabajoNotaTempList.Add(newNota);
             MainViewModel.GetInstance().UserMessages.RefreshTrabajosList();
+
             this.LoadListNotas();
             this.Message = null;
 

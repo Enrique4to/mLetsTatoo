@@ -60,6 +60,7 @@
         public decimal advance;
         public decimal newSaldoFavor;
         public decimal tempAdvance;
+        public decimal comision;
 
         public string appointmentType;
         public string thisPage;
@@ -68,6 +69,7 @@
         private string appCost;
         private string appAdvance;
         private string appDuration;
+        private string payPalComission;
         private string complexity;
         private string describeArt;
         public string height;
@@ -222,6 +224,11 @@
         {
             get { return this.appDuration; }
             set { SetValue(ref this.appDuration, value); }
+        }
+        public string PayPalComission
+        {
+            get { return this.payPalComission; }
+            set { SetValue(ref this.payPalComission, value); }
         }
         public string DescribeArt
         {
@@ -945,12 +952,13 @@
                     this.SaldoFavorPayMethod = true;
                 }
             }
-
             this.reference = $"{Languages.Reference} {this.local.Referencia}";
             this.studio = $"{this.empresa.Nombre} {Languages.BranchOffice} {this.local.Nombre}";
             this.address = $"{this.local.Calle} {this.local.Numero}, {this.postal.Asentamiento} {this.postal.Colonia}, " +
                 $"C.P. {this.postal.Id.ToString()}, {this.ciudad.Ciudad}, {this.estado.Estado}.";
             this.artist = $"{this.tecnico.Nombre} {this.tecnico.Apellido}";
+            this.comision = ((this.tempAdvance * new decimal(4)) / new decimal(100)) + new decimal(4);
+            this.PayPalComission = $"{Languages.PaypalComission}: {comision}";
         }
         private async void LoadPostal()
         {
@@ -2215,7 +2223,7 @@
                 "OK");
                 return;
             }
-            newCitaTemp = (T_trabajocitas)response.Result;
+            newOldCita = (T_trabajocitas)response.Result;
 
             var oldCitaTemp = MainViewModel.GetInstance().TecnicoHome.CitasList.Where(n => n.Id_Cita == cita.Id_Cita).FirstOrDefault();
             if (oldCitaTemp != null)
@@ -2223,15 +2231,8 @@
                 MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(oldCitaTemp);
             }
 
-            MainViewModel.GetInstance().TecnicoHome.CitasList.Add(newCitaTemp);
+            MainViewModel.GetInstance().TecnicoHome.CitasList.Add(newOldCita);
             MainViewModel.GetInstance().TecnicoViewJob.RerfeshCitasList();
-
-            if (newCita != null)
-            {
-                MainViewModel.GetInstance().TecnicoHome.CitasList.Remove(this.newCita);
-                this.newCita = null;
-                this.LoadCitas();
-            }
 
             this.apiService.EndActivityPopup();
 
@@ -2244,8 +2245,8 @@
             await Application.Current.MainPage.Navigation.PopModalAsync();
             await Application.Current.MainPage.Navigation.PopModalAsync();
 
-            string date = DateTime.Parse(this.newCita.F_Inicio.ToString()).ToString("dd-MMM-yyyy");
-            string time = DateTime.Parse(this.newCita.H_Inicio.ToString()).ToString("hh:mm tt");
+            string date = DateTime.Parse(newCitaTemp.F_Inicio.ToString()).ToString("dd-MMM-yyyy");
+            string time = DateTime.Parse(newCitaTemp.H_Inicio.ToString()).ToString("hh:mm tt");
 
             this.cliente = MainViewModel.GetInstance().Login.ClienteList.FirstOrDefault(c => c.Id_Cliente == cita.Id_Cliente);
             var fromName = $"{this.tecnico.Nombre} {this.tecnico.Apellido}";
@@ -2489,7 +2490,7 @@
                     Double thisAdvance = Double.Parse(tempAdvance.ToString());
                 if(PayPalMetodoChecked == true)
                 {
-                    var result = await CrossPayPalManager.Current.Buy(new PayPalItem(Subject, new Decimal(3.00), "MXN"), this.tempAdvance);
+                    var result = await CrossPayPalManager.Current.Buy(new PayPalItem(Subject, comision, "MXN"), this.tempAdvance);
                     if (result.Status == PayPalStatus.Cancelled)
                     {
                         Debug.WriteLine("Cancelled");

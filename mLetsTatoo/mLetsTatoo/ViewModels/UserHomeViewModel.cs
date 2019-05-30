@@ -267,7 +267,7 @@
                 Id_TrabajoTemp = MainViewModel.GetInstance().Login.Notif_CitasList.FirstOrDefault(p => p.Id_Notificacion == n.Id_Notificacion).Id_TrabajoTemp,
 
             }).Where(n => n.Usuario_Recibe == this.user.Id_usuario).ToList();
-            this.Notificaciones = new ObservableCollection<NotificacionesItemViewModel>(NotificacionesList.OrderBy(n => n.Fecha));
+            this.Notificaciones = new ObservableCollection<NotificacionesItemViewModel>(NotificacionesList.OrderByDescending(n => n.Fecha));
         }
         public void RefreshEmpresaList()
         {

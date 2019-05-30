@@ -1,5 +1,6 @@
 ﻿namespace mLetsTatoo.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
@@ -214,7 +215,7 @@
                 Id_TrabajoTemp = MainViewModel.GetInstance().Login.Notif_CitasList.FirstOrDefault(p => p.Id_Notificacion == n.Id_Notificacion).Id_TrabajoTemp,
 
             }).Where(n => n.Usuario_Recibe == this.user.Id_usuario).ToList();
-            this.Notificaciones = new ObservableCollection<NotificacionesItemViewModel>(NotificacionesList.OrderBy(n => n.Fecha));
+            this.Notificaciones = new ObservableCollection<NotificacionesItemViewModel>(NotificacionesList.OrderByDescending(n => n.Fecha));
         }
         public void RefreshTrabajosList()
         {
@@ -235,15 +236,16 @@
                 Completo = c.Completo,
                 Trabajo_Iniciado = c.Trabajo_Iniciado,
                 TecnicoTiempo = c.TecnicoTiempo,
+                
 
             }).Where(c => c.Id_Tatuador == this.tecnico.Id_Tecnico && c.Cancelado == false && c.TecnicoTiempo == false).ToList();
 
             this.Trabajos = new ObservableCollection<TrabajosItemViewModel>(trabajos.OrderBy(c => c.Id_Trabajo));
             IsRefreshing = false;
         }
-        public void RefreshPublicaciones()
+        private IEnumerable<PublicacionesItemViewModel> ToPublicacionesItemViewModel()
         {
-            this.NewListPublicaciones = this.ListPublicaciones.Select(p => new PublicacionesItemViewModel
+            return this.ListPublicaciones.Select(p => new PublicacionesItemViewModel
             {
                 Id_Publicacion = p.Id_Publicacion,
                 Id_Usuario = p.Id_Usuario,
@@ -259,14 +261,14 @@
                     MainViewModel.GetInstance().Login.ClienteList.Where(c => c.Id_Usuario == p.Id_Usuario).FirstOrDefault().Nombre :
                     MainViewModel.GetInstance().Login.TecnicoList.Where(c => c.Id_Usuario == p.Id_Usuario).FirstOrDefault().Nombre
                 ),
-                Apellido =
+                            Apellido =
                 (
                     MainViewModel.GetInstance().Login.ListUsuarios.Where(u => u.Id_usuario == p.Id_Usuario).FirstOrDefault().Tipo == 1 ?
                     MainViewModel.GetInstance().Login.ClienteList.Where(c => c.Id_Usuario == p.Id_Usuario).FirstOrDefault().Apellido :
                     MainViewModel.GetInstance().Login.TecnicoList.Where(c => c.Id_Usuario == p.Id_Usuario).FirstOrDefault().Apellido
                 ),
 
-                ListImgPublicacion = this.ListImgPublicacion.Select(i => new T_imgpublicacion
+                Imagenes = this.ListImgPublicacion.Select(i => new T_imgpublicacion
                 {
                     Id_Publicacion = i.Id_Publicacion,
                     Id_Usuario = i.Id_Usuario,
@@ -275,27 +277,22 @@
 
                 }).Where(a => a.Id_Publicacion == p.Id_Publicacion).ToList(),
 
-        }).ToList();
-            this.NewListPublicaciones = this.NewListPublicaciones.Select(p => new PublicacionesItemViewModel
-            {
-                Id_Publicacion = p.Id_Publicacion,
-                Id_Usuario = p.Id_Usuario,
-                Fecha_Publicacion = p.Fecha_Publicacion,
-                Modif_Date = p.Modif_Date,
-                Publicacion = p.Publicacion,
-                F_Perfil = p.F_Perfil,
-                Tipo = p.Tipo,
+                Comentarios = this.ListComentPublicacion.Select(i => new T_comentpublicacion
+                {
+                    Id_Publicacion = i.Id_Publicacion,
+                    Id_Usuario = i.Id_Usuario,
+                    Comentario = i.Comentario,
+                    Fecha_Comentario = i.Fecha_Comentario,
+                    Id_Comentario = i.Id_Comentario
 
-                Nombre = p.Nombre,
-                Apellido = p.Apellido,
-
-                ListImgPublicacion = p.ListImgPublicacion,
-
-                //OCImgPublicacion = new ObservableCollection<ImgPublicacionItemViewModel>(p.ListImgPublicacion),
+                }).Where(a => a.Id_Publicacion == p.Id_Publicacion).ToList(),
 
             }).ToList();
-
-            this.Publicaciones = new ObservableCollection<PublicacionesItemViewModel>(this.NewListPublicaciones.OrderBy(c => c.Modif_Date));
+        }
+        public void RefreshPublicaciones()
+        {
+            this.Publicaciones = new ObservableCollection<PublicacionesItemViewModel>(
+                this.ToPublicacionesItemViewModel().OrderBy(c => c.Modif_Date));
             IsRefreshing = false;
         }
         public void Busqueda()
@@ -309,7 +306,6 @@
         }
         public async void GoToMessagesPage()
         {
-            this.apiService.StartActivityPopup();
 
             MainViewModel.GetInstance().TecnicoMessages = new TecnicoMessagesViewModel(this.user, this.tecnico);
             await Application.Current.MainPage.Navigation.PushModalAsync(new TecnicoMessagesPage());

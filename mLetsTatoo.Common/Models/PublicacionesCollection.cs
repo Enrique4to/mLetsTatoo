@@ -26,31 +26,9 @@ namespace mLetsTatoo.Models
         #endregion
 
         #region Lists
-        public List<T_comentpublicacion> ListComentPublicacion { get; set; }
-        public List<T_imgpublicacion> ListImgPublicacion { get; set; }
-        //public T_comentpublicacion ComentPublicacion { get; set; }
-        //public T_imgpublicacion ImgPublicacion { get; set; }
-        //#endregion
+        public List<T_comentpublicacion> Comentarios { get; set; }
+        public List<T_imgpublicacion> Imagenes { get; set; }
         #endregion
     }
-    //public class ComentPublicacion
-    //{
-    //    #region Properties
-    //    public int Id_Comentario { get; set; }
-    //    public int Id_Publicacion { get; set; }
-    //    public int Id_Usuario { get; set; }
-    //    public string Comentario { get; set; }
-    //    public DateTime Fecha_Comentario { get; set; }
-    //    #endregion
-    //}
-    //public class ImgPublicacion
-    //{
-    //    #region Properties
-    //    public int Id_Imgpublicacion { get; set; }
-    //    public int Id_Publicacion { get; set; }
-    //    public int Id_Usuario { get; set; }
-    //    public byte[] Imagen { get; set; }
-    //    
-    //}
     #endregion
 }

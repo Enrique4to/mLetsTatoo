@@ -20,7 +20,7 @@
         private Image file2;
         #endregion
         #region Properties
-        public ObservableCollection<ImgPublicacionItemViewModel> ImgPublicacion { get; set; }
+        public ObservableCollection<ImgPublicacionItemViewModel> Imagenes1 { get; set; }
 
         #region OneImageStack
         public bool One_Image { get; set; }
@@ -85,7 +85,7 @@
         private void LoadImages()
         {
 
-            //this.ListImgPublicacion = MainViewModel.GetInstance().Login.ListImgPublicacion.Select(i => new T_imgpublicacion
+            //this.Imagenes = MainViewModel.GetInstance().Login.Imagenes.Select(i => new T_imgpublicacion
             //{
             //    Id_Publicacion = i.Id_Publicacion,
             //    Id_Usuario = i.Id_Usuario,
@@ -94,9 +94,9 @@
 
             //}).ToList();
 
-            if (this.ListImgPublicacion != null)
+            if (this.Imagenes != null)
             {
-                if (this.ListImgPublicacion.Count == 1)
+                if (this.Imagenes.Count == 1)
                 {
                     this.One_Image= true;
                     this.Two_Image_Hor= false;
@@ -105,18 +105,18 @@
                     this.Three_Image_Hor = false;
                     this.Three_Image_Ver = false;
                     this.Four_Image = false;
-                    this.One_Image_One.Source = ImageSource.FromStream(() => new MemoryStream(this.ListImgPublicacion.ElementAtOrDefault(0).Imagen));
+                    this.One_Image_One.Source = ImageSource.FromStream(() => new MemoryStream(this.Imagenes.ElementAtOrDefault(0).Imagen));
                 }
-                if (this.ListImgPublicacion.Count == 2)
+                if (this.Imagenes.Count == 2)
                 {
                     this.One_Image = false;
                     this.Three_Image_Hor = false;
                     this.Three_Image_Ver = false;
                     this.Four_Image = false;
-                    this.file.Source = ImageSource.FromStream(() => new MemoryStream(this.ListImgPublicacion.ElementAtOrDefault(0).Imagen));
-                    this.file2.Source = ImageSource.FromStream(() => new MemoryStream(this.ListImgPublicacion.ElementAtOrDefault(1).Imagen));
+                    this.file.Source = ImageSource.FromStream(() => new MemoryStream(this.Imagenes.ElementAtOrDefault(0).Imagen));
+                    this.file2.Source = ImageSource.FromStream(() => new MemoryStream(this.Imagenes.ElementAtOrDefault(1).Imagen));
                     //var fileInfo1 = ExifReader.ReadJpeg(file);
-                    //var fileInfo2 = ExifReader.ReadJpeg(publicacion.ListImgPublicacion.ElementAtOrDefault(1).GetStream());
+                    //var fileInfo2 = ExifReader.ReadJpeg(publicacion.Imagenes.ElementAtOrDefault(1).GetStream());
                     if (this.file.Width > this.file.Height && this.file2.Width > this.file2.Height)
                     {
                         this.Two_Image_Hor = true;
@@ -147,7 +147,7 @@
                         //Two_Dif
                     }
                 }
-                if (this.ListImgPublicacion.Count == 3)
+                if (this.Imagenes.Count == 3)
                 {
                     this.One_Image = false;
                     this.Two_Image_Hor = false;
@@ -155,32 +155,32 @@
                     this.Two_Image_Dif = false;
                     this.Four_Image = false;
 
-                    this.file.Source = ImageSource.FromStream(() => new MemoryStream(this.ListImgPublicacion.ElementAtOrDefault(0).Imagen));
+                    this.file.Source = ImageSource.FromStream(() => new MemoryStream(this.Imagenes.ElementAtOrDefault(0).Imagen));
 
                     if (this.file.Width > this.file.Height)
                     {
                         this.Three_Image_Hor = true;
                         this.Three_Image_Ver = false;
 
-                        this.Three_Image_One_Hor.Source = ImageSource.FromStream(() => new MemoryStream(this.ListImgPublicacion.ElementAtOrDefault(0).Imagen));
+                        this.Three_Image_One_Hor.Source = ImageSource.FromStream(() => new MemoryStream(this.Imagenes.ElementAtOrDefault(0).Imagen));
 
-                        this.Three_Image_Two_Hor.Source = ImageSource.FromStream(() => new MemoryStream(this.ListImgPublicacion.ElementAtOrDefault(1).Imagen));
+                        this.Three_Image_Two_Hor.Source = ImageSource.FromStream(() => new MemoryStream(this.Imagenes.ElementAtOrDefault(1).Imagen));
 
-                        this.Three_Image_Three_Hor.Source = ImageSource.FromStream(() => new MemoryStream(this.ListImgPublicacion.ElementAtOrDefault(2).Imagen));
+                        this.Three_Image_Three_Hor.Source = ImageSource.FromStream(() => new MemoryStream(this.Imagenes.ElementAtOrDefault(2).Imagen));
                     }
                     else
                     {
                         this.Three_Image_Hor = false;
                         this.Three_Image_Ver = true;
 
-                        this.Three_Image_One_Ver.Source = ImageSource.FromStream(() => new MemoryStream(this.ListImgPublicacion.ElementAtOrDefault(0).Imagen));
+                        this.Three_Image_One_Ver.Source = ImageSource.FromStream(() => new MemoryStream(this.Imagenes.ElementAtOrDefault(0).Imagen));
 
-                        this.Three_Image_Two_Ver.Source = ImageSource.FromStream(() => new MemoryStream(this.ListImgPublicacion.ElementAtOrDefault(1).Imagen));
+                        this.Three_Image_Two_Ver.Source = ImageSource.FromStream(() => new MemoryStream(this.Imagenes.ElementAtOrDefault(1).Imagen));
 
-                        this.Three_Image_Three_Ver.Source = ImageSource.FromStream(() => new MemoryStream(this.ListImgPublicacion.ElementAtOrDefault(2).Imagen));
+                        this.Three_Image_Three_Ver.Source = ImageSource.FromStream(() => new MemoryStream(this.Imagenes.ElementAtOrDefault(2).Imagen));
                     }
                 }
-                if (this.ListImgPublicacion.Count > 3)
+                if (this.Imagenes.Count > 3)
                 {
                     this.One_Image = false;
                     this.Two_Image_Hor = false;
@@ -189,10 +189,10 @@
                     this.Three_Image_Hor = false;
                     this.Three_Image_Ver = false;
                     this.Four_Image = true;
-                    this.Four_Image_One.Source = ImageSource.FromStream(() => new MemoryStream(this.ListImgPublicacion.ElementAtOrDefault(0).Imagen));
-                    this.Four_Image_Two.Source = ImageSource.FromStream(() => new MemoryStream(this.ListImgPublicacion.ElementAtOrDefault(1).Imagen));
-                    this.Four_Image_Three.Source = ImageSource.FromStream(() => new MemoryStream(this.ListImgPublicacion.ElementAtOrDefault(2).Imagen));
-                    this.Four_Image_Four.Source = ImageSource.FromStream(() => new MemoryStream(this.ListImgPublicacion.ElementAtOrDefault(3).Imagen));
+                    this.Four_Image_One.Source = ImageSource.FromStream(() => new MemoryStream(this.Imagenes.ElementAtOrDefault(0).Imagen));
+                    this.Four_Image_Two.Source = ImageSource.FromStream(() => new MemoryStream(this.Imagenes.ElementAtOrDefault(1).Imagen));
+                    this.Four_Image_Three.Source = ImageSource.FromStream(() => new MemoryStream(this.Imagenes.ElementAtOrDefault(2).Imagen));
+                    this.Four_Image_Four.Source = ImageSource.FromStream(() => new MemoryStream(this.Imagenes.ElementAtOrDefault(3).Imagen));
                 }
             }
             else
