@@ -759,11 +759,11 @@
             {
                 if(this.changeDate == false || addNewDate == true)
                 {
-                    this.subject = $"{Languages.Tattoo}, {this.feature.Alto} cm X {this.feature.Ancho} cm, {Languages.Complexity} {this.complexity}.";
+                    this.subject = $"{Languages.Tattoo}. {this.feature.Alto} cm X {this.feature.Ancho} cm {Languages.Complexity} {this.complexity}.";
                 }
                 else
                 {
-                    this.subject = $"{Languages.Tattoo}, {this.feature.Alto} cm X {this.feature.Ancho} cm.";
+                    this.subject = $"{Languages.Tattoo}. {this.feature.Alto} cm X {this.feature.Ancho} cm.";
                 }
             }
 

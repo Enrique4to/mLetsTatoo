@@ -1,7 +1,6 @@
 ﻿namespace mLetsTatoo.Models
 {
     using System.ComponentModel.DataAnnotations;
-
     public class T_trabajostemp
     {
         [Key]

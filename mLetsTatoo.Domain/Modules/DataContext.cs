@@ -58,9 +58,7 @@
         public System.Data.Entity.DbSet<mLetsTatoo.Models.T_citaimagenestemp> T_citaimagenestemp { get; set; }
 
         public System.Data.Entity.DbSet<mLetsTatoo.Models.T_trabajonotatemp> T_trabajonotatemp { get; set; }
-
-        public System.Data.Entity.DbSet<mLetsTatoo.Models.T_trabajostemp> T_trabajostemp { get; set; }
-
+        
         public System.Data.Entity.DbSet<mLetsTatoo.Models.T_tecnicohorarios> T_tecnicohorarios { get; set; }
 
         public System.Data.Entity.DbSet<mLetsTatoo.Models.T_publicaciones> T_publicaciones { get; set; }
@@ -90,5 +88,7 @@
         public System.Data.Entity.DbSet<mLetsTatoo.Models.T_datos_bancarios> T_datos_bancarios { get; set; }
 
         public System.Data.Entity.DbSet<mLetsTatoo.Models.T_retiros> T_retiros { get; set; }
+
+        public System.Data.Entity.DbSet<mLetsTatoo.Models.T_trabajostemp> T_trabajostemp { get; set; }
     }
 }

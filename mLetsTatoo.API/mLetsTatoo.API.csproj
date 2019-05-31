@@ -454,11 +454,6 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
-    <None Include="Properties\PublishProfiles\LetsTattoo - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\LetsTattooAPI - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\LetsTattooAPI - Web Deploy1.pubxml" />
-    <None Include="Properties\PublishProfiles\LetsTattooMobileAPI - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\mLetsTatooAPI - Web Deploy.pubxml" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -475,7 +470,7 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
-    <None Include="Properties\PublishProfiles\mLetsTattooAPI - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\LetsTatooAPI - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />

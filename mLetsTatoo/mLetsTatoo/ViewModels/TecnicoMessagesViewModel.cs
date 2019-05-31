@@ -1,12 +1,10 @@
 ﻿namespace mLetsTatoo.ViewModels
 {
-    using Helpers;
     using Models;
     using Services;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using Xamarin.Forms;
 
     public class TecnicoMessagesViewModel : BaseViewModel
     {

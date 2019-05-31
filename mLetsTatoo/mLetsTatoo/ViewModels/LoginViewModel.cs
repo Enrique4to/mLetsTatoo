@@ -22,7 +22,6 @@
 
         #region Services
         private ApiService apiService;
-        private SyncDBManager manager;
         #endregion
 
         #region Attributes
@@ -108,7 +107,6 @@
         public LoginViewModel()
         {
             this.apiService = new ApiService();
-            //this.manager = SyncDBManager.DefaultManager;
             this.IsRemember = true;
             this.IsEnabled = true;
             this.Usuario = null;

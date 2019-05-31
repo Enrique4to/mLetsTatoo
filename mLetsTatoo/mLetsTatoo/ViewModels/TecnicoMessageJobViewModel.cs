@@ -4,12 +4,10 @@
     using mLetsTatoo.Helpers;
     using mLetsTatoo.Models;
     using mLetsTatoo.Services;
-    using mLetsTatoo.Views;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using System.Threading.Tasks;
     using System.Windows.Input;
     using Xamarin.Forms;
 
@@ -121,7 +119,7 @@
         {
             get
             {
-                return new RelayCommand(SendBudget);
+                return new RelayCommand(storeBudget);
             }
         }
         #endregion
@@ -170,8 +168,10 @@
 
             var newNota = (T_trabajonotatemp)response.Result;
 
-            MainViewModel.GetInstance().TecnicoMessages.TrabajoNotaList.Add(newNota);
+            MainViewModel.GetInstance().Login.TrabajoNotaTempList.Add(newNota);
+
             MainViewModel.GetInstance().TecnicoMessages.RefreshTrabajosList();
+
             this.LoadListNotas();
             this.Message = null;
             this.propuesta = false;
@@ -247,7 +247,7 @@
             var prefix = Application.Current.Resources["UrlPrefix"].ToString();
             var controller = Application.Current.Resources["UrlT_trabajostempController"].ToString();
 
-            var newTrabajotemp = new T_trabajostemp
+            this.trabajoTemp = new T_trabajostemp
             {
                 Id_Trabajotemp = this.trabajo.Id_Trabajotemp,
                 Id_Tatuador = this.trabajo.Id_Tatuador,
@@ -259,7 +259,7 @@
                 Ancho = this.trabajo.Ancho,
                 Tiempo = int.Parse(this.Time),                
             };
-            var response = await this.apiService.Put(urlApi, prefix, controller, newTrabajotemp, this.trabajo.Id_Trabajotemp);
+            var response = await this.apiService.Put(urlApi, prefix, controller, this.trabajoTemp, this.trabajo.Id_Trabajotemp);
 
             if (!response.IsSuccess)
             {
@@ -270,14 +270,7 @@
                 "OK");
                 return;
             }
-            try
-            {
-                this.trabajoTemp = (T_trabajostemp)response.Result;
-            }
-            catch (Exception ex)
-            {
-                Application.Current.MainPage.DisplayAlert("Error", ex.ToString(), "ok");
-            }
+            this.trabajoTemp = (T_trabajostemp)response.Result;
 
             var trabajoOld = MainViewModel.GetInstance().TecnicoMessages.TrabajosList.Where(t => t.Id_Trabajotemp == this.trabajo.Id_Trabajotemp).FirstOrDefault();
             if (trabajoOld != null)
@@ -291,6 +284,70 @@
             this.Message = Languages.BudgetSentMessage;
             this.propuesta = true;
             this.SendMessage();
+        }
+        private async void storeBudget()
+        {
+            try
+            {
+                var connection = await this.apiService.CheckConnection();
+                if (!connection.IsSuccess)
+                {
+                    this.apiService.EndActivityPopup();
+                    await Application.Current.MainPage.DisplayAlert(
+                        Languages.Error,
+                        connection.Message,
+                        "OK");
+                    return;
+                }
+
+                var urlApi = Application.Current.Resources["UrlAPI"].ToString();
+                var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+                var controller = Application.Current.Resources["UrlT_trabajostempController"].ToString();
+
+                this.trabajoTemp = new T_trabajostemp
+                {
+                    Id_Trabajotemp = this.trabajo.Id_Trabajotemp,
+                    Id_Tatuador = this.trabajo.Id_Tatuador,
+                    Id_Cliente = this.trabajo.Id_Cliente,
+                    Asunto = this.trabajo.Asunto,
+                    Costo_Cita = decimal.Parse(this.Anticipo),
+                    Total_Aprox = decimal.Parse(this.Total),
+                    Alto = this.trabajo.Alto,
+                    Ancho = this.trabajo.Ancho,
+                    Tiempo = int.Parse(this.Time),
+                };
+                var response = await this.apiService.Put(urlApi, prefix, controller, this.trabajoTemp, this.trabajo.Id_Trabajotemp);
+
+                if (!response.IsSuccess)
+                {
+                    this.apiService.EndActivityPopup();
+                    await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message,
+                    "OK");
+                    return;
+                }
+
+                var trabajotemp = (T_trabajostemp)response.Result;
+
+                var trabajoOld = MainViewModel.GetInstance().Login.TrabajosTempList.Where(t => t.Id_Trabajotemp == this.trabajo.Id_Trabajotemp).FirstOrDefault();
+                if (trabajoOld != null)
+                {
+                    MainViewModel.GetInstance().Login.TrabajosTempList.Remove(trabajoOld);
+                }
+
+                MainViewModel.GetInstance().Login.TrabajosTempList.Add(this.trabajoTemp);
+                MainViewModel.GetInstance().TecnicoMessages.RefreshTrabajosList();
+
+
+                this.Message = Languages.BudgetSentMessage;
+                this.propuesta = true;
+                this.SendMessage();
+            }
+            catch (ArgumentNullException ex)
+            {
+                Application.Current.MainPage.DisplayAlert("Error", ex.ToString(), "Ok");
+            }
         }
         public void LoadListNotas()
         {

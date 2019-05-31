@@ -11,16 +11,18 @@
 	public partial class TecnicoMessajeJobPage : TabbedPage
     {
         #region Attributes
-        private int time;
+        private decimal time;
         private string stringtime;
         public bool pageVisible;
-        private int CostAddedComision;
-        private int AdvanceAddedComision;
+        private decimal CostAddedComision;
+        private decimal AdvanceAddedComision;
         private Grid _grid;
         #endregion
+
         #region Constructors
         public TecnicoMessajeJobPage()
         {
+
             InitializeComponent();
             this.CurrentPage = this.Messages;
             this.Message.IsChecked = true;
@@ -46,6 +48,7 @@
             };
         }
         #endregion
+
         #region Methods
         private void LoadPage(object sender, StateChangedEventArgs e)
         {
@@ -171,7 +174,7 @@
             var entry = (Entry)sender;
             if (!string.IsNullOrEmpty(entry.Text))
             {
-                int a = int.Parse(entry.Text);
+                decimal a = decimal.Parse(entry.Text);
 
                 if (entry == this.Cost)
                 {

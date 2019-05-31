@@ -36,7 +36,7 @@
             }
 
             var isReachable = await CrossConnectivity.Current.IsRemoteReachable(
-                "https://mletstattooapi.azurewebsites.net/");
+                "https://letstatooapi.azurewebsites.net");
 
             if (!isReachable)
             {
@@ -169,7 +169,7 @@
                 client.BaseAddress = new Uri(urlBase);
                 var url = $"{prefix}{controller}/{id}";
                 var response = await client.PutAsync(url, content);
-                var answer = await response.Content.ReadAsStringAsync();
+                var result = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
                 {
                     return new Response
@@ -179,12 +179,13 @@
                     };
                 }
 
-                var obj = JsonConvert.DeserializeObject<T>(answer);
+                var obj = JsonConvert.DeserializeObject<T>(result);
                 return new Response
 
                 {
                     IsSuccess = true,
                     Result = obj,
+                    //Result = JsonConvert.DeserializeObject<T>(result),
                 };
             }
             catch (Exception ex)

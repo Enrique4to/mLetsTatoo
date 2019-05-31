@@ -1,14 +1,19 @@
-﻿namespace mLetsTatoo.API.Controllers
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Description;
+using mLetsTatoo.Domain.Modules;
+using mLetsTatoo.Models;
+
+namespace mLetsTatoo.API.Controllers
 {
-    using System.Data.Entity;
-    using System.Data.Entity.Infrastructure;
-    using System.Linq;
-    using System.Net;
-    using System.Threading.Tasks;
-    using System.Web.Http;
-    using System.Web.Http.Description;
-    using mLetsTatoo.Domain.Modules;
-    using mLetsTatoo.Models;
     public class T_trabajostempController : ApiController
     {
         private DataContext db = new DataContext();
